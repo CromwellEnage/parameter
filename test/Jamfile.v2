@@ -13,6 +13,8 @@ project boost/parameter
         <warnings>off
     ;
 
+import python ;
+
 alias parameter_python_test
     :
     [ bpl-test python_test ]
