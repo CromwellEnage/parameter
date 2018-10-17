@@ -6,6 +6,7 @@
 #ifndef BOOST_PARAMETER_AUX_PP_IMPL_ARGUMENT_PACK_HPP
 #define BOOST_PARAMETER_AUX_PP_IMPL_ARGUMENT_PACK_HPP
 
+#include <boost/parameter/aux_/pack/tag_keyword_arg.hpp>
 #include <boost/parameter/aux_/pack/make_arg_list.hpp>
 #include <boost/parameter/config.hpp>
 #include <boost/mpl/pair.hpp>
@@ -14,7 +15,6 @@
 #include <boost/parameter/aux_/pack/make_parameter_spec_items.hpp>
 #else
 #include <boost/parameter/aux_/void.hpp>
-#include <boost/parameter/aux_/pack/tag_keyword_arg.hpp>
 #include <boost/parameter/aux_/pack/make_items.hpp>
 #include <boost/parameter/aux_/preprocessor/no_perfect_forwarding_begin.hpp>
 #include <boost/preprocessor/facilities/intercept.hpp>
