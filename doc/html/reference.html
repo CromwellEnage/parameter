@@ -3585,7 +3585,8 @@ href="../../../../boost/parameter/match.hpp"
 </table>
 <dl class="docutils">
 <dt>Generates</dt>
-<dd><pre class="first last literal-block">
+<dd>
+<pre class="first last literal-block">
     typename <strong>p</strong>::match&lt;<strong>A0</strong>, <strong
 >A1</strong>, …, <strong>A</strong> ## <em>n</em>&gt;::type
         <strong>x</strong> = <strong>p</strong>()
@@ -3634,7 +3635,7 @@ href="../../../../boost/parameter/config.hpp"
 </div>
 <div class="section" id="boost-parameter-variadic-mpl-sequence">
 <h2><a class="toc-backref" href="#id65">7.2&nbsp;&nbsp;&nbsp;<tt
-class="docutils literal">BOOST_FUSION_VARIADIC_MPL_SEQUENCE</tt></a></h2>
+class="docutils literal">BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE</tt></a></h2>
 <p>Determines the <a class="reference external"
 href="../../../mpl/doc/refmanual/variadic-sequence.html">MPL Variadic
 Sequence</a> underlying the nested <tt class="docutils literal"
@@ -3645,7 +3646,16 @@ library will check if either <a class="reference external"
 href="../../../../boost/fusion/container/list/list_fwd.hpp"
 >BOOST_FUSION_HAS_VARIADIC_LIST</a> or <a class="reference external"
 href="../../../../boost/fusion/container/deque/deque_fwd.hpp"
->BOOST_FUSION_HAS_VARIADIC_DEQUE</a> are defined.</p>
+>BOOST_FUSION_HAS_VARIADIC_DEQUE</a> are defined, then define this macro or
+leave it undefined accordingly.</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd>
+<pre class="first last literal-block">
+#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::fusion::vector
+</pre>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -3653,8 +3663,9 @@ href="../../../../boost/fusion/container/deque/deque_fwd.hpp"
 <tr class="field">
 <th class="field-name">Defined in:</th>
 <td class="field-body"><a class="reference external"
-href="../../../../boost/parameter/config.hpp"
->boost/parameter/config.hpp</a></td>
+href="../../../../boost/parameter/parameters.hpp"
+>boost/parameter/parameters.hpp</a> if the user does not
+manually <tt class="docutils literal">#define</tt> this macro.</td>
 </tr>
 </tbody>
 </table>

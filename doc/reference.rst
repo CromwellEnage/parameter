@@ -2230,7 +2230,7 @@ Determines the `MPL Variadic Sequence`_ underlying the nested
 ``parameter_spec`` type of |parameters|.  If the user does not manually
 ``#define`` this macro, then the library will check if either
 |BOOST_FUSION_HAS_VARIADIC_LIST|_ or |BOOST_FUSION_HAS_VARIADIC_DEQUE|_ are
-defined.
+defined, then define this macro or leave it undefined accordingly.
 
 .. |BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE| replace:: ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
 .. _`MPL Variadic Sequence`: ../../../mpl/doc/refmanual/variadic-sequence.html
@@ -2239,9 +2239,16 @@ defined.
 .. |BOOST_FUSION_HAS_VARIADIC_LIST| replace:: ``BOOST_FUSION_HAS_VARIADIC_LIST``
 .. _BOOST_FUSION_HAS_VARIADIC_LIST: ../../../../boost/fusion/container/list/list_fwd.hpp
 
-:Defined in: `boost/parameter/config.hpp`__
+:Example:
 
-__ ../../../../boost/parameter/config.hpp
+.. parsed-literal::
+
+#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::fusion::vector
+
+:Defined in: `boost/parameter/parameters.hpp`__ if the user does not manually
+``#define`` this macro.
+
+__ ../../../../boost/parameter/parameters.hpp
 
 ``BOOST_PARAMETER_MAX_ARITY``
 -----------------------------

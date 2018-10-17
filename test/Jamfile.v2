@@ -1006,6 +1006,12 @@ alias parameter_standard_tests
     ]
     ;
 
+alias parameter_00000011_stress_tests
+    :
+        parameter_fttp
+        parameter_preproc_eval_cat_fail
+    ;
+
 alias parameter_00000101_stress_tests
     :
         parameter_preproc_eval_cat_1
@@ -1160,6 +1166,12 @@ alias parameter_sl_tests
         parameter_literate_tests
     ;
 
+alias parameter_slp_tests
+    :
+        parameter_sl_tests
+        parameter_python_test
+    ;
+
 alias parameter_sfl_tests
     :
         parameter_standard_tests
@@ -1167,15 +1179,27 @@ alias parameter_sfl_tests
         parameter_literate_tests
     ;
 
+alias parameter_sflp_tests
+    :
+        parameter_sfl_tests
+        parameter_python_test
+    ;
+
 alias parameter_all_but_preproc_eval_cat_fail_tests
     :
         parameter_11111110_stress_tests
-        parameter_sl_tests
+        parameter_sflp_tests
+    ;
+
+alias parameter_all_but_python_tests
+    :
+        parameter_all_stress_tests
+        parameter_sfl_tests
     ;
 
 alias parameter_all_tests
     :
         parameter_all_stress_tests
-        parameter_sl_tests
+        parameter_sflp_tests
     ;
 
