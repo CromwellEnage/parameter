@@ -5,15 +5,13 @@
 
 # Boost Parameter Library test Jamfile
 
-import python ;
+import testing ;
 
 project boost/parameter
     :
         default-build
         <warnings>off
     ;
-
-import testing ;
 
 alias parameter_python_test
     :
