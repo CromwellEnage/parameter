@@ -5,7 +5,7 @@
 
 # Boost Parameter Library test Jamfile
 
-import testing ;
+import python ;
 
 project boost/parameter
     :
@@ -13,7 +13,7 @@ project boost/parameter
         <warnings>off
     ;
 
-import python ;
+import testing ;
 
 alias parameter_python_test
     :
@@ -734,7 +734,7 @@ alias parameter_all_but_preproc_eval_cat_fail_tests
         parameter_sfl_tests
     ;
 
-alias parameter
+alias parameter_all_tests
     :
         parameter_all_stress_tests
         parameter_sfl_tests
