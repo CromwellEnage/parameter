@@ -951,9 +951,15 @@ either:
 
 These templates describe the requirements on a function parameter.
 
-:Defined in: `boost/parameter/parameters.hpp`__
+:Defined in:
 
-__ ../../../../boost/parameter/parameters.hpp
+    - |optional_header|
+    - |required_header|
+
+.. |optional_header| replace:: boost/parameter/optional.hpp
+.. _optional_header: ../../../../boost/parameter/optional.hpp
+.. |required_header| replace:: boost/parameter/required.hpp
+.. _required_header: ../../../../boost/parameter/required.hpp
 
 :Specializations model: |ParameterSpec|_
 
@@ -976,9 +982,9 @@ Class`_ that returns ``mpl::true_`` for any argument.
 This template is used to wrap the *keyword tag* argument to
 ``optional`` or ``required``.
 
-:Defined in: `boost/parameter/parameters.hpp`__
+:Defined in: `boost/parameter/deduced.hpp`__
 
-__ ../../../../boost/parameter/parameters.hpp
+__ ../../../../boost/parameter/deduced.hpp
 
 .. parsed-literal::
 
@@ -2202,8 +2208,8 @@ macro by ``#defining`` the ``BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING``
 macro.  Otherwise, the library will ``#define`` this macro if and only if it
 and the configuration macros |BOOST_NO_FUNCTION_TEMPLATE_ORDERING|_ and
 |BOOST_NO_SFINAE|_ are not already ``#defined`` but the configuration macros
-|BOOST_MOVE_PERFECT_FORWARDING|_ and |BOOST_FUSION_HAS_VARIADIC_DEQUE|_ are
-already defined.
+|BOOST_MOVE_PERFECT_FORWARDING|_ and ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
+are already defined.
 
 .. |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| replace:: ``BOOST_PARAMETER_HAS_PERFECT_FORWARDING``
 .. |BOOST_NO_FUNCTION_TEMPLATE_ORDERING| replace:: ``BOOST_NO_FUNCTION_TEMPLATE_ORDERING``
@@ -2212,8 +2218,26 @@ already defined.
 .. _BOOST_NO_SFINAE: ../../../config/doc/html/boost_config/boost_macro_reference.html
 .. |BOOST_MOVE_PERFECT_FORWARDING| replace:: ``BOOST_MOVE_PERFECT_FORWARDING``
 .. _BOOST_MOVE_PERFECT_FORWARDING: ../../../../boost/move/detail/workaround.hpp
+
+:Defined in: `boost/parameter/config.hpp`__
+
+__ ../../../../boost/parameter/config.hpp
+
+``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
+-----------------------------------------
+
+Determines the `MPL Variadic Sequence`_ underlying the nested
+``parameter_spec`` type of |parameters|.  If the user does not manually
+``#define`` this macro, then the library will check if either
+|BOOST_FUSION_HAS_VARIADIC_LIST|_ or |BOOST_FUSION_HAS_VARIADIC_DEQUE|_ are
+defined.
+
+.. |BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE| replace:: ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
+.. _`MPL Variadic Sequence`: ../../../mpl/doc/refmanual/variadic-sequence.html
 .. |BOOST_FUSION_HAS_VARIADIC_DEQUE| replace:: ``BOOST_FUSION_HAS_VARIADIC_DEQUE``
 .. _BOOST_FUSION_HAS_VARIADIC_DEQUE: ../../../../boost/fusion/container/deque/deque_fwd.hpp
+.. |BOOST_FUSION_HAS_VARIADIC_LIST| replace:: ``BOOST_FUSION_HAS_VARIADIC_LIST``
+.. _BOOST_FUSION_HAS_VARIADIC_LIST: ../../../../boost/fusion/container/list/list_fwd.hpp
 
 :Defined in: `boost/parameter/config.hpp`__
 
