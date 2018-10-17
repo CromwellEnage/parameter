@@ -1,0 +1,33 @@
+# Copyright David Abrahams, Daniel Wallin 2006.
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE_1_0.txt or copy at
+# http://www.boost.org/LICENSE_1_0.txt)
+
+# Boost Parameter Library test/stress05 Jamfile
+
+import testing ;
+
+project boost/parameter
+    :
+        default-build
+        <warnings>off
+    ;
+
+import python ;
+
+test-suite "parameter"
+    :
+    [ run ../preprocessor_eval_cat_8.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_ALL_CONST_THRESHOLD_ARITY=9
+            <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
+        :
+            preproc_eval_cat_8_no_perfect_fwd
+        :
+            <preserve-target-tests>off
+    ]
+    ;
+

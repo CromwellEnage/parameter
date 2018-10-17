@@ -1,0 +1,29 @@
+# Copyright David Abrahams, Daniel Wallin 2006.
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE_1_0.txt or copy at
+# http://www.boost.org/LICENSE_1_0.txt)
+
+# Boost Parameter Library test/stress06 Jamfile
+
+import testing ;
+
+project boost/parameter
+    :
+        default-build
+        <warnings>off
+    ;
+
+import python ;
+
+test-suite "parameter"
+    :
+    [ compile-fail ../preprocessor_eval_category.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_ALL_CONST_THRESHOLD_ARITY=9
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
+        :
+            preproc_eval_cat_fail
+    ]
+    ;
+

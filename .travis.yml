@@ -27,7 +27,7 @@ matrix:
   include:
     - os: linux
       compiler: g++-4.4
-      env: TOOLSET=gcc COMPILER=g++-4.4 CXXSTD=98 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=gcc COMPILER=g++-4.4 CXXSTD=98
       addons:
         apt:
           packages:
@@ -37,27 +37,7 @@ matrix:
 
     - os: linux
       compiler: g++-4.4
-      env: TOOLSET=gcc COMPILER=g++-4.4 CXXSTD=98 TEST_SUITE=parameter_01011111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-4.4
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: g++-4.4
-      env: TOOLSET=gcc COMPILER=g++-4.4 CXXSTD=0x TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - g++-4.4
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: g++-4.4
-      env: TOOLSET=gcc COMPILER=g++-4.4 CXXSTD=0x TEST_SUITE=parameter_01011111_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-4.4 CXXSTD=0x
       addons:
         apt:
           packages:
@@ -67,7 +47,7 @@ matrix:
 
     - os: linux
       compiler: g++-4.6
-      env: TOOLSET=gcc COMPILER=g++-4.6 CXXSTD=03 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=gcc COMPILER=g++-4.6 CXXSTD=03
       addons:
         apt:
           packages:
@@ -77,7 +57,7 @@ matrix:
 
     - os: linux
       compiler: g++-4.6
-      env: TOOLSET=gcc COMPILER=g++-4.6 CXXSTD=03 TEST_SUITE=parameter_01011111_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-4.6 CXXSTD=0x
       addons:
         apt:
           packages:
@@ -86,27 +66,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      compiler: g++-4.6
-      env: TOOLSET=gcc COMPILER=g++-4.6 CXXSTD=0x TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - g++-4.6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: g++-4.6
-      env: TOOLSET=gcc COMPILER=g++-4.6 CXXSTD=0x TEST_SUITE=parameter_01011111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-4.6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.7 CXXSTD=03 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=gcc COMPILER=g++-4.7 CXXSTD=03
       addons:
         apt:
           packages:
@@ -115,7 +75,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.7 CXXSTD=03 TEST_SUITE=parameter_10011111_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-4.7 CXXSTD=11
       addons:
         apt:
           packages:
@@ -124,25 +84,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.7 CXXSTD=11 TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - g++-4.7
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.7 CXXSTD=11 TEST_SUITE=parameter_00011111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-4.7
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.8 CXXSTD=03 TEST_SUITE=parameter_standard_tests
+      env: TOOLSET=gcc COMPILER=g++-4.8 CXXSTD=03
       addons:
         apt:
           packages:
@@ -151,7 +93,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.8 CXXSTD=03 TEST_SUITE=parameter_preproc_eval_cat_1
+      env: TOOLSET=gcc COMPILER=g++-4.8 CXXSTD=11
       addons:
         apt:
           packages:
@@ -160,25 +102,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.8 CXXSTD=11 TEST_SUITE=parameter_standard_tests
-      addons:
-        apt:
-          packages:
-            - g++-4.8
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.8 CXXSTD=11 TEST_SUITE=parameter_preproc_eval_cat_1
-      addons:
-        apt:
-          packages:
-            - g++-4.8
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=03 TEST_SUITE=parameter_standard_tests
+      env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=03
       addons:
         apt:
           packages:
@@ -187,7 +111,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=03 TEST_SUITE=parameter_preproc_eval_cat_1
+      env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=11
       addons:
         apt:
           packages:
@@ -196,25 +120,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=11 TEST_SUITE=parameter_standard_tests
-      addons:
-        apt:
-          packages:
-            - g++-4.9
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=11 TEST_SUITE=parameter_10101111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-4.9
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=03 TEST_SUITE=parameter_standard_tests
+      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=03
       addons:
         apt:
           packages:
@@ -223,7 +129,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=03 TEST_SUITE=parameter_preproc_eval_cat_1
+      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=11
       addons:
         apt:
           packages:
@@ -232,7 +138,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=11 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=14
       addons:
         apt:
           packages:
@@ -241,34 +147,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=11 TEST_SUITE=parameter_10101111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-5
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=14 TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - g++-5
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=14 TEST_SUITE=parameter_10101111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-5
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=03 TEST_SUITE=parameter_standard_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=03
       addons:
         apt:
           packages:
@@ -277,7 +156,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=03 TEST_SUITE=parameter_preproc_eval_cat_1
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11
       addons:
         apt:
           packages:
@@ -286,7 +165,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14
       addons:
         apt:
           packages:
@@ -295,7 +174,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 TEST_SUITE=parameter_10101111_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z
       addons:
         apt:
           packages:
@@ -304,7 +183,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=03 CXXSTD_DIALECT=cxxstd-dialect=gnu
       addons:
         apt:
           packages:
@@ -313,7 +192,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 TEST_SUITE=parameter_10101111_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu
       addons:
         apt:
           packages:
@@ -322,7 +201,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu
       addons:
         apt:
           packages:
@@ -331,79 +210,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z TEST_SUITE=parameter_10101111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=03 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_standard_tests
-      addons:
-        apt:
-          packages:
-            - g++-6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=03 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_00000101_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - g++-6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_10101111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - g++-6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_10101011_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - g++-6
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_10101111_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z CXXSTD_DIALECT=cxxstd-dialect=gnu
       addons:
         apt:
           packages:
@@ -414,7 +221,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=03 TEST_SUITE=parameter_standard_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=03
       addons:
         apt:
           packages:
@@ -425,7 +232,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=03 TEST_SUITE=parameter_00000110_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11
       addons:
         apt:
           packages:
@@ -436,7 +243,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14
       addons:
         apt:
           packages:
@@ -447,7 +254,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 TEST_SUITE=parameter_10101011_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17
       addons:
         apt:
           packages:
@@ -458,7 +265,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=03 CXXSTD_DIALECT=cxxstd-dialect=gnu
       addons:
         apt:
           packages:
@@ -469,7 +276,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 TEST_SUITE=parameter_10101111_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu
       addons:
         apt:
           packages:
@@ -480,7 +287,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu
       addons:
         apt:
           packages:
@@ -491,95 +298,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 TEST_SUITE=parameter_10101111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-7
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      dist: trusty
-      compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=03 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_standard_tests
-      addons:
-        apt:
-          packages:
-            - g++-7
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      dist: trusty
-      compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=03 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_preproc_eval_cat_1
-      addons:
-        apt:
-          packages:
-            - g++-7
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      dist: trusty
-      compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - g++-7
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      dist: trusty
-      compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_10101111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-7
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      dist: trusty
-      compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - g++-7
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      dist: trusty
-      compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_10101111_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-7
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      dist: trusty
-      compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - g++-7
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      dist: trusty
-      compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_10101111_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 CXXSTD_DIALECT=cxxstd-dialect=gnu
       addons:
         apt:
           packages:
@@ -589,7 +308,7 @@ matrix:
 
     - os: linux
       compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=03 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=03
       addons:
         apt:
           packages:
@@ -599,7 +318,7 @@ matrix:
 
     - os: linux
       compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=03 TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=11
       addons:
         apt:
           packages:
@@ -609,7 +328,7 @@ matrix:
 
     - os: linux
       compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=14
       addons:
         apt:
           packages:
@@ -619,7 +338,7 @@ matrix:
 
     - os: linux
       compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=11 TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=17
       addons:
         apt:
           packages:
@@ -628,47 +347,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=14 TEST_SUITE=parameter_sfl_tests
-      addons:
-        apt:
-          packages:
-            - g++-8
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=14 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-8
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=17 TEST_SUITE=parameter_sfl_tests
-      addons:
-        apt:
-          packages:
-            - g++-8
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=17 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - g++-8
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=03 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=03
       addons:
         apt:
           packages:
@@ -678,7 +357,7 @@ matrix:
             - llvm-toolchain-precise-3.5
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=03 TEST_SUITE=parameter_00111111_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=11
       addons:
         apt:
           packages:
@@ -688,27 +367,7 @@ matrix:
             - llvm-toolchain-precise-3.5
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=11 TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.5
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.5
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=11 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.5
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.5
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=03 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=03
       addons:
         apt:
           packages:
@@ -718,7 +377,7 @@ matrix:
             - llvm-toolchain-precise-3.6
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=03 TEST_SUITE=parameter_00111111_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=11
       addons:
         apt:
           packages:
@@ -728,27 +387,7 @@ matrix:
             - llvm-toolchain-precise-3.6
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=11 TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.6
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=11 TEST_SUITE=parameter_11111110_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.6
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=03 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=03
       addons:
         apt:
           packages:
@@ -758,7 +397,7 @@ matrix:
             - llvm-toolchain-precise-3.7
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=03 TEST_SUITE=parameter_00011111_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=11
       addons:
         apt:
           packages:
@@ -768,27 +407,7 @@ matrix:
             - llvm-toolchain-precise-3.7
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=11 TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.7
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=11 TEST_SUITE=parameter_01111110_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.7
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=03 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=03
       addons:
         apt:
           packages:
@@ -798,7 +417,7 @@ matrix:
             - llvm-toolchain-precise-3.8
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=03 TEST_SUITE=parameter_00011111_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=11
       addons:
         apt:
           packages:
@@ -808,7 +427,7 @@ matrix:
             - llvm-toolchain-precise-3.8
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=11 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=14
       addons:
         apt:
           packages:
@@ -818,7 +437,7 @@ matrix:
             - llvm-toolchain-precise-3.8
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=11 TEST_SUITE=parameter_10111111_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=1z
       addons:
         apt:
           packages:
@@ -828,47 +447,7 @@ matrix:
             - llvm-toolchain-precise-3.8
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=14 TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.8
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=14 TEST_SUITE=parameter_10111110_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.8
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=1z TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.8
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=1z TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.8
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=03 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=03
       addons:
         apt:
           packages:
@@ -878,7 +457,7 @@ matrix:
             - llvm-toolchain-precise-3.9
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=03 TEST_SUITE=parameter_00001111_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=11
       addons:
         apt:
           packages:
@@ -888,7 +467,7 @@ matrix:
             - llvm-toolchain-precise-3.9
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=11 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=14
       addons:
         apt:
           packages:
@@ -898,47 +477,7 @@ matrix:
             - llvm-toolchain-precise-3.9
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=11 TEST_SUITE=parameter_10111110_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.9
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.9
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=14 TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.9
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.9
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=14 TEST_SUITE=parameter_10111110_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.9
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.9
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=1z TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.9
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.9
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=1z TEST_SUITE=parameter_10101110_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=1z
       addons:
         apt:
           packages:
@@ -949,7 +488,7 @@ matrix:
 
     - os: linux
       compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=03 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=03
       addons:
         apt:
           packages:
@@ -960,7 +499,7 @@ matrix:
 
     - os: linux
       compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=03 TEST_SUITE=parameter_00001111_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=11
       addons:
         apt:
           packages:
@@ -971,7 +510,7 @@ matrix:
 
     - os: linux
       compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=11 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=14
       addons:
         apt:
           packages:
@@ -982,51 +521,7 @@ matrix:
 
     - os: linux
       compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=11 TEST_SUITE=parameter_10101110_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-4.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-4.0
-
-    - os: linux
-      compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=14 TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-4.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-4.0
-
-    - os: linux
-      compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=14 TEST_SUITE=parameter_10101011_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-4.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-4.0
-
-    - os: linux
-      compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=1z TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-4.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-4.0
-
-    - os: linux
-      compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=1z TEST_SUITE=parameter_10101110_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=1z
       addons:
         apt:
           packages:
@@ -1037,7 +532,7 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=03 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=03
       addons:
         apt:
           packages:
@@ -1048,7 +543,7 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=03 TEST_SUITE=parameter_00001111_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=11
       addons:
         apt:
           packages:
@@ -1059,7 +554,7 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=11 TEST_SUITE=parameter_sl_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=14
       addons:
         apt:
           packages:
@@ -1070,51 +565,7 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=11 TEST_SUITE=parameter_10111111_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-
-    - os: linux
-      compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=14 TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-
-    - os: linux
-      compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=14 TEST_SUITE=parameter_10111011_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-
-    - os: linux
-      compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=1z TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-
-    - os: linux
-      compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=1z TEST_SUITE=parameter_10111011_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=1z
       addons:
         apt:
           packages:
@@ -1125,7 +576,7 @@ matrix:
 
     - os: linux
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03
       addons:
         apt:
           packages:
@@ -1135,7 +586,7 @@ matrix:
 
     - os: linux
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11
       addons:
         apt:
           packages:
@@ -1145,7 +596,7 @@ matrix:
 
     - os: linux
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14
       addons:
         apt:
           packages:
@@ -1155,47 +606,7 @@ matrix:
 
     - os: linux
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - libstdc++-5-dev
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_sfl_tests
-      addons:
-        apt:
-          packages:
-            - libstdc++-5-dev
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - libstdc++-5-dev
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_sfl_tests
-      addons:
-        apt:
-          packages:
-            - libstdc++-5-dev
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z
       addons:
         apt:
           packages:
@@ -1205,7 +616,7 @@ matrix:
 
     - os: linux
       compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=03 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=03
       addons:
         apt:
           packages:
@@ -1213,7 +624,7 @@ matrix:
 
     - os: linux
       compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=03 TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=11
       addons:
         apt:
           packages:
@@ -1221,7 +632,7 @@ matrix:
 
     - os: linux
       compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=14
       addons:
         apt:
           packages:
@@ -1229,39 +640,7 @@ matrix:
 
     - os: linux
       compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=11 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - libc++-dev
-
-    - os: linux
-      compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=14 TEST_SUITE=parameter_sfl_tests
-      addons:
-        apt:
-          packages:
-            - libc++-dev
-
-    - os: linux
-      compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=14 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - libc++-dev
-
-    - os: linux
-      compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=1z TEST_SUITE=parameter_sfl_tests
-      addons:
-        apt:
-          packages:
-            - libc++-dev
-
-    - os: linux
-      compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=1z TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=1z
       addons:
         apt:
           packages:
@@ -1269,82 +648,66 @@ matrix:
 
     - os: osx
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03
 
     - os: osx
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11
 
     - os: osx
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14
 
     - os: osx
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z
 
     - os: osx
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_sfl_tests
-
-    - os: osx
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_all_stress_tests
-
-    - os: osx
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_sfl_tests
-
-    - os: osx
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_all_stress_tests
-
-    - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03
       osx_image: xcode6.4
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11
       osx_image: xcode6.4
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14
       osx_image: xcode6.4
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z
       osx_image: xcode6.4
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_but_preproc_eval_cat_fail_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03
       osx_image: xcode7.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11
       osx_image: xcode7.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14
       osx_image: xcode7.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z
       osx_image: xcode7.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03
       osx_image: xcode8.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11
       osx_image: xcode8.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14
       osx_image: xcode8.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z
       osx_image: xcode8.3
 
 install:
@@ -1355,7 +718,7 @@ install:
   - git submodule update --init tools/build
   - git submodule update --init libs/config
   - git submodule update --init tools/boostdep
-#  - git submodule update --init libs/parameter_python
+  - git submodule update --init libs/parameter_python
   - cp -r $TRAVIS_BUILD_DIR/* libs/parameter
   - python tools/boostdep/depinst/depinst.py parameter
   - ./bootstrap.sh
@@ -1365,9 +728,7 @@ script:
   - |-
     echo "using $TOOLSET : : $COMPILER ;" > ~/user-config.jam
   - ./b2 --verbose-test libs/config/test//config_info toolset=$TOOLSET cxxstd=$CXXSTD || true
-  - cd libs/parameter/test
-  - ../../../b2 -j3 $TEST_SUITE toolset=$TOOLSET cxxstd=$CXXSTD
-  - cd ../../..
+  - ./b2 -j3 libs/parameter/test toolset=$TOOLSET cxxstd=$CXXSTD
 
 notifications:
   email:
