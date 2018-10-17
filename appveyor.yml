@@ -68,6 +68,4 @@ install:
 build: off
 
 test_script:
-  - cd libs\parameter\test
-  - ..\..\..\b2 -j%NUMBER_OF_PROCESSORS% --hash %ARGS% %TEST_SUITE%
-  - cd ..\..\..
+  - b2 libs/parameter/test -j%NUMBER_OF_PROCESSORS% --hash %ARGS% %TEST_SUITE%

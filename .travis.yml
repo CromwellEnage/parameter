@@ -1365,9 +1365,7 @@ script:
   - |-
     echo "using $TOOLSET : : $COMPILER ;" > ~/user-config.jam
   - ./b2 --verbose-test libs/config/test//config_info toolset=$TOOLSET cxxstd=$CXXSTD || true
-  - cd libs/parameter/test
-  - ../../../b2 -j3 $TEST_SUITE toolset=$TOOLSET cxxstd=$CXXSTD
-  - cd ../../..
+  - ./b2 libs/parameter/test -j3 $TEST_SUITE toolset=$TOOLSET cxxstd=$CXXSTD
 
 notifications:
   email:
