@@ -14,6 +14,7 @@
 #include <boost/parameter/aux_/pack/make_parameter_spec_items.hpp>
 #else
 #include <boost/parameter/aux_/void.hpp>
+#include <boost/parameter/aux_/pack/make_items.hpp>
 #include <boost/parameter/aux_/preprocessor/no_perfect_forwarding_begin.hpp>
 #include <boost/preprocessor/facilities/intercept.hpp>
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
