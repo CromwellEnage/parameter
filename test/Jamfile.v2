@@ -731,12 +731,12 @@ alias parameter_sfl_tests
 alias parameter_all_but_preproc_eval_cat_fail_tests
     :
         parameter_11111110_stress_tests
-        parameter_sl_tests
+        parameter_sfl_tests
     ;
 
-alias parameter_all_tests
+alias parameter
     :
         parameter_all_stress_tests
-        parameter_sl_tests
+        parameter_sfl_tests
     ;
 
