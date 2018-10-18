@@ -14,7 +14,7 @@
 #define BOOST_PARAMETER_FN_ARG_PRED(x) BOOST_PP_TUPLE_ELEM(4, 2, x)
 #define BOOST_PARAMETER_FN_ARG_DEFAULT(x) BOOST_PP_TUPLE_ELEM(4, 3, x)
 
-#include <boost/parameter/name.hpp>
+#include <boost/parameter/aux_/preprocessor/qualifier.hpp>
 
 #define BOOST_PARAMETER_FN_ARG_NAME(x)                                       \
     BOOST_PARAMETER_UNQUALIFIED_NAME(BOOST_PARAMETER_FN_ARG_KEYWORD(x))

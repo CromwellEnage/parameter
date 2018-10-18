@@ -114,6 +114,7 @@
     BOOST_PP_CAT(a, BOOST_PP_SUB(limit, n))
 /**/
 
+#include <boost/parameter/config.hpp>
 #include <boost/mpl/pair.hpp>
 #include <boost/preprocessor/arithmetic/dec.hpp>
 #include <boost/preprocessor/facilities/intercept.hpp>

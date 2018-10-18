@@ -8,15 +8,9 @@
 
 #include <boost/parameter/aux_/void.hpp>
 #include <boost/parameter/aux_/pack/item.hpp>
-#include <boost/parameter/config.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/identity.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
-#else
-#include <type_traits>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -24,11 +18,7 @@ namespace boost { namespace parameter { namespace aux {
     template <typename Spec, typename Arg, typename Tail>
     struct make_items
       : ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_same<Arg,::boost::parameter::void_>
-#else
-            ::std::is_same<Arg,::boost::parameter::void_>
-#endif
           , ::boost::mpl::identity< ::boost::parameter::void_>
           , ::boost::parameter::aux::make_item<Spec,Arg,Tail>
         >

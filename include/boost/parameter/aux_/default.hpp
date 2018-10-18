@@ -74,24 +74,5 @@ namespace boost { namespace parameter { namespace aux {
     ::boost::parameter::aux::lazy_default
 /**/
 #endif
-
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-
-#include <boost/move/utility_core.hpp>
-
-namespace boost { namespace parameter { namespace aux {
-
-    template <typename Keyword, typename Value>
-    struct default_r_
-    {
-        inline default_r_(Value&& x) : value(::boost::forward<Value>(x))
-        {
-        }
-
-        Value&& value;
-    };
-}}} // namespace boost::parameter::aux
-
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 #endif  // include guard
 

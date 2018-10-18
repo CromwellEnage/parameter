@@ -1,6 +1,6 @@
-// Copyright Daniel Wallin, David Abrahams 2005.
-// Distributed under the Boost Software License, Version 1.0.
-// (See accompanying file LICENSE_1_0.txt or copy at
+// Copyright Daniel Wallin, David Abrahams 2005. Use, modification and
+// distribution is subject to the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef BOOST_PARAMETER_CONFIG_050403_HPP
@@ -42,34 +42,9 @@
 #endif
 #endif
 
-// Only in the absence of perfect forwarding should client code be limited
-// by BOOST_PARAMETER_MAX_ARITY.  However, BOOST_PARAMETER_MAX_ARITY will
-// remain defined for code that still needs it. -- Cromwell D. Enage
-//#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#if !defined(BOOST_PARAMETER_MAX_ARITY)
+#ifndef BOOST_PARAMETER_MAX_ARITY
 #define BOOST_PARAMETER_MAX_ARITY 8
 #endif
-//#endif
 
-#if !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) && ( \
-        defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS) || ( \
-            !defined(BOOST_MSVC) && ( \
-                ( \
-                    defined(BOOST_CLANG) && (1 == BOOST_CLANG) && \
-                    !defined(__APPLE_CC__) \
-                ) || ( \
-                    BOOST_WORKAROUND(BOOST_GCC, < 40900) \
-                ) || ( \
-                    BOOST_WORKAROUND(BOOST_GCC, >= 40900) && \
-                    !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) \
-                ) \
-            ) \
-        ) \
-    )
-// Most other compilers fulfulling the condition above have ICEd on certain
-// tests due to using C++11 type traits instead of the Boost versions.
-// -- Cromwell D. Enage
-#define BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
-#endif
-#endif  // include guard
+#endif // BOOST_PARAMETER_CONFIG_050403_HPP
 

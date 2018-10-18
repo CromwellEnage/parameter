@@ -29,29 +29,14 @@ namespace boost { namespace parameter { namespace aux {
 }}} // namespace boost::parameter::aux
 
 #include <boost/parameter/config.hpp>
-
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-namespace boost { namespace parameter { namespace aux {
-
-    struct value_type_is_void
-    {
-    };
-
-    struct value_type_is_not_void
-    {
-    };
-}}} // namespace boost::parameter::aux
-#endif
-
 #include <boost/parameter/aux_/void.hpp>
 #include <boost/parameter/aux_/yesno.hpp>
 #include <boost/parameter/aux_/result_of0.hpp>
 #include <boost/parameter/aux_/default.hpp>
-
-#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <boost/preprocessor/repetition/enum_params.hpp>
 #include <boost/preprocessor/facilities/intercept.hpp>
-#endif
+#include <boost/config.hpp>
+#include <boost/config/workaround.hpp>
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -60,18 +45,6 @@ namespace boost { namespace parameter { namespace aux {
     // feel for what's really happening here.
     struct empty_arg_list
     {
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        struct tagged_arg
-        {
-            typedef ::boost::parameter::void_ value_type;
-        };
-
-        // Variadic constructor also serves as default constructor.
-        template <typename ...Args>
-        inline empty_arg_list(Args&&...)
-        {
-        }
-#else // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         inline empty_arg_list()
         {
         }
@@ -86,7 +59,6 @@ namespace boost { namespace parameter { namespace aux {
         )
         {
         }
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
         // A metafunction class that, given a keyword and a default type,
         // returns the appropriate result type for a keyword lookup given
@@ -130,15 +102,6 @@ namespace boost { namespace parameter { namespace aux {
             return x.value;
         }
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        template <typename K, typename Default>
-        inline Default&&
-            operator[](::boost::parameter::aux::default_r_<K,Default> x) const
-        {
-            return ::boost::forward<Default>(x.value);
-        }
-#endif
-
         // If this operator is called, it means there is no argument in the
         // list that matches the supplied keyword.  Just evaluate and return
         // the default value.
@@ -175,23 +138,14 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/assert.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
-#else
-#include <type_traits>
-#endif
 
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
 #include <boost/tti/detail/dnullptr.hpp>
 #endif
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#include <boost/move/utility_core.hpp>
-#else
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
 #include <boost/preprocessor/repetition/enum_shifted_params.hpp>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -234,81 +188,6 @@ namespace boost { namespace parameter { namespace aux {
         }
 
         // Store the arguments in successive nodes of this list.
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        // Use tag dispatching to determine whether to forward all arguments
-        // to the Next constructor, or store the first argument and forward
-        // the rest. -- Cromwell D. Enage
-        template <typename A0>
-        inline arg_list(
-            ::boost::parameter::aux::value_type_is_not_void
-          , A0&& a0
-        ) : Next(
-                typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                    ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
-                        typename Next::tagged_arg::value_type
-                      , ::boost::parameter::void_
-                    >
-                  , ::boost::parameter::aux::value_type_is_void
-                  , ::boost::parameter::aux::value_type_is_not_void
-                >::type()
-            )
-          , arg(::boost::forward<A0>(a0))
-        {
-        }
-
-        template <typename ...Args>
-        inline arg_list(
-            ::boost::parameter::aux::value_type_is_void
-          , Args&&... args
-        ) : Next(
-                typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                    ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
-                        typename Next::tagged_arg::value_type
-                      , ::boost::parameter::void_
-                    >
-                  , ::boost::parameter::aux::value_type_is_void
-                  , ::boost::parameter::aux::value_type_is_not_void
-                >::type()
-              , ::boost::forward<Args>(args)...
-            )
-          , arg(::boost::parameter::aux::void_reference())
-        {
-        }
-
-        template <typename A0, typename A1, typename ...Args>
-        inline arg_list(
-            ::boost::parameter::aux::value_type_is_not_void
-          , A0&& a0
-          , A1&& a1
-          , Args&&... args
-        ) : Next(
-                typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                    ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
-                        typename Next::tagged_arg::value_type
-                      , ::boost::parameter::void_
-                    >
-                  , ::boost::parameter::aux::value_type_is_void
-                  , ::boost::parameter::aux::value_type_is_not_void
-                >::type()
-              , ::boost::forward<A1>(a1)
-              , ::boost::forward<Args>(args)...
-            )
-          , arg(::boost::forward<A0>(a0))
-        {
-        }
-#else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         template <
             // typename A0, typename A1, ...
             BOOST_PP_ENUM_PARAMS(BOOST_PARAMETER_MAX_ARITY, typename A)
@@ -324,7 +203,6 @@ namespace boost { namespace parameter { namespace aux {
           , arg(a0)
         {
         }
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
         // A metafunction class that, given a keyword and a default type,
         // returns the appropriate result type for a keyword lookup given
@@ -337,11 +215,7 @@ namespace boost { namespace parameter { namespace aux {
             struct apply
             {
                 typedef typename ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<KW,key_type>
-#else
-                    ::std::is_same<KW,key_type>
-#endif
                   , ::boost::mpl::if_<Reference,reference,value_type>
                   , ::boost::mpl::apply_wrap3<
                         next_binding
@@ -407,11 +281,7 @@ namespace boost { namespace parameter { namespace aux {
             struct apply
             {
                 typedef typename ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<KW,key_type>
-#else
-                    ::std::is_same<KW,key_type>
-#endif
                   , ::boost::mpl::identity<
                         ::boost::parameter::aux::arg_list<TaggedArg,Next>
                     >
@@ -452,24 +322,6 @@ namespace boost { namespace parameter { namespace aux {
             return sublist.get(x);
         }
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        template <typename KW, typename Default>
-        inline typename ::boost::mpl::apply_wrap3<
-            binding
-          , KW
-          , Default&&
-          , ::boost::mpl::true_
-        >::type
-            operator[](
-                ::boost::parameter::aux::default_r_<KW,Default> const& x
-            ) const
-        {
-            typename ::boost::mpl::apply_wrap1<key_owner,KW>::type const&
-                sublist = *this;
-            return sublist.get(x);
-        }
-#endif
-
         template <typename KW, typename F>
         inline typename ::boost::mpl::apply_wrap3<
             binding
@@ -506,17 +358,6 @@ namespace boost { namespace parameter { namespace aux {
             return this->get_default(d, holds_maybe());
         }
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        template <typename Default>
-        inline reference
-            get(
-                ::boost::parameter::aux::default_r_<key_type,Default> const& d
-            ) const
-        {
-            return this->get_default(d, holds_maybe());
-        }
-#endif
-
         template <typename Default>
         inline reference
             get(
@@ -525,7 +366,7 @@ namespace boost { namespace parameter { namespace aux {
         {
             return this->arg.get_value();
         }
-#else // !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#else   // !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
         inline reference
             operator[](::boost::parameter::keyword<key_type> const&) const
         {
@@ -541,17 +382,6 @@ namespace boost { namespace parameter { namespace aux {
         {
             return this->get_default(d, holds_maybe());
         }
-
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        template <typename Default>
-        inline reference
-            operator[](
-                ::boost::parameter::aux::default_r_<key_type,Default> const& d
-            ) const
-        {
-            return this->get_default(d, holds_maybe());
-        }
-#endif
 
         template <typename Default>
         inline reference
@@ -612,23 +442,6 @@ namespace boost { namespace parameter { namespace aux {
               , self
             >(x, *this);
         }
-
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        template <typename KW, typename T2>
-        inline ::boost::parameter::aux::arg_list<
-            ::boost::parameter::aux::tagged_argument_rref<KW,T2>
-          , self
-        >
-            operator,(
-                ::boost::parameter::aux::tagged_argument_rref<KW,T2> const& x
-            ) const
-        {
-            return ::boost::parameter::aux::arg_list<
-                ::boost::parameter::aux::tagged_argument_rref<KW,T2>
-              , self
-            >(x, *this);
-        }
-#endif
 
         // MPL sequence support
         typedef self type;        // Convenience for users

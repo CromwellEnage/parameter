@@ -8,13 +8,6 @@
 
 namespace boost { namespace parameter {
 
-    struct in_reference;
-    struct out_reference;
-    typedef ::boost::parameter::out_reference in_out_reference;
-    struct forward_reference;
-    struct consume_reference;
-    typedef ::boost::parameter::consume_reference move_from_reference;
-
     template <typename Tag>
     struct keyword;
 }} // namespace boost::parameter

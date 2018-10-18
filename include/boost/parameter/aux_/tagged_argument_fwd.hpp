@@ -6,17 +6,10 @@
 #ifndef BOOST_PARAMETER_TAGGED_ARGUMENT_FWD_HPP
 #define BOOST_PARAMETER_TAGGED_ARGUMENT_FWD_HPP
 
-#include <boost/parameter/config.hpp>
-
 namespace boost { namespace parameter { namespace aux {
 
     template <typename Keyword, typename Arg>
     class tagged_argument;
-
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-    template <typename Keyword, typename Arg>
-    class tagged_argument_rref;
-#endif
 }}} // namespace boost::parameter::aux
 
 #endif  // include guard
