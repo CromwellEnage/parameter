@@ -1178,6 +1178,12 @@ alias parameter_sfl_tests
         parameter_literate_tests
     ;
 
+alias parameter_sfp_tests
+    :
+        parameter_sf_tests
+        parameter_python_test
+    ;
+
 alias parameter_slp_tests
     :
         parameter_sl_tests

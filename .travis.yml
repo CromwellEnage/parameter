@@ -27,7 +27,7 @@ matrix:
   include:
     - os: linux
       compiler: g++-4.4
-      env: TOOLSET=gcc COMPILER=g++-4.4 CXXSTD=98 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-4.4 CXXSTD=98 TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -47,7 +47,7 @@ matrix:
 
     - os: linux
       compiler: g++-4.4
-      env: TOOLSET=gcc COMPILER=g++-4.4 CXXSTD=0x TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-4.4 CXXSTD=0x TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -67,7 +67,7 @@ matrix:
 
     - os: linux
       compiler: g++-4.6
-      env: TOOLSET=gcc COMPILER=g++-4.6 CXXSTD=03 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-4.6 CXXSTD=03 TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -87,7 +87,7 @@ matrix:
 
     - os: linux
       compiler: g++-4.6
-      env: TOOLSET=gcc COMPILER=g++-4.6 CXXSTD=0x TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-4.6 CXXSTD=0x TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -232,7 +232,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=11 TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -250,7 +250,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=14 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=14 TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -268,7 +268,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=03 TEST_SUITE=parameter_sf_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=03 TEST_SUITE=parameter_sfp_tests
       addons:
         apt:
           packages:
@@ -286,7 +286,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -304,7 +304,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -322,7 +322,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -340,7 +340,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=03 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sf_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=03 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sfp_tests
       addons:
         apt:
           packages:
@@ -358,7 +358,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -376,7 +376,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -394,7 +394,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -414,7 +414,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=03 TEST_SUITE=parameter_sf_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=03 TEST_SUITE=parameter_sfp_tests
       addons:
         apt:
           packages:
@@ -436,7 +436,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -458,7 +458,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -480,7 +480,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -502,7 +502,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=03 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sf_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=03 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sfp_tests
       addons:
         apt:
           packages:
@@ -524,7 +524,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -546,7 +546,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:
@@ -568,7 +568,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
       addons:
         apt:
           packages:

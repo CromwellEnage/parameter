@@ -10,11 +10,11 @@
 
 namespace boost { namespace parameter { namespace aux {
 
-    template <class Keyword, class Arg>
+    template <typename Keyword, typename Arg>
     class tagged_argument;
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-    template <class Keyword, class Arg>
+    template <typename Keyword, typename Arg>
     class tagged_argument_rref;
 #endif
 }}} // namespace boost::parameter::aux
