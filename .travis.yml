@@ -1081,7 +1081,7 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=14 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=14 TEST_SUITE=parameter_sfl_tests
       addons:
         apt:
           packages:
@@ -1103,7 +1103,7 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=1z TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=1z TEST_SUITE=parameter_sfl_tests
       addons:
         apt:
           packages:
@@ -1284,22 +1284,6 @@ matrix:
       env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_all_tests
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_tests
-      osx_image: xcode6.4
-
-    - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_all_tests
-      osx_image: xcode6.4
-
-    - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_all_tests
-      osx_image: xcode6.4
-
-    - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_all_tests
-      osx_image: xcode6.4
-
-    - os: osx
       env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_but_preproc_eval_cat_fail_tests
       osx_image: xcode7.3
 
@@ -1316,19 +1300,19 @@ matrix:
       osx_image: xcode7.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_but_python_tests
       osx_image: xcode8.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_all_but_python_tests
       osx_image: xcode8.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_all_but_python_tests
       osx_image: xcode8.3
 
     - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_all_but_python_tests
       osx_image: xcode8.3
 
 install:
