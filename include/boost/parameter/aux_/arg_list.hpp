@@ -131,7 +131,6 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/parameter/aux_/is_maybe.hpp>
 #include <boost/parameter/aux_/tagged_argument_fwd.hpp>
 #include <boost/parameter/aux_/parameter_requirements.hpp>
-#include <boost/parameter/aux_/augment_predicate.hpp>
 #include <boost/parameter/keyword_fwd.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
@@ -407,8 +406,7 @@ namespace boost { namespace parameter { namespace aux {
         // and never really called, so a declaration is enough.
         template <typename HasDefault, typename Predicate, typename ArgPack>
         static typename ::boost::mpl::apply_wrap2<
-            ::boost::parameter::aux
-            ::augment_predicate<Predicate,reference,key_type>
+            Predicate
           , value_type
           , ArgPack
         >::type

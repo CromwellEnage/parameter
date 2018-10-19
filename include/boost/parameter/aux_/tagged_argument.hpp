@@ -6,33 +6,10 @@
 #ifndef BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 #define BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 
-namespace boost { namespace parameter { namespace aux {
-
-    struct error_const_lvalue_bound_to_out_parameter;
-    struct error_lvalue_bound_to_consume_parameter;
-    struct error_rvalue_bound_to_out_parameter;
-}}} // namespace boost::parameter::aux
-
 #include <boost/parameter/keyword_fwd.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/remove_const.hpp>
-
-namespace boost { namespace parameter { namespace aux {
-
-    template <typename Keyword, typename Arg>
-    struct tagged_argument_type
-      : ::boost::mpl::eval_if<
-            ::boost::is_same<
-                typename Keyword::qualifier
-              , ::boost::parameter::out_reference
-            >
-          , ::boost::parameter::aux::error_const_lvalue_bound_to_out_parameter
-          , ::boost::remove_const<Arg>
-        >
-    {
-    };
-}}} // namespace boost::parameter::aux
 
 #include <boost/parameter/aux_/tagged_argument_fwd.hpp>
 #include <boost/parameter/aux_/is_tagged_argument.hpp>
