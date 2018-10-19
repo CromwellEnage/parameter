@@ -370,12 +370,12 @@ alias parameter_standard_tests
         :
             basics_fail
     ]
-#    [ compile-fail compose.cpp
-#        :
-#            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
-#        :
-#            compose_fail
-#    ]
+    [ compile-fail compose.cpp
+        :
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
+        :
+            compose_fail
+    ]
     [ compile-fail deduced.cpp
         :
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
