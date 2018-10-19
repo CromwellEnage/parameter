@@ -136,6 +136,7 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/apply_wrap.hpp>
+#include <boost/mpl/lambda.hpp>
 #include <boost/mpl/assert.hpp>
 #include <boost/type_traits/is_same.hpp>
 
@@ -406,7 +407,7 @@ namespace boost { namespace parameter { namespace aux {
         // and never really called, so a declaration is enough.
         template <typename HasDefault, typename Predicate, typename ArgPack>
         static typename ::boost::mpl::apply_wrap2<
-            Predicate
+            typename ::boost::mpl::lambda<Predicate>::type
           , value_type
           , ArgPack
         >::type

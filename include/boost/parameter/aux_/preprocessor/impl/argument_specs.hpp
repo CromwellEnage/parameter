@@ -17,7 +17,7 @@
 #include <boost/parameter/aux_/preprocessor/qualifier.hpp>
 
 #define BOOST_PARAMETER_FN_ARG_NAME(x)                                       \
-    BOOST_PARAMETER_UNQUALIFIED_NAME(BOOST_PARAMETER_FN_ARG_KEYWORD(x))
+    BOOST_PARAMETER_UNQUALIFIED(BOOST_PARAMETER_FN_ARG_KEYWORD(x))
 /**/
 
 #endif  // include guard
