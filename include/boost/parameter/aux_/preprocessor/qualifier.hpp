@@ -35,12 +35,8 @@
 // where x is either a keyword qualifier or a keyword.
 //
 //   k => k
-//   in(k) => k
 //   out(k) => k
 //   in_out(k) => k
-//   forward(k) => k
-//   consume(k) => k
-//   move_from(k) => k
 #define BOOST_PARAMETER_UNQUALIFIED(x) \
     BOOST_PP_IIF( \
         BOOST_PARAMETER_IS_QUALIFIER(x) \

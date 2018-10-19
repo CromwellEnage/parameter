@@ -13,13 +13,13 @@
 #include <boost/parameter/aux_/pack/make_items.hpp>
 #include <boost/parameter/aux_/pack/make_deduced_items.hpp>
 #include <boost/parameter/aux_/pack/tag_template_keyword_arg.hpp>
-#include <boost/parameter/aux_/preprocessor/binary_seq_for_each.hpp>
-#include <boost/preprocessor/arithmetic/inc.hpp>
+#include <boost/mpl/pair.hpp>
+#include <boost/preprocessor/arithmetic/sub.hpp>
+#include <boost/preprocessor/facilities/intercept.hpp>
+#include <boost/preprocessor/iteration/iterate.hpp>
 #include <boost/preprocessor/repetition/enum_shifted.hpp>
-#include <boost/preprocessor/repetition/for.hpp>
+#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
 #include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/preprocessor/selection/min.hpp>
 #include <boost/config.hpp>
 #include <boost/config/workaround.hpp>
 
@@ -28,6 +28,7 @@
 #include <boost/parameter/aux_/pack/tag_keyword_arg.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
+#include <boost/mpl/identity.hpp>
 #include <boost/type_traits/is_same.hpp>
 #endif
 
@@ -178,10 +179,8 @@ namespace boost { namespace parameter {
             typedef typename ::boost::mpl::first<result>::type type;
         };
 
-        BOOST_PP_REPEAT(
-            BOOST_PARAMETER_MAX_ARITY
-          , BOOST_PARAMETER_forward_typedef
-          , (PS)(parameter_spec)
+        BOOST_PARAMETER_forward_typedefs(
+            BOOST_PARAMETER_MAX_ARITY, PS, parameter_spec
         )
 
         // The function call operator is used to build an arg_list that
@@ -197,22 +196,85 @@ namespace boost { namespace parameter {
             return ::boost::parameter::aux::empty_arg_list();
         }
 
-        BOOST_PP_REPEAT(
-            BOOST_PP_MIN(
-                BOOST_PP_INC(BOOST_PARAMETER_MAX_ARITY)
-              , BOOST_PARAMETER_ALL_CONST_THRESHOLD_ARITY
-            )
-          , BOOST_PARAMETER_AUX_PP_BINARY_SEQ_FOR_EACH_Z
-          , (BOOST_PARAMETER_function_call_op_overload_R)(_)
-        )
-#if (BOOST_PARAMETER_ALL_CONST_THRESHOLD_ARITY < BOOST_PARAMETER_MAX_ARITY)
-        BOOST_PP_REPEAT_FROM_TO(
-            BOOST_PARAMETER_ALL_CONST_THRESHOLD_ARITY
-          , BOOST_PP_INC(BOOST_PARAMETER_MAX_ARITY)
-          , BOOST_PARAMETER_function_call_op_overload_Z
-          , PS
-        )
-#endif
+        template <typename A0>
+        typename ::boost::mpl::first<
+            typename ::boost::parameter::aux::make_arg_list<
+                ::boost::parameter::aux::item<
+                    PS0,A0
+                >
+              , deduced_list
+              , ::boost::parameter::aux::tag_keyword_arg
+            >::type
+        >::type
+        operator()(A0& a0) const
+        {
+            typedef typename ::boost::parameter::aux::make_arg_list<
+                ::boost::parameter::aux::item<
+                    PS0,A0
+                >
+              , deduced_list
+              , ::boost::parameter::aux::tag_keyword_arg
+            >::type result;
+
+            typedef typename ::boost::mpl::first<result>::type result_type;
+            typedef typename ::boost::mpl::second<result>::type error;
+            error();
+
+            return result_type(
+                a0
+                // , void_(), void_(), void_() ...
+                BOOST_PP_ENUM_TRAILING_PARAMS(
+                    BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, 1)
+                  , ::boost::parameter::aux::void_reference() BOOST_PP_INTERCEPT
+                )
+            );
+        }
+
+        template <typename A0, typename A1>
+        typename ::boost::mpl::first<
+            typename ::boost::parameter::aux::make_arg_list<
+                ::boost::parameter::aux::item<
+                    PS0,A0
+                  , ::boost::parameter::aux::item<
+                        PS1,A1
+                    >
+                >
+              , deduced_list
+              , ::boost::parameter::aux::tag_keyword_arg
+            >::type
+        >::type
+        operator()(A0& a0, A1& a1) const
+        {
+            typedef typename ::boost::parameter::aux::make_arg_list<
+                ::boost::parameter::aux::item<
+                    PS0,A0
+                  , ::boost::parameter::aux::item<
+                        PS1,A1
+                    >
+                >
+              , deduced_list
+              , ::boost::parameter::aux::tag_keyword_arg
+            >::type result;
+
+            typedef typename ::boost::mpl::first<result>::type result_type;
+            typedef typename ::boost::mpl::second<result>::type error;
+            error();
+
+            return result_type(
+                a1,a0
+                // , void_(), void_() ...
+                BOOST_PP_ENUM_TRAILING_PARAMS(
+                    BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, 2)
+                  , ::boost::parameter::aux::void_reference() BOOST_PP_INTERCEPT
+                )
+            );
+        }
+
+        // Higher arities are handled by the preprocessor
+#define BOOST_PP_ITERATION_PARAMS_1 (3,( \
+        3,BOOST_PARAMETER_MAX_ARITY,<boost/parameter/aux_/overloads.hpp> \
+    ))
+#include BOOST_PP_ITERATE()
     };
 }} // namespace boost::parameter
 

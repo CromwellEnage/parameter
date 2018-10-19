@@ -12,11 +12,6 @@
 #if !defined(BOOST_NO_SFINAE) && \
     !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x592))
 
-#include <boost/parameter/aux_/pp_impl/match.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-
-// Expands to an extra argument that is well-formed
-// iff all Args... satisfy the requirements set by params.
 #define BOOST_PARAMETER_FUNCTION_FORWARD_MATCH(name, params, n, prefix)      \
     typename ::boost::parameter::aux::match<                                 \
         params, BOOST_PP_ENUM_PARAMS(n, prefix)                              \
@@ -37,6 +32,28 @@
 
 #define BOOST_PARAMETER_FUNCTION_FORWARD_MATCH_Z(z, name, params, n, prefix) \
     params = params()
+/**/
+
+#endif
+
+
+#if !defined(BOOST_NO_SFINAE) && \
+    !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x592))
+
+#include <boost/parameter/aux_/pp_impl/match.hpp>
+#include <boost/preprocessor/repetition/enum_params.hpp>
+
+// Expands to an extra argument that is well-formed
+// iff all Args... satisfy the requirements set by params.
+#define BOOST_PARAMETER_FUNCTION_FWD_MATCH_Z(z, name, parameters, n) \
+    , typename ::boost::parameter::aux::match< \
+          parameters, BOOST_PP_ENUM_PARAMS(n, ParameterArgumentType) \
+      >::type = parameters()
+/**/
+
+#else
+
+#define BOOST_PARAMETER_FUNCTION_FWD_MATCH_Z(z, name, parameters, n)
 /**/
 
 #endif
