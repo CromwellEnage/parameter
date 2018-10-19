@@ -13,6 +13,7 @@
 # include <boost/mpl/apply_wrap.hpp>
 # include <boost/mpl/and.hpp>
 # include <boost/mpl/not.hpp>
+# include <boost/mpl/identity.hpp>
 # include <boost/type_traits/is_same.hpp>
 # include <boost/type_traits/is_convertible.hpp>
 # include <boost/type_traits/is_lvalue_reference.hpp>

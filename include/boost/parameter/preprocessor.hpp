@@ -761,6 +761,7 @@ struct funptr_predicate<void**>
           , BOOST_PP_TUPLE_ELEM(6,3,data) \
           , BOOST_PP_CAT(constructor_parameters, __LINE__) \
           , n \
+          , ParameterArgumentType \
         ) \
     ) \
       : BOOST_PARAMETER_PARENTHESIZED_TYPE(BOOST_PP_TUPLE_ELEM(6,3,data)) ( \
