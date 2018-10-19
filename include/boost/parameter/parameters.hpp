@@ -218,6 +218,5 @@ namespace boost { namespace parameter {
 
 #include <boost/parameter/aux_/preprocessor/no_perfect_forwarding_end.hpp>
 
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
-#endif  // BOOST_PARAMETERS_031014_HPP
+#endif  // include guard
 

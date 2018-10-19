@@ -14,7 +14,6 @@
 #include <boost/parameter/aux_/preprocessor/no_perfect_forwarding_begin.hpp>
 #include <boost/preprocessor/facilities/intercept.hpp>
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 

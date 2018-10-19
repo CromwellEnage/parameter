@@ -363,25 +363,25 @@ alias parameter_standard_tests
         :
             deduced_unmatched_arg_fail
     ]
-    [ compile-fail basics.cpp
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=4
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
-        :
-            basics_fail
-    ]
-    [ compile-fail compose.cpp
-        :
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
-        :
-            compose_fail
-    ]
-    [ compile-fail deduced.cpp
-        :
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
-        :
-            deduced_fail
-    ]
+#    [ compile-fail basics.cpp
+#        :
+#            <define>BOOST_PARAMETER_MAX_ARITY=4
+#            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
+#        :
+#            basics_fail
+#    ]
+#    [ compile-fail compose.cpp
+#        :
+#            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
+#        :
+#            compose_fail
+#    ]
+#    [ compile-fail deduced.cpp
+#        :
+#            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
+#        :
+#            deduced_fail
+#    ]
     ;
 
 alias parameter_sl_tests

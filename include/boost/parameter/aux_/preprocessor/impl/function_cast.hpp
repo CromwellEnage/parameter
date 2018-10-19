@@ -6,8 +6,7 @@
 #ifndef BOOST_PARAMETER_AUX_PREPROCESSOR_IMPL_FUNCTION_CAST_HPP
 #define BOOST_PARAMETER_AUX_PREPROCESSOR_IMPL_FUNCTION_CAST_HPP
 
-#include <boost/config.hpp>
-#include <boost/config/workaround.hpp>
+#include <boost/parameter/config.hpp>
 
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
 
@@ -144,7 +143,6 @@ namespace boost { namespace parameter { namespace aux {
 
 #include <boost/type_traits/add_const.hpp>
 #include <boost/type_traits/add_lvalue_reference.hpp>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -161,6 +159,19 @@ namespace boost { namespace parameter { namespace aux {
             typename ::boost::add_const<Target>::type
         >::type type;
 
+     private:
+        template <typename U>
+        inline static typename _self::type _mod_const(U const& u)
+        {
+            return u;
+        }
+
+        inline static Target _copy(Target value)
+        {
+            return value;
+        }
+
+     public:
         inline static typename _self::type evaluate(Source& source)
         {
             return _self::_mod_const(_self::_copy(source));

@@ -24,13 +24,11 @@ namespace boost { namespace parameter { namespace aux {
     >
     struct tag
     {
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
         typedef ::boost::parameter::aux::tagged_argument<
             Keyword
           , typename ::boost::parameter::aux
             ::unwrap_cv_reference<ActualArg>::type
         > type;
-#endif  // Borland workarounds needed.
     };
 }}} // namespace boost::parameter::aux_
 
