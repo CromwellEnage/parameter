@@ -321,7 +321,7 @@ struct funptr_predicate<void**>
     template <class Args>                                   \
     typename BOOST_PARAMETER_FUNCTION_RESULT_NAME(name)<    \
        Args                                                 \
-    >::type BOOST_PARAMETER_IMPL(name)(Args const& args)
+    >::type BOOST_PARAMETER_FUNCTION_IMPL_NAME(name)(Args const& args)
 
 # define BOOST_PARAMETER_FUNCTION_IMPL_FWD(name) \
     BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name);

@@ -10,7 +10,30 @@ project boost/parameter
   : default-build <warnings>off
   ;
 
+build-project literate ;
+  
 test-suite "parameter"
-  :  [ run compose.cpp ]
+  :  [ run basics.cpp ]
+     [ run compose.cpp ]
+     [ run sfinae.cpp ]
+     [ run macros.cpp ]
+     [ run earwicker.cpp ]
+     [ run tutorial.cpp ]
+     [ run singular.cpp ]
+     [ run mpl.cpp ]
+     [ run preprocessor.cpp ]
+     [ run preprocessor_deduced.cpp ]
+     [ run efficiency.cpp : : : : : <variant>release ]
+     [ run maybe.cpp ]
+     [ run deduced.cpp ]
+     [ run optional_deduced_sfinae.cpp ]
+     [ run deduced_dependent_predicate.cpp ]
+     [ run normalized_argument_types.cpp ]
+     [ compile ntp.cpp ]
+     [ compile function_type_tpl_param.cpp ]
+     [ compile unwrap_cv_reference.cpp ]
+     [ compile-fail duplicates.cpp ]
+     [ compile-fail deduced_unmatched_arg.cpp ]
+     [ bpl-test python_test ]
   ;
 
