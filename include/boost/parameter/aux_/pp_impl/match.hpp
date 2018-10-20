@@ -6,6 +6,7 @@
 #ifndef BOOST_PARAMETER_AUX_PP_IMPL_MATCH_HPP
 #define BOOST_PARAMETER_AUX_PP_IMPL_MATCH_HPP
 
+#include <boost/parameter/config.hpp>
 #include <boost/parameter/aux_/void.hpp>
 #include <boost/preprocessor/facilities/intercept.hpp>
 #include <boost/preprocessor/repetition/enum_params.hpp>

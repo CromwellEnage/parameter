@@ -14,12 +14,15 @@
 #include <boost/parameter/aux_/pack/make_deduced_items.hpp>
 #include <boost/parameter/aux_/pack/tag_template_keyword_arg.hpp>
 #include <boost/mpl/pair.hpp>
+#include <boost/preprocessor/arithmetic/dec.hpp>
 #include <boost/preprocessor/arithmetic/sub.hpp>
 #include <boost/preprocessor/facilities/intercept.hpp>
 #include <boost/preprocessor/iteration/iterate.hpp>
+#include <boost/preprocessor/repetition/enum.hpp>
 #include <boost/preprocessor/repetition/enum_shifted.hpp>
 #include <boost/preprocessor/repetition/enum_trailing_params.hpp>
 #include <boost/preprocessor/repetition/repeat.hpp>
+#include <boost/preprocessor/cat.hpp>
 #include <boost/config.hpp>
 #include <boost/config/workaround.hpp>
 

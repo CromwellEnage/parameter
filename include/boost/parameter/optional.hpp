@@ -7,7 +7,6 @@
 #define BOOST_PARAMETER_OPTIONAL_HPP
 
 #include <boost/parameter/aux_/use_default.hpp>
-#include <boost/parameter/aux_/lambda_tag.hpp>
 
 namespace boost { namespace parameter {
 

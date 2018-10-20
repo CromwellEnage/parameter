@@ -6,6 +6,8 @@
 #ifndef BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 # define BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 
+# include <boost/parameter/aux_/tagged_argument_fwd.hpp>
+# include <boost/parameter/aux_/is_tagged_argument.hpp>
 # include <boost/parameter/aux_/void.hpp>
 # include <boost/parameter/aux_/arg_list.hpp>
 # include <boost/parameter/aux_/result_of0.hpp>
@@ -21,10 +23,7 @@
 # include <boost/config.hpp>
 # include <boost/config/workaround.hpp>
 
-#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
+#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
 #include <boost/function.hpp>
 #else
 #include <functional>
@@ -32,10 +31,7 @@
 
 namespace boost { namespace parameter { namespace aux {
 
-struct empty_arg_list;
 struct arg_list_tag;
-
-struct tagged_argument_base {};
 
 // Holds a reference to an argument of type Arg associated with
 // keyword Keyword
@@ -52,10 +48,7 @@ public:
     // a boost::function or a std::function. -- Cromwell D. Enage
     typedef typename ::boost::mpl::if_<
         ::boost::is_function<arg_type>
-#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
+#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
       , ::boost::function<arg_type>
 #else
       , ::std::function<arg_type>
@@ -213,21 +206,7 @@ public:
     typedef arg_list_tag tag; // For dispatching to sequence intrinsics
 };
 
-// Defines a metafunction, is_tagged_argument, that identifies
-// tagged_argument specializations and their derived classes.
-template <class T>
-struct is_tagged_argument_aux
-  : is_convertible<T*,tagged_argument_base const*>
-{};
-
-template <class T>
-struct is_tagged_argument
-  : mpl::and_<
-        mpl::not_<is_lvalue_reference<T> >
-      , is_tagged_argument_aux<T>
-    >
-{};
-
 }}} // namespace boost::parameter::aux
 
 #endif // BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
+

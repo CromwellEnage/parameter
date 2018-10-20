@@ -17,7 +17,7 @@
 
 // Expands to an extra argument that is well-formed
 // iff all Args... satisfy the requirements set by params.
-#define BOOST_PARAMETER_FUNCTION_FWD_MATCH_Z(z, name, parameters, n, prefix) \
+#define BOOST_PARAMETER_FUNCTION_FWD_MATCH_Z(z, parameters, n, prefix) \
     , typename ::boost::parameter::aux::match< \
           parameters, BOOST_PP_ENUM_PARAMS(n, prefix) \
       >::type = parameters()
@@ -25,7 +25,7 @@
 
 #else
 
-#define BOOST_PARAMETER_FUNCTION_FWD_MATCH_Z(z, name, parameters, n, prefix)
+#define BOOST_PARAMETER_FUNCTION_FWD_MATCH_Z(z, parameters, n, prefix)
 /**/
 
 #endif
