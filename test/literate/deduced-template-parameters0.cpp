@@ -26,8 +26,11 @@ struct bases : detail::bases_base
 
 }}
 
-
+#include <boost/mpl/not.hpp>
+#include <boost/mpl/or.hpp>
 #include <boost/type_traits/is_class.hpp>
+#include <boost/type_traits/is_base_and_derived.hpp>
+#include <boost/type_traits/is_same.hpp>
 namespace boost { namespace python {
 typedef parameter::parameters<
     required<tag::class_type, is_class<_> >

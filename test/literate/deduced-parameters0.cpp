@@ -1,5 +1,9 @@
 
 #include <boost/parameter.hpp>
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/not.hpp>
+#include <boost/mpl/or.hpp>
+#include <boost/type_traits/is_convertible.hpp>
 
 BOOST_PARAMETER_NAME(name)
 BOOST_PARAMETER_NAME(func)
