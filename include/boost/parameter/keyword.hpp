@@ -54,7 +54,7 @@ struct keyword
     typename ::boost::lazy_disable_if<
         ::boost::is_function<T>
       , ::boost::parameter::aux::tag<Tag, T>
-    >::type
+    >::type const
 #else
     typename ::boost::parameter::aux::tag<Tag, T>::type const
 #endif
@@ -84,7 +84,7 @@ struct keyword
     typename ::boost::lazy_enable_if<
         ::boost::is_function<T>
       , ::boost::parameter::aux::tag<Tag, T const>
-    >::type
+    >::type const
     operator=(T const& x) const
     {
         typedef typename aux::tag<Tag, T const>::type result;
@@ -94,7 +94,7 @@ struct keyword
     typename ::boost::lazy_disable_if<
         ::boost::is_function<T>
       , ::boost::parameter::aux::tag<Tag, T const>
-    >::type
+    >::type const
 #else
     typename ::boost::parameter::aux::tag<Tag, T const>::type const
 #endif
