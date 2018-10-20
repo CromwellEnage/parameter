@@ -51,6 +51,7 @@ struct keyword
         return result(::boost::function<T>(x));
     }
 
+    template <typename T>
     typename ::boost::lazy_disable_if<
         ::boost::is_function<T>
       , ::boost::parameter::aux::tag<Tag, T>
@@ -91,6 +92,7 @@ struct keyword
         return result(::boost::function<T>(x));
     }
 
+    template <typename T>
     typename ::boost::lazy_disable_if<
         ::boost::is_function<T>
       , ::boost::parameter::aux::tag<Tag, T const>
