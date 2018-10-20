@@ -116,7 +116,7 @@ struct keyword
           , ::boost::mpl::if_<
                 ::boost::is_lvalue_reference<T>
               , ::boost::parameter::aux::keyword_msvc11_predicate<T>
-              , ::boost::mpl::false_
+              , ::boost::mpl::true_
             >
         >::type
       , ::boost::parameter::aux
