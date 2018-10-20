@@ -9,9 +9,6 @@
 #define BOOST_PARAMETER_QUALIFIER_EAT_out(x)
 #define BOOST_PARAMETER_QUALIFIER_EAT_in_out(x)
 
-#define BOOST_PARAMETER_GET_QUALIFIER_out(x) out_reference
-#define BOOST_PARAMETER_GET_QUALIFIER_in_out(x) in_out_reference
-
 #define BOOST_PARAMETER_STRIP_QUALIFIER_out(x) x
 #define BOOST_PARAMETER_STRIP_QUALIFIER_in_out(x) x
 

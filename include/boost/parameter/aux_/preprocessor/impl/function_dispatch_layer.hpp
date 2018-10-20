@@ -9,28 +9,26 @@
 #include <boost/preprocessor/cat.hpp>
 
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_TYPE(keyword)                  \
-    BOOST_PP_CAT(BOOST_PP_CAT(keyword, _), type)
+    BOOST_PP_CAT(keyword, _type)
 /**/
-
-#include <boost/preprocessor/punctuation/comma_if.hpp>
 
 #include <boost/parameter/aux_/preprocessor/impl/argument_specs.hpp>
 
 // Helpers used as parameters to BOOST_PARAMETER_FUNCTION_DISPATCH_ARGUMENTS.
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_TEMPLATE_ARG(r, _, arg)            \
   , typename BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_TYPE(                     \
-        BOOST_PARAMETER_FN_ARG_KEYWORD(arg)                                  \
+        BOOST_PARAMETER_FN_ARG_NAME(arg)                                     \
     )
 /**/
 
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_DEFN(r, _, arg)                \
   , BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_TYPE(                              \
-        BOOST_PARAMETER_FN_ARG_KEYWORD(arg)                                  \
-    )& BOOST_PARAMETER_FN_ARG_KEYWORD(arg)
+        BOOST_PARAMETER_FN_ARG_NAME(arg)                                     \
+    )& BOOST_PARAMETER_FN_ARG_NAME(arg)
 /**/
 
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_PARAMETER(r, _, arg)               \
-  , BOOST_PARAMETER_FN_ARG_KEYWORD(arg)
+  , BOOST_PARAMETER_FN_ARG_NAME(arg)
 /**/
 
 #include <boost/parameter/aux_/preprocessor/impl/split_args.hpp>
@@ -92,7 +90,7 @@ namespace boost { namespace parameter { namespace aux {
 // Generates a keyword | default expression.
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_KW_OR_DEFAULT(arg, tag_namespace)  \
     ::boost::parameter::keyword<                                             \
-        tag_namespace::BOOST_PARAMETER_FN_ARG_KEYWORD(arg)                   \
+        tag_namespace::BOOST_PARAMETER_FN_ARG_NAME(arg)                      \
     >::instance | ::boost::parameter::aux::use_default_tag()
 /**/
 
@@ -110,7 +108,7 @@ namespace boost { namespace parameter { namespace aux {
   , BOOST_PARAMETER_FUNCTION_CAST(                                           \
         args[                                                                \
             ::boost::parameter::keyword<                                     \
-                tag_ns::BOOST_PARAMETER_FN_ARG_KEYWORD(arg)                  \
+                tag_ns::BOOST_PARAMETER_FN_ARG_NAME(arg)                     \
             >::instance                                                      \
         ]                                                                    \
       , BOOST_PARAMETER_FN_ARG_PRED(arg)                                     \
@@ -153,6 +151,7 @@ namespace boost { namespace parameter { namespace aux {
 
 #include <boost/parameter/aux_/preprocessor/impl/function_name.hpp>
 #include <boost/preprocessor/arithmetic/inc.hpp>
+#include <boost/preprocessor/control/expr_if.hpp>
 
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_OVERLOAD_DEFAULT_BODY(x, n)        \
     template <                                                               \
@@ -235,11 +234,12 @@ namespace boost { namespace parameter { namespace aux {
     BOOST_PP_IF(                                                             \
         n                                                                    \
       , BOOST_PARAMETER_FUNCTION_DISPATCH_OVERLOAD_BODY                      \
-      , ; BOOST_PP_TUPLE_EAT(4)                                              \
+      , ; BOOST_PP_TUPLE_EAT(2)                                              \
     )(x, n)
 /**/
 
 #include <boost/preprocessor/comparison/equal.hpp>
+#include <boost/preprocessor/control/if.hpp>
 #include <boost/preprocessor/logical/or.hpp>
 #include <boost/preprocessor/tuple/elem.hpp>
 

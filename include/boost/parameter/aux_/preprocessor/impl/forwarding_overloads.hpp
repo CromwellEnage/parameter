@@ -31,7 +31,7 @@
 #define BOOST_PARAMETER_FUNCTION_FORWARD_COMBINATION(r, _, i, elem)          \
     (BOOST_PP_IF(                                                            \
         BOOST_PARAMETER_IS_QUALIFIER(                                        \
-            BOOST_PARAMETER_FN_ARG_NAME(elem)                                \
+            BOOST_PARAMETER_FN_ARG_KEYWORD(elem)                             \
         )                                                                    \
       , (BOOST_PP_CAT(ParameterArgumentType, i))                             \
       , (BOOST_PP_CAT(ParameterArgumentType, i) const)                       \
@@ -41,7 +41,7 @@
 #define BOOST_PARAMETER_FUNCTION_FORWARD_COMBINATION(r, _, i, elem)          \
     (BOOST_PP_IF(                                                            \
         BOOST_PARAMETER_IS_QUALIFIER(                                        \
-            BOOST_PARAMETER_FN_ARG_NAME(elem)                                \
+            BOOST_PARAMETER_FN_ARG_KEYWORD(elem)                             \
         )                                                                    \
       , (BOOST_PP_CAT(ParameterArgumentType, i) const)                       \
         (BOOST_PP_CAT(ParameterArgumentType, i))                             \
