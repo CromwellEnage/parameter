@@ -48,7 +48,13 @@ struct keyword
         ::boost::is_function<
             typename ::boost::remove_const<
                 typename ::boost::remove_pointer<
-                    typename ::boost::remove_reference<T>::type
+                    typename ::boost::remove_reference<
+                        typename ::boost::remove_const<
+                            typename ::boost::remove_pointer<
+                                typename ::boost::remove_reference<T>::type
+                            >::type
+                        >::type
+                    >::type
                 >::type
             >::type
         >
@@ -68,7 +74,13 @@ struct keyword
         ::boost::is_function<
             typename ::boost::remove_const<
                 typename ::boost::remove_pointer<
-                    typename ::boost::remove_reference<T>::type
+                    typename ::boost::remove_reference<
+                        typename ::boost::remove_const<
+                            typename ::boost::remove_pointer<
+                                typename ::boost::remove_reference<T>::type
+                            >::type
+                        >::type
+                    >::type
                 >::type
             >::type
         >
@@ -104,7 +116,13 @@ struct keyword
         ::boost::is_function<
             typename ::boost::remove_const<
                 typename ::boost::remove_pointer<
-                    typename ::boost::remove_reference<T>::type
+                    typename ::boost::remove_reference<
+                        typename ::boost::remove_const<
+                            typename ::boost::remove_pointer<
+                                typename ::boost::remove_reference<T>::type
+                            >::type
+                        >::type
+                    >::type
                 >::type
             >::type
         >
