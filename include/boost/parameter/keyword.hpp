@@ -9,6 +9,14 @@
 #include <boost/parameter/aux_/unwrap_cv_reference.hpp>
 #include <boost/parameter/aux_/tag.hpp>
 #include <boost/parameter/aux_/default.hpp>
+#include <boost/config.hpp>
+
+#if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+#include <boost/type_traits/is_function.hpp>
+#include <boost/core/enable_if.hpp>
+#include <boost/function.hpp>
+#endif
 
 namespace boost { namespace parameter {
 
@@ -30,8 +38,26 @@ namespace boost { namespace parameter {
 template <class Tag>
 struct keyword
 {
-    template <class T>
-    typename aux::tag<Tag, T>::type const
+    template <typename T>
+#if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+    typename ::boost::lazy_enable_if<
+        ::boost::is_function<T>
+      , ::boost::parameter::aux::tag<Tag, T>
+    >::type const
+    operator=(T& x) const
+    {
+        typedef typename aux::tag<Tag, T>::type result;
+        return result(::boost::function<T>(x));
+    }
+
+    typename ::boost::lazy_disable_if<
+        ::boost::is_function<T>
+      , ::boost::parameter::aux::tag<Tag, T>
+    >::type
+#else
+    typename ::boost::parameter::aux::tag<Tag, T>::type const
+#endif
     operator=(T& x) const
     {
         typedef typename aux::tag<Tag, T>::type result;
@@ -52,8 +78,26 @@ struct keyword
         return aux::lazy_default<Tag, Default>(default_);
     }
 
-    template <class T>
-    typename aux::tag<Tag, T const>::type const
+    template <typename T>
+#if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+    typename ::boost::lazy_enable_if<
+        ::boost::is_function<T>
+      , ::boost::parameter::aux::tag<Tag, T const>
+    >::type
+    operator=(T const& x) const
+    {
+        typedef typename aux::tag<Tag, T const>::type result;
+        return result(::boost::function<T>(x));
+    }
+
+    typename ::boost::lazy_disable_if<
+        ::boost::is_function<T>
+      , ::boost::parameter::aux::tag<Tag, T const>
+    >::type
+#else
+    typename ::boost::parameter::aux::tag<Tag, T const>::type const
+#endif
     operator=(T const& x) const
     {
         typedef typename aux::tag<Tag, T const>::type result;
