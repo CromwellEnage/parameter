@@ -14,6 +14,9 @@
 #if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
 #include <boost/type_traits/is_function.hpp>
+#include <boost/type_traits/remove_const.hpp>
+#include <boost/type_traits/remove_pointer.hpp>
+#include <boost/type_traits/remove_reference.hpp>
 #include <boost/core/enable_if.hpp>
 #include <boost/function.hpp>
 #endif
@@ -35,44 +38,59 @@ namespace boost { namespace parameter {
 //
 //    f(rate = 1, skew = 2.4);
 //
-template <class Tag>
+template <typename Tag>
 struct keyword
 {
+#if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+    template <typename T>
+    typename ::boost::lazy_enable_if<
+        ::boost::is_function<
+            typename ::boost::remove_const<
+                typename ::boost::remove_pointer<
+                    typename ::boost::remove_reference<T>::type
+                >::type
+            >::type
+        >
+      , ::boost::parameter::aux::tag<Tag,T>
+    >::type const
+    operator=(T x) const
+    {
+        typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
+        return result(::boost::function<T>(x));
+    }
+#endif
+
     template <typename T>
 #if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
-    typename ::boost::lazy_enable_if<
-        ::boost::is_function<T>
-      , ::boost::parameter::aux::tag<Tag, T>
-    >::type const
-    operator=(T& x) const
-    {
-        typedef typename aux::tag<Tag, T>::type result;
-        return result(::boost::function<T>(x));
-    }
-
-    template <typename T>
     typename ::boost::lazy_disable_if<
-        ::boost::is_function<T>
-      , ::boost::parameter::aux::tag<Tag, T>
+        ::boost::is_function<
+            typename ::boost::remove_const<
+                typename ::boost::remove_pointer<
+                    typename ::boost::remove_reference<T>::type
+                >::type
+            >::type
+        >
+      , ::boost::parameter::aux::tag<Tag,T>
     >::type const
 #else
-    typename ::boost::parameter::aux::tag<Tag, T>::type const
+    typename ::boost::parameter::aux::tag<Tag,T>::type const
 #endif
     operator=(T& x) const
     {
-        typedef typename aux::tag<Tag, T>::type result;
+        typedef typename aux::tag<Tag,T>::type result;
         return result(x);
     }
 
-    template <class Default>
+    template <typename Default>
     aux::default_<Tag, Default>
     operator|(Default& default_) const
     {
         return aux::default_<Tag, Default>(default_);
     }
 
-    template <class Default>
+    template <typename Default>
     aux::lazy_default<Tag, Default>
     operator||(Default& default_) const
     {
@@ -82,38 +100,33 @@ struct keyword
     template <typename T>
 #if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
-    typename ::boost::lazy_enable_if<
-        ::boost::is_function<T>
-      , ::boost::parameter::aux::tag<Tag, T const>
-    >::type const
-    operator=(T const& x) const
-    {
-        typedef typename aux::tag<Tag, T const>::type result;
-        return result(::boost::function<T>(x));
-    }
-
-    template <typename T>
     typename ::boost::lazy_disable_if<
-        ::boost::is_function<T>
-      , ::boost::parameter::aux::tag<Tag, T const>
+        ::boost::is_function<
+            typename ::boost::remove_const<
+                typename ::boost::remove_pointer<
+                    typename ::boost::remove_reference<T>::type
+                >::type
+            >::type
+        >
+      , ::boost::parameter::aux::tag<Tag,T const>
     >::type const
 #else
-    typename ::boost::parameter::aux::tag<Tag, T const>::type const
+    typename ::boost::parameter::aux::tag<Tag,T const>::type const
 #endif
     operator=(T const& x) const
     {
-        typedef typename aux::tag<Tag, T const>::type result;
+        typedef typename aux::tag<Tag,T const>::type result;
         return result(x);
     }
 
-    template <class Default>
+    template <typename Default>
     aux::default_<Tag, const Default>
-    operator|(const Default& default_) const
+    operator|(Default const& default_) const
     {
-        return aux::default_<Tag, const Default>(default_);
+        return aux::default_<Tag, Default const>(default_);
     }
 
-    template <class Default>
+    template <typename Default>
     aux::lazy_default<Tag, Default>
     operator||(Default const& default_) const
     {
@@ -121,7 +134,6 @@ struct keyword
     }
 
  public: // Insurance against ODR violations
-    
     // People will need to define these keywords in header files.  To
     // prevent ODR violations, it's important that the keyword used in
     // every instantiation of a function template is the same object.
@@ -136,7 +148,7 @@ struct keyword
     }
 };
 
-template <class Tag>
+template <typename Tag>
 keyword<Tag> const keyword<Tag>::instance = {};
 
 // Reduces boilerplate required to declare and initialize keywords
