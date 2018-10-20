@@ -70,7 +70,7 @@
     BOOST_PP_IF(                                                             \
         n                                                                    \
       , BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_TEMPLATE_HEADER_Z          \
-      , BOOST_PP_TUPLE_EAT(2)                                                \
+      , BOOST_PP_TUPLE_EAT(3)                                                \
     )(z, n, ParameterArgumentType)                                           \
     BOOST_PP_EXPR_IF(BOOST_PP_EQUAL(n, 1), explicit)                         \
     BOOST_PP_TUPLE_ELEM(6, 2, data)(                                         \
