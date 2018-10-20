@@ -6,20 +6,37 @@
 #ifndef KEYWORD_050328_HPP
 #define KEYWORD_050328_HPP
 
-#include <boost/parameter/aux_/unwrap_cv_reference.hpp>
-#include <boost/parameter/aux_/tag.hpp>
-#include <boost/parameter/aux_/default.hpp>
 #include <boost/config.hpp>
+#include <boost/config/workaround.hpp>
 
 #if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+#include <boost/type_traits/remove_reference.hpp>
+#include <boost/type_traits/is_const.hpp>
+
+namespace boost { namespace parameter { namespace aux {
+
+    template <typename T>
+    struct keyword_msvc11_predicate
+      : ::boost::is_const<typename ::boost::remove_reference<T>::type>
+    {
+    };
+}}} // namespace boost::parameter::aux
+
 #include <boost/type_traits/is_function.hpp>
+#include <boost/type_traits/is_lvalue_reference.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_pointer.hpp>
-#include <boost/type_traits/remove_reference.hpp>
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/if.hpp>
+#include <boost/mpl/eval_if.hpp>
 #include <boost/core/enable_if.hpp>
 #include <boost/function.hpp>
-#endif
+#endif  // MSVC-11.0
+
+#include <boost/parameter/aux_/unwrap_cv_reference.hpp>
+#include <boost/parameter/aux_/tag.hpp>
+#include <boost/parameter/aux_/default.hpp>
 
 namespace boost { namespace parameter {
 
@@ -48,13 +65,7 @@ struct keyword
         ::boost::is_function<
             typename ::boost::remove_const<
                 typename ::boost::remove_pointer<
-                    typename ::boost::remove_reference<
-                        typename ::boost::remove_const<
-                            typename ::boost::remove_pointer<
-                                typename ::boost::remove_reference<T>::type
-                            >::type
-                        >::type
-                    >::type
+                    typename ::boost::remove_reference<T>::type
                 >::type
             >::type
         >
@@ -65,33 +76,13 @@ struct keyword
         typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
         return result(::boost::function<T>(x));
     }
-#endif
+#endif  // MSVC-11.0
 
     template <typename T>
-#if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
-    typename ::boost::lazy_disable_if<
-        ::boost::is_function<
-            typename ::boost::remove_const<
-                typename ::boost::remove_pointer<
-                    typename ::boost::remove_reference<
-                        typename ::boost::remove_const<
-                            typename ::boost::remove_pointer<
-                                typename ::boost::remove_reference<T>::type
-                            >::type
-                        >::type
-                    >::type
-                >::type
-            >::type
-        >
-      , ::boost::parameter::aux::tag<Tag,T>
-    >::type const
-#else
     typename ::boost::parameter::aux::tag<Tag,T>::type const
-#endif
     operator=(T& x) const
     {
-        typedef typename aux::tag<Tag,T>::type result;
+        typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
         return result(x);
     }
 
@@ -112,30 +103,40 @@ struct keyword
     template <typename T>
 #if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
-    typename ::boost::lazy_disable_if<
-        ::boost::is_function<
-            typename ::boost::remove_const<
-                typename ::boost::remove_pointer<
-                    typename ::boost::remove_reference<
-                        typename ::boost::remove_const<
-                            typename ::boost::remove_pointer<
-                                typename ::boost::remove_reference<T>::type
-                            >::type
-                        >::type
+    typename ::boost::lazy_enable_if<
+        typename ::boost::mpl::eval_if<
+            ::boost::is_function<
+                typename ::boost::remove_const<
+                    typename ::boost::remove_pointer<
+                        typename ::boost::remove_reference<T>::type
                     >::type
                 >::type
-            >::type
-        >
-      , ::boost::parameter::aux::tag<Tag,T const>
+            >
+          , ::boost::mpl::false_
+          , ::boost::mpl::if_<
+                ::boost::is_lvalue_reference<T>
+              , ::boost::parameter::aux::keyword_msvc11_predicate<T>
+              , ::boost::mpl::false_
+            >
+        >::type
+      , ::boost::parameter::aux
+        ::tag<Tag,typename ::boost::remove_reference<T>::type>
     >::type const
-#else
-    typename ::boost::parameter::aux::tag<Tag,T const>::type const
-#endif
-    operator=(T const& x) const
+    operator=(T x) const
     {
-        typedef typename aux::tag<Tag,T const>::type result;
+        typedef typename aux
+        ::tag<Tag,typename ::boost::remove_reference<T>::type>::type result;
         return result(x);
     }
+#else
+    typename ::boost::parameter::aux::tag<Tag,T const>::type const
+    operator=(T const& x) const
+    {
+        typedef typename ::boost::parameter::aux
+        ::tag<Tag,T const>::type result;
+        return result(x);
+    }
+#endif  // MSVC-11.0
 
     template <typename Default>
     aux::default_<Tag, const Default>
