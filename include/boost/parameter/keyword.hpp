@@ -13,6 +13,7 @@
 
 #if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+#include <boost/function.hpp>
 #include <boost/type_traits/declval.hpp>
 #include <boost/type_traits/is_const.hpp>
 #include <boost/type_traits/is_function.hpp>
@@ -21,7 +22,7 @@
 #include <boost/type_traits/remove_reference.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/core/enable_if.hpp>
-#include <boost/function.hpp>
+#include <boost/typeof/typeof.hpp>
 #endif  // MSVC-11.0
 
 #include <boost/parameter/aux_/tag.hpp>
@@ -92,7 +93,7 @@ struct keyword
 
  public:
     template <typename T>
-    auto operator=(T x) const -> decltype(
+    BOOST_TYPEOF_TPL((
         ::boost::parameter::aux::keyword<Tag>::_get(
             ::boost::declval<T>()
           , typename ::boost::mpl::if_<
@@ -107,7 +108,8 @@ struct keyword
               , ::boost::mpl::false_
             >::type()
         )
-    )
+    ))
+    operator=(T x) const
     {
         return ::boost::parameter::aux::keyword<Tag>::_get(
             x
