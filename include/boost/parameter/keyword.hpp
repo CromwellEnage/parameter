@@ -51,13 +51,17 @@ struct keyword
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     template <typename T>
     typename ::boost::lazy_enable_if<
-        ::boost::is_function<
-            typename ::boost::remove_const<
-                typename ::boost::remove_pointer<
-                    typename ::boost::remove_reference<T>::type
+        typename ::boost::mpl::if_<
+            ::boost::is_function<
+                typename ::boost::remove_const<
+                    typename ::boost::remove_pointer<
+                        typename ::boost::remove_reference<T>::type
+                    >::type
                 >::type
-            >::type
-        >
+            >
+          , ::boost::mpl::true_
+          , ::boost::mpl::false_
+        >::type
       , ::boost::parameter::aux::tag<Tag,T>
     >::type const
     operator=(T x) const
@@ -121,10 +125,12 @@ struct keyword
 #if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     typename ::boost::lazy_enable_if<
-        typename ::boost::mpl::eval_if<
+        typename ::boost::mpl::if_<
             ::boost::is_function<
                 typename ::boost::remove_const<
-                    typename ::boost::remove_pointer<T>::type
+                    typename ::boost::remove_pointer<
+                        typename ::boost::remove_reference<T>::type
+                    >::type
                 >::type
             >
           , ::boost::mpl::false_
