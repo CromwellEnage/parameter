@@ -13,6 +13,7 @@
 
 #if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+#include <boost/type_traits/declval.hpp>
 #include <boost/type_traits/is_const.hpp>
 #include <boost/type_traits/is_function.hpp>
 #include <boost/type_traits/remove_const.hpp>
@@ -91,7 +92,23 @@ struct keyword
 
  public:
     template <typename T>
-    auto operator=(T x) const
+    decltype(
+        ::boost::parameter::aux::keyword<Tag>::_get(
+            ::boost::declval<T>()
+          , typename ::boost::mpl::if_<
+                ::boost::is_function<
+                    typename ::boost::remove_const<
+                        typename ::boost::remove_pointer<
+                            typename ::boost::remove_reference<T>::type
+                        >::type
+                    >::type
+                >
+              , ::boost::mpl::true_
+              , ::boost::mpl::false_
+            >::type()
+        )
+    )
+    operator=(T x) const
     {
         return ::boost::parameter::aux::keyword<Tag>::_get(
             x
