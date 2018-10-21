@@ -92,7 +92,7 @@ struct keyword
 
  public:
     template <typename T>
-    decltype(
+    auto operator=(T x) const -> decltype(
         ::boost::parameter::aux::keyword<Tag>::_get(
             ::boost::declval<T>()
           , typename ::boost::mpl::if_<
@@ -108,7 +108,6 @@ struct keyword
             >::type()
         )
     )
-    operator=(T x) const
     {
         return ::boost::parameter::aux::keyword<Tag>::_get(
             x
