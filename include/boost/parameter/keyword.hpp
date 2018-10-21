@@ -54,9 +54,7 @@ struct keyword
         typename ::boost::mpl::if_<
             ::boost::is_function<
                 typename ::boost::remove_const<
-                    typename ::boost::remove_pointer<
-                        typename ::boost::remove_reference<T>::type
-                    >::type
+                    typename ::boost::remove_pointer<T>::type
                 >::type
             >
           , ::boost::mpl::true_
@@ -64,7 +62,7 @@ struct keyword
         >::type
       , ::boost::parameter::aux::tag<Tag,T>
     >::type const
-    operator=(T x) const
+    operator=(T const& x) const
     {
         typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
         return result(
@@ -128,9 +126,7 @@ struct keyword
         typename ::boost::mpl::if_<
             ::boost::is_function<
                 typename ::boost::remove_const<
-                    typename ::boost::remove_pointer<
-                        typename ::boost::remove_reference<T>::type
-                    >::type
+                    typename ::boost::remove_pointer<T>::type
                 >::type
             >
           , ::boost::mpl::false_
