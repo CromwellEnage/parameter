@@ -94,7 +94,7 @@ struct keyword
  public:
     template <typename T>
     BOOST_TYPEOF_TPL((
-        ::boost::parameter::aux::keyword<Tag>::_get(
+        ::boost::parameter::keyword<Tag>::_get(
             ::boost::declval<T>()
           , typename ::boost::mpl::if_<
                 ::boost::is_function<
@@ -111,7 +111,7 @@ struct keyword
     ))
     operator=(T x) const
     {
-        return ::boost::parameter::aux::keyword<Tag>::_get(
+        return ::boost::parameter::keyword<Tag>::_get(
             x
           , typename ::boost::mpl::if_<
                 ::boost::is_function<
