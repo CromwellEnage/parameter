@@ -50,7 +50,6 @@ struct keyword
 {
 #if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
- private:
     template <typename T>
     static typename ::boost::parameter::aux::tag<Tag,T>::type const
     _get(T x, ::boost::mpl::true_)
@@ -91,7 +90,6 @@ struct keyword
         return result(x);
     }
 
- public:
     template <typename T>
     BOOST_TYPEOF_TPL((
         ::boost::parameter::keyword<Tag>::_get(
