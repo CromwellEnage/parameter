@@ -11,7 +11,7 @@
 #include <boost/config.hpp>
 #include <boost/config/workaround.hpp>
 
-#if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
 #include <boost/type_traits/is_const.hpp>
 #include <boost/type_traits/is_function.hpp>
@@ -23,7 +23,6 @@
 #include <boost/function.hpp>
 #endif  // MSVC-11.0
 
-#include <boost/parameter/aux_/unwrap_cv_reference.hpp>
 #include <boost/parameter/aux_/tag.hpp>
 #include <boost/parameter/aux_/default.hpp>
 
@@ -47,22 +46,12 @@ namespace boost { namespace parameter {
 template <typename Tag>
 struct keyword
 {
-#if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+ private:
     template <typename T>
-    typename ::boost::lazy_enable_if<
-        typename ::boost::mpl::if_<
-            ::boost::is_function<
-                typename ::boost::remove_const<
-                    typename ::boost::remove_pointer<T>::type
-                >::type
-            >
-          , ::boost::mpl::true_
-          , ::boost::mpl::false_
-        >::type
-      , ::boost::parameter::aux::tag<Tag,T>
-    >::type const
-    operator=(T const& x) const
+    static typename ::boost::parameter::aux::tag<Tag,T>::type const
+    _get(T x, ::boost::mpl::true_)
     {
         typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
         return result(
@@ -75,35 +64,68 @@ struct keyword
             >(x)
         );
     }
-#endif  // MSVC-11.0
 
     template <typename T>
-#if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
-    typename ::boost::lazy_enable_if<
-        typename ::boost::mpl::eval_if<
-            ::boost::is_function<
-                typename ::boost::remove_const<
-                    typename ::boost::remove_pointer<T>::type
-                >::type
-            >
+    static typename ::boost::lazy_enable_if<
+        typename ::boost::mpl::if_<
+            ::boost::is_const<T>
           , ::boost::mpl::false_
-          , ::boost::mpl::if_<
-                ::boost::is_const<T>
-              , ::boost::mpl::false_
-              , ::boost::mpl::true_
-            >
+          , ::boost::mpl::true_
         >::type
       , ::boost::parameter::aux::tag<Tag,T>
     >::type const
-#else
+    _get(T& x, ::boost::mpl::false_)
+    {
+        typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
+        return result(x);
+    }
+
+    template <typename T>
+    static typename ::boost::parameter::aux::tag<Tag,T const>::type const
+    _get(T const& x, ::boost::mpl::false_)
+    {
+        typedef typename ::boost::parameter::aux
+        ::tag<Tag,T const>::type result;
+        return result(x);
+    }
+
+ public:
+    template <typename T>
+    auto operator=(T x) const
+    {
+        return ::boost::parameter::aux::keyword<Tag>::_get(
+            x
+          , typename ::boost::mpl::if_<
+                ::boost::is_function<
+                    typename ::boost::remove_const<
+                        typename ::boost::remove_pointer<
+                            typename ::boost::remove_reference<T>::type
+                        >::type
+                    >::type
+                >
+              , ::boost::mpl::true_
+              , ::boost::mpl::false_
+            >::type()
+        );
+    }
+#else   // not MSVC-11.0
+    template <typename T>
     typename ::boost::parameter::aux::tag<Tag,T>::type const
-#endif  // MSVC-11.0
     operator=(T& x) const
     {
         typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
         return result(x);
     }
+
+    template <typename T>
+    typename ::boost::parameter::aux::tag<Tag,T const>::type const
+    operator=(T const& x) const
+    {
+        typedef typename ::boost::parameter::aux
+        ::tag<Tag,T const>::type result;
+        return result(x);
+    }
+#endif  // MSVC-11.0
 
     template <typename Default>
     aux::default_<Tag, Default>
@@ -117,31 +139,6 @@ struct keyword
     operator||(Default& default_) const
     {
         return aux::lazy_default<Tag, Default>(default_);
-    }
-
-    template <typename T>
-#if !defined(BOOST_NO_SFINAE) && BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
-    typename ::boost::lazy_enable_if<
-        typename ::boost::mpl::if_<
-            ::boost::is_function<
-                typename ::boost::remove_const<
-                    typename ::boost::remove_pointer<T>::type
-                >::type
-            >
-          , ::boost::mpl::false_
-          , ::boost::mpl::true_
-        >::type
-      , ::boost::parameter::aux::tag<Tag,T const>
-    >::type const
-#else
-    typename ::boost::parameter::aux::tag<Tag,T const>::type const
-#endif  // MSVC-11.0
-    operator=(T const& x) const
-    {
-        typedef typename ::boost::parameter::aux
-        ::tag<Tag,T const>::type result;
-        return result(x);
     }
 
     template <typename Default>
