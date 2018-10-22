@@ -6,25 +6,7 @@
 #ifndef KEYWORD_050328_HPP
 #define KEYWORD_050328_HPP
 
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/config.hpp>
-#include <boost/config/workaround.hpp>
-
-#if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
-#include <boost/function.hpp>
-#include <boost/type_traits/declval.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/is_function.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/type_traits/remove_pointer.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/core/enable_if.hpp>
-#include <boost/typeof/typeof.hpp>
-#endif  // MSVC-11.0
-
+#include <boost/parameter/aux_/unwrap_cv_reference.hpp>
 #include <boost/parameter/aux_/tag.hpp>
 #include <boost/parameter/aux_/default.hpp>
 
@@ -45,126 +27,47 @@ namespace boost { namespace parameter {
 //
 //    f(rate = 1, skew = 2.4);
 //
-template <typename Tag>
+template <class Tag>
 struct keyword
 {
-#if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
-    template <typename T>
-    static typename ::boost::parameter::aux::tag<Tag,T>::type const
-    _get(T x, ::boost::mpl::true_)
-    {
-        typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
-        return result(
-            ::boost::function<
-                typename ::boost::remove_const<
-                    typename ::boost::remove_pointer<
-                        typename ::boost::remove_reference<T>::type
-                    >::type
-                >::type
-            >(x)
-        );
-    }
-
-    template <typename T>
-    static typename ::boost::lazy_enable_if<
-        typename ::boost::mpl::if_<
-            ::boost::is_const<T>
-          , ::boost::mpl::false_
-          , ::boost::mpl::true_
-        >::type
-      , ::boost::parameter::aux::tag<Tag,T>
-    >::type const
-    _get(T& x, ::boost::mpl::false_)
-    {
-        typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
-        return result(x);
-    }
-
-    template <typename T>
-    static typename ::boost::parameter::aux::tag<Tag,T const>::type const
-    _get(T const& x, ::boost::mpl::false_)
-    {
-        typedef typename ::boost::parameter::aux
-        ::tag<Tag,T const>::type result;
-        return result(x);
-    }
-
-    template <typename T>
-    BOOST_TYPEOF_TPL((
-        ::boost::parameter::keyword<Tag>::_get(
-            ::boost::declval<T>()
-          , typename ::boost::mpl::if_<
-                ::boost::is_function<
-                    typename ::boost::remove_const<
-                        typename ::boost::remove_pointer<
-                            typename ::boost::remove_reference<T>::type
-                        >::type
-                    >::type
-                >
-              , ::boost::mpl::true_
-              , ::boost::mpl::false_
-            >::type()
-        )
-    ))
-    operator=(T x) const
-    {
-        return ::boost::parameter::keyword<Tag>::_get(
-            x
-          , typename ::boost::mpl::if_<
-                ::boost::is_function<
-                    typename ::boost::remove_const<
-                        typename ::boost::remove_pointer<
-                            typename ::boost::remove_reference<T>::type
-                        >::type
-                    >::type
-                >
-              , ::boost::mpl::true_
-              , ::boost::mpl::false_
-            >::type()
-        );
-    }
-#else   // not MSVC-11.0
-    template <typename T>
-    typename ::boost::parameter::aux::tag<Tag,T>::type const
+    template <class T>
+    typename aux::tag<Tag, T>::type const
     operator=(T& x) const
     {
-        typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
+        typedef typename aux::tag<Tag, T>::type result;
         return result(x);
     }
 
-    template <typename T>
-    typename ::boost::parameter::aux::tag<Tag,T const>::type const
-    operator=(T const& x) const
-    {
-        typedef typename ::boost::parameter::aux
-        ::tag<Tag,T const>::type result;
-        return result(x);
-    }
-#endif  // MSVC-11.0
-
-    template <typename Default>
+    template <class Default>
     aux::default_<Tag, Default>
     operator|(Default& default_) const
     {
         return aux::default_<Tag, Default>(default_);
     }
 
-    template <typename Default>
+    template <class Default>
     aux::lazy_default<Tag, Default>
     operator||(Default& default_) const
     {
         return aux::lazy_default<Tag, Default>(default_);
     }
 
-    template <typename Default>
-    aux::default_<Tag, const Default>
-    operator|(Default const& default_) const
+    template <class T>
+    typename aux::tag<Tag, T const>::type const
+    operator=(T const& x) const
     {
-        return aux::default_<Tag, Default const>(default_);
+        typedef typename aux::tag<Tag, T const>::type result;
+        return result(x);
     }
 
-    template <typename Default>
+    template <class Default>
+    aux::default_<Tag, const Default>
+    operator|(const Default& default_) const
+    {
+        return aux::default_<Tag, const Default>(default_);
+    }
+
+    template <class Default>
     aux::lazy_default<Tag, Default>
     operator||(Default const& default_) const
     {
@@ -172,6 +75,7 @@ struct keyword
     }
 
  public: // Insurance against ODR violations
+    
     // People will need to define these keywords in header files.  To
     // prevent ODR violations, it's important that the keyword used in
     // every instantiation of a function template is the same object.
@@ -186,7 +90,7 @@ struct keyword
     }
 };
 
-template <typename Tag>
+template <class Tag>
 keyword<Tag> const keyword<Tag>::instance = {};
 
 // Reduces boilerplate required to declare and initialize keywords

@@ -6,8 +6,6 @@
 #ifndef BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 # define BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 
-# include <boost/parameter/aux_/tagged_argument_fwd.hpp>
-# include <boost/parameter/aux_/is_tagged_argument.hpp>
 # include <boost/parameter/aux_/void.hpp>
 # include <boost/parameter/aux_/arg_list.hpp>
 # include <boost/parameter/aux_/result_of0.hpp>
@@ -15,23 +13,16 @@
 # include <boost/mpl/apply_wrap.hpp>
 # include <boost/mpl/and.hpp>
 # include <boost/mpl/not.hpp>
-# include <boost/mpl/identity.hpp>
 # include <boost/type_traits/is_same.hpp>
 # include <boost/type_traits/is_convertible.hpp>
-# include <boost/type_traits/is_lvalue_reference.hpp>
-# include <boost/type_traits/remove_const.hpp>
-# include <boost/config.hpp>
-# include <boost/config/workaround.hpp>
-
-#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
-#include <boost/function.hpp>
-#else
-#include <functional>
-#endif
+# include <boost/type_traits/is_reference.hpp>
 
 namespace boost { namespace parameter { namespace aux {
 
+struct empty_arg_list;
 struct arg_list_tag;
+
+struct tagged_argument_base {};
 
 // Holds a reference to an argument of type Arg associated with
 // keyword Keyword
@@ -39,33 +30,9 @@ struct arg_list_tag;
 template <class Keyword, class Arg>
 struct tagged_argument : tagged_argument_base
 {
-    typedef typename ::boost::remove_const<Arg>::type arg_type;
-
-public:
     typedef Keyword key_type;
-
-    // Wrap plain (non-UDT) function objects in either
-    // a boost::function or a std::function. -- Cromwell D. Enage
-    typedef typename ::boost::mpl::if_<
-        ::boost::is_function<arg_type>
-#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
-      , ::boost::function<arg_type>
-#else
-      , ::std::function<arg_type>
-#endif
-      , Arg
-    >::type value_type;
-
-    // If Arg is void_, then this type will evaluate to void_&.  If the
-    // supplied argument is a plain function, then this type will evaluate
-    // to a reference-to-const function wrapper type.  If the supplied
-    // argument is an lvalue, then Arg will be deduced to the lvalue
-    // reference. -- Cromwell D. Enage
-    typedef typename ::boost::mpl::if_<
-        ::boost::is_function<arg_type>
-      , value_type const&
-      , Arg&
-    >::type reference;
+    typedef Arg value_type;
+    typedef Arg& reference;
 
     tagged_argument(reference x) : value(x) {}
 
@@ -105,7 +72,7 @@ public:
 
     reference operator[](keyword<Keyword> const&) const
     {
-        return this->value;
+        return value;
     }
 
 # if defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) || BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
@@ -118,7 +85,7 @@ public:
     template <class Default>
     reference get_with_default(default_<key_type,Default> const&, long) const
     {
-        return this->value;
+        return value;
     }
 
     template <class KW, class Default>
@@ -138,7 +105,7 @@ public:
     template <class F>
     reference get_with_lazy_default(lazy_default<key_type,F> const&, long) const
     {
-        return this->value;
+        return value;
     }
 
     template <class KW, class F>
@@ -155,13 +122,13 @@ public:
     template <class Default>
     reference operator[](default_<key_type,Default> const& ) const
     {
-        return this->value;
+        return value;
     }
 
     template <class F>
     reference operator[](lazy_default<key_type,F> const& ) const
     {
-        return this->value;
+        return value;
     }
 
     template <class KW, class Default>
@@ -187,13 +154,7 @@ public:
     );
 # endif
 
-    // Store plain functions by value, everything else by reference.
-    // -- Cromwell D. Enage
-    typename ::boost::mpl::if_<
-        ::boost::is_function<arg_type>
-      , value_type
-      , reference
-    >::type value;
+    reference value;
 # if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1310))
     // warning suppression
  private:
@@ -205,6 +166,21 @@ public:
     typedef empty_arg_list tail_type;        // For the benefit of iterators
     typedef arg_list_tag tag; // For dispatching to sequence intrinsics
 };
+
+// Defines a metafunction, is_tagged_argument, that identifies
+// tagged_argument specializations and their derived classes.
+template <class T>
+struct is_tagged_argument_aux
+  : is_convertible<T*,tagged_argument_base const*>
+{};
+
+template <class T>
+struct is_tagged_argument
+  : mpl::and_<
+        mpl::not_<is_reference<T> >
+      , is_tagged_argument_aux<T>
+    >
+{};
 
 }}} // namespace boost::parameter::aux
 
