@@ -11,8 +11,8 @@ project boost/parameter
   ;
 
 build-project literate ;
-  
-test-suite "parameter"
+
+alias parameter_all_but_python_tests
   :  [ run basics.cpp ]
      [ run compose.cpp ]
      [ run sfinae.cpp ]
@@ -34,6 +34,23 @@ test-suite "parameter"
      [ compile unwrap_cv_reference.cpp ]
      [ compile-fail duplicates.cpp ]
      [ compile-fail deduced_unmatched_arg.cpp ]
-     [ bpl-test python_test ]
+  ;
+
+alias parameter_python_test
+  :  [ bpl-test python_test ]
+  ;
+
+alias parameter
+  :  parameter_all_but_python_tests
+     parameter_python_test
+  ;
+
+alias parameter_msvc11_fail
+  :  [ run-fail compose.cpp : : : <define>LIBS_PARAMETER_TEST_RUN_FAIL_0 : compose_fail_0 : <preserve-target-tests>off ]
+  ;
+
+alias parameter_msvc11_tests
+  :  parameter
+     parameter_msvc11_fail
   ;
 
