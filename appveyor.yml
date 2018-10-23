@@ -21,10 +21,10 @@ environment:
       TEST_SUITE: parameter
       PATH: C:\MinGW\bin;%PATH%
     - ARGS: --toolset=gcc address-model=64
-      TEST_SUITE: parameter
+      TEST_SUITE: parameter_all_but_python_tests
       PATH: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%
     - ARGS: --toolset=gcc address-model=64 cxxflags=-std=gnu++1z
-      TEST_SUITE: parameter
+      TEST_SUITE: parameter_all_but_python_tests
       PATH: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       ARGS: --toolset=msvc-9.0  address-model=32
