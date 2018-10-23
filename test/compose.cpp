@@ -20,11 +20,7 @@ namespace param {
 #include <boost/config.hpp>
 #include <boost/config/workaround.hpp>
 
-#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL) || ( \
-        !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE) && \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
+#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
 #include <boost/function.hpp>
 #else
 #include <functional>
@@ -76,13 +72,7 @@ namespace test {
 
     struct B : A
     {
-#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL) || ( \
-        !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE) && \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
-        // MSVC 11.0 on AppVeyor reports error C2528:
-        // 'abstract declarator': pointer to reference is illegal
+#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
         boost::function<float()> k;
         boost::function<double()> l;
 #else
