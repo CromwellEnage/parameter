@@ -24,6 +24,7 @@
 /**/
 
 #include <boost/parameter/aux_/preprocessor/qualifier.hpp>
+#include <boost/preprocessor/control/if.hpp>
 #include <boost/config.hpp>
 
 #if defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING)
@@ -61,19 +62,18 @@
 #include <boost/parameter/aux_/preprocessor/impl/function_forward_match.hpp>
 #include <boost/preprocessor/comparison/equal.hpp>
 #include <boost/preprocessor/control/expr_if.hpp>
-#include <boost/preprocessor/control/if.hpp>
 #include <boost/preprocessor/repetition/enum.hpp>
 #include <boost/preprocessor/tuple/eat.hpp>
 #include <boost/preprocessor/tuple/elem.hpp>
 
-#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD(z, n, r, data, elem)            \
+#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_IMPL(z, n, r, data, elem)       \
     BOOST_PP_IF(                                                             \
         n                                                                    \
       , BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_TEMPLATE_HEADER_Z          \
       , BOOST_PP_TUPLE_EAT(3)                                                \
     )(z, n, ParameterArgumentType)                                           \
     BOOST_PP_EXPR_IF(BOOST_PP_EQUAL(n, 1), explicit)                         \
-    BOOST_PP_TUPLE_ELEM(6, 2, data)(                                         \
+    BOOST_PP_TUPLE_ELEM(5, 2, data)(                                         \
         BOOST_PP_IF(                                                         \
             n, BOOST_PP_SEQ_FOR_EACH_I_R, BOOST_PP_TUPLE_EAT(4)              \
         )(r, BOOST_PARAMETER_FUNCTION_ARGUMENT, ~, elem)                     \
@@ -86,7 +86,7 @@
           , ParameterArgumentType                                            \
         )                                                                    \
     ) : BOOST_PARAMETER_PARENTHESIZED_TYPE(                                  \
-            BOOST_PP_TUPLE_ELEM(6, 3, data)                                  \
+            BOOST_PP_TUPLE_ELEM(5, 3, data)                                  \
         )(                                                                   \
             BOOST_PP_CAT(constructor_parameters, __LINE__)()(                \
                 BOOST_PP_ENUM_PARAMS_Z(z, n, a)                              \
@@ -101,19 +101,19 @@
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
 #include <boost/preprocessor/seq/enum.hpp>
 
-#define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD(z, n, r, data, elem)       \
+#define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_IMPL(z, n, r, data, elem)  \
     BOOST_PP_IF(                                                             \
         n                                                                    \
       , BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_TEMPLATE_HEADER_Z          \
       , BOOST_PP_TUPLE_EAT(3)                                                \
     )(z, n, ParameterArgumentType)                                           \
-    BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(BOOST_PP_TUPLE_ELEM(7, 3, data))  \
+    BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(BOOST_PP_TUPLE_ELEM(6, 3, data))  \
     inline BOOST_PP_EXPR_IF(n, typename)                                     \
-    BOOST_PARAMETER_FUNCTION_RESULT_NAME(BOOST_PP_TUPLE_ELEM(7, 3, data))<   \
+    BOOST_PARAMETER_FUNCTION_RESULT_NAME(BOOST_PP_TUPLE_ELEM(6, 3, data))<   \
         BOOST_PP_EXPR_IF(n, typename)                                        \
         ::boost::parameter::aux::argument_pack<                              \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
-                BOOST_PP_TUPLE_ELEM(7, 3, data)                              \
+                BOOST_PP_TUPLE_ELEM(6, 3, data)                              \
             )                                                                \
             BOOST_PP_COMMA_IF(n)                                             \
             BOOST_PP_IF(                                                     \
@@ -121,7 +121,7 @@
             )(elem)                                                          \
         >::type                                                              \
     >::type                                                                  \
-    BOOST_PARAMETER_MEMBER_FUNCTION_NAME(BOOST_PP_TUPLE_ELEM(7, 2, data))(   \
+    BOOST_PARAMETER_MEMBER_FUNCTION_NAME(BOOST_PP_TUPLE_ELEM(6, 2, data))(   \
         BOOST_PP_IF(                                                         \
             n, BOOST_PP_SEQ_FOR_EACH_I_R, BOOST_PP_TUPLE_EAT(4)              \
         )(r, BOOST_PARAMETER_FUNCTION_ARGUMENT, ~, elem)                     \
@@ -130,37 +130,37 @@
         )(                                                                   \
             z                                                                \
           , BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
-                BOOST_PP_TUPLE_ELEM(7, 3, data)                              \
+                BOOST_PP_TUPLE_ELEM(6, 3, data)                              \
             )                                                                \
           , n                                                                \
           , ParameterArgumentType                                            \
         )                                                                    \
-    ) BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(7, 4, data), const)               \
+    ) BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(6, 5, data), const)               \
     {                                                                        \
         return BOOST_PARAMETER_FUNCTION_IMPL_NAME(                           \
-            BOOST_PP_TUPLE_ELEM(7, 3, data)                                  \
+            BOOST_PP_TUPLE_ELEM(6, 3, data)                                  \
         )(                                                                   \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
-                BOOST_PP_TUPLE_ELEM(7, 3, data)                              \
+                BOOST_PP_TUPLE_ELEM(6, 3, data)                              \
             )()(BOOST_PP_ENUM_PARAMS_Z(z, n, a))                             \
         );                                                                   \
     }
 /**/
 
-#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_R(r, data, elem)                \
-    BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD(                                    \
-        BOOST_PP_TUPLE_ELEM(6, 0, data)                                      \
-      , BOOST_PP_TUPLE_ELEM(6, 1, data)                                      \
+#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_IMPL_R(r, data, elem)           \
+    BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_IMPL(                               \
+        BOOST_PP_TUPLE_ELEM(5, 0, data)                                      \
+      , BOOST_PP_TUPLE_ELEM(5, 1, data)                                      \
       , r                                                                    \
       , data                                                                 \
       , elem                                                                 \
     )
 /**/
 
-#define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_R(r, data, elem)           \
-    BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD(                               \
-        BOOST_PP_TUPLE_ELEM(7, 0, data)                                      \
-      , BOOST_PP_TUPLE_ELEM(7, 1, data)                                      \
+#define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_IMPL_R(r, data, elem)      \
+    BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_IMPL(                          \
+        BOOST_PP_TUPLE_ELEM(6, 0, data)                                      \
+      , BOOST_PP_TUPLE_ELEM(6, 1, data)                                      \
       , r                                                                    \
       , data                                                                 \
       , elem                                                                 \
@@ -170,22 +170,22 @@
 #include <boost/preprocessor/repetition/deduce_r.hpp>
 #include <boost/preprocessor/tuple/rem.hpp>
 
-#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_ARITY_0(z, n, data)             \
-    BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD(                                    \
+#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_IMPL_ARITY_0(z, n, data)        \
+    BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_IMPL(                               \
         z                                                                    \
       , n                                                                    \
       , BOOST_PP_DEDUCE_R()                                                  \
-      , (z, n, BOOST_PP_TUPLE_REM(4) data)                                   \
+      , (z, n, BOOST_PP_TUPLE_REM(3) data)                                   \
       , ~                                                                    \
     )
 /**/
 
-#define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_ARITY_0(z, n, data)        \
-    BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD(                               \
+#define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_IMPL_ARITY_0(z, n, data)   \
+    BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_IMPL(                          \
         z                                                                    \
       , n                                                                    \
       , BOOST_PP_DEDUCE_R()                                                  \
-      , (z, n, BOOST_PP_TUPLE_REM(5) data)                                   \
+      , (z, n, BOOST_PP_TUPLE_REM(4) data)                                   \
       , ~                                                                    \
     )
 /**/
@@ -194,9 +194,20 @@
 #include <boost/preprocessor/seq/for_each.hpp>
 #include <boost/preprocessor/seq/for_each_product.hpp>
 
-#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_ARITY_N(z, n, data)             \
+#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_IMPL_ARITY_N(z, n, data)        \
     BOOST_PP_SEQ_FOR_EACH(                                                   \
-        BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_R                               \
+        BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_IMPL_R                          \
+      , (z, n, BOOST_PP_TUPLE_REM(3) data)                                   \
+      , BOOST_PP_SEQ_FOR_EACH_PRODUCT(                                       \
+            BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_PRODUCT                \
+          , BOOST_PP_SEQ_FIRST_N(n, BOOST_PP_TUPLE_ELEM(3, 2, data))         \
+        )                                                                    \
+    )
+/**/
+
+#define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_IMPL_ARITY_N(z, n, data)   \
+    BOOST_PP_SEQ_FOR_EACH(                                                   \
+        BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_IMPL_R                     \
       , (z, n, BOOST_PP_TUPLE_REM(4) data)                                   \
       , BOOST_PP_SEQ_FOR_EACH_PRODUCT(                                       \
             BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_PRODUCT                \
@@ -205,62 +216,41 @@
     )
 /**/
 
-#define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_ARITY_N(z, n, data)        \
-    BOOST_PP_SEQ_FOR_EACH(                                                   \
-        BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_R                          \
-      , (z, n, BOOST_PP_TUPLE_REM(5) data)                                   \
-      , BOOST_PP_SEQ_FOR_EACH_PRODUCT(                                       \
-            BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_PRODUCT                \
-          , BOOST_PP_SEQ_FIRST_N(n, BOOST_PP_TUPLE_ELEM(5, 3, data))         \
-        )                                                                    \
-    )
-/**/
-
 #define BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_Z(z, n, data)                   \
     BOOST_PP_IF(                                                             \
         n                                                                    \
-      , BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_ARITY_N                         \
-      , BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_ARITY_0                         \
+      , BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_IMPL_ARITY_N                    \
+      , BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_IMPL_ARITY_0                    \
     )(z, n, data)
 /**/
 
 #define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_Z(z, n, data)              \
     BOOST_PP_IF(                                                             \
         n                                                                    \
-      , BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_ARITY_N                    \
-      , BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_ARITY_0                    \
+      , BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_IMPL_ARITY_N               \
+      , BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_IMPL_ARITY_0               \
     )(z, n, data)
 /**/
 
 #include <boost/preprocessor/repetition/repeat_from_to.hpp>
 
 // Helper macro for BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS.
-#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS_AUX(                           \
-    class_, base, args, combinations, range                                  \
-)                                                                            \
+#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS_AUX(class_, base, combo, r)    \
     BOOST_PP_REPEAT_FROM_TO(                                                 \
-        BOOST_PP_TUPLE_ELEM(2, 0, range)                                     \
-      , BOOST_PP_TUPLE_ELEM(2, 1, range)                                     \
+        BOOST_PP_TUPLE_ELEM(2, 0, r)                                         \
+      , BOOST_PP_TUPLE_ELEM(2, 1, r)                                         \
       , BOOST_PARAMETER_CONSTRUCTOR_OVERLOAD_Z                               \
-      , (class_, base, combinations, BOOST_PP_TUPLE_ELEM(2, 1, range))       \
+      , (class_, base, combo)                                                \
     )
 /**/
 
 // Helper macro for BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS.
-#define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS_AUX(                      \
-    name, impl, args, const_, combinations, range                            \
-)                                                                            \
+#define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS_AUX(n, i, combo, r, c)    \
     BOOST_PP_REPEAT_FROM_TO(                                                 \
-        BOOST_PP_TUPLE_ELEM(2, 0, range)                                     \
-      , BOOST_PP_TUPLE_ELEM(2, 1, range)                                     \
+        BOOST_PP_TUPLE_ELEM(2, 0, r)                                         \
+      , BOOST_PP_TUPLE_ELEM(2, 1, r)                                         \
       , BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_Z                          \
-      , (                                                                    \
-            name                                                             \
-          , impl                                                             \
-          , const_                                                           \
-          , combinations                                                     \
-          , BOOST_PP_TUPLE_ELEM(2, 1, range)                                 \
-        )                                                                    \
+      , (n, i, combo, c)                                                     \
     )
 /**/
 
@@ -272,7 +262,6 @@
     BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS_AUX(                               \
         class_                                                               \
       , base                                                                 \
-      , args                                                                 \
       , BOOST_PARAMETER_FUNCTION_FORWARD_COMBINATIONS(args)                  \
       , BOOST_PARAMETER_ARITY_RANGE(args)                                    \
     )
@@ -284,10 +273,9 @@
     BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS_AUX(                          \
         name                                                                 \
       , impl                                                                 \
-      , args                                                                 \
-      , const_                                                               \
       , BOOST_PARAMETER_FUNCTION_FORWARD_COMBINATIONS(args)                  \
       , BOOST_PARAMETER_ARITY_RANGE(args)                                    \
+      , const_                                                               \
     )
 /**/
 
