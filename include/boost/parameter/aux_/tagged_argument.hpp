@@ -34,8 +34,6 @@ namespace boost { namespace parameter { namespace aux {
 struct empty_arg_list;
 struct arg_list_tag;
 
-struct tagged_argument_base {};
-
 // Holds a reference to an argument of type Arg associated with
 // keyword Keyword
     
