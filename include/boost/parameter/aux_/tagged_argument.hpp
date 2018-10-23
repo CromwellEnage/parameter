@@ -6,6 +6,9 @@
 #ifndef BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 # define BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 
+# include <boost/parameter/aux_/tagged_argument_fwd.hpp>
+# include <boost/parameter/aux_/is_tagged_argument.hpp>
+# include <boost/parameter/aux_/void.hpp>
 # include <boost/parameter/aux_/void.hpp>
 # include <boost/parameter/aux_/arg_list.hpp>
 # include <boost/parameter/aux_/result_of0.hpp>
@@ -205,21 +208,6 @@ public:
     typedef empty_arg_list tail_type;        // For the benefit of iterators
     typedef arg_list_tag tag; // For dispatching to sequence intrinsics
 };
-
-// Defines a metafunction, is_tagged_argument, that identifies
-// tagged_argument specializations and their derived classes.
-template <class T>
-struct is_tagged_argument_aux
-  : is_convertible<T*,tagged_argument_base const*>
-{};
-
-template <class T>
-struct is_tagged_argument
-  : mpl::and_<
-        mpl::not_<is_lvalue_reference<T> >
-      , is_tagged_argument_aux<T>
-    >
-{};
 
 }}} // namespace boost::parameter::aux
 

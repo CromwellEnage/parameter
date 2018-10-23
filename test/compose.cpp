@@ -21,6 +21,7 @@ namespace param {
 #include <boost/config/workaround.hpp>
 
 #if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL) || ( \
+        !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE) && \
         BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
         BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
     )
@@ -76,6 +77,7 @@ namespace test {
     struct B : A
     {
 #if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL) || ( \
+        !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE) && \
         BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
         BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
     )
@@ -117,7 +119,7 @@ namespace test {
 
 int main()
 {
-#if !defined(LIBS_PARAMETER_TEST_RUN_FAIL_0) && \
+#if !defined(LIBS_PARAMETER_TEST_RUN_FAILURE) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     // MSVC 11.0 on AppVeyor fails at runtime without this workaround.
@@ -131,7 +133,7 @@ int main()
 #endif
     BOOST_TEST_EQ(1, a.i);
     BOOST_TEST_EQ(13, a.j);
-#if !defined(LIBS_PARAMETER_TEST_RUN_FAIL_0) && \
+#if !defined(LIBS_PARAMETER_TEST_RUN_FAILURE) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     // MSVC 11.0 on AppVeyor fails at runtime without this workaround.
@@ -146,7 +148,7 @@ int main()
     BOOST_TEST_EQ(13, b0.j);
     BOOST_TEST_EQ(4.0f, b0.k());
     BOOST_TEST_EQ(2.5, b0.l());
-#if !defined(LIBS_PARAMETER_TEST_RUN_FAIL_0) && \
+#if !defined(LIBS_PARAMETER_TEST_RUN_FAILURE) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     // MSVC 11.0 on AppVeyor fails at runtime without this workaround.
