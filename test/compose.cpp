@@ -116,7 +116,7 @@ int main()
     test::A a((
         param::_a0 = 1
       , param::_a1 = 13
-      , param::_a2 = boost::function<double()>(test::D)
+      , param::_a2 = std::function<double()>(test::D)
     ));
 #else
     test::A a((param::_a0 = 1, param::_a1 = 13, param::_a2 = test::D));
@@ -129,7 +129,7 @@ int main()
     // MSVC 11.0 on AppVeyor fails at runtime without this workaround.
     test::B b0((
         param::_a1 = 13
-      , param::_a2 = boost::function<float()>(test::F)
+      , param::_a2 = std::function<float()>(test::F)
     ));
 #else
     test::B b0((param::_a1 = 13, param::_a2 = test::F));
