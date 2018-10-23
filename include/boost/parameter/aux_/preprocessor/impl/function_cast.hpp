@@ -55,13 +55,13 @@ namespace boost { namespace parameter { namespace aux {
             return ::boost::parameter::aux::use_default_tag();
         }
 
-        template <class U>
+        template <typename U>
         static U& execute(U& value)
         {
             return value;
         }
 
-        template <class U>
+        template <typename U>
         static U& remove_const(U& x)
         {
             return x;
@@ -75,19 +75,15 @@ namespace boost { namespace parameter { namespace aux {
 
 namespace boost { namespace parameter { namespace aux {
 
+    template <typename Predicate, typename Args>
 #if BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x580))
-    template <typename T, typename Args>
-    struct cast< ::boost::parameter::aux::voidstar(T), Args>
-      : ::boost::parameter::aux::cast<void*, Args>
-    {
-    };
+    struct cast< ::boost::parameter::aux::voidstar(Predicate),Args>
 #else
-    template <typename T, typename Args>
-    struct cast<void*(T), Args>
-      : ::boost::parameter::aux::cast<void*, Args>
+    struct cast<void*(Predicate),Args>
+#endif
+      : ::boost::parameter::aux::cast<void*,Args>
     {
     };
-#endif
 }}} // namespace boost::parameter::aux
 
 #include <boost/mpl/placeholders.hpp>
@@ -95,8 +91,8 @@ namespace boost { namespace parameter { namespace aux {
 namespace boost { namespace parameter { namespace aux {
 
     // This is a hack used in cast<> to turn the user supplied type,
-    // which may or may not be a placeholder expression into one, so
-    // that it will be properly evaluated by mpl::apply.
+    // which may or may not be a placeholder expression, into one,
+    // so that it will be properly evaluated by mpl::apply.
     template <typename T, typename Dummy = ::boost::mpl::_1>
     struct as_placeholder_expr
     {
@@ -147,9 +143,6 @@ namespace boost { namespace parameter { namespace aux {
         }
     };
 }}} // namespace boost::parameter::aux
-
-#include <boost/mpl/apply_wrap.hpp>
-#include <boost/parameter/value_type.hpp>
 
 #define BOOST_PARAMETER_FUNCTION_CAST(value, predicate, args) \
     ::boost::parameter::aux::cast<void predicate, args>::remove_const( \

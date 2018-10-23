@@ -8,6 +8,7 @@
 
 #include <boost/preprocessor/cat.hpp>
 
+// Expands to keyword_tag_type for some keyword_tag.
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_TYPE(keyword)                  \
     BOOST_PP_CAT(keyword, _type)
 /**/
@@ -104,11 +105,11 @@ namespace boost { namespace parameter { namespace aux {
     )
 /**/
 
-#define BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_CAST_R(r, tag_ns, arg)         \
+#define BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_CAST_R(r, tag_namespace, arg)  \
   , BOOST_PARAMETER_FUNCTION_CAST(                                           \
         args[                                                                \
             ::boost::parameter::keyword<                                     \
-                tag_ns::BOOST_PARAMETER_FN_ARG_NAME(arg)                     \
+                tag_namespace::BOOST_PARAMETER_FN_ARG_NAME(arg)              \
             >::instance                                                      \
         ]                                                                    \
       , BOOST_PARAMETER_FN_ARG_PRED(arg)                                     \

@@ -143,7 +143,7 @@ int main()
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     // MSVC 11.0 on AppVeyor fails at runtime without this workaround.
     test::B b1((
-        param::_a3 = boost::function<double()>(test::D)
+        param::_a3 = std::function<double()>(test::D)
       , param::_a1 = 13
     ));
 #else
