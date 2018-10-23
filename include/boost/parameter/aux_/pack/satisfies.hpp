@@ -6,16 +6,21 @@
 #ifndef BOOST_PARAMETER_AUX_PACK_SATISFIES_HPP
 #define BOOST_PARAMETER_AUX_PACK_SATISFIES_HPP
 
+#include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
-#include <boost/config.hpp>
-#include <boost/config/workaround.hpp>
 
 #if BOOST_WORKAROUND(BOOST_MSVC, == 1310)
 #include <boost/parameter/aux_/augment_predicate.hpp>
 #include <boost/parameter/aux_/void.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/apply_wrap.hpp>
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
+#else
+#include <type_traits>
+#endif
+
 #else
 #include <boost/parameter/aux_/yesno.hpp>
 #include <boost/tti/detail/dnullptr.hpp>
@@ -39,7 +44,11 @@ namespace boost { namespace parameter { namespace aux {
         >::type bound;
 
         typedef typename ::boost::mpl::eval_if<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_same<bound,::boost::parameter::void_>
+#else
+            ::std::is_same<bound,::boost::parameter::void_>
+#endif
           , typename ParameterRequirements::has_default
           , ::boost::mpl::apply_wrap2<
                 ::boost::parameter::aux::augment_predicate<

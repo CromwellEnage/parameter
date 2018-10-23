@@ -28,17 +28,22 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/parameter/aux_/pack/insert_tagged.hpp>
 #include <boost/parameter/aux_/pack/deduce_tag.hpp>
 #include <boost/parameter/deduced.hpp>
+#include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/pair.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/identity.hpp>
+#include <boost/config/workaround.hpp>
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_reference.hpp>
-#include <boost/config.hpp>
-#include <boost/config/workaround.hpp>
+#else
+#include <type_traits>
+#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -65,9 +70,15 @@ namespace boost { namespace parameter { namespace aux {
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
         typedef typename List::arg argument;
 #endif
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         typedef typename ::boost::remove_const<
             typename ::boost::remove_reference<argument>::type
         >::type arg_type;
+#else
+        typedef typename ::std::remove_const<
+            typename ::std::remove_reference<argument>::type
+        >::type arg_type;
+#endif
         typedef typename List::spec parameter_spec;
         typedef typename ::boost::parameter::aux
         ::tag_type<parameter_spec>::type tag_;
@@ -137,8 +148,13 @@ namespace boost { namespace parameter { namespace aux {
         // Build the arg_list incrementally, prepending new nodes.
         typedef typename ::boost::mpl::if_<
             typename ::boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 ::boost::is_same<Error,::boost::parameter::void_>
               , ::boost::is_same<tagged,::boost::parameter::void_>
+#else
+                ::std::is_same<Error,::boost::parameter::void_>
+              , ::std::is_same<tagged,::boost::parameter::void_>
+#endif
               , ::boost::mpl::false_
             >::type
           , ::boost::parameter::aux::unmatched_argument<argument>
@@ -146,7 +162,11 @@ namespace boost { namespace parameter { namespace aux {
         >::type error;
 
         typedef typename ::boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_same<tagged,::boost::parameter::void_>
+#else
+            ::std::is_same<tagged,::boost::parameter::void_>
+#endif
           , ArgumentPack
           , ::boost::parameter::aux::arg_list<tagged,ArgumentPack>
         >::type argument_pack;
@@ -198,7 +218,7 @@ namespace boost { namespace parameter { namespace aux {
             >
         >::type type;
     };
-#endif  // Borland workarounds needed.
+#endif // Borland workarounds needed.
 
     // Returns an ArgumentPack where the list of arguments has been tagged
     // with keyword tags.
@@ -230,7 +250,11 @@ namespace boost { namespace parameter { namespace aux {
     >
     struct make_arg_list_aux
       : ::boost::mpl::eval_if<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_same<List,::boost::parameter::void_>
+#else
+            ::std::is_same<List,::boost::parameter::void_>
+#endif
           , ::boost::mpl::identity< ::boost::mpl::pair<ArgumentPack,Error> >
           , ::boost::parameter::aux::make_arg_list0<
                 List

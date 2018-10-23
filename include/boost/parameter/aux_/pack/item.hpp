@@ -7,12 +7,15 @@
 #define BOOST_PARAMETER_AUX_PACK_ITEM_HPP
 
 #include <boost/parameter/aux_/void.hpp>
-#include <boost/config.hpp>
-#include <boost/config/workaround.hpp>
+#include <boost/parameter/config.hpp>
 
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_const.hpp>
 #include <boost/type_traits/remove_reference.hpp>
+#else
+#include <type_traits>
+#endif
 #endif
 
 namespace boost { namespace parameter { namespace aux {
@@ -27,9 +30,15 @@ namespace boost { namespace parameter { namespace aux {
     {
         typedef Spec spec;
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         typedef ::boost::is_const<
             typename ::boost::remove_reference<Arg>::type
         > is_arg_const;
+#else
+        typedef ::std::is_const<
+            typename ::std::remove_reference<Arg>::type
+        > is_arg_const;
+#endif
 #endif
         typedef Arg arg;
         typedef Tail tail;

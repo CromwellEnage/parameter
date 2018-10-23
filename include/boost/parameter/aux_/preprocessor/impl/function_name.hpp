@@ -18,8 +18,8 @@
     )
 /**/
 
+#include <boost/parameter/config.hpp>
 #include <boost/preprocessor/seq/seq.hpp>
-#include <boost/config.hpp>
 
 #if defined(BOOST_MSVC)
 

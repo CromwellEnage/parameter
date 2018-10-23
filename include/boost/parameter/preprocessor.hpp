@@ -112,8 +112,10 @@
     )
 /**/
 
-// Helper macro for BOOST_PARAMETER_MEMBER_FUNCTION and
-// BOOST_PARAMETER_CONST_MEMBER_FUNCTION.
+// Helper macro for BOOST_PARAMETER_MEMBER_FUNCTION
+// BOOST_PARAMETER_CONST_MEMBER_FUNCTION,
+// BOOST_PARAMETER_FUNCTION_CALL_OPERATOR, and
+// BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR.
 #define BOOST_PARAMETER_MEMBER_FUNCTION_AUX(r, name, impl, tag_ns, c, args)  \
     BOOST_PARAMETER_FUNCTION_HEAD(r, impl, tag_ns, args)                     \
     BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS(name, impl, args, c)          \
@@ -137,6 +139,25 @@
 #define BOOST_PARAMETER_CONST_MEMBER_FUNCTION(result, name, tag_ns, args)    \
     BOOST_PARAMETER_MEMBER_FUNCTION_AUX(                                     \
         result, name, name, tag_ns, 1                                        \
+      , BOOST_PARAMETER_FLATTEN(3, 2, 3, args)                               \
+    )
+/**/
+
+// Expands to a Boost.Parameter-enabled function call operator header.  All
+// arguments are accessible via args and keywords, as well as by name.
+#define BOOST_PARAMETER_FUNCTION_CALL_OPERATOR(result, tag_ns, args)         \
+    BOOST_PARAMETER_MEMBER_FUNCTION_AUX(                                     \
+        result, operator(), operator, tag_ns, 0                              \
+      , BOOST_PARAMETER_FLATTEN(3, 2, 3, args)                               \
+    )
+/**/
+
+// Expands to a Boost.Parameter-enabled const-qualified function call operator
+// header.  All arguments are accessible via args and keywords, as well as
+// by name.
+#define BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR(result, tag_ns, args)   \
+    BOOST_PARAMETER_MEMBER_FUNCTION_AUX(                                     \
+        result, operator(), operator, tag_ns, 1                              \
       , BOOST_PARAMETER_FLATTEN(3, 2, 3, args)                               \
     )
 /**/
