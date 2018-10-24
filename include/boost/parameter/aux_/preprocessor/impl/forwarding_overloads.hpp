@@ -671,7 +671,7 @@
 /**/
 
 // Helper macro for BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS.
-#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS_AUX(class_, base, combo, r)    \
+#define BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS_AUX(class_, base, r, combo)    \
     BOOST_PP_REPEAT_FROM_TO(                                                 \
         BOOST_PP_TUPLE_ELEM(2, 0, r)                                         \
       , BOOST_PP_TUPLE_ELEM(2, 1, r)                                         \
