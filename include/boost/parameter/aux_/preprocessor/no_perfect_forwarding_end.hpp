@@ -6,8 +6,13 @@
 // No include guard.  This file is intended for multiple inclusion.
 
 #undef BOOST_PARAMETER_satisfies_begin
+#if (0 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
+#undef BOOST_PARAMETER_function_call_op_overload_R
+#undef BOOST_PARAMETER_function_call_arg_pack_init
+#undef BOOST_PARAMETER_function_call_arg_list_R
+#undef BOOST_PARAMETER_make_arg_items_R
+#endif
 #undef BOOST_PARAMETER_template_args
-#undef BOOST_PARAMETER_forward_typedefs
 #undef BOOST_PARAMETER_forward_typedef
 #undef BOOST_PARAMETER_build_deduced_list
 #undef BOOST_PARAMETER_make_deduced_list

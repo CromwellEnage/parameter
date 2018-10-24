@@ -1581,7 +1581,7 @@ Same as ``BOOST_PARAMETER_MEMBER_FUNCTION``, except that the overloaded
 forwarding member functions and their helper methods are
 ``const``-qualified.
 
-The |preprocessor|_ test programs demonstrates proper usage of this macro.
+The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
@@ -1604,6 +1604,11 @@ forwarding member function overloads is ``operator()``.
 * ``boost_param_dispatch_0boost_ ## __LINE__ ## operator``
 * ``boost_param_dispatch_1boost_ ## __LINE__ ## operator``
 
+The |preprocessor|_ test program demonstrates proper usage of this macro.
+
+.. |preprocessor| replace:: preprocessor.cpp
+.. _preprocessor: ../../test/preprocessor.cpp
+
 ``BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR(result, tag_ns, arguments)``
 ---------------------------------------------------------------------------
 
@@ -1614,9 +1619,11 @@ __ ../../../../boost/parameter/preprocessor.hpp
 Same as ``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR``, except that the overloaded
 function call operators and their helper methods are ``const``-qualified.
 
-The |preprocessor_eval_cat_8|_ test program demonstrates proper usage of this
-macro.
+The |preprocessor|_ and |preprocessor_eval_cat_8|_ test programs demonstrate
+proper usage of this macro.
 
+.. |preprocessor| replace:: preprocessor.cpp
+.. _preprocessor: ../../test/preprocessor.cpp
 .. |preprocessor_eval_cat_8| replace:: preprocessor_eval_cat_8.cpp
 .. _preprocessor_eval_cat_8: ../../test/preprocessor_eval_cat_8.cpp
 

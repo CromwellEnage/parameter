@@ -27,8 +27,7 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux
 
-#include <boost/config.hpp>
-#include <boost/config/workaround.hpp>
+#include <boost/parameter/config.hpp>
 
 #if BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x580))
 #include <boost/parameter/aux_/void.hpp>
@@ -54,7 +53,12 @@ namespace boost { namespace parameter { namespace aux {
 
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/if.hpp>
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
+#else
+#include <type_traits>
+#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -64,7 +68,11 @@ namespace boost { namespace parameter { namespace aux {
     struct unwrap_predicate<void (Target)>
     {
         typedef ::boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_convertible< ::boost::mpl::_,Target>
+#else
+            ::std::is_convertible< ::boost::mpl::_,Target>
+#endif
           , ::boost::mpl::true_
           , ::boost::mpl::false_
         > type;

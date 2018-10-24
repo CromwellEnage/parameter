@@ -9,22 +9,29 @@
 #include <boost/config/workaround.hpp>
 
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+
 // From Paul Mensonides
 #include <boost/preprocessor/punctuation/comma.hpp>
 #include <boost/preprocessor/detail/split.hpp>
+
 #define BOOST_PARAMETER_IS_BINARY(x) \
     BOOST_PP_SPLIT(1, BOOST_PARAMETER_IS_BINARY_C x BOOST_PP_COMMA() 0)
 /**/
+
 #include <boost/preprocessor/punctuation/paren.hpp>
 #include <boost/preprocessor/tuple/eat.hpp>
-#define BOOST_PARAMETER_IS_BINARY_C(x,y) \
+
+#define BOOST_PARAMETER_IS_BINARY_C(x, y) \
     ~, 1 BOOST_PP_RPAREN() \
     BOOST_PP_TUPLE_EAT(2) BOOST_PP_LPAREN() ~
 /**/
-#else
-#include <boost/preprocessor/detail/is_binary.hpp>
-#define BOOST_PARAMETER_IS_BINARY(x) BOOST_PP_IS_BINARY(x)
-#endif
 
+#else
+
+#include <boost/preprocessor/detail/is_binary.hpp>
+
+#define BOOST_PARAMETER_IS_BINARY(x) BOOST_PP_IS_BINARY(x)
+
+#endif  // Borland workarounds needed.
 #endif  // include guard
 

@@ -10,7 +10,12 @@
 #include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
+#else
+#include <type_traits>
+#endif
 
 #if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
 #include <boost/function.hpp>
@@ -40,7 +45,11 @@ namespace test {
     template <typename T>
     struct Y
       : boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_same<
+#else
+            std::is_same<
+#endif
 #if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
                 boost::function<T>
 #else
