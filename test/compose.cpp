@@ -12,13 +12,9 @@ namespace param {
     BOOST_PARAMETER_NAME(a1)
     BOOST_PARAMETER_NAME(a2)
     BOOST_PARAMETER_NAME(a3)
-    BOOST_PARAMETER_NAME(in(lrc))
-    BOOST_PARAMETER_NAME(out(lr))
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-    BOOST_PARAMETER_NAME(consume(rr))
-#else
+    BOOST_PARAMETER_NAME(lrc)
+    BOOST_PARAMETER_NAME(lr)
     BOOST_PARAMETER_NAME(rr)
-#endif
 }
 
 #include <boost/config.hpp>
@@ -36,7 +32,7 @@ namespace test {
     {
         int i;
         int j;
-        
+
         template <typename ArgPack>
         A(ArgPack const& args) : i(args[param::_a0]), j(args[param::_a1])
         {
@@ -159,12 +155,7 @@ int main()
     BOOST_TEST_EQ(198.9, b1.l());
     int x = 7;
     int const y = 9;
-#if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
-    test::G g((param::_lr = y, param::_rr = x, param::_lrc = 8));
-    test::G g0((param::_lr = 8, param::_rr = y, param::_lrc = x));
-#else
     test::G g((param::_lr = x, param::_rr = 8, param::_lrc = y));
-#endif
     BOOST_TEST_EQ(7, g.j);
     BOOST_TEST_EQ(8, g.i);
     BOOST_TEST_EQ(9, g.k);

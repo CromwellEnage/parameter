@@ -13,28 +13,21 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux
 
-#include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-    (0 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+#if 1
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 #else
-#include <type_traits>
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
-#else
 #include <boost/type_traits/is_convertible.hpp>
 #include <boost/type_traits/is_lvalue_reference.hpp>
-#endif  // perfect forwarding or exponential overloads
+#endif
 
 namespace boost { namespace parameter { namespace aux {
 
-#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-    (0 == BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
+#if 0
     template <typename T>
     struct is_tagged_argument_aux
       : ::boost::is_convertible<
@@ -50,32 +43,22 @@ namespace boost { namespace parameter { namespace aux {
     template <typename T>
     struct is_tagged_argument
       : ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-    (0 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
+#if 1
         // Cannot use is_convertible<> to check if T is derived from
         // tagged_argument_base. -- Cromwell D. Enage
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_base_of<
                 ::boost::parameter::aux::tagged_argument_base
               , typename ::boost::remove_const<
                     typename ::boost::remove_reference<T>::type
                 >::type
             >
-#else
-            ::std::is_base_of<
-                ::boost::parameter::aux::tagged_argument_base
-              , typename ::std::remove_const<
-                    typename ::std::remove_reference<T>::type
-                >::type
-            >
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
           , ::boost::mpl::true_
           , ::boost::mpl::false_
 #else
             ::boost::is_lvalue_reference<T>
           , ::boost::mpl::false_
           , ::boost::parameter::aux::is_tagged_argument_aux<T>
-#endif  // perfect forwarding or exponential overloads
+#endif
         >::type
     {
     };
