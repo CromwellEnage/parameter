@@ -184,7 +184,7 @@ MPL_TEST_CASE()
 #if defined(BOOST_NO_CXX11_SMART_PTR)
     BOOST_MPL_ASSERT((
         boost::mpl::if_<
-            boost::is_sameis_same<c2::held_type,std::auto_ptr<D> >
+            boost::is_same<c2::held_type,std::auto_ptr<D> >
           , boost::mpl::true_
           , boost::mpl::false_
         >::type
@@ -251,7 +251,7 @@ MPL_TEST_CASE()
 #if defined(BOOST_NO_CXX11_SMART_PTR)
     BOOST_MPL_ASSERT((
         boost::mpl::if_<
-            std::is_sameis_same<c2::held_type,std::auto_ptr<D> >
+            std::is_same<c2::held_type,std::auto_ptr<D> >
           , boost::mpl::true_
           , boost::mpl::false_
         >::type
