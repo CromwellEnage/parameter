@@ -951,15 +951,16 @@ either:
 
 These templates describe the requirements on a function parameter.
 
-:Defined in:
-
-    - |optional_header|
-    - |required_header|
+``optional`` is defined in: |optional_header|_
+``required`` is defined in: |required_header|_
+Both headers are included by: |preprocessor_header|_
 
 .. |optional_header| replace:: boost/parameter/optional.hpp
 .. _optional_header: ../../../../boost/parameter/optional.hpp
 .. |required_header| replace:: boost/parameter/required.hpp
 .. _required_header: ../../../../boost/parameter/required.hpp
+.. |preprocessor_header| replace:: boost/parameter/preprocessor.hpp
+.. _preprocessor_header: ../../../../boost/parameter/preprocessor.hpp
 
 :Specializations model: |ParameterSpec|_
 
@@ -982,9 +983,13 @@ Class`_ that returns ``mpl::true_`` for any argument.
 This template is used to wrap the *keyword tag* argument to
 ``optional`` or ``required``.
 
-:Defined in: `boost/parameter/deduced.hpp`__
+:Defined in: |deduced_header|_
+:Included by: |preprocessor_header|_
 
-__ ../../../../boost/parameter/deduced.hpp
+.. |deduced_header| replace:: boost/parameter/deduced.hpp
+.. _deduced_header: ../../../../boost/parameter/deduced.hpp
+.. |preprocessor_header| replace:: boost/parameter/preprocessor.hpp
+.. _preprocessor_header: ../../../../boost/parameter/preprocessor.hpp
 
 .. parsed-literal::
 
@@ -1581,7 +1586,7 @@ Same as ``BOOST_PARAMETER_MEMBER_FUNCTION``, except that the overloaded
 forwarding member functions and their helper methods are
 ``const``-qualified.
 
-The |preprocessor|_ test program demonstrates proper usage of this macro.
+The |preprocessor|_ test programs demonstrates proper usage of this macro.
 
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
@@ -1604,11 +1609,6 @@ forwarding member function overloads is ``operator()``.
 * ``boost_param_dispatch_0boost_ ## __LINE__ ## operator``
 * ``boost_param_dispatch_1boost_ ## __LINE__ ## operator``
 
-The |preprocessor|_ test program demonstrates proper usage of this macro.
-
-.. |preprocessor| replace:: preprocessor.cpp
-.. _preprocessor: ../../test/preprocessor.cpp
-
 ``BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR(result, tag_ns, arguments)``
 ---------------------------------------------------------------------------
 
@@ -1619,11 +1619,9 @@ __ ../../../../boost/parameter/preprocessor.hpp
 Same as ``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR``, except that the overloaded
 function call operators and their helper methods are ``const``-qualified.
 
-The |preprocessor|_ and |preprocessor_eval_cat_8|_ test programs demonstrate
-proper usage of this macro.
+The |preprocessor_eval_cat_8|_ test program demonstrates proper usage of this
+macro.
 
-.. |preprocessor| replace:: preprocessor.cpp
-.. _preprocessor: ../../test/preprocessor.cpp
 .. |preprocessor_eval_cat_8| replace:: preprocessor_eval_cat_8.cpp
 .. _preprocessor_eval_cat_8: ../../test/preprocessor_eval_cat_8.cpp
 
