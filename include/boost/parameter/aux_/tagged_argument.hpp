@@ -65,10 +65,10 @@ namespace boost { namespace parameter { namespace aux {
         BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
     )
 #include <boost/type_traits/is_const.hpp>
+#include <boost/type_traits/is_function.hpp>
 #endif
 
 #if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-#include <boost/type_traits/is_function.hpp>
 #include <boost/type_traits/is_scalar.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 #endif
@@ -139,7 +139,10 @@ namespace boost { namespace parameter { namespace aux {
         // Wrap plain (non-UDT) function objects in either
         // a boost::function or a std::function. -- Cromwell D. Enage
         typedef typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
+        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
+    )
             ::boost::is_function<arg_type>
 #else
             ::std::is_function<arg_type>
@@ -158,7 +161,10 @@ namespace boost { namespace parameter { namespace aux {
         // argument is an lvalue, then Arg will be deduced to the lvalue
         // reference. -- Cromwell D. Enage
         typedef typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
+        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
+    )
             ::boost::is_function<arg_type>
 #else
             ::std::is_function<arg_type>
@@ -171,7 +177,10 @@ namespace boost { namespace parameter { namespace aux {
         // Store plain functions by value, everything else by reference.
         // -- Cromwell D. Enage
         typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
+        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
+    )
             ::boost::is_function<arg_type>
 #else
             ::std::is_function<arg_type>

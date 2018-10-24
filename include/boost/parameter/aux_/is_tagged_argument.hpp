@@ -18,9 +18,6 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/if.hpp>
 
 #if ( \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-) || ( \
     !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
     (0 == BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
 )
@@ -34,14 +31,11 @@ namespace boost { namespace parameter { namespace aux {
 #else
 #include <type_traits>
 #endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
-#endif  // MSVC-11.0, or no perfect forwarding and no exponential overloads
+#endif  // no perfect forwarding and no exponential overloads
 
 namespace boost { namespace parameter { namespace aux {
 
 #if ( \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-) || ( \
     !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
     (0 == BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
 )
@@ -61,9 +55,6 @@ namespace boost { namespace parameter { namespace aux {
     struct is_tagged_argument
       : ::boost::mpl::if_<
 #if ( \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-) || ( \
     !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
     (0 == BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
 )
@@ -90,7 +81,7 @@ namespace boost { namespace parameter { namespace aux {
 #endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
           , ::boost::mpl::true_
           , ::boost::mpl::false_
-#endif  // MSVC-11.0, or no perfect forwarding and no exponential overloads
+#endif  // no perfect forwarding and no exponential overloads
         >::type
     {
     };
