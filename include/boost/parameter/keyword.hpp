@@ -9,32 +9,17 @@
 #include <boost/parameter/aux_/tag.hpp>
 #include <boost/parameter/aux_/default.hpp>
 #include <boost/parameter/keyword_fwd.hpp>
-#include <boost/parameter/config.hpp>
+#include <boost/config.hpp>
 
 #if !defined(BOOST_NO_SFINAE)
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/core/enable_if.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+#include <boost/type_traits/is_const.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/is_scalar.hpp>
-#else
-#include <type_traits>
-#endif
 #endif  // BOOST_NO_SFINAE
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
-#include <boost/type_traits/is_const.hpp>
-#endif
-
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#include <boost/move/utility_core.hpp>
-#endif
 
 namespace boost { namespace parameter {
 
@@ -58,32 +43,20 @@ namespace boost { namespace parameter {
     {
         template <typename T>
 #if defined(BOOST_NO_SFINAE)
-        inline typename ::boost::parameter::aux::tag<Tag,T const&>::type
+        inline typename ::boost::parameter::aux::tag<Tag,T const>::type
 #else
         inline typename ::boost::lazy_enable_if<
             typename ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 ::boost::is_scalar<T>
-#else
-                ::std::is_scalar<T>
-#endif
               , ::boost::mpl::true_
               , ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
                         typename Tag::qualifier
                       , ::boost::parameter::in_reference
                     >
                   , ::boost::mpl::true_
                   , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                         ::boost::is_same<
-#else
-                        ::std::is_same<
-#endif
                             typename Tag::qualifier
                           , ::boost::parameter::forward_reference
                         >
@@ -92,13 +65,13 @@ namespace boost { namespace parameter {
                     >
                 >
             >::type
-          , ::boost::parameter::aux::tag<Tag,T const&>
+          , ::boost::parameter::aux::tag<Tag,T const>
         >::type BOOST_CONSTEXPR
 #endif  // BOOST_NO_SFINAE
             operator=(T const& x) const
         {
             typedef typename ::boost::parameter::aux
-            ::tag<Tag,T const&>::type result;
+            ::tag<Tag,T const>::type result;
             return result(x);
         }
 
@@ -108,28 +81,16 @@ namespace boost { namespace parameter {
 #else
         inline typename ::boost::enable_if<
             typename ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 ::boost::is_scalar<Default>
-#else
-                ::std::is_scalar<Default>
-#endif
               , ::boost::mpl::true_
               , ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
                         typename Tag::qualifier
                       , ::boost::parameter::in_reference
                     >
                   , ::boost::mpl::true_
                   , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                         ::boost::is_same<
-#else
-                        ::std::is_same<
-#endif
                             typename Tag::qualifier
                           , ::boost::parameter::forward_reference
                         >
@@ -148,52 +109,35 @@ namespace boost { namespace parameter {
 
         template <typename T>
 #if defined(BOOST_NO_SFINAE)
-        inline typename ::boost::parameter::aux::tag<Tag,T&>::type
+        inline typename ::boost::parameter::aux::tag<Tag,T>::type
 #else
         inline typename ::boost::lazy_enable_if<
             typename ::boost::mpl::eval_if<
                 typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
                         typename Tag::qualifier
                       , ::boost::parameter::out_reference
                     >
                   , ::boost::mpl::true_
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                   , ::boost::is_same<
-#else
-                  , ::std::is_same<
-#endif
                         typename Tag::qualifier
                       , ::boost::parameter::forward_reference
                     >
                 >::type
               , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
-                    // MSVC 11.0 on AppVeyor reports error C2039:
-                    // '_Is_const': is not a member of 'std::_Ptr_traits<_Ty>'
                     ::boost::is_const<T>
-#else
-                    ::std::is_const<T>
-#endif
                   , ::boost::mpl::false_
                   , ::boost::mpl::true_
                 >
               , ::boost::mpl::false_
             >::type
-          , ::boost::parameter::aux::tag<Tag,T&>
+          , ::boost::parameter::aux::tag<Tag,T>
         >::type BOOST_CONSTEXPR
 #endif  // BOOST_NO_SFINAE
             operator=(T& x) const
         {
             typedef typename ::boost::parameter::aux
-            ::tag<Tag,T&>::type result;
+            ::tag<Tag,T>::type result;
             return result(x);
         }
 
@@ -204,35 +148,18 @@ namespace boost { namespace parameter {
         inline typename ::boost::enable_if<
             typename ::boost::mpl::eval_if<
                 typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
                         typename Tag::qualifier
                       , ::boost::parameter::out_reference
                     >
                   , ::boost::mpl::true_
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                   , ::boost::is_same<
-#else
-                  , ::std::is_same<
-#endif
                         typename Tag::qualifier
                       , ::boost::parameter::forward_reference
                     >
                 >::type
               , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
-                    // MSVC 11.0 on AppVeyor reports error C2039:
-                    // '_Is_const': is not a member of 'std::_Ptr_traits<_Ty>'
                     ::boost::is_const<Default>
-#else
-                    ::std::is_const<Default>
-#endif
                   , ::boost::mpl::false_
                   , ::boost::mpl::true_
                 >
@@ -260,174 +187,6 @@ namespace boost { namespace parameter {
         {
             return ::boost::parameter::aux::lazy_default<Tag,Default>(d);
         }
-
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        template <typename T>
-        inline typename ::boost::lazy_enable_if<
-            typename ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                ::boost::is_scalar<T>
-#else
-                ::std::is_scalar<T>
-#endif
-              , ::boost::mpl::false_
-              , ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                    ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
-                        typename Tag::qualifier
-                      , ::boost::parameter::in_reference
-                    >
-                  , ::boost::mpl::true_
-                  , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                        ::boost::is_same<
-#else
-                        ::std::is_same<
-#endif
-                            typename Tag::qualifier
-                          , ::boost::parameter::forward_reference
-                        >
-                      , ::boost::mpl::true_
-                      , ::boost::mpl::false_
-                    >
-                >
-            >::type
-          , ::boost::parameter::aux::tag<Tag,T const>
-        >::type BOOST_CONSTEXPR
-            operator=(T const&& x) const
-        {
-            typedef typename ::boost::parameter::aux
-            ::tag<Tag,T const>::type result;
-            return result(::boost::forward<T const>(x));
-        }
-
-        template <typename T>
-        inline typename ::boost::lazy_enable_if<
-            typename ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                ::boost::is_scalar<T>
-#else
-                ::std::is_scalar<T>
-#endif
-              , ::boost::mpl::false_
-              , ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                    ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
-                        typename Tag::qualifier
-                      , ::boost::parameter::consume_reference
-                    >
-                  , ::boost::mpl::true_
-                  , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                        ::boost::is_same<
-#else
-                        ::std::is_same<
-#endif
-                            typename Tag::qualifier
-                          , ::boost::parameter::forward_reference
-                        >
-                      , ::boost::mpl::true_
-                      , ::boost::mpl::false_
-                    >
-                >
-            >::type
-          , ::boost::parameter::aux::tag<Tag,T>
-        >::type BOOST_CONSTEXPR
-            operator=(T&& x) const
-        {
-            typedef typename ::boost::parameter::aux::tag<Tag,T>::type result;
-            return result(::boost::forward<T>(x));
-        }
-
-        template <typename Default>
-        inline typename ::boost::enable_if<
-            typename ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                ::boost::is_scalar<Default>
-#else
-                ::std::is_scalar<Default>
-#endif
-              , ::boost::mpl::false_
-              , ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                    ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
-                        typename Tag::qualifier
-                      , ::boost::parameter::in_reference
-                    >
-                  , ::boost::mpl::true_
-                  , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                        ::boost::is_same<
-#else
-                        ::std::is_same<
-#endif
-                            typename Tag::qualifier
-                          , ::boost::parameter::forward_reference
-                        >
-                      , ::boost::mpl::true_
-                      , ::boost::mpl::false_
-                    >
-                >
-            >::type
-          , ::boost::parameter::aux::default_r_<Tag,Default const>
-        >::type
-            operator|(Default const&& d) const
-        {
-            return ::boost::parameter::aux::default_r_<Tag,Default const>(
-                ::boost::forward<Default const>(d)
-            );
-        }
-
-        template <typename Default>
-        inline typename ::boost::enable_if<
-            typename ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                ::boost::is_scalar<Default>
-#else
-                ::std::is_scalar<Default>
-#endif
-              , ::boost::mpl::false_
-              , ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                    ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
-                        typename Tag::qualifier
-                      , ::boost::parameter::consume_reference
-                    >
-                  , ::boost::mpl::true_
-                  , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                        ::boost::is_same<
-#else
-                        ::std::is_same<
-#endif
-                            typename Tag::qualifier
-                          , ::boost::parameter::forward_reference
-                        >
-                      , ::boost::mpl::true_
-                      , ::boost::mpl::false_
-                    >
-                >
-            >::type
-          , ::boost::parameter::aux::default_r_<Tag,Default>
-        >::type
-            operator|(Default&& d) const
-        {
-            return ::boost::parameter::aux
-            ::default_r_<Tag,Default>(::boost::forward<Default>(d));
-        }
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
      public: // Insurance against ODR violations
         // Users will need to define their keywords in header files.  To
