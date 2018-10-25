@@ -208,6 +208,8 @@ namespace boost { namespace parameter {
     ::keyword<Tag>::instance = ::boost::parameter::keyword<Tag>();
 }} // namespace boost::parameter
 
+#include <boost/parameter/aux_/name.hpp>
+
 // Reduces boilerplate required to declare and initialize keywords without
 // violating ODR.  Declares a keyword tag type with the given name in
 // namespace tag_namespace, and declares and initializes a reference in an
@@ -221,6 +223,9 @@ namespace boost { namespace parameter {
             {                                                                \
                 return #name;                                                \
             }                                                                \
+            typedef BOOST_PARAMETER_TAG_PLACEHOLDER_TYPE(name) _;            \
+            typedef BOOST_PARAMETER_TAG_PLACEHOLDER_TYPE(name) _1;           \
+            typedef ::boost::parameter::forward_reference qualifier;         \
         };                                                                   \
     }                                                                        \
     namespace                                                                \
