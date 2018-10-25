@@ -141,9 +141,9 @@ namespace boost { namespace parameter { namespace aux {
 
 #if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
-        typedef typename ::boost::remove_pointer<
-            typename ::boost::remove_const<
-                typename ::boost::remove_reference<Arg>::type
+        typedef typename ::boost::remove_const<
+            typename ::boost::remove_reference<
+                typename ::boost::remove_pointer<Arg>::type
             >::type
         >::type maybe_function;
 #endif
