@@ -60,6 +60,12 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/apply_wrap.hpp>
 
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+#include <boost/type_traits/remove_pointer.hpp>
+#include <boost/type_traits/remove_reference.hpp>
+#endif
+
 #if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
         BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
         BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
@@ -133,16 +139,31 @@ namespace boost { namespace parameter { namespace aux {
 #endif
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+        typedef typename ::boost::remove_pointer<
+            typename ::boost::remove_const<
+                typename ::boost::remove_reference<Arg>::type
+            >::type
+        >::type maybe_function;
+#endif
+
      public:
         typedef Keyword key_type;
 
         // Wrap plain (non-UDT) function objects in either
         // a boost::function or a std::function. -- Cromwell D. Enage
         typedef typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+            ::boost::is_function<maybe_function>
+#if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
+          , ::boost::function<maybe_function>
+#else
+          , ::std::function<maybe_function>
+#endif
+#else   // not MSVC-11.0
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_function<arg_type>
 #else
             ::std::is_function<arg_type>
@@ -152,6 +173,7 @@ namespace boost { namespace parameter { namespace aux {
 #else
           , ::std::function<arg_type>
 #endif
+#endif  // MSVC-11.0
           , Arg
         >::type value_type;
 
@@ -161,10 +183,10 @@ namespace boost { namespace parameter { namespace aux {
         // argument is an lvalue, then Arg will be deduced to the lvalue
         // reference. -- Cromwell D. Enage
         typedef typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+            ::boost::is_function<maybe_function>
+#elif defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_function<arg_type>
 #else
             ::std::is_function<arg_type>
@@ -177,10 +199,10 @@ namespace boost { namespace parameter { namespace aux {
         // Store plain functions by value, everything else by reference.
         // -- Cromwell D. Enage
         typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
+    BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+            ::boost::is_function<maybe_function>
+#elif defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_function<arg_type>
 #else
             ::std::is_function<arg_type>

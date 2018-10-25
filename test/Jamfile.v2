@@ -1147,7 +1147,7 @@ alias parameter_slp_tests
 
 alias parameter_all_but_preproc_eval_cat_fail_tests
     :
-        parameter_11111110_stress_tests
+        parameter_1111110_stress_tests
         parameter_slp_tests
     ;
 
