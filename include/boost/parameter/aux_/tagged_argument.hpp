@@ -143,7 +143,7 @@ namespace boost { namespace parameter { namespace aux {
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
         typedef typename ::boost::remove_const<
             typename ::boost::remove_reference<
-                typename ::boost::remove_pointer<Arg>::type
+                typename ::boost::remove_pointer<arg_type>::type
             >::type
         >::type maybe_function;
 #endif
