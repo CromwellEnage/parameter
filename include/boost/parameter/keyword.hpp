@@ -351,6 +351,7 @@ namespace boost { namespace parameter {
             }                                                                \
             typedef BOOST_PARAMETER_TAG_PLACEHOLDER_TYPE(name) _;            \
             typedef BOOST_PARAMETER_TAG_PLACEHOLDER_TYPE(name) _1;           \
+            typedef ::boost::parameter::forward_reference qualifier;         \
         };                                                                   \
     }                                                                        \
     namespace                                                                \
