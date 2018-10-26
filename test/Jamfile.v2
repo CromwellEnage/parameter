@@ -177,7 +177,7 @@ alias parameter_standard_tests
         :
         :
             <define>BOOST_PARAMETER_MAX_ARITY=16
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=1
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
         :
         :
             <preserve-target-tests>off
@@ -187,7 +187,7 @@ alias parameter_standard_tests
         :
         :
             <define>BOOST_PARAMETER_MAX_ARITY=16
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=1
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
             <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
         :
             eval_cat_16_no_perfect_fwd
@@ -199,7 +199,7 @@ alias parameter_standard_tests
         :
         :
             <define>BOOST_PARAMETER_MAX_ARITY=4
-            <define>BOOST_PARAMETER_ALL_CONST_THRESHOLD_ARITY=5
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
             <preserve-target-tests>off
@@ -830,7 +830,7 @@ alias parameter_literate_tests
             <define>BOOST_PARAMETER_MAX_ARITY=5
             <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
         :
-            hop0-no_perf_fwd
+            wtf0-no_perf_fwd
     ]
     [ compile literate/defining-the-keywords0.cpp ]
     [ compile literate/defining-the-keywords0.cpp
