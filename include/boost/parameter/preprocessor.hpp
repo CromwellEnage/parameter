@@ -1,4 +1,5 @@
 // Copyright Daniel Wallin 2006.
+// Copyright Cromwell D. Enage 2017.
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
@@ -112,8 +113,10 @@
     )
 /**/
 
-// Helper macro for BOOST_PARAMETER_MEMBER_FUNCTION and
-// BOOST_PARAMETER_CONST_MEMBER_FUNCTION.
+// Helper macro for BOOST_PARAMETER_MEMBER_FUNCTION
+// BOOST_PARAMETER_CONST_MEMBER_FUNCTION,
+// BOOST_PARAMETER_FUNCTION_CALL_OPERATOR, and
+// BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR.
 #define BOOST_PARAMETER_MEMBER_FUNCTION_AUX(r, name, impl, tag_ns, c, args)  \
     BOOST_PARAMETER_FUNCTION_HEAD(r, impl, tag_ns, args)                     \
     BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS(name, impl, args, c)          \
