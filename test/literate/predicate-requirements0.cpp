@@ -87,8 +87,6 @@ BOOST_PARAMETER_FUNCTION(
 )
 {}
 
-#include <boost/core/lightweight_test.hpp>
-
 int main()
 {
     typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS> G;
@@ -101,6 +99,5 @@ int main()
 
     ::depth_first_search(g);
     ::depth_first_search(g, _root_vertex = (int)x);
-    return boost::report_errors();
 }
 
