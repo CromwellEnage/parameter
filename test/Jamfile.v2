@@ -197,7 +197,193 @@ alias parameter_standard_tests
 
 alias parameter_literate_tests
     :
-    [ build-project literate ]
+    [ run literate/extracting-parameter-types0.cpp
+        :
+        :
+        :
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/extracting-parameter-types1.cpp
+        :
+        :
+        :
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/top-level0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=3
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/predicate-requirements0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=5
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/building-argumentpacks0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/lazy-default-computation0.cpp
+        :
+        :
+        :
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/lazy-default-computation1.cpp
+        :
+        :
+        :
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/namespaces0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/namespaces1.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/namespaces2.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/namespaces3.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/parameter-enabled-constructors0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/deduced-template-parameters0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/deduced-parameters0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=5
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/default-expression-evaluation0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=5
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/fine-grained-name-control0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ compile literate/template-keywords0.cpp ]
+    [ compile literate/template-keywords1.cpp ]
+    [ compile literate/template-keywords1.cpp
+        :
+            <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
+        :
+            tk1-no_perf_fwd
+    ]
+    [ compile literate/headers-and-namespaces0.cpp ]
+    [ compile literate/handling-out-parameters0.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=5
+    ]
+    [ compile literate/writing-the-function0.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=5
+    ]
+    [ compile literate/defining-the-keywords0.cpp ]
+    [ compile literate/defining-the-keywords1.cpp ]
+    [ compile literate/exercising-the-code-so-far0.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+    ]
+    [ compile literate/optional-parameters0.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=5
+    ]
+    [ compile literate/static-member-functions0.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+    ]
+    [ compile literate/required-parameters0.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+    ]
+    [ compile literate/class-template-skeleton0.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+    ]
+    [ compile literate/parameter-enabled-member-functions0.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+    ]
+    [ compile literate/parameter-enabled-member-functions1.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+    ]
     ;
 
 alias parameter_python_test
