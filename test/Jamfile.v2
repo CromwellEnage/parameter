@@ -187,12 +187,6 @@ alias parameter_standard_tests
         :
             compose_fail_0
     ]
-    [ compile-fail compose.cpp
-        :
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_1
-        :
-            compose_fail_1
-    ]
     [ compile-fail deduced.cpp
         :
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
@@ -443,11 +437,15 @@ alias parameter_all_tests
 
 alias parameter_msvc11_fail_tests
     :
-    [ compile-fail compose.cpp
+    [ run-fail compose.cpp
         :
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
+        :
+        :
+            <define>LIBS_PARAMETER_TEST_RUN_FAILURE
         :
             compose_msvc11
+        :
+            <preserve-target-tests>off
     ]
     ;
 
