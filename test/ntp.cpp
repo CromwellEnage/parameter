@@ -5,7 +5,8 @@
 
 #include <boost/parameter/config.hpp>
 
-#if (BOOST_PARAMETER_MAX_ARITY < 4)
+#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
+    (BOOST_PARAMETER_MAX_ARITY < 4)
 #error Define BOOST_PARAMETER_MAX_ARITY as 4 or greater.
 #endif
 
@@ -22,9 +23,14 @@ namespace test {
 
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_reference.hpp>
+#else
+#include <type_traits>
+#endif
 
 namespace test {
 
@@ -33,10 +39,17 @@ namespace test {
         template <typename T, typename Args>
         struct apply
           : boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_base_of<
                     X
                   , typename boost::remove_const<
                         typename boost::remove_reference<T>::type
+#else
+                std::is_base_of<
+                    X
+                  , typename std::remove_const<
+                        typename std::remove_reference<T>::type
+#endif
                     >::type
                 >
               , boost::mpl::true_
@@ -120,12 +133,16 @@ namespace test {
     };
 } // namespace test
 
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
+#endif
+
 #include <boost/mpl/assert.hpp>
 #include <boost/mpl/aux_/test.hpp>
 
 MPL_TEST_CASE()
 {
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
     BOOST_MPL_ASSERT((
         boost::mpl::if_<
             boost::is_same<
@@ -219,5 +236,100 @@ MPL_TEST_CASE()
           , boost::mpl::false_
         >::type
     ));
+#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+    BOOST_MPL_ASSERT((
+        boost::mpl::if_<
+            std::is_same<
+                test::with_ntp<>::type
+              , void(*)(void*, void*, void*, void*)
+            >
+          , boost::mpl::true_
+          , boost::mpl::false_
+        >::type
+    ));
+    BOOST_MPL_ASSERT((
+        boost::mpl::if_<
+            std::is_same<
+                test::with_ntp<test::a2_is<int> >::type
+              , void(*)(void*, void*, int, void*)
+            >
+          , boost::mpl::true_
+          , boost::mpl::false_
+        >::type
+    ));
+    BOOST_MPL_ASSERT((
+        boost::mpl::if_<
+            std::is_same<
+                test::with_ntp<test::a1_is<int> >::type
+              , void(*)(void*, int, void*, void*)
+            >
+          , boost::mpl::true_
+          , boost::mpl::false_
+        >::type
+    ));
+    BOOST_MPL_ASSERT((
+        boost::mpl::if_<
+            std::is_same<
+                test::with_ntp<
+                    test::a2_is<int const>
+                  , test::a1_is<float>
+                >::type
+              , void(*)(void*, float, int const, void*)
+            >
+          , boost::mpl::true_
+          , boost::mpl::false_
+        >::type
+    ));
+    BOOST_MPL_ASSERT((
+        boost::mpl::if_<
+            std::is_same<
+                test::with_ntp<int const>::type
+              , void(*)(int const, void*, void*, void*)
+            >
+          , boost::mpl::true_
+          , boost::mpl::false_
+        >::type
+    ));
+    BOOST_MPL_ASSERT((
+        boost::mpl::if_<
+            std::is_same<
+                test::with_ntp<int,float>::type
+              , void(*)(int, float, void*, void*)
+            >
+          , boost::mpl::true_
+          , boost::mpl::false_
+        >::type
+    ));
+    BOOST_MPL_ASSERT((
+        boost::mpl::if_<
+            std::is_same<
+                test::with_ntp<int,float,char>::type
+              , void(*)(int, float, char, void*)
+            >
+          , boost::mpl::true_
+          , boost::mpl::false_
+        >::type
+    ));
+    BOOST_MPL_ASSERT((
+        boost::mpl::if_<
+            std::is_same<
+                test::with_ntp<test::a0_is<int>,test::Y>::type
+              , void(*)(int, void*, void*, test::Y)
+            >
+          , boost::mpl::true_
+          , boost::mpl::false_
+        >::type
+    ));
+    BOOST_MPL_ASSERT((
+        boost::mpl::if_<
+            std::is_same<
+                test::with_ntp<int&,test::a2_is<char>,test::Y>::type
+              , void(*)(int&, void*, char, test::Y)
+            >
+          , boost::mpl::true_
+          , boost::mpl::false_
+        >::type
+    ));
+#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 }
 

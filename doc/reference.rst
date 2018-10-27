@@ -553,19 +553,29 @@ __ ../../../../boost/parameter/keyword.hpp
 
         template <typename T>
         typename boost::`enable_if`_<
-            boost::mpl::`and_`_<
-                boost::mpl::`or_`_<
-                    boost::`is_same`_<
+            typename boost::mpl::`eval_if_`_<
+                typename boost::mpl::`eval_if_`_<
+                    std::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::out_reference
                     >
-                  , boost::`is_same`_<
-                        typename Tag::qualifier
-                      , boost::parameter::forward_reference
+                  , boost::mpl::`true_`_
+                  , boost::mpl::`if_`_<
+                        std::`is_same`_<
+                            typename Tag::qualifier
+                          , boost::parameter::forward_reference
+                        >
+                      , boost::mpl::`true_`_
+                      , boost::mpl::`false_`_
                     >
+                >::type
+              , boost::mpl::`if_`_<
+                    std::`is_const`_<T>
+                  , boost::mpl::`false_`_
+                  , boost::mpl::`true_`_
                 >
-              , boost::mpl::`not_`_<boost::`is_const`_<T> >
-            >
+              , boost::mpl::`false_`_
+            >::type
           , |ArgumentPack|_
         >::type constexpr
             `operator=`_\(T& value) const;
@@ -597,19 +607,29 @@ __ ../../../../boost/parameter/keyword.hpp
 
         template <typename T>
         typename boost::`enable_if`_<
-            boost::mpl::`and_`_<
-                boost::mpl::`or_`_<
-                    boost::`is_same`_<
+            typename boost::mpl::`eval_if_`_<
+                typename boost::mpl::`eval_if_`_<
+                    std::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::out_reference
                     >
-                  , boost::`is_same`_<
-                        typename Tag::qualifier
-                      , boost::parameter::forward_reference
+                  , boost::mpl::`true_`_
+                  , boost::mpl::`if_`_<
+                        std::`is_same`_<
+                            typename Tag::qualifier
+                          , boost::parameter::forward_reference
+                        >
+                      , boost::mpl::`true_`_
+                      , boost::mpl::`false_`_
                     >
+                >::type
+              , boost::mpl::`if_`_<
+                    std::`is_const`_<T>
+                  , boost::mpl::`false_`_
+                  , boost::mpl::`true_`_
                 >
-              , boost::mpl::`not_`_<boost::`is_const`_<T> >
-            >
+              , boost::mpl::`false_`_
+            >::type
           , *tagged default*
         >::type
             `operator|`_\(T& x) const;
@@ -952,7 +972,9 @@ either:
 These templates describe the requirements on a function parameter.
 
 ``optional`` is defined in: |optional_header|_
+
 ``required`` is defined in: |required_header|_
+
 Both headers are included by: |preprocessor_header|_
 
 .. |optional_header| replace:: boost/parameter/optional.hpp

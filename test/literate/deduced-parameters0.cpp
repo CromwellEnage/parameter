@@ -42,8 +42,14 @@ void f()
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/eval_if.hpp>
-#include <boost/type_traits/is_convertible.hpp>
 
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+#include <boost/type_traits/is_convertible.hpp>
+#else
+#include <type_traits>
+#endif
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 BOOST_PARAMETER_FUNCTION(
     (void), def, tag,
     (required (name,(char const*)) (func,*) )  // nondeduced
@@ -71,6 +77,35 @@ BOOST_PARAMETER_FUNCTION(
         )
     )
 )
+#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+BOOST_PARAMETER_FUNCTION(
+    (void), def, tag,
+    (required (name,(char const*)) (func,*) )  // nondeduced
+    (deduced
+        (optional
+            (docstring, (char const*), "")
+            (keywords
+              , *(is_keyword_expression<boost::mpl::_>) // see 5
+              , no_keywords()
+            )
+            (policies
+              , *(
+                    boost::mpl::eval_if<
+                        std::is_convertible<boost::mpl::_,char const*>
+                      , boost::mpl::false_
+                      , boost::mpl::if_<
+                            is_keyword_expression<boost::mpl::_> // see 5
+                          , boost::mpl::false_
+                          , boost::mpl::true_
+                        >
+                    >
+                )
+              , default_call_policies()
+            )
+        )
+    )
+)
+#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 {
 }
 

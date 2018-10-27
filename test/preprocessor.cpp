@@ -8,8 +8,13 @@
 #include <boost/parameter/keyword.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
-#include <boost/type_traits/is_same.hpp>
 #include "basics.hpp"
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+#include <boost/type_traits/is_same.hpp>
+#else
+#include <type_traits>
+#endif
 
 namespace test {
 
@@ -28,6 +33,7 @@ namespace test {
             Args,test::tag::index,int&
         >::type index_type;
 
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         BOOST_MPL_ASSERT((
             typename boost::mpl::if_<
                 boost::is_same<index_type,int&>
@@ -35,6 +41,15 @@ namespace test {
               , boost::mpl::false_
             >::type
         ));
+#else
+        BOOST_MPL_ASSERT((
+            typename boost::mpl::if_<
+                std::is_same<index_type,int&>
+              , boost::mpl::true_
+              , boost::mpl::false_
+            >::type
+        ));
+#endif
 
         args[test::_tester](
             args[test::_name]
@@ -46,7 +61,9 @@ namespace test {
     }
 } // namespace test
 
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/remove_const.hpp>
+#endif
 
 namespace test {
 
@@ -65,6 +82,7 @@ namespace test {
             Args,test::tag::index,int
         >::type index_type;
 
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         BOOST_MPL_ASSERT((
             typename boost::mpl::if_<
                 boost::is_same<
@@ -75,6 +93,15 @@ namespace test {
               , boost::mpl::false_
             >::type
         ));
+#else
+        BOOST_MPL_ASSERT((
+            typename boost::mpl::if_<
+                std::is_same<typename std::remove_const<index_type>::type,int>
+              , boost::mpl::true_
+              , boost::mpl::false_
+            >::type
+        ));
+#endif
 
         args[test::_tester](
             args[test::_name]
@@ -86,7 +113,9 @@ namespace test {
     }
 } // namespace test
 
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/remove_reference.hpp>
+#endif
 
 namespace test {
 
@@ -103,6 +132,7 @@ namespace test {
     {
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) && \
     !BOOST_WORKAROUND(BOOST_MSVC, <= 1300)
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         BOOST_MPL_ASSERT((
             typename boost::mpl::if_<
                 boost::is_same<
@@ -115,6 +145,20 @@ namespace test {
               , boost::mpl::false_
             >::type
         ));
+#else
+        BOOST_MPL_ASSERT((
+            typename boost::mpl::if_<
+                std::is_same<
+                    typename std::remove_const<
+                        typename std::remove_reference<index_type>::type
+                    >::type
+                  , int
+                >
+              , boost::mpl::true_
+              , boost::mpl::false_
+            >::type
+        ));
+#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 #endif  // Borland/MSVC workarounds not needed.
 
         tester(name, value, index);
@@ -135,6 +179,7 @@ namespace test {
     {
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) && \
     !BOOST_WORKAROUND(BOOST_MSVC, <= 1300)
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         BOOST_MPL_ASSERT((
             typename boost::mpl::if_<
                 boost::is_same<
@@ -147,6 +192,20 @@ namespace test {
               , boost::mpl::false_
             >::type
         ));
+#else
+        BOOST_MPL_ASSERT((
+            typename boost::mpl::if_<
+                std::is_same<
+                    typename std::remove_const<
+                        typename std::remove_reference<index_type>::type
+                    >::type
+                  , int
+                >
+              , boost::mpl::true_
+              , boost::mpl::false_
+            >::type
+        ));
+#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 #endif  // Borland/MSVC workarounds not needed.
 
         tester(name, value, index);
@@ -158,8 +217,10 @@ namespace test {
 #if !defined(BOOST_NO_SFINAE)
 #include <boost/tti/detail/dnullptr.hpp>
 #include <boost/core/enable_if.hpp>
-#include <boost/type_traits/is_base_of.hpp>
 #include <string>
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+#include <boost/type_traits/is_base_of.hpp>
+#endif
 #endif
 
 namespace test {
@@ -175,7 +236,11 @@ namespace test {
 #if !defined(BOOST_NO_SFINAE)
           , typename boost::disable_if<
                 typename boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     boost::is_base_of<base_0,Args>
+#else
+                    std::is_base_of<base_0,Args>
+#endif
                   , boost::mpl::true_
                   , boost::mpl::false_
                 >::type
@@ -204,7 +269,11 @@ namespace test {
 #if !defined(BOOST_NO_SFINAE)
           , typename boost::disable_if<
                 typename boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     boost::is_base_of<base_1,Args>
+#else
+                    std::is_base_of<base_1,Args>
+#endif
                   , boost::mpl::true_
                   , boost::mpl::false_
                 >::type
@@ -367,7 +436,11 @@ namespace test {
     template <typename A0>
     typename boost::enable_if<
         typename boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_same<int,A0>
+#else
+            std::is_same<int,A0>
+#endif
           , boost::mpl::true_
           , boost::mpl::false_
         >::type
@@ -384,7 +457,11 @@ namespace test {
         template <typename T, typename Args>
         struct apply
           : boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<T,std::string>
+#else
+                std::is_convertible<T,std::string>
+#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >
@@ -410,7 +487,11 @@ namespace test {
     template <typename A0>
     typename boost::enable_if<
         typename boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_same<int,A0>
+#else
+            std::is_same<int,A0>
+#endif
           , boost::mpl::true_
           , boost::mpl::false_
         >::type

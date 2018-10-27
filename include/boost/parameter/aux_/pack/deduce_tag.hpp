@@ -83,7 +83,13 @@ namespace boost { namespace parameter { namespace aux {
 }}} // namespace boost::parameter::aux
 
 #include <boost/parameter/aux_/void.hpp>
+#include <boost/parameter/config.hpp>
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
+#else
+#include <type_traits>
+#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -111,7 +117,11 @@ namespace boost { namespace parameter { namespace aux {
     >
     struct deduce_tag
       : ::boost::mpl::eval_if<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_same<DeducedArgs,::boost::parameter::void_>
+#else
+            ::std::is_same<DeducedArgs,::boost::parameter::void_>
+#endif
           , ::boost::mpl::pair< ::boost::parameter::void_,UsedArgs>
           , ::boost::parameter::aux::deduce_tag0<
                 Argument

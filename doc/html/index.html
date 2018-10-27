@@ -767,11 +767,14 @@ corresponding names in <tt class="docutils literal">consume(…)</tt> or
 <p>In order to see what happens when parameters are bound to arguments that
 violate their category constraints, attempt to compile the
 <a class="reference external" href="../../test/compose.cpp"
->test/compose.cpp</a> test program with the
-<tt class="docutils literal">LIBS_PARAMETER_TEST_COMPILE_FAILURE</tt> macro
-<tt class="docutils literal">#defined</tt>.  You should encounter at least
-four compiler errors, each corresponding to a specific constraint
-violation.</p>
+>test/compose.cpp</a> test program with either the
+<tt class="docutils literal">LIBS_PARAMETER_TEST_COMPILE_FAILURE_0</tt> macro,
+the <tt class="docutils literal">LIBS_PARAMETER_TEST_COMPILE_FAILURE_1</tt>
+macro, the
+<tt class="docutils literal">LIBS_PARAMETER_TEST_COMPILE_FAILURE_2</tt> macro,
+or the <tt class="docutils literal">LIBS_PARAMETER_TEST_COMPILE_FAILURE_3</tt>
+<tt class="docutils literal">#defined</tt>.  You should encounter a compiler
+error caused by a specific constraint violation.</p>
 </div>
 <!-- @example.prepend('''
 #include <boost/parameter.hpp>

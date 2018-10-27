@@ -9,7 +9,8 @@
 
 #include <boost/parameter.hpp>
 
-#if (BOOST_PARAMETER_MAX_ARITY < 4)
+#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
+    (BOOST_PARAMETER_MAX_ARITY < 4)
 #error Define BOOST_PARAMETER_MAX_ARITY as 4 or greater.
 #endif
 
@@ -18,7 +19,12 @@
 #include <boost/mpl/assert.hpp>
 #include <boost/assert.hpp>
 #include <boost/core/lightweight_test.hpp>
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
+#else
+#include <type_traits>
+#endif
 
 namespace test {
 
@@ -64,6 +70,7 @@ namespace test {
               , Index_ const& i_
             ) const
         {
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             BOOST_MPL_ASSERT((
                 typename boost::mpl::if_<
                     boost::is_same<Index,Index_>
@@ -85,6 +92,29 @@ namespace test {
                   , boost::mpl::false_
                 >::type
             ));
+#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+            BOOST_MPL_ASSERT((
+                typename boost::mpl::if_<
+                    std::is_same<Index,Index_>
+                  , boost::mpl::true_
+                  , boost::mpl::false_
+                >::type
+            ));
+            BOOST_MPL_ASSERT((
+                typename boost::mpl::if_<
+                    std::is_same<Value,Value_>
+                  , boost::mpl::true_
+                  , boost::mpl::false_
+                >::type
+            ));
+            BOOST_MPL_ASSERT((
+                typename boost::mpl::if_<
+                    std::is_same<Name,Name_>
+                  , boost::mpl::true_
+                  , boost::mpl::false_
+                >::type
+            ));
+#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
             BOOST_TEST(test::equal(n, n_));
             BOOST_TEST(test::equal(v, v_));
             BOOST_TEST(test::equal(i, i_));

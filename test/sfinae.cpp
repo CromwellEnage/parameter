@@ -5,7 +5,8 @@
 
 #include <boost/parameter/config.hpp>
 
-#if (BOOST_PARAMETER_MAX_ARITY < 2)
+#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
+    (BOOST_PARAMETER_MAX_ARITY < 2)
 #error Define BOOST_PARAMETER_MAX_ARITY as 2 or greater.
 #endif
 
@@ -19,7 +20,12 @@ namespace test {
 
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
+#else
+#include <type_traits>
+#endif
 
 namespace test {
 
@@ -29,7 +35,11 @@ namespace test {
         template <typename From, typename Args>
         struct apply
           : boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<From,To>
+#else
+                std::is_convertible<From,To>
+#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >
@@ -112,7 +122,10 @@ namespace test {
     !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x592))
 
 #include <boost/core/enable_if.hpp>
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
+#endif
 
 namespace test {
 
@@ -124,7 +137,11 @@ namespace test {
     template <typename A0, typename A1>
     typename boost::enable_if<
         typename boost::mpl::if_<
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_same<int,A0>
+#else
+            std::is_same<int,A0>
+#endif
           , boost::mpl::true_
           , boost::mpl::false_
         >::type

@@ -8,9 +8,14 @@
 #include <boost/mpl/size.hpp>
 #include <boost/mpl/contains.hpp>
 #include <boost/mpl/assert.hpp>
-#include <boost/type_traits/add_pointer.hpp>
 #include <boost/parameter/config.hpp>
 #include "basics.hpp"
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
+#include <boost/type_traits/add_pointer.hpp>
+#else
+#include <type_traits>
+#endif
 
 namespace test {
 
@@ -35,7 +40,11 @@ namespace test {
 
         boost::mpl::for_each<
             Params
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
           , boost::add_pointer<boost::mpl::_1>
+#else
+          , std::add_pointer<boost::mpl::_1>
+#endif
         >(
             test::assert_in_set<Expected>()
         );

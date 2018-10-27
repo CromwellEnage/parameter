@@ -5,7 +5,8 @@
 
 #include <boost/parameter/config.hpp>
 
-#if (BOOST_PARAMETER_MAX_ARITY < 2)
+#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
+    (BOOST_PARAMETER_MAX_ARITY < 2)
 #error Define BOOST_PARAMETER_MAX_ARITY as 2 or greater.
 #endif
 
@@ -52,7 +53,12 @@ namespace test {
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/assert.hpp>
+
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
+#else
+#include <type_traits>
+#endif
 
 namespace test {
 
@@ -65,6 +71,7 @@ namespace test {
         )
     )
     {
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         BOOST_MPL_ASSERT((
             typename boost::mpl::if_<
                 boost::is_convertible<x_type,long>
@@ -79,6 +86,22 @@ namespace test {
               , boost::mpl::false_
             >::type
         ));
+#else
+        BOOST_MPL_ASSERT((
+            typename boost::mpl::if_<
+                std::is_convertible<x_type,long>
+              , boost::mpl::true_
+              , boost::mpl::false_
+            >::type
+        ));
+        BOOST_MPL_ASSERT((
+            typename boost::mpl::if_<
+                std::is_convertible<y_type,long>
+              , boost::mpl::true_
+              , boost::mpl::false_
+            >::type
+        ));
+#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
         return 0;
     }
 } // namespace test
@@ -93,6 +116,7 @@ namespace test {
         )
     )
     {
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         BOOST_MPL_ASSERT((
             typename boost::mpl::if_<
                 boost::is_convertible<x_type,test::count_instances>
@@ -100,6 +124,15 @@ namespace test {
               , boost::mpl::false_
             >::type
         ));
+#else
+        BOOST_MPL_ASSERT((
+            typename boost::mpl::if_<
+                std::is_convertible<x_type,test::count_instances>
+              , boost::mpl::true_
+              , boost::mpl::false_
+            >::type
+        ));
+#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
         x.noop();
         BOOST_TEST_LT(0, test::count_instances::count);
         return 0;
@@ -111,6 +144,7 @@ namespace test {
         )
     )
     {
+#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         BOOST_MPL_ASSERT((
             typename boost::mpl::if_<
                 boost::is_convertible<x_type,test::count_instances const>
@@ -118,6 +152,15 @@ namespace test {
               , boost::mpl::false_
             >::type
         ));
+#else
+        BOOST_MPL_ASSERT((
+            typename boost::mpl::if_<
+                std::is_convertible<x_type,test::count_instances const>
+              , boost::mpl::true_
+              , boost::mpl::false_
+            >::type
+        ));
+#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
         x.noop();
         BOOST_TEST_EQ(1, test::count_instances::count);
         return 0;
