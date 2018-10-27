@@ -235,7 +235,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=2
+#            <define>BOOST_PARAMETER_MAX_ARITY=2
         :
         :
             <preserve-target-tests>off
