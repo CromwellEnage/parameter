@@ -24,11 +24,13 @@ struct myclass : myclass_impl
     ) // no semicolon
 };
 
+#include <boost/core/lightweight_test.hpp>
+
 int main()
 {
     myclass x("bob", 3);                     // positional
     myclass y(_index = 12, _name = "sally"); // named
     myclass z("june");                       // positional/defaulted
-    return 0;
+    return boost::report_errors();
 }
 

@@ -6,7 +6,6 @@
 #include <boost/parameter.hpp>
 #include <boost/parameter/macros.hpp>
 #include <boost/bind.hpp>
-#include <boost/container/string.hpp>
 #include "basics.hpp"
 
 namespace test {
@@ -39,6 +38,7 @@ namespace test {
     }
 } // namespace test
 
+#include <boost/container/string.hpp>
 #include <boost/ref.hpp>
 #include <boost/core/lightweight_test.hpp>
 

@@ -15,10 +15,10 @@ branches:
 environment:
   matrix:
     - ARGS: --toolset=gcc address-model=32
-      TEST_SUITE: parameter_sfl_tests
+      TEST_SUITE: parameter_slp_tests
       PATH: C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw32\bin;%PATH%
     - ARGS: --toolset=gcc address-model=32 linkflags=-Wl,-allow-multiple-definition
-      TEST_SUITE: parameter_sfl_tests
+      TEST_SUITE: parameter_slp_tests
       PATH: C:\MinGW\bin;%PATH%
     - ARGS: --toolset=gcc address-model=64
       TEST_SUITE: parameter_sfl_tests

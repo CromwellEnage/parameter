@@ -5,8 +5,7 @@
 
 #include <boost/parameter/config.hpp>
 
-#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-    (BOOST_PARAMETER_MAX_ARITY < 1)
+#if (BOOST_PARAMETER_MAX_ARITY < 1)
 #error Define BOOST_PARAMETER_MAX_ARITY as 1 or greater.
 #endif
 

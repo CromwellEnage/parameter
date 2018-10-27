@@ -69,13 +69,6 @@ namespace test {
         boost::mpl::for_each<E>(test::assert_expected<E,ArgPack>(e, args));
     }
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-    template <typename P, typename E, typename ...Args>
-    void check(E const& e, Args const&... args)
-    {
-        test::check0(e, P()(args...));
-    }
-#else
     template <typename P, typename E, typename A0>
     void check(E const& e, A0 const& a0)
     {
@@ -93,7 +86,6 @@ namespace test {
     {
         test::check0(e, P()(a0, a1, a2));
     }
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 } // namespace test
 
 #endif  // include guard
