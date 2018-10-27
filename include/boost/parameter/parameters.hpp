@@ -274,6 +274,7 @@ namespace boost { namespace parameter {
         }
 
         // Higher arities are handled by the preprocessor
+#if 2 < BOOST_PARAMETER_MAX_ARITY
 #define BOOST_PP_ITERATION_PARAMS_1 \
     (3,( \
         3 \
@@ -281,6 +282,7 @@ namespace boost { namespace parameter {
       , <boost/parameter/aux_/preprocessor/overloads.hpp> \
     ))
 #include BOOST_PP_ITERATE()
+#endif
     };
 }} // namespace boost::parameter
 
