@@ -6,7 +6,7 @@
 
 # Boost Parameter Library test Jamfile
 
-import testing ;
+import python ;
 
 project boost/parameter
     :
@@ -14,7 +14,7 @@ project boost/parameter
         <warnings>off
     ;
 
-import python ;
+build-project literate ;
 
 alias parameter_standard_tests
     :
@@ -108,7 +108,7 @@ alias parameter_standard_tests
         :
         :
         :
-#            <define>BOOST_PARAMETER_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
         :
         :
             <preserve-target-tests>off
