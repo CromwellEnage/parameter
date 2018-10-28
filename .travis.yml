@@ -1269,7 +1269,7 @@ matrix:
 
     - os: osx
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_but_perfect_forwarding_tests
 
     - os: osx
       compiler: clang++

@@ -4,21 +4,6 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-namespace test {
-
-    template <typename T>
-    T const& as_lvalue(T const& t)
-    {
-        return t;
-    }
-
-    template <typename T>
-    T& as_lvalue(T& t)
-    {
-        return t;
-    }
-} // namespace test
-
 #include <boost/parameter/name.hpp>
 
 namespace param {
@@ -144,6 +129,22 @@ namespace test {
     };
 } // namespace test
 
+#if defined(BOOST_MSVC)
+namespace test {
+
+    std::pair<int,int>& lvalue_pair()
+    {
+        static std::pair<int,int> lp = std::pair<int,int>(8, 9);
+        return lp;
+    }
+
+    std::pair<int,int> rvalue_pair()
+    {
+        return std::pair<int,int>(8, 9);
+    }
+} // namespace test
+#endif
+
 #include <boost/core/lightweight_test.hpp>
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
@@ -226,18 +227,30 @@ int main()
 #endif
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_2)
+#if defined(BOOST_MSVC)
     test::H h1((
         param::_lr = p1
-      , param::_rr = test::as_lvalue(p0)
+      , param::_rr = test::lvalue_pair()
       , param::_lrc = p2
     ));
+#else
+    test::H h1((param::_lr = p1, param::_rr = p0, param::_lrc = p2));
+#endif
 #endif
 #if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_3)
+#if defined(BOOST_MSVC)
     test::H h2((
-        param::_lr = boost::move(std::make_pair(8, 9))
+        param::_lr = std::make_pair(8, 9)
       , param::_rr = std::make_pair(7, 10)
       , param::_lrc = p2
     ));
+#else
+    test::H h2((
+        param::_lr = std::rvalue_pair()
+      , param::_rr = std::make_pair(7, 10)
+      , param::_lrc = p2
+    ));
+#endif
 #endif
 #endif
     BOOST_TEST_EQ(p0.first, h.i.first);
