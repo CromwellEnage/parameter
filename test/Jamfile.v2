@@ -247,3 +247,13 @@ alias parameter_msvc11_tests
         parameter_msvc11_fail_tests
     ;
 
+alias parameter_msvc14_no_python_tests
+    :
+        parameter_all_but_python_tests
+    ;
+
+alias parameter_msvc14_tests
+    :
+        parameter_all_tests
+    ;
+
