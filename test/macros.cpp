@@ -58,9 +58,9 @@ int main()
 
     int x = 56;
     test::f(
-        test::values("foo", 666.222, 56)
+        test::values(boost::container::string("foo"), 666.222, 56)
       , test::_index = boost::ref(x)
-      , test::_name = "foo"
+      , test::_name = boost::container::string("foo")
     );
 
     return boost::report_errors();

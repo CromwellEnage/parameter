@@ -226,7 +226,7 @@ namespace test {
 
     struct B
     {
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1_0) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1920)
         B()
@@ -390,7 +390,7 @@ namespace test {
 
     struct C : B
     {
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1_0) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1920)
         C() : B()
@@ -488,7 +488,7 @@ int main()
     char baz_arr[4] = "qux";
     typedef char char_arr[4];
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1_1) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1920)
     // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
@@ -523,7 +523,7 @@ int main()
       , test::rvalue_const_float()
     );
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1_1) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1920)
     // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
