@@ -1,4 +1,5 @@
 // Copyright Daniel Wallin, David Abrahams 2005.
+// Copyright Cromwell D. Enage 2017.
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
@@ -54,11 +55,7 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/eval_if.hpp>
 #endif
 
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/remove_reference.hpp>
-#else
-#include <type_traits>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -67,7 +64,6 @@ namespace boost { namespace parameter { namespace aux {
     template <typename T>
     struct is_cv_reference_wrapper
     {
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         BOOST_STATIC_CONSTANT(
             bool, value = (
                 sizeof(
@@ -79,19 +75,6 @@ namespace boost { namespace parameter { namespace aux {
                 ) == sizeof(::boost::parameter::aux::yes_tag)
             )
         );
-#else
-        BOOST_STATIC_CONSTANT(
-            bool, value = (
-                sizeof(
-                    ::boost::parameter::aux::is_cv_reference_wrapper_check(
-                        static_cast<
-                            typename ::std::remove_reference<T>::type*
-                        >(BOOST_TTI_DETAIL_NULLPTR)
-                    )
-                ) == sizeof(::boost::parameter::aux::yes_tag)
-            )
-        );
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 
         typedef boost::mpl::bool_<
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
@@ -106,11 +89,7 @@ namespace boost { namespace parameter { namespace aux {
       , typename = typename ::boost::parameter::aux
         ::is_cv_reference_wrapper<T>::type
     >
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
     struct unwrap_cv_reference : ::boost::remove_reference<T>
-#else
-    struct unwrap_cv_reference : ::std::remove_reference<T>
-#endif
     {
     };
 
@@ -128,11 +107,7 @@ namespace boost { namespace parameter { namespace aux {
     // Needed for unwrap_cv_reference below. T might be const, so
     // eval_if<> might fail because of deriving from T const on EDG.
     template <typename T>
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
     struct get_type : ::boost::remove_reference<T>::type
-#else
-    struct get_type : ::std::remove_reference<T>::type
-#endif
     {
     };
 
@@ -144,11 +119,7 @@ namespace boost { namespace parameter { namespace aux {
       : ::boost::mpl::eval_if<
             ::boost::parameter::aux::is_cv_reference_wrapper<T>
           , ::boost::parameter::aux::get_type<T>
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
           , ::boost::remove_reference<T>
-#else
-          , ::std::remove_reference<T>
-#endif
         >
     {
     };

@@ -176,12 +176,7 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/assert.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
-#else
-#include <type_traits>
-#endif
 
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
 #include <boost/tti/detail/dnullptr.hpp>
@@ -245,11 +240,7 @@ namespace boost { namespace parameter { namespace aux {
           , A0&& a0
         ) : Next(
                 typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
                         typename Next::tagged_arg::value_type
                       , ::boost::parameter::void_
                     >
@@ -267,11 +258,7 @@ namespace boost { namespace parameter { namespace aux {
           , Args&&... args
         ) : Next(
                 typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
                         typename Next::tagged_arg::value_type
                       , ::boost::parameter::void_
                     >
@@ -292,11 +279,7 @@ namespace boost { namespace parameter { namespace aux {
           , Args&&... args
         ) : Next(
                 typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
                         typename Next::tagged_arg::value_type
                       , ::boost::parameter::void_
                     >
@@ -338,11 +321,7 @@ namespace boost { namespace parameter { namespace aux {
             struct apply
             {
                 typedef typename ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<KW,key_type>
-#else
-                    ::std::is_same<KW,key_type>
-#endif
                   , ::boost::mpl::if_<Reference,reference,value_type>
                   , ::boost::mpl::apply_wrap3<
                         next_binding
@@ -408,11 +387,7 @@ namespace boost { namespace parameter { namespace aux {
             struct apply
             {
                 typedef typename ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<KW,key_type>
-#else
-                    ::std::is_same<KW,key_type>
-#endif
                   , ::boost::mpl::identity<
                         ::boost::parameter::aux::arg_list<TaggedArg,Next>
                     >

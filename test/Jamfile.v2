@@ -460,22 +460,6 @@ alias parameter_standard_tests
     ]
     ;
 
-alias parameter_perfect_forwarding_tests
-    :
-    [ compile-fail compose.cpp
-        :
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_2
-        :
-            compose_fail_2
-    ]
-    [ compile-fail compose.cpp
-        :
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_3
-        :
-            compose_fail_3
-    ]
-    ;
-
 alias parameter_literate_tests
     :
     [ run literate/extracting-parameter-types0.cpp
@@ -1150,21 +1134,9 @@ alias parameter_all_stress_tests
         parameter_preproc_eval_cat_fail
     ;
 
-alias parameter_sf_tests
-    :
-        parameter_standard_tests
-        parameter_perfect_forwarding_tests
-    ;
-
 alias parameter_sl_tests
     :
         parameter_standard_tests
-        parameter_literate_tests
-    ;
-
-alias parameter_sfl_tests
-    :
-        parameter_sf_tests
         parameter_literate_tests
     ;
 
@@ -1174,46 +1146,28 @@ alias parameter_sp_tests
         parameter_python_test
     ;
 
-alias parameter_sfp_tests
-    :
-        parameter_sf_tests
-        parameter_python_test
-    ;
-
 alias parameter_slp_tests
     :
         parameter_sl_tests
         parameter_python_test
     ;
 
-alias parameter_sflp_tests
-    :
-        parameter_sfl_tests
-        parameter_python_test
-    ;
-
 alias parameter_all_but_preproc_eval_cat_fail_tests
     :
         parameter_1111110_stress_tests
-        parameter_sflp_tests
-    ;
-
-alias parameter_all_but_perfect_forwarding_tests
-    :
-        parameter_all_stress_tests
         parameter_slp_tests
     ;
 
 alias parameter_all_but_python_tests
     :
         parameter_all_stress_tests
-        parameter_sfl_tests
+        parameter_sl_tests
     ;
 
 alias parameter_all_tests
     :
         parameter_all_stress_tests
-        parameter_sflp_tests
+        parameter_slp_tests
     ;
 
 alias parameter_msvc11_fail_tests

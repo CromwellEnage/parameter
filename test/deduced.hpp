@@ -29,7 +29,6 @@ namespace test {
         template <typename T>
         bool check_not_present(T const&) const
         {
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             BOOST_MPL_ASSERT((
                 typename boost::mpl::if_<
                     boost::is_same<T,test::not_present_tag>
@@ -37,15 +36,6 @@ namespace test {
                   , boost::mpl::false_
                 >::type
             ));
-#else
-            BOOST_MPL_ASSERT((
-                typename boost::mpl::if_<
-                    std::is_same<T,test::not_present_tag>
-                  , boost::mpl::true_
-                  , boost::mpl::false_
-                >::type
-            ));
-#endif
             return true;
         }
 

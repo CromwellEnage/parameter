@@ -1,4 +1,5 @@
 # Copyright 2016 Edward Diener
+# Copyright 2017 Cromwell D. Enage
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE_1_0.txt or copy at
 # http://boost.org/LICENSE_1_0.txt)
@@ -196,7 +197,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=11 TEST_SUITE=parameter_sf_tests
+      env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=11 TEST_SUITE=parameter_standard_tests
       addons:
         apt:
           packages:
@@ -232,7 +233,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=11 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=11 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -250,7 +251,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=14 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=14 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -286,7 +287,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -304,7 +305,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -322,7 +323,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -358,7 +359,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -376,7 +377,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -394,7 +395,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-6 CXXSTD=1z CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -436,7 +437,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -458,7 +459,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -480,7 +481,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -524,7 +525,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -546,7 +547,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=14 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -568,7 +569,7 @@ matrix:
     - os: linux
       dist: trusty
       compiler: g++-7
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17 CXXSTD_DIALECT=cxxstd-dialect=gnu TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -609,7 +610,7 @@ matrix:
 
     - os: linux
       compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=11 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=11 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -629,7 +630,7 @@ matrix:
 
     - os: linux
       compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=14 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=14 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -649,7 +650,7 @@ matrix:
 
     - os: linux
       compiler: g++-8
-      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=17 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=gcc COMPILER=g++-8 CXXSTD=17 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -688,7 +689,7 @@ matrix:
             - llvm-toolchain-precise-3.5
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=11 TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -728,7 +729,7 @@ matrix:
             - llvm-toolchain-precise-3.6
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=11 TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -768,7 +769,7 @@ matrix:
             - llvm-toolchain-precise-3.7
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=11 TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -808,7 +809,7 @@ matrix:
             - llvm-toolchain-precise-3.8
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=11 TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -828,7 +829,7 @@ matrix:
             - llvm-toolchain-precise-3.8
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=14 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=14 TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -848,7 +849,7 @@ matrix:
             - llvm-toolchain-precise-3.8
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=1z TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=1z TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -888,7 +889,7 @@ matrix:
             - llvm-toolchain-precise-3.9
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=11 TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -908,7 +909,7 @@ matrix:
             - llvm-toolchain-precise-3.9
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=14 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=14 TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -928,7 +929,7 @@ matrix:
             - llvm-toolchain-precise-3.9
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=1z TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=1z TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -971,7 +972,7 @@ matrix:
 
     - os: linux
       compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=11 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=11 TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -993,7 +994,7 @@ matrix:
 
     - os: linux
       compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=14 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=14 TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -1015,7 +1016,7 @@ matrix:
 
     - os: linux
       compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=1z TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=1z TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -1059,7 +1060,7 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=11 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=11 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -1081,7 +1082,7 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=14 TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=14 TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -1103,7 +1104,7 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=1z TEST_SUITE=parameter_sfl_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=1z TEST_SUITE=parameter_sl_tests
       addons:
         apt:
           packages:
@@ -1145,7 +1146,7 @@ matrix:
 
     - os: linux
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -1165,7 +1166,7 @@ matrix:
 
     - os: linux
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -1185,7 +1186,7 @@ matrix:
 
     - os: linux
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -1221,7 +1222,7 @@ matrix:
 
     - os: linux
       compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=11 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=11 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -1237,7 +1238,7 @@ matrix:
 
     - os: linux
       compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=14 TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=14 TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -1253,7 +1254,7 @@ matrix:
 
     - os: linux
       compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=1z TEST_SUITE=parameter_sflp_tests
+      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=1z TEST_SUITE=parameter_slp_tests
       addons:
         apt:
           packages:
@@ -1269,7 +1270,7 @@ matrix:
 
     - os: osx
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_but_perfect_forwarding_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=03 TEST_SUITE=parameter_all_tests
 
     - os: osx
       compiler: clang++

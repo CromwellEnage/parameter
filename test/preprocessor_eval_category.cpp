@@ -30,15 +30,10 @@ namespace test {
 } // namespace test
 
 #include <boost/core/lightweight_test.hpp>
-#include "evaluate_category.hpp"
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_scalar.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_reference.hpp>
-#else
-#include <type_traits>
-#endif
+#include "evaluate_category.hpp"
 
 namespace test {
 
@@ -51,7 +46,6 @@ namespace test {
         )
     )
     {
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         BOOST_TEST((
             test::passed_by_lvalue_reference_to_const == test::A<
                 typename boost::remove_const<
@@ -88,63 +82,16 @@ namespace test {
                 >::type
             >::evaluate_category(lr0)
         );
-#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-        BOOST_TEST((
-            test::passed_by_lvalue_reference_to_const == test::A<
-                typename std::remove_const<
-                    typename boost::parameter::value_type<
-                        Args
-                      , test::kw::lrc0
-                    >::type
-                >::type
-            >::evaluate_category(args[test::_lrc0])
-        ));
-        BOOST_TEST_EQ(
-            test::passed_by_lvalue_reference_to_const
-          , test::A<
-                typename std::remove_const<
-                    typename std::remove_reference<lrc0_type>::type
-                >::type
-            >::evaluate_category(lrc0)
-        );
-        BOOST_TEST((
-            test::passed_by_lvalue_reference == test::A<
-                typename std::remove_const<
-                    typename boost::parameter::value_type<
-                        Args
-                      , test::kw::lr0
-                    >::type
-                >::type
-            >::evaluate_category(args[test::_lr0])
-        ));
-        BOOST_TEST_EQ(
-            test::passed_by_lvalue_reference
-          , test::A<
-                typename std::remove_const<
-                    typename std::remove_reference<lr0_type>::type
-                >::type
-            >::evaluate_category(lr0)
-        );
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         if (
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_scalar<
                 typename boost::remove_const<
                     typename boost::remove_reference<rrc0_type>::type
                 >::type
             >::value
-#else
-            std::is_scalar<
-                typename std::remove_const<
-                    typename std::remove_reference<rrc0_type>::type
-                >::type
-            >::value
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
         )
         {
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             BOOST_TEST((
                 test::passed_by_lvalue_reference_to_const == test::A<
                     typename boost::remove_const<
@@ -181,48 +128,9 @@ namespace test {
                     >::type
                 >::evaluate_category(boost::forward<rr0_type>(rr0))
             );
-#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-            BOOST_TEST((
-                test::passed_by_lvalue_reference_to_const == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::kw::rrc0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_rrc0])
-            ));
-            BOOST_TEST_EQ(
-                test::passed_by_lvalue_reference_to_const
-              , test::A<
-                    typename std::remove_const<
-                        typename std::remove_reference<rrc0_type>::type
-                    >::type
-                >::evaluate_category(boost::forward<rrc0_type>(rrc0))
-            );
-            BOOST_TEST((
-                test::passed_by_lvalue_reference_to_const == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::kw::rr0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_rr0])
-            ));
-            BOOST_TEST_EQ(
-                test::passed_by_lvalue_reference_to_const
-              , test::A<
-                    typename std::remove_const<
-                        typename std::remove_reference<rr0_type>::type
-                    >::type
-                >::evaluate_category(boost::forward<rr0_type>(rr0))
-            );
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
         }
         else // rrc0's value type isn't scalar
         {
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             BOOST_TEST((
                 test::passed_by_rvalue_reference_to_const == test::A<
                     typename boost::remove_const<
@@ -259,47 +167,8 @@ namespace test {
                     >::type
                 >::evaluate_category(boost::forward<rr0_type>(rr0))
             );
-#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-            BOOST_TEST((
-                test::passed_by_rvalue_reference_to_const == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::kw::rrc0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_rrc0])
-            ));
-            BOOST_TEST_EQ(
-                test::passed_by_rvalue_reference_to_const
-              , test::A<
-                    typename std::remove_const<
-                        typename std::remove_reference<rrc0_type>::type
-                    >::type
-                >::evaluate_category(boost::forward<rrc0_type>(rrc0))
-            );
-            BOOST_TEST((
-                test::passed_by_rvalue_reference == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::kw::rr0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_rr0])
-            ));
-            BOOST_TEST_EQ(
-                test::passed_by_rvalue_reference
-              , test::A<
-                    typename std::remove_const<
-                        typename std::remove_reference<rr0_type>::type
-                    >::type
-                >::evaluate_category(boost::forward<rr0_type>(rr0))
-            );
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
         }
 #else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         BOOST_TEST((
             test::passed_by_lvalue_reference_to_const == test::A<
                 typename boost::remove_const<
@@ -336,44 +205,6 @@ namespace test {
                 >::type
             >::evaluate_category(rr0)
         );
-#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-        BOOST_TEST((
-            test::passed_by_lvalue_reference_to_const == test::A<
-                typename std::remove_const<
-                    typename boost::parameter::value_type<
-                        Args
-                      , test::kw::rrc0
-                    >::type
-                >::type
-            >::evaluate_category(args[test::_rrc0])
-        ));
-        BOOST_TEST_EQ(
-            test::passed_by_lvalue_reference_to_const
-          , test::A<
-                typename std::remove_const<
-                    typename std::remove_reference<rrc0_type>::type
-                >::type
-            >::evaluate_category(rrc0)
-        );
-        BOOST_TEST((
-            test::passed_by_lvalue_reference_to_const == test::A<
-                typename std::remove_const<
-                    typename boost::parameter::value_type<
-                        Args
-                      , test::kw::rr0
-                    >::type
-                >::type
-            >::evaluate_category(args[test::_rr0])
-        ));
-        BOOST_TEST_EQ(
-            test::passed_by_lvalue_reference_to_const
-          , test::A<
-                typename std::remove_const<
-                    typename std::remove_reference<rr0_type>::type
-                >::type
-            >::evaluate_category(rr0)
-        );
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
         return true;
@@ -386,10 +217,7 @@ namespace test {
 #if !defined(BOOST_NO_SFINAE)
 #include <boost/tti/detail/dnullptr.hpp>
 #include <boost/core/enable_if.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_base_of.hpp>
-#endif
 #endif
 
 namespace test {
@@ -398,7 +226,7 @@ namespace test {
 
     struct B
     {
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1_0) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1920)
         B()
@@ -412,11 +240,7 @@ namespace test {
 #if !defined(BOOST_NO_SFINAE)
           , typename boost::disable_if<
                 typename boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     boost::is_base_of<B,Args>
-#else
-                    std::is_base_of<B,Args>
-#endif
                   , boost::mpl::true_
                   , boost::mpl::false_
                 >::type
@@ -465,7 +289,6 @@ namespace test {
         )
 #endif  // SunPro CC workarounds needed.
         {
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             BOOST_TEST((
                 test::passed_by_lvalue_reference_to_const == test::A<
                     typename boost::remove_const<
@@ -520,65 +343,8 @@ namespace test {
                     >::type
                 >::evaluate_category(rrc0)
             );
-#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-            BOOST_TEST((
-                test::passed_by_lvalue_reference_to_const == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::kw::lrc0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_lrc0])
-            ));
-            BOOST_TEST_EQ(
-                test::passed_by_lvalue_reference_to_const
-              , test::A<
-                    typename std::remove_const<
-                        typename std::remove_reference<lrc0_type>::type
-                    >::type
-                >::evaluate_category(lrc0)
-            );
-            BOOST_TEST((
-                test::passed_by_lvalue_reference == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::kw::lr0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_lr0])
-            ));
-            BOOST_TEST_EQ(
-                test::passed_by_lvalue_reference
-              , test::A<
-                    typename std::remove_const<
-                        typename std::remove_reference<lr0_type>::type
-                    >::type
-                >::evaluate_category(lr0)
-            );
-            BOOST_TEST((
-                test::passed_by_lvalue_reference_to_const == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::kw::rrc0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_rrc0])
-            ));
-            BOOST_TEST_EQ(
-                test::passed_by_lvalue_reference_to_const
-              , test::A<
-                    typename std::remove_const<
-                        typename std::remove_reference<rrc0_type>::type
-                    >::type
-                >::evaluate_category(rrc0)
-            );
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             BOOST_TEST((
                 test::passed_by_rvalue_reference == test::A<
                     typename boost::remove_const<
@@ -597,28 +363,7 @@ namespace test {
                     >::type
                 >::evaluate_category(boost::forward<rr0_type>(rr0))
             );
-#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-            BOOST_TEST((
-                test::passed_by_rvalue_reference == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::kw::rr0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_rr0])
-            ));
-            BOOST_TEST_EQ(
-                test::passed_by_rvalue_reference
-              , test::A<
-                    typename std::remove_const<
-                        typename std::remove_reference<rr0_type>::type
-                    >::type
-                >::evaluate_category(boost::forward<rr0_type>(rr0))
-            );
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 #else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             BOOST_TEST((
                 test::passed_by_lvalue_reference_to_const == test::A<
                     typename boost::remove_const<
@@ -637,26 +382,6 @@ namespace test {
                     >::type
                 >::evaluate_category(rr0)
             );
-#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-            BOOST_TEST((
-                test::passed_by_lvalue_reference_to_const == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::kw::rr0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_rr0])
-            ));
-            BOOST_TEST_EQ(
-                test::passed_by_lvalue_reference_to_const
-              , test::A<
-                    typename std::remove_const<
-                        typename std::remove_reference<rr0_type>::type
-                    >::type
-                >::evaluate_category(rr0)
-            );
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
             return true;
@@ -665,7 +390,7 @@ namespace test {
 
     struct C : B
     {
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1_0) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1920)
         C() : B()
@@ -763,7 +488,7 @@ int main()
     char baz_arr[4] = "qux";
     typedef char char_arr[4];
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1_1) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1920)
     // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
@@ -798,7 +523,7 @@ int main()
       , test::rvalue_const_float()
     );
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1_1) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1920)
     // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)

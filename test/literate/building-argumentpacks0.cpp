@@ -24,12 +24,7 @@ int print_name_and_index(ArgumentPack const& args)
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/if.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
-#else
-#include <type_traits>
-#endif
 
 int main()
 {
@@ -39,11 +34,7 @@ int main()
         boost::parameter::required<
             tag::name
           , boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<boost::mpl::_,char const*>
-#else
-                std::is_convertible<boost::mpl::_,char const*>
-#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >
@@ -51,11 +42,7 @@ int main()
       , boost::parameter::optional<
             tag::index
           , boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<boost::mpl::_,int>
-#else
-                std::is_convertible<boost::mpl::_,int>
-#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >

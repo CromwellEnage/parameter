@@ -39,12 +39,7 @@ namespace test {
     };
 } // namespace test
 
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_scalar.hpp>
-#else
-#include <type_traits>
-#endif
-
 #include <boost/core/lightweight_test.hpp>
 #include "evaluate_category.hpp"
 
@@ -66,11 +61,7 @@ namespace test {
             );
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             if (boost::is_scalar<T>::value)
-#else
-            if (std::is_scalar<T>::value)
-#endif
             {
                 BOOST_TEST_EQ(
                     test::passed_by_lvalue_reference_to_const
@@ -109,10 +100,7 @@ namespace test {
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/if.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
-#endif
 
 namespace test {
 
@@ -121,11 +109,7 @@ namespace test {
             boost::parameter::required<
                 boost::parameter::deduced<test::keywords::lrc0>
               , boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     boost::is_convertible<boost::mpl::_1,float>
-#else
-                    std::is_convertible<boost::mpl::_1,float>
-#endif
                   , boost::mpl::true_
                   , boost::mpl::false_
                 >
@@ -133,11 +117,7 @@ namespace test {
           , boost::parameter::required<
                 boost::parameter::deduced<test::keywords::lr0>
               , boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     boost::is_convertible<boost::mpl::_1,char const*>
-#else
-                    std::is_convertible<boost::mpl::_1,char const*>
-#endif
                   , boost::mpl::true_
                   , boost::mpl::false_
                 >
@@ -151,9 +131,7 @@ namespace test {
     };
 } // namespace test
 
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/remove_const.hpp>
-#endif
 
 namespace test {
 
@@ -162,7 +140,6 @@ namespace test {
         template <typename Args>
         static void evaluate(Args const& args)
         {
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             BOOST_TEST((
                 test::passed_by_lvalue_reference_to_const == test::A<
                     typename boost::remove_const<
@@ -183,31 +160,8 @@ namespace test {
                     >::type
                 >::evaluate_category(args[test::_lr0])
             ));
-#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-            BOOST_TEST((
-                test::passed_by_lvalue_reference_to_const == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::keywords::lrc0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_lrc0])
-            ));
-            BOOST_TEST((
-                test::passed_by_lvalue_reference == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::keywords::lr0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_lr0])
-            ));
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             BOOST_TEST((
                 test::passed_by_rvalue_reference == test::A<
                     typename boost::remove_const<
@@ -218,20 +172,7 @@ namespace test {
                     >::type
                 >::evaluate_category(args[test::_rr0])
             ));
-#else
-            BOOST_TEST((
-                test::passed_by_rvalue_reference == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::keywords::rr0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_rr0])
-            ));
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 #else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             BOOST_TEST((
                 test::passed_by_lvalue_reference_to_const == test::A<
                     typename boost::remove_const<
@@ -242,18 +183,6 @@ namespace test {
                     >::type
                 >::evaluate_category(args[test::_rr0])
             ));
-#else
-            BOOST_TEST((
-                test::passed_by_lvalue_reference_to_const == test::A<
-                    typename std::remove_const<
-                        typename boost::parameter::value_type<
-                            Args
-                          , test::keywords::rr0
-                        >::type
-                    >::type
-                >::evaluate_category(args[test::_rr0])
-            ));
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
         }
     };
@@ -307,8 +236,7 @@ int main()
     char baz_arr[4] = "qux";
     typedef char char_arr[4];
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1920)
     // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
     // as an lvalue.

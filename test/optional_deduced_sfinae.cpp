@@ -11,13 +11,8 @@
 #include <boost/mpl/if.hpp>
 #include <boost/tti/detail/dnullptr.hpp>
 #include <boost/core/enable_if.hpp>
-#include <string>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
-#else
-#include <type_traits>
-#endif
+#include <string>
 
 namespace test {
 
@@ -28,11 +23,7 @@ namespace test {
         template <typename T, typename Args>
         struct apply
           : boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<T,char const*>
-#else
-                std::is_convertible<T,char const*>
-#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >
@@ -57,11 +48,7 @@ namespace test {
     template <typename A0>
     typename boost::enable_if<
         typename boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_same<int,A0>
-#else
-            std::is_same<int,A0>
-#endif
           , boost::mpl::true_
           , boost::mpl::false_
         >::type

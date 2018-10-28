@@ -5,7 +5,6 @@
 
 #include <boost/parameter.hpp>
 #include <boost/parameter/macros.hpp>
-#include <boost/container/string.hpp>
 #include <boost/bind.hpp>
 #include "basics.hpp"
 
@@ -39,6 +38,7 @@ namespace test {
     }
 } // namespace test
 
+#include <boost/container/string.hpp>
 #include <boost/ref.hpp>
 #include <boost/core/lightweight_test.hpp>
 
@@ -58,9 +58,9 @@ int main()
 
     int x = 56;
     test::f(
-        test::values(boost::container::string("foo"), 666.222, 56)
+        test::values("foo", 666.222, 56)
       , test::_index = boost::ref(x)
-      , test::_name = boost::container::string("foo")
+      , test::_name = "foo"
     );
 
     return boost::report_errors();

@@ -10,14 +10,8 @@
 #include <boost/container/string.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
-#include <string>
-#include "basics.hpp"
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
-#else
-#include <type_traits>
-#endif
+#include "basics.hpp"
 
 #if !defined(BOOST_NO_SFINAE)
 #include <boost/core/enable_if.hpp>
@@ -41,11 +35,7 @@ namespace test {
         template <typename From, typename Args>
         struct apply
           : boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<From,int>
-#else
-                std::is_convertible<From,int>
-#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >
@@ -58,11 +48,7 @@ namespace test {
         template <typename From, typename Args>
         struct apply
           : boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<From,boost::container::string>
-#else
-                std::is_convertible<From,boost::container::string>
-#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >
@@ -88,11 +74,7 @@ namespace test {
         template <typename From, typename Args>
         struct apply
           : boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<From,To>
-#else
-                std::is_convertible<From,To>
-#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >
@@ -139,11 +121,7 @@ namespace test {
         template <typename From, typename Args>
         struct apply
           : boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<From,test::X>
-#else
-                std::is_convertible<From,test::X>
-#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >
@@ -218,11 +196,7 @@ namespace test {
     template <typename A0>
     typename boost::enable_if<
         typename boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_same<int,A0>
-#else
-            std::is_same<int,A0>
-#endif
           , boost::mpl::true_
           , boost::mpl::false_
         >::type
@@ -233,6 +207,12 @@ namespace test {
         return 0;
     }
 #endif  // BOOST_NO_SFINAE
+
+    // make_tuple doesn't work with char arrays.
+    char const* str(char const* s)
+    {
+        return s;
+    }
 } // namespace test
 
 #include <boost/core/lightweight_test.hpp>

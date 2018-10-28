@@ -69,27 +69,17 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux
 
-#include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/pair.hpp>
 #include <boost/mpl/if.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
-#else
-#include <type_traits>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
     template <typename ArgumentPackAndError>
     struct is_arg_pack_error_void
       : ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_same<
-#else
-            ::std::is_same<
-#endif
                 typename ::boost::mpl::second<ArgumentPackAndError>::type
               , ::boost::parameter::void_
             >

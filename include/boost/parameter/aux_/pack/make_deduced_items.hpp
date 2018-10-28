@@ -9,26 +9,16 @@
 #include <boost/parameter/aux_/void.hpp>
 #include <boost/parameter/aux_/pack/deduced_item.hpp>
 #include <boost/parameter/deduced.hpp>
-#include <boost/parameter/config.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/identity.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
-#else
-#include <type_traits>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
     template <typename Spec, typename Tail>
     struct make_deduced_items
       : ::boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_same<Spec,::boost::parameter::void_>
-#else
-            ::std::is_same<Spec,::boost::parameter::void_>
-#endif
           , ::boost::mpl::identity< ::boost::parameter::void_>
           , ::boost::mpl::eval_if<
                 ::boost::parameter::aux::is_deduced<Spec>

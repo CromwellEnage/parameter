@@ -25,13 +25,9 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/type_traits/is_convertible.hpp>
 #include <boost/type_traits/is_lvalue_reference.hpp>
 #else
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_reference.hpp>
-#else
-#include <type_traits>
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 #endif  // no perfect forwarding and no exponential overloads
 
 namespace boost { namespace parameter { namespace aux {
@@ -65,21 +61,12 @@ namespace boost { namespace parameter { namespace aux {
 #else
             // Cannot use is_convertible<> to check if T is derived from
             // tagged_argument_base. -- Cromwell D. Enage
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_base_of<
                 ::boost::parameter::aux::tagged_argument_base
               , typename ::boost::remove_const<
                     typename ::boost::remove_reference<T>::type
                 >::type
             >
-#else
-            ::std::is_base_of<
-                ::boost::parameter::aux::tagged_argument_base
-              , typename ::std::remove_const<
-                    typename ::std::remove_reference<T>::type
-                >::type
-            >
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
           , ::boost::mpl::true_
           , ::boost::mpl::false_
 #endif  // no perfect forwarding and no exponential overloads

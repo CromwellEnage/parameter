@@ -51,26 +51,5 @@
 #define BOOST_PARAMETER_MAX_ARITY 8
 #endif
 //#endif
-
-#if !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) && ( \
-        defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS) || ( \
-            !defined(BOOST_MSVC) && ( \
-                ( \
-                    defined(BOOST_CLANG) && (1 == BOOST_CLANG) && \
-                    !defined(__APPLE_CC__) \
-                ) || ( \
-                    BOOST_WORKAROUND(BOOST_GCC, < 40900) \
-                ) || ( \
-                    BOOST_WORKAROUND(BOOST_GCC, >= 40900) && \
-                    !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) \
-                ) \
-            ) \
-        ) \
-    )
-// Most other compilers fulfulling the condition above have ICEd on certain
-// tests due to using C++11 type traits instead of the Boost versions.
-// -- Cromwell D. Enage
-#define BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
-#endif
 #endif  // include guard
 

@@ -22,12 +22,7 @@ namespace test {
 
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
-#else
-#include <type_traits>
-#endif
 
 namespace test {
 
@@ -36,11 +31,7 @@ namespace test {
         template <typename T, typename Args>
         struct apply
           : boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<T,int>
-#else
-                std::is_convertible<T,int>
-#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >

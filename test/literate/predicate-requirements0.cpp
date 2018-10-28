@@ -10,25 +10,16 @@ BOOST_PARAMETER_NAME((_color_map, graphs) in_out(color_map))
 #include <boost/graph/graph_traits.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
 #include <boost/type_traits/is_integral.hpp>
 #include <boost/type_traits/is_same.hpp>
-#else
-#include <type_traits>
-#endif
 
 struct vertex_descriptor_predicate
 {
     template <typename T, typename Args>
     struct apply
       : boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_convertible<
-#else
-            std::is_convertible<
-#endif
                 T
               , typename boost::graph_traits<
                     typename boost::parameter::value_type<
@@ -51,20 +42,12 @@ struct graph_predicate
     template <typename T, typename Args>
     struct apply
       : boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_convertible<
-#else
-            std::is_convertible<
-#endif
                 typename boost::graph_traits<T>::traversal_category
               , boost::incidence_graph_tag
             >
           , boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<
-#else
-                std::is_convertible<
-#endif
                     typename boost::graph_traits<T>::traversal_category
                   , boost::vertex_list_graph_tag
                 >
@@ -78,21 +61,14 @@ struct graph_predicate
 };
 
 #include <boost/property_map/property_map.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
-#endif
 
 struct color_map_predicate
 {
     template <typename T, typename Args>
     struct apply
       : boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_same<
-#else
-            std::is_same<
-#endif
                 typename boost::property_traits<T>::key_type
               , typename boost::graph_traits<
                     typename boost::parameter::value_type<
@@ -108,28 +84,18 @@ struct color_map_predicate
     };
 };
 
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_integral.hpp>
-#endif
 
 struct index_map_predicate
 {
     template <typename T, typename Args>
     struct apply
       : boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             boost::is_integral<
-#else
-            std::is_integral<
-#endif
                 typename boost::property_traits<T>::value_type
             >
           , boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_same<
-#else
-                std::is_same<
-#endif
                     typename boost::property_traits<T>::key_type
                   , typename boost::graph_traits<
                         typename boost::parameter::value_type<

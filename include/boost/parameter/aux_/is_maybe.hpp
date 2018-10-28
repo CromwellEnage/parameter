@@ -13,33 +13,19 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux
 
-#include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/type_traits/remove_const.hpp>
-#else
-#include <type_traits>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
     template <typename T>
     struct is_maybe
       : ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_base_of<
-#else
-            ::std::is_base_of<
-#endif
                 ::boost::parameter::aux::maybe_base
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
               , typename ::boost::remove_const<T>::type
-#else
-              , typename ::std::remove_const<T>::type
-#endif
             >
           , ::boost::mpl::true_
           , ::boost::mpl::false_

@@ -37,19 +37,13 @@ namespace test {
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/core/lightweight_test.hpp>
-#include "evaluate_category.hpp"
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
-#else
-#include <type_traits>
-#endif
+#include "evaluate_category.hpp"
 
 namespace test {
 
     struct C
     {
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         typedef boost::mpl::if_<
             boost::is_convertible<boost::mpl::_,std::bitset<1> >
           , boost::mpl::true_
@@ -90,48 +84,6 @@ namespace test {
           , boost::mpl::true_
           , boost::mpl::false_
         > bs7_pred;
-#else   // !defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-        typedef boost::mpl::if_<
-            std::is_convertible<boost::mpl::_,std::bitset<1> >
-          , boost::mpl::true_
-          , boost::mpl::false_
-        > bs0_pred;
-        typedef boost::mpl::if_<
-            std::is_convertible<boost::mpl::_,std::bitset<2> >
-          , boost::mpl::true_
-          , boost::mpl::false_
-        > bs1_pred;
-        typedef boost::mpl::if_<
-            std::is_convertible<boost::mpl::_,std::bitset<3> >
-          , boost::mpl::true_
-          , boost::mpl::false_
-        > bs2_pred;
-        typedef boost::mpl::if_<
-            std::is_convertible<boost::mpl::_,std::bitset<4> >
-          , boost::mpl::true_
-          , boost::mpl::false_
-        > bs3_pred;
-        typedef boost::mpl::if_<
-            std::is_convertible<boost::mpl::_,std::bitset<5> >
-          , boost::mpl::true_
-          , boost::mpl::false_
-        > bs4_pred;
-        typedef boost::mpl::if_<
-            std::is_convertible<boost::mpl::_,std::bitset<6> >
-          , boost::mpl::true_
-          , boost::mpl::false_
-        > bs5_pred;
-        typedef boost::mpl::if_<
-            std::is_convertible<boost::mpl::_,std::bitset<7> >
-          , boost::mpl::true_
-          , boost::mpl::false_
-        > bs6_pred;
-        typedef boost::mpl::if_<
-            std::is_convertible<boost::mpl::_,std::bitset<8> >
-          , boost::mpl::true_
-          , boost::mpl::false_
-        > bs7_pred;
-#endif  // BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS
 
         BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
             (deduced

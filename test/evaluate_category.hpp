@@ -226,14 +226,9 @@ namespace test {
 #include <boost/parameter/value_type.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_pointer.hpp>
-#else
-#include <type_traits>
-#endif
 
 namespace test {
 
@@ -243,20 +238,11 @@ namespace test {
         template <typename Arg, typename Args>
         struct apply
           : boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<
-#else
-                std::is_convertible<
-#endif
                     Arg
                   , std::basic_string<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                         typename boost::remove_const<
                             typename boost::remove_pointer<
-#else
-                        typename std::remove_const<
-                            typename std::remove_pointer<
-#endif
                                 typename boost::parameter::value_type<
                                     Args
                                   , CharConstPtrParamTag

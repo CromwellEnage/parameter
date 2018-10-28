@@ -145,29 +145,18 @@ namespace boost { namespace parameter { namespace aux {
 }}} // namespace boost::parameter::aux
 
 #include <boost/mpl/apply.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_reference.hpp>
-#else
-#include <type_traits>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
     template <typename Target, typename Source, typename Args>
     struct is_target_same_as_source
       : ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             ::boost::is_same<
                 typename ::boost::remove_const<
                     typename ::boost::remove_reference<
-#else
-            ::std::is_same<
-                typename ::std::remove_const<
-                    typename ::std::remove_reference<
-#endif
                         typename ::boost::mpl::apply2<
                             ::boost::parameter::aux
                             ::as_placeholder_expr<Target>
@@ -176,11 +165,7 @@ namespace boost { namespace parameter { namespace aux {
                         >::type
                     >::type
                 >::type
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
               , typename ::boost::remove_const<Source>::type
-#else
-              , typename ::std::remove_const<Source>::type
-#endif
             >
           , ::boost::mpl::true_
           , ::boost::mpl::false_
@@ -208,20 +193,12 @@ namespace boost { namespace parameter { namespace aux {
 #endif // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 }}} // namespace boost::parameter::aux
 
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/add_const.hpp>
-#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#include <boost/type_traits/add_lvalue_reference.hpp>
-#endif
-#endif
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
 #include <boost/type_traits/is_const.hpp>
-#endif
+#else
+#include <boost/type_traits/add_lvalue_reference.hpp>
 #endif
 
 namespace boost { namespace parameter { namespace aux {
@@ -237,42 +214,19 @@ namespace boost { namespace parameter { namespace aux {
      public:
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         typedef typename boost::mpl::eval_if<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
-            // MSVC 11.0 on AppVeyor reports error C2039:
-            // '_Is_const': is not a member of 'std::_Ptr_traits<_Ty>'
             ::boost::is_const<Source>
-#else
-            ::std::is_const<Source>
-#endif
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
           , ::boost::add_const<Target>
           , ::boost::remove_const<Target>
-#else
-          , ::std::add_const<Target>
-          , ::std::remove_const<Target>
-#endif
 #else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
         typedef typename ::boost::add_lvalue_reference<
             typename ::boost::add_const<Target>::type
-#else
-        typedef typename ::std::add_lvalue_reference<
-            typename ::std::add_const<Target>::type
-#endif
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
         >::type type;
 
      private:
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         inline static typename _self::type
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
             _copy(typename ::boost::remove_const<Target>::type value)
-#else
-            _copy(typename ::std::remove_const<Target>::type value)
-#endif
         {
             return value;
         }
@@ -306,11 +260,7 @@ namespace boost { namespace parameter { namespace aux {
     template <typename Target, typename Source, typename Args>
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
     struct cast_impl
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
       : ::boost::remove_reference<
-#else
-      : ::std::remove_reference<
-#endif
 #else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
     struct cast_impl<Target,Source,Args,::boost::mpl::false_>
       : ::boost::parameter::aux::cast_convert<
@@ -353,10 +303,8 @@ namespace boost { namespace parameter { namespace aux {
                     ::is_target_same_as_source<Target,T,Args>
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
                   , ::boost::mpl::identity<T>
-#elif defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
-                  , ::boost::add_lvalue_reference<T>
 #else
-                  , ::std::add_lvalue_reference<T>
+                  , ::boost::add_lvalue_reference<T>
 #endif
                   , ::boost::parameter::aux::cast_impl<
                         Target
@@ -465,16 +413,7 @@ namespace boost { namespace parameter { namespace aux {
         typename ::boost::mpl::eval_if<
             B
           , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS) || ( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1800) \
-    )
-                // MSVC 11.0 on AppVeyor reports error C2039:
-                // '_Is_const': is not a member of 'std::_Ptr_traits<_Ty>'
                 ::boost::is_const<T>
-#else
-                ::std::is_const<T>
-#endif
               , ::boost::mpl::false_
               , ::boost::mpl::true_
             >
@@ -488,9 +427,7 @@ namespace boost { namespace parameter { namespace aux {
     }
 }}} // namespace boost::parameter::aux
 
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_scalar.hpp>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -499,11 +436,7 @@ namespace boost { namespace parameter { namespace aux {
         typename ::boost::mpl::eval_if<
             B
           , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 ::boost::is_scalar<T>
-#else
-                ::std::is_scalar<T>
-#endif
               , ::boost::mpl::false_
               , ::boost::mpl::true_
             >
@@ -521,11 +454,7 @@ namespace boost { namespace parameter { namespace aux {
         typename ::boost::mpl::eval_if<
             B
           , ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 ::boost::is_scalar<T>
-#else
-                ::std::is_scalar<T>
-#endif
               , ::boost::mpl::false_
               , ::boost::mpl::true_
             >

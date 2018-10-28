@@ -3,19 +3,13 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/parameter/config.hpp>
 #include <boost/parameter/parameters.hpp>
 #include <boost/parameter/name.hpp>
 #include <boost/parameter/binding.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
-#include "deduced.hpp"
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_convertible.hpp>
-#else
-#include <type_traits>
-#endif
+#include "deduced.hpp"
 
 #if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
 #include <boost/tti/detail/dnullptr.hpp>
@@ -33,11 +27,7 @@ namespace test {
         template <typename From, typename Args>
         struct apply
           : boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 boost::is_convertible<From,To>
-#else
-                std::is_convertible<From,To>
-#endif
               , boost::mpl::true_
               , boost::mpl::false_
             >

@@ -22,12 +22,7 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/parameter/aux_/arg_list.hpp>
 #include <boost/move/utility_core.hpp>
 #include <boost/mpl/if.hpp>
-
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
-#else
-#include <type_traits>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -40,11 +35,7 @@ namespace boost { namespace parameter { namespace aux {
         {
             return ArgList(
                 typename ::boost::mpl::if_<
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                     ::boost::is_same<
-#else
-                    ::std::is_same<
-#endif
                         typename ArgList::tagged_arg::value_type
                       , ::boost::parameter::void_
                     >
@@ -239,11 +230,7 @@ namespace boost { namespace parameter {
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/identity.hpp>
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
 #include <boost/type_traits/is_same.hpp>
-#else
-#include <type_traits>
-#endif
 #endif
 
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
@@ -292,11 +279,7 @@ namespace boost { namespace parameter {
                   , BOOST_PARAMETER_satisfies_begin
                   , PS
                 )
-#if defined(BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS)
                 ::boost::is_same<
-#else
-                ::std::is_same<
-#endif
                     typename ::boost::mpl
                     ::second<ArgumentPackAndError>::type
                   , ::boost::parameter::void_
