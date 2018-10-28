@@ -195,11 +195,6 @@ alias parameter_standard_tests
     ]
     ;
 
-alias parameter_literate_tests
-    :
-    [ build-project literate ]
-    ;
-
 alias parameter_python_test
     :
     [ bpl-test python_test ]
@@ -208,7 +203,6 @@ alias parameter_python_test
 alias parameter_sl_tests
     :
         parameter_standard_tests
-        parameter_literate_tests
     ;
 
 alias parameter_sp_tests
