@@ -54,7 +54,7 @@ alias parameter_standard_tests
         :
         :
         :
-#            <define>BOOST_PARAMETER_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
         :
         :
             <preserve-target-tests>off
@@ -63,7 +63,7 @@ alias parameter_standard_tests
         :
         :
         :
-#            <define>BOOST_PARAMETER_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
         :
         :
             <preserve-target-tests>off
@@ -81,7 +81,7 @@ alias parameter_standard_tests
         :
         :
         :
-#            <define>BOOST_PARAMETER_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
         :
         :
             <preserve-target-tests>off
