@@ -14,11 +14,7 @@ namespace param {
     BOOST_PARAMETER_NAME(a3)
     BOOST_PARAMETER_NAME(in(lrc))
     BOOST_PARAMETER_NAME(out(lr))
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
     BOOST_PARAMETER_NAME(consume(rr))
-#else
-    BOOST_PARAMETER_NAME(rr)
-#endif
 }
 
 #include <boost/config.hpp>
@@ -130,10 +126,6 @@ namespace test {
 } // namespace test
 
 #include <boost/core/lightweight_test.hpp>
-
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#include <boost/move/move.hpp>
-#endif
 
 int main()
 {

@@ -11,20 +11,18 @@
 #include <boost/fusion/container/vector/vector_fwd.hpp>
 #include <boost/fusion/container/deque/deque_fwd.hpp>
 
-// Allow projects to #define BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING to
-// turn off perfect forwarding as necessary.  Otherwise, also require correct
-// SFINAE support, needed explicitly by tagged_argument & keyword & cast;
-// correct function template ordering, needed by the code generation macros;
-// either a variadic implementation of boost::fusion::list/deque or a
-// user-defined variadic MPL Sequence model, needed by parameters; and the
-// ability to handle multiple parameter packs, needed by parameters.  Older
-// versions of GCC either don't have the latter ability or cannot
-// disambiguate between keyword's overloaded operators.  Newer versions of
-// MSVC fail on the evaluate_category and preprocessor_eval_category test
-// programs when parameters uses boost::fusion::list.
+// Require correct SFINAE support, needed explicitly by tagged_argument &
+// keyword & cast; correct function template ordering, needed by the code
+// generation macros; either a variadic implementation of
+// boost::fusion::list/deque or a user-defined variadic MPL Sequence model,
+// needed by parameters; and the ability to handle multiple parameter packs,
+// needed by parameters.  Older versions of GCC either don't have the latter
+// ability or cannot disambiguate between keyword's overloaded
+// operators.  Newer versions of MSVC fail on the evaluate_category and
+// preprocessor_eval_category test programs when parameters uses
+// boost::fusion::list.
 // -- Cromwell D. Enage
 #if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-    !defined(BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING) && \
     !defined(BOOST_NO_SFINAE) && \
     !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) && \
     !BOOST_WORKAROUND(BOOST_GCC, < 40900) && ( \
@@ -38,18 +36,12 @@
 #endif
 
 #if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#if !defined(BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
-#define BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY 11
-#endif
+#error Your compiler does not support perfect forwarding.
 #endif
 
-// Only in the absence of perfect forwarding should client code be limited
-// by BOOST_PARAMETER_MAX_ARITY.  However, BOOST_PARAMETER_MAX_ARITY will
-// remain defined for code that still needs it. -- Cromwell D. Enage
-//#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+// Deprecated. -- Cromwell D. Enage
 #if !defined(BOOST_PARAMETER_MAX_ARITY)
 #define BOOST_PARAMETER_MAX_ARITY 8
 #endif
-//#endif
 #endif  // include guard
 
