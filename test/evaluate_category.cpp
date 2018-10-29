@@ -236,7 +236,8 @@ int main()
     char baz_arr[4] = "qux";
     typedef char char_arr[4];
 
-#if BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
+    BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1920)
     // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
     // as an lvalue.
