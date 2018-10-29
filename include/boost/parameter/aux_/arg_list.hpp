@@ -43,6 +43,7 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/parameter/aux_/yesno.hpp>
 #include <boost/parameter/aux_/result_of0.hpp>
 #include <boost/parameter/aux_/default.hpp>
+#include <utility>
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -108,7 +109,7 @@ namespace boost { namespace parameter { namespace aux {
         inline Default&&
             operator[](::boost::parameter::aux::default_r_<K,Default> x) const
         {
-            return ::boost::forward<Default>(x.value);
+            return ::std::forward<Default>(x.value);
         }
 
         // If this operator is called, it means there is no argument in the
@@ -148,7 +149,6 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/assert.hpp>
 #include <boost/type_traits/is_same.hpp>
-#include <utility>
 
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
 #include <boost/tti/detail/dnullptr.hpp>
