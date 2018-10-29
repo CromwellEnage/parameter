@@ -71,18 +71,17 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/pair.hpp>
 #include <boost/mpl/identity.hpp>
 
-#if !defined(BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE)
 #if defined(BOOST_FUSION_HAS_VARIADIC_LIST) && ( \
         !defined(BOOST_MSVC) || (BOOST_MSVC < 1800) \
     )
 #include <boost/fusion/container/list.hpp>
-#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::fusion::list
-#else
-#include <boost/fusion/container/deque.hpp>
-#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::fusion::deque
-#endif
-#endif  // BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE
 #include <boost/fusion/mpl.hpp>
+#elif defined(BOOST_FUSION_HAS_VARIADIC_DEQUE)
+#include <boost/fusion/container/deque.hpp>
+#include <boost/fusion/mpl.hpp>
+#else
+#include <boost/mpl/vector.hpp>
+#endif
 
 namespace boost { namespace parameter {
 
