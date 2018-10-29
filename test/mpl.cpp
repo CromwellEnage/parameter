@@ -69,7 +69,7 @@ namespace test {
     >
     void f(
         Tester const& t
-      , const Name& name_
+      , Name const& name_
       , Value const& value_
         BOOST_APPEND_EXPLICIT_TEMPLATE_TYPE(Expected)
     )
@@ -80,7 +80,8 @@ namespace test {
     template <typename Expected, typename Tester, typename Name>
     void f(
         Tester const& t
-      , Name const& name_ BOOST_APPEND_EXPLICIT_TEMPLATE_TYPE(Expected)
+      , Name const& name_
+        BOOST_APPEND_EXPLICIT_TEMPLATE_TYPE(Expected)
     )
     {
         test::f_impl<Expected>(test::f_parameters()(t, name_));

@@ -5,7 +5,7 @@ BOOST_PARAMETER_NAME(graph)
 BOOST_PARAMETER_NAME(visitor)
 BOOST_PARAMETER_NAME(root_vertex)
 BOOST_PARAMETER_NAME(index_map)
-BOOST_PARAMETER_NAME(color_map)
+BOOST_PARAMETER_NAME(in_out(color_map))
 
 namespace boost {
 

@@ -10,7 +10,7 @@ namespace boost { namespace python {
 
     template <typename T>
     struct class_type
-      : parameter::template_keyword<tag::class_type,T>
+      : boost::parameter::template_keyword<boost::python::tag::class_type,T>
     {
     };
 }}
