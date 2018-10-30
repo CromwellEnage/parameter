@@ -125,7 +125,7 @@ matrix:
             - llvm-toolchain-precise-3.7
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=11 TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
@@ -135,7 +135,27 @@ matrix:
             - llvm-toolchain-precise-3.8
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=14,1z TEST_SUITE=parameter_all_but_python_tests
+      addons:
+        apt:
+          packages:
+            - clang-3.8
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=11 TEST_SUITE=parameter_all_tests
+      addons:
+        apt:
+          packages:
+            - clang-3.9
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.9
+
+    - os: linux
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=14,1z TEST_SUITE=parameter_all_but_python_tests
       addons:
         apt:
           packages:
@@ -146,7 +166,18 @@ matrix:
 
     - os: linux
       compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=11 TEST_SUITE=parameter_all_tests
+      addons:
+        apt:
+          packages:
+            - clang-4.0
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-4.0
+
+    - os: linux
+      compiler: clang++-4.0
+      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=14,1z TEST_SUITE=parameter_all_but_python_tests
       addons:
         apt:
           packages:
@@ -157,7 +188,18 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=11 TEST_SUITE=parameter_all_tests
+      addons:
+        apt:
+          packages:
+            - clang-5.0
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
+
+    - os: linux
+      compiler: clang++-5.0
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=14,1z TEST_SUITE=parameter_all_but_python_tests
       addons:
         apt:
           packages:
