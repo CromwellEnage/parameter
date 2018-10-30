@@ -24,25 +24,6 @@
 #error Your compiler does not support perfect forwarding.
 #endif
 
-#include <boost/fusion/container/vector/vector_fwd.hpp>
-#include <boost/fusion/container/deque/deque_fwd.hpp>
-
-#if !defined(BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE)
-// Newer versions of MSVC fail on the evaluate_category and
-// preprocessor_eval_category test programs when parameters uses
-// boost::fusion::list.
-// -- Cromwell D. Enage
-#if defined(BOOST_FUSION_HAS_VARIADIC_LIST) && ( \
-        !defined(BOOST_MSVC) || (BOOST_MSVC < 1800) \
-    )
-#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::fusion::list
-#elif defined(BOOST_FUSION_HAS_VARIADIC_DEQUE)
-#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::fusion::deque
-#else
-#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::mpl::vector
-#endif
-#endif  // BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE
-
 #include <boost/mpl/limits/vector.hpp>
 
 // Unlike the variadic MPL sequences provided by Boost.Fusion,

@@ -210,8 +210,7 @@ namespace boost { namespace parameter { namespace aux {
             return this->get_value();
         }
 
-#if defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) || \
-    BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
         template <typename KW, typename Default>
         inline Default&
             get_with_default(
@@ -289,9 +288,7 @@ namespace boost { namespace parameter { namespace aux {
         {
             return this->get_with_lazy_default(x, 0L);
         }
-#else
-//#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) && \
-//    !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#else   // !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
         template <typename Default>
         inline reference
             operator[](
@@ -350,7 +347,7 @@ namespace boost { namespace parameter { namespace aux {
                   , HasDefault
                 >*
             );
-#endif  // Function template ordering, Borland workarounds needed.
+#endif  // Borland workarounds needed.
 
         // MPL sequence support
         // Convenience for users

@@ -71,17 +71,39 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/pair.hpp>
 #include <boost/mpl/identity.hpp>
 
+#if !defined(BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE)
+#if 1// defined(BOOST_PARAMETER_USES_MP11)
+#include <boost/mp11/tuple.hpp>
+#include <boost/mp11/mpl.hpp>
+#include <tuple>
+#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::std::tuple
+#else
+#include <boost/fusion/container/list/list_fwd.hpp>
+
+// Newer versions of MSVC fail on the evaluate_category and
+// preprocessor_eval_category test programs when parameters uses
+// boost::fusion::list.
+// -- Cromwell D. Enage
 #if defined(BOOST_FUSION_HAS_VARIADIC_LIST) && ( \
         !defined(BOOST_MSVC) || (BOOST_MSVC < 1800) \
     )
 #include <boost/fusion/container/list.hpp>
 #include <boost/fusion/mpl.hpp>
-#elif defined(BOOST_FUSION_HAS_VARIADIC_DEQUE)
+#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::fusion::list
+#else
+#include <boost/fusion/container/deque/deque_fwd.hpp>
+
+#if defined(BOOST_FUSION_HAS_VARIADIC_DEQUE)
 #include <boost/fusion/container/deque.hpp>
 #include <boost/fusion/mpl.hpp>
+#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::fusion::deque
 #else
 #include <boost/mpl/vector.hpp>
-#endif
+#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::mpl::vector
+#endif  // BOOST_FUSION_HAS_VARIADIC_DEQUE
+#endif  // BOOST_FUSION_HAS_VARIADIC_LIST
+#endif  // Use Boost.MP11
+#endif  // BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE
 
 namespace boost { namespace parameter {
 
