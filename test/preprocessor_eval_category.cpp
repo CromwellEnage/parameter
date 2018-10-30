@@ -169,9 +169,8 @@ namespace test {
 
     struct B
     {
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1920)
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
+    defined(BOOST_MSVC)
         B()
         {
         }
@@ -309,9 +308,8 @@ namespace test {
 
     struct C : B
     {
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1920)
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
+    defined(BOOST_MSVC)
         C() : B()
         {
         }
@@ -407,11 +405,9 @@ int main()
     char baz_arr[4] = "qux";
     typedef char char_arr[4];
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1920)
-    // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
-    // as an lvalue.
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
+    defined(BOOST_MSVC)
+    // MSVC treats static_cast<char_arr&&>(baz_arr) as an lvalue.
 #else
     test::evaluate(
         "q2x"
@@ -425,18 +421,16 @@ int main()
       , test::_rr0 = static_cast<char_arr&&>(baz_arr)
       , test::_lrc0 = "wld"
     );
-#endif  // MSVC 14.1
+#endif  // MSVC
     test::B::evaluate(test::lvalue_const_str()[0]);
     test::C::evaluate(
         test::lvalue_const_str()[0]
       , test::rvalue_const_float()
     );
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1920)
-    // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
-    // as an lvalue.
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
+    defined(BOOST_MSVC)
+    // MSVC treats static_cast<char_arr&&>(baz_arr) as an lvalue.
     test::C cp0;
     test::C cp1;
 #else
@@ -452,7 +446,7 @@ int main()
       , test::_rr0 = static_cast<char_arr&&>(baz_arr)
       , test::_lrc0 = "zts"
     );
-#endif  // MSVC 14.1
+#endif  // MSVC
 
     cp0.evaluate(
         test::lvalue_const_str()[0]

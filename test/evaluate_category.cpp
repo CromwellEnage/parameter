@@ -195,37 +195,25 @@ int main()
     char baz_arr[4] = "qux";
     typedef char char_arr[4];
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1) && \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
-    BOOST_WORKAROUND(BOOST_MSVC, < 1920)
-    // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
-    // as an lvalue.
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
+    defined(BOOST_MSVC)
+    // MSVC treats static_cast<char_arr&&>(baz_arr) as an lvalue.
 #else
     test::B<char_arr>::evaluate(
         test::f_parameters()(
             "crg"
           , baz_arr
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
           , static_cast<char_arr const&&>("uir")
           , static_cast<char_arr&&>(baz_arr)
-#else
-          , "grl"
-          , "grp"
-#endif
         )
     );
     test::B<char_arr>::evaluate((
         test::_lr0 = baz_arr
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
       , test::_rrc0 = static_cast<char_arr const&&>("wld")
       , test::_rr0 = static_cast<char_arr&&>(baz_arr)
-#else
-      , test::_rrc0 = "frd"
-      , test::_rr0 = "plg"
-#endif
       , test::_lrc0 = "mos"
     ));
-#endif  // MSVC 14.1
+#endif  // MSVC
 
     test::E::evaluate(
         test::e_parameters()(

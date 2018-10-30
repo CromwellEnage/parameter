@@ -346,47 +346,31 @@ alias parameter_all_tests
         parameter_slp_tests
     ;
 
-alias parameter_msvc11_fail_tests
-    :
-    [ compile-fail compose.cpp
-        :
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
-        :
-            compose_msvc11_fail
-    ]
-    ;
-
-alias parameter_msvc11_tests
-    :
-        parameter_all_tests
-        parameter_msvc11_fail_tests
-    ;
-
-alias parameter_msvc14_fail_tests
+alias parameter_msvc_fail_tests
     :
     [ compile-fail evaluate_category.cpp
         :
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
         :
-            evaluate_category_msvc14_fail
+            evaluate_category_msvc_fail
     ]
     [ compile-fail preprocessor_eval_category.cpp
         :
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC14_1
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
         :
-            preproc_eval_cat_msvc14_fail
+            preproc_eval_cat_msvc_fail
     ]
     ;
 
-alias parameter_msvc14_no_python_tests
+alias parameter_msvc_no_python_tests
     :
         parameter_all_but_python_tests
-        parameter_msvc14_fail_tests
+        parameter_msvc_fail_tests
     ;
 
-alias parameter_msvc14_tests
+alias parameter_msvc_tests
     :
         parameter_all_tests
-        parameter_msvc14_fail_tests
+        parameter_msvc_fail_tests
     ;
 
