@@ -27,7 +27,7 @@ matrix:
 
   include:
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=11 TEST_SUITE=parameter_all_but_python_tests
+      env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=11 TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
@@ -95,7 +95,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=11 TEST_SUITE=parameter_all_but_python_tests
+      env: TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=11 TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
@@ -105,7 +105,7 @@ matrix:
             - llvm-toolchain-precise-3.5
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=11 TEST_SUITE=parameter_all_but_python_tests
+      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=11 TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
@@ -115,7 +115,7 @@ matrix:
             - llvm-toolchain-precise-3.6
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=11 TEST_SUITE=parameter_all_but_python_tests
+      env: TOOLSET=clang COMPILER=clang++-3.7 CXXSTD=11 TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
@@ -125,7 +125,7 @@ matrix:
             - llvm-toolchain-precise-3.7
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=11,14,1z TEST_SUITE=parameter_all_but_python_tests
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
@@ -135,7 +135,7 @@ matrix:
             - llvm-toolchain-precise-3.8
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=11,14,1z TEST_SUITE=parameter_all_but_python_tests
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
@@ -146,7 +146,7 @@ matrix:
 
     - os: linux
       compiler: clang++-4.0
-      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=11,14,1z TEST_SUITE=parameter_all_but_python_tests
+      env: TOOLSET=clang COMPILER=clang++-4.0 CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
@@ -157,62 +157,7 @@ matrix:
 
     - os: linux
       compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=11 TEST_SUITE=parameter_slp_tests
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-
-    - os: linux
-      compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=11 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-
-    - os: linux
-      compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=14 TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-
-    - os: linux
-      compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=14 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-
-    - os: linux
-      compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=1z TEST_SUITE=parameter_sl_tests
-      addons:
-        apt:
-          packages:
-            - clang-5.0
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-
-    - os: linux
-      compiler: clang++-5.0
-      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=1z TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-5.0 CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
@@ -223,57 +168,7 @@ matrix:
 
     - os: linux
       compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_slp_tests
-      addons:
-        apt:
-          packages:
-            - libstdc++-5-dev
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - libstdc++-5-dev
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_slp_tests
-      addons:
-        apt:
-          packages:
-            - libstdc++-5-dev
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=14 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - libstdc++-5-dev
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_slp_tests
-      addons:
-        apt:
-          packages:
-            - libstdc++-5-dev
-          sources:
-            - ubuntu-toolchain-r-test
-
-    - os: linux
-      compiler: clang++
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=1z TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
@@ -283,47 +178,7 @@ matrix:
 
     - os: linux
       compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=11 TEST_SUITE=parameter_slp_tests
-      addons:
-        apt:
-          packages:
-            - libc++-dev
-
-    - os: linux
-      compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=11 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - libc++-dev
-
-    - os: linux
-      compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=14 TEST_SUITE=parameter_slp_tests
-      addons:
-        apt:
-          packages:
-            - libc++-dev
-
-    - os: linux
-      compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=14 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - libc++-dev
-
-    - os: linux
-      compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=1z TEST_SUITE=parameter_slp_tests
-      addons:
-        apt:
-          packages:
-            - libc++-dev
-
-    - os: linux
-      compiler: clang++-libc++
-      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=1z TEST_SUITE=parameter_all_stress_tests
+      env: TOOLSET=clang COMPILER=clang++-libc++ CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
