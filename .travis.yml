@@ -35,7 +35,6 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
-  include:
     - os: linux
       env: TOOLSET=gcc COMPILER=g++-4.8 CXXSTD=11 TEST_SUITE=parameter_all_tests
       addons:
@@ -45,7 +44,6 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
 
-  include:
     - os: linux
       env: TOOLSET=gcc COMPILER=g++-4.9 CXXSTD=11 TEST_SUITE=parameter_all_tests
       addons:
@@ -56,7 +54,7 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=11,14 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=gcc COMPILER=g++-5 CXXSTD=11,14,1z TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:
