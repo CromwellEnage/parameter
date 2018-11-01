@@ -553,19 +553,29 @@ __ ../../../../boost/parameter/keyword.hpp
 
         template <typename T>
         typename boost::`enable_if`_<
-            boost::mpl::`and_`_<
-                boost::mpl::`or_`_<
-                    boost::`is_same`_<
+            typename boost::mpl::`eval_if_`_<
+                typename boost::mpl::`eval_if_`_<
+                    std::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::out_reference
                     >
-                  , boost::`is_same`_<
-                        typename Tag::qualifier
-                      , boost::parameter::forward_reference
+                  , boost::mpl::`true_`_
+                  , boost::mpl::`if_`_<
+                        std::`is_same`_<
+                            typename Tag::qualifier
+                          , boost::parameter::forward_reference
+                        >
+                      , boost::mpl::`true_`_
+                      , boost::mpl::`false_`_
                     >
+                >::type
+              , boost::mpl::`if_`_<
+                    std::`is_const`_<T>
+                  , boost::mpl::`false_`_
+                  , boost::mpl::`true_`_
                 >
-              , boost::mpl::`not_`_<boost::`is_const`_<T> >
-            >
+              , boost::mpl::`false_`_
+            >::type
           , |ArgumentPack|_
         >::type constexpr
             `operator=`_\(T& value) const;
@@ -597,19 +607,29 @@ __ ../../../../boost/parameter/keyword.hpp
 
         template <typename T>
         typename boost::`enable_if`_<
-            boost::mpl::`and_`_<
-                boost::mpl::`or_`_<
-                    boost::`is_same`_<
+            typename boost::mpl::`eval_if_`_<
+                typename boost::mpl::`eval_if_`_<
+                    std::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::out_reference
                     >
-                  , boost::`is_same`_<
-                        typename Tag::qualifier
-                      , boost::parameter::forward_reference
+                  , boost::mpl::`true_`_
+                  , boost::mpl::`if_`_<
+                        std::`is_same`_<
+                            typename Tag::qualifier
+                          , boost::parameter::forward_reference
+                        >
+                      , boost::mpl::`true_`_
+                      , boost::mpl::`false_`_
                     >
+                >::type
+              , boost::mpl::`if_`_<
+                    std::`is_const`_<T>
+                  , boost::mpl::`false_`_
+                  , boost::mpl::`true_`_
                 >
-              , boost::mpl::`not_`_<boost::`is_const`_<T> >
-            >
+              , boost::mpl::`false_`_
+            >::type
           , *tagged default*
         >::type
             `operator|`_\(T& x) const;
@@ -952,7 +972,9 @@ either:
 These templates describe the requirements on a function parameter.
 
 ``optional`` is defined in: |optional_header|_
+
 ``required`` is defined in: |required_header|_
+
 Both headers are included by: |preprocessor_header|_
 
 .. |optional_header| replace:: boost/parameter/optional.hpp
@@ -2219,9 +2241,8 @@ preservation of parameter value categories.  Users can manually disable this
 macro by ``#defining`` the ``BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING``
 macro.  Otherwise, the library will ``#define`` this macro if and only if it
 and the configuration macros |BOOST_NO_FUNCTION_TEMPLATE_ORDERING|_ and
-|BOOST_NO_SFINAE|_ are not already ``#defined`` but the configuration macros
-|BOOST_MOVE_PERFECT_FORWARDING|_ and ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
-are already defined.
+|BOOST_NO_SFINAE|_ are not already ``#defined`` but the configuration macro
+|BOOST_MOVE_PERFECT_FORWARDING|_ is already defined.
 
 .. |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| replace:: ``BOOST_PARAMETER_HAS_PERFECT_FORWARDING``
 .. |BOOST_NO_FUNCTION_TEMPLATE_ORDERING| replace:: ``BOOST_NO_FUNCTION_TEMPLATE_ORDERING``
@@ -2238,43 +2259,70 @@ __ ../../../../boost/parameter/config.hpp
 ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
 -----------------------------------------
 
-Determines the `MPL Variadic Sequence`_ underlying the nested
-``parameter_spec`` type of |parameters|.  If the user does not manually
-``#define`` this macro, then the library will check if either
-|BOOST_FUSION_HAS_VARIADIC_LIST|_ or |BOOST_FUSION_HAS_VARIADIC_DEQUE|_ are
-defined, then define this macro or leave it undefined accordingly.
-
-.. |BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE| replace:: ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
-.. _`MPL Variadic Sequence`: ../../../mpl/doc/refmanual/variadic-sequence.html
-.. |BOOST_FUSION_HAS_VARIADIC_DEQUE| replace:: ``BOOST_FUSION_HAS_VARIADIC_DEQUE``
-.. _BOOST_FUSION_HAS_VARIADIC_DEQUE: ../../../../boost/fusion/container/deque/deque_fwd.hpp
-.. |BOOST_FUSION_HAS_VARIADIC_LIST| replace:: ``BOOST_FUSION_HAS_VARIADIC_LIST``
-.. _BOOST_FUSION_HAS_VARIADIC_LIST: ../../../../boost/fusion/container/list/list_fwd.hpp
+If |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, then determines
+the `MPL Variadic Sequence`_ underlying the nested ``parameter_spec`` type of
+|parameters|.  If the user does not manually ``#define`` this macro, then the
+library will ``#define`` it as |boost_fusion_list|_ if
+|BOOST_FUSION_HAS_VARIADIC_LIST|_ is defined, |boost_fusion_deque|_ if
+|BOOST_FUSION_HAS_VARIADIC_DEQUE|_ is defined, or |boost_mpl_vector|_
+otherwise.
 
 :Example:
 
 .. parsed-literal::
 
-#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::fusion::vector
+#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE |boost_fusion_vector|_
 
-:Defined in: `boost/parameter/parameters.hpp`__ if the user does not manually
-``#define`` this macro.
+.. |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| replace:: ``BOOST_PARAMETER_HAS_PERFECT_FORWARDING``
+.. |BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE| replace:: ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
+.. _`MPL Variadic Sequence`: ../../../mpl/doc/refmanual/variadic-sequence.html
+.. |BOOST_FUSION_HAS_VARIADIC_LIST| replace:: ``BOOST_FUSION_HAS_VARIADIC_LIST``
+.. _BOOST_FUSION_HAS_VARIADIC_LIST: ../../../../boost/fusion/container/list/list_fwd.hpp
+.. |boost_fusion_list| replace:: ``boost\:\:fusion\:\:list``
+.. _boost_fusion_list: ../../../fusion/doc/html/fusion/container/list.html
+.. |BOOST_FUSION_HAS_VARIADIC_DEQUE| replace:: ``BOOST_FUSION_HAS_VARIADIC_DEQUE``
+.. _BOOST_FUSION_HAS_VARIADIC_DEQUE: ../../../../boost/fusion/container/deque/deque_fwd.hpp
+.. |boost_fusion_deque| replace:: ``boost\:\:fusion\:\:deque``
+.. _boost_fusion_deque: ../../../fusion/doc/html/fusion/container/deque.html
+.. |boost_fusion_vector| replace:: ``boost\:\:fusion\:\:vector``
+.. _boost_fusion_vector: ../../../fusion/doc/html/fusion/container/vector.html
+.. |boost_mpl_vector| replace:: ``boost\:\:mpl\:\:vector``
+.. _boost_mpl_vector: ../../../mpl/doc/refmanual/vector.html
+
+:Defined in: `boost/parameter/parameters.hpp`__
 
 __ ../../../../boost/parameter/parameters.hpp
 
 ``BOOST_PARAMETER_MAX_ARITY``
 -----------------------------
 
-Determines the maximum number of arguments supported by the library.  Will
-only be ``#defined`` by the library if it is not already ``#defined``.
+Determines the maximum number of arguments supported by the library.
 
-If this library supports perfect forwarding, then this macro can be safely
-ignored.  Otherwise, mutable references must be wrapped by |boost_ref|_ or
-|std_ref|_ if passed by position to Boost.Parameter-enabled functions with
-arity greater than or equal to
-``BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY``.
+If |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, then:
 
+\*. If the `MPL Variadic Sequence`_ underlying the nested ``parameter_spec``
+type of |parameters| does not have a size limit--which is the case with
+|boost_fusion_list|_ and |boost_fusion_deque|_, but not
+|boost_mpl_vector|_--then this macro can be safely ignored.  User code that
+manually defines |BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE| should also manually
+define this macro to the size limit of the sequence if it has one.
+
+If |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is **not** ``#defined``, then:
+
+\*. Mutable references must be wrapped by |boost_ref|_ or |std_ref|_ if passed
+by position to Boost.Parameter-enabled functions with arity greater than or
+equal to ``BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY``.
+
+.. |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| replace:: ``BOOST_PARAMETER_HAS_PERFECT_FORWARDING``
+.. |BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE| replace:: ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
 .. |BOOST_PARAMETER_MAX_ARITY| replace:: ``BOOST_PARAMETER_MAX_ARITY``
+.. _`MPL Variadic Sequence`: ../../../mpl/doc/refmanual/variadic-sequence.html
+.. |boost_fusion_list| replace:: ``boost\:\:fusion\:\:list``
+.. _boost_fusion_list: ../../../fusion/doc/html/fusion/container/list.html
+.. |boost_fusion_deque| replace:: ``boost\:\:fusion\:\:deque``
+.. _boost_fusion_deque: ../../../fusion/doc/html/fusion/container/deque.html
+.. |boost_mpl_vector| replace:: ``boost\:\:mpl\:\:vector``
+.. _boost_mpl_vector: ../../../mpl/doc/refmanual/vector.html
 .. |boost_ref| replace:: ``boost\:\:ref``
 .. _boost_ref: ../../../core/doc/html/core/ref.html
 .. |std_ref| replace:: ``std\:\:ref``
@@ -2284,8 +2332,11 @@ arity greater than or equal to
 
 __ ../../../../boost/parameter/config.hpp
 
-:Default Value: ``8``
+:Default Value: |BOOST_MPL_LIMIT_VECTOR_SIZE|_ if perfect forwarding is supported, ``8`` otherwise.
 :Minimum Value: ``2``
+
+.. |BOOST_MPL_LIMIT_VECTOR_SIZE| replace:: ``BOOST_MPL_LIMIT_VECTOR_SIZE``
+.. _BOOST_MPL_LIMIT_VECTOR_SIZE: ../../../mpl/doc/refmanual/limit-vector-size.html
 
 ``BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY``
 --------------------------------------------------------
@@ -2305,6 +2356,21 @@ __ ../../../../boost/parameter/config.hpp
 
 :Default Value: ``11``
 :Minimum Value: ``1``
+
+``BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS``
+-----------------------------------------------------
+
+Determines whether or not the library uses |Boost.TypeTraits|_ internally
+instead of the corresponding C++ standard utilities.  Users can manually
+``#define`` this macro if they suspect that their compilers are reporting
+internal errors otherwise.
+
+.. |Boost.TypeTraits| replace:: **Boost.TypeTraits**
+.. _Boost.TypeTraits: ../../../type_traits/doc/html/index.html
+
+:Defined in: `boost/parameter/config.hpp`__
+
+__ ../../../../boost/parameter/config.hpp
 
 Tutorial
 ========

@@ -52,8 +52,8 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/type_traits/remove_reference.hpp>
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#include <boost/move/utility_core.hpp>
 #include <boost/core/enable_if.hpp>
+#include <utility>
 #endif
 
 #if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
@@ -230,18 +230,6 @@ namespace boost { namespace parameter { namespace aux {
             return x.value;
         }
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        template <typename KW, typename Default>
-        inline Default&&
-            get_with_default(
-                ::boost::parameter::aux::default_r_<KW,Default> const& x
-              , int
-            ) const
-        {
-            return ::boost::forward<Default>(x.value);
-        }
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
-
         template <typename Default>
         inline reference
             get_with_default(
@@ -336,7 +324,7 @@ namespace boost { namespace parameter { namespace aux {
                 ::boost::parameter::aux::default_r_<KW,Default> const& x
             ) const
         {
-            return ::boost::forward<Default>(x.value);
+            return ::std::forward<Default>(x.value);
         }
 #endif
 
@@ -402,12 +390,12 @@ namespace boost { namespace parameter { namespace aux {
 
      public:
         inline explicit tagged_argument_rref(reference x)
-          : value(::boost::forward<Arg>(x))
+          : value(::std::forward<Arg>(x))
         {
         }
 
         inline tagged_argument_rref(tagged_argument_rref const& copy)
-          : value(::boost::forward<Arg>(copy.value))
+          : value(::std::forward<Arg>(copy.value))
         {
         }
 
@@ -486,7 +474,7 @@ namespace boost { namespace parameter { namespace aux {
         // Accessor interface.
         inline reference get_value() const
         {
-            return ::boost::forward<Arg>(this->value);
+            return ::std::forward<Arg>(this->value);
         }
 
         inline reference
@@ -495,75 +483,6 @@ namespace boost { namespace parameter { namespace aux {
             return this->get_value();
         }
 
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
-        template <typename KW, typename Default>
-        inline Default&&
-            get_with_default(
-                ::boost::parameter::aux::default_r_<KW,Default> const& x
-              , int
-            ) const
-        {
-            return ::boost::forward<Default>(x.value);
-        }
-
-        template <typename Default>
-        inline reference
-            get_with_default(
-                ::boost::parameter::aux::default_r_<key_type,Default> const&
-              , long
-            ) const
-        {
-            return this->get_value();
-        }
-
-        template <typename KW, typename Default>
-        inline typename ::boost::mpl::apply_wrap3<
-            binding
-          , KW
-          , Default&&
-          , ::boost::mpl::true_
-        >::type
-            operator[](
-                ::boost::parameter::aux::default_r_<KW,Default> const& x
-            ) const
-        {
-            return this->get_with_default(x, 0L);
-        }
-
-        template <typename KW, typename F>
-        inline typename ::boost::parameter::aux::result_of0<F>::type
-            get_with_lazy_default(
-                ::boost::parameter::aux::lazy_default<KW,F> const& x
-              , int
-            ) const
-        {
-            return x.compute_default();
-        }
-
-        template <typename F>
-        inline reference
-            get_with_lazy_default(
-                ::boost::parameter::aux::lazy_default<key_type,F> const&
-              , long
-            ) const
-        {
-            return this->get_value();
-        }
-
-        template <typename KW, typename F>
-        inline typename ::boost::mpl::apply_wrap3<
-            binding
-          , KW
-          , typename ::boost::parameter::aux::result_of0<F>::type
-          , ::boost::mpl::true_
-        >::type
-            operator[](
-                ::boost::parameter::aux::lazy_default<KW,F> const& x
-            ) const
-        {
-            return this->get_with_lazy_default(x, 0L);
-        }
-#else   // !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
         template <typename Default>
         inline reference
             operator[](
@@ -588,7 +507,7 @@ namespace boost { namespace parameter { namespace aux {
                 ::boost::parameter::aux::default_r_<KW,Default> const& x
             ) const
         {
-            return ::boost::forward<Default>(x.value);
+            return ::std::forward<Default>(x.value);
         }
 
         template <typename KW, typename F>
@@ -613,7 +532,6 @@ namespace boost { namespace parameter { namespace aux {
                   , HasDefault
                 >*
             );
-#endif  // Borland workarounds needed.
 
         // MPL sequence support
         // Convenience for users

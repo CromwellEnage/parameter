@@ -674,10 +674,11 @@ names in ``consume(…)`` or ``move_from(…)``.
 
 In order to see what happens when parameters are bound to arguments that
 violate their category constraints, attempt to compile the |compose_cpp|_ test
-program with the ``LIBS_PARAMETER_TEST_COMPILE_FAILURE_0`` macro or the
-``LIBS_PARAMETER_TEST_COMPILE_FAILURE_1`` macro ``#defined``.  You should
-encounter at least four compiler errors, each corresponding to a specific
-constraint violation.
+program with either the ``LIBS_PARAMETER_TEST_COMPILE_FAILURE_0`` macro, the
+``LIBS_PARAMETER_TEST_COMPILE_FAILURE_1`` macro, the
+``LIBS_PARAMETER_TEST_COMPILE_FAILURE_2`` macro, or the
+``LIBS_PARAMETER_TEST_COMPILE_FAILURE_3`` macro ``#defined``.  You should
+encounter a compiler error caused by a specific constraint violation.
 
 .. @example.prepend('''
     #include <boost/parameter.hpp>

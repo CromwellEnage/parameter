@@ -185,10 +185,14 @@ id="id66">7.3&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 href="#boost-parameter-exponential-overload-threshold-arity"
 id="id67">7.4&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY</tt></a></li>
+<li><a class="reference internal"
+href="#boost-parameter-uses-boost-vice-cxx11-type-traits"
+id="id68">7.5&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+>BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS</tt></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#tutorial"
-id="id68">8&nbsp;&nbsp;&nbsp;Tutorial</a></li>
+id="id69">8&nbsp;&nbsp;&nbsp;Tutorial</a></li>
 </ul>
 </div>
 <hr class="docutils" />
@@ -1379,6 +1383,11 @@ accessed from multiple threads simultaneously.</td>
 <dd><pre class="first literal-block">
 static keyword&lt;Tag&gt;&amp; get();
 </pre>
+<div class="admonition-deprecated admonition">
+<p class="first admonition-title">Deprecated</p>
+<p class="last">This macro has been deprecated in favor of
+<tt class="docutils literal">instance</tt>.</p>
+</div>
 <table class="last docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -3634,23 +3643,39 @@ href="../../../../boost/parameter/config.hpp"
 <div class="section" id="boost-parameter-variadic-mpl-sequence">
 <h2><a class="toc-backref" href="#id65">7.2&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE</tt></a></h2>
-<p>Determines the <a class="reference external"
+<p>If <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is
+<tt class="docutils literal">#defined</tt>, then determines the
+<a class="reference external"
 href="../../../mpl/doc/refmanual/variadic-sequence.html">MPL Variadic
 Sequence</a> underlying the nested <tt class="docutils literal"
->parameter_spec</tt> type of <a class="reference external" href="#parameters"
+>parameter_spec</tt> type of <a class="reference internal" href="#parameters"
 ><tt class="docutils literal">parameters</tt></a>.  If the user does not
 manually <tt class="docutils literal">#define</tt> this macro, then the
-library will check if either <a class="reference external"
+library will <tt class="docutils literal">#define</tt> it as
+<a class="reference external"
+href="../../../fusion/doc/html/fusion/container/list.html"
+><tt class="docutils literal">::boost::fusion::list</tt></a> if
+<a class="reference external"
 href="../../../../boost/fusion/container/list/list_fwd.hpp"
->BOOST_FUSION_HAS_VARIADIC_LIST</a> or <a class="reference external"
+><tt class="docutils literal">BOOST_FUSION_HAS_VARIADIC_LIST</tt></a> is
+defined, <a class="reference external"
+href="../../../fusion/doc/html/fusion/container/deque.html"
+><tt class="docutils literal">::boost::fusion::deque</tt></a> if
+<a class="reference external"
 href="../../../../boost/fusion/container/deque/deque_fwd.hpp"
->BOOST_FUSION_HAS_VARIADIC_DEQUE</a> are defined, then define this macro or
-leave it undefined accordingly.</p>
+><tt class="docutils literal">BOOST_FUSION_HAS_VARIADIC_DEQUE</tt></a> is
+defined, or <a class="reference external"
+href="../../../mpl/doc/refmanual/vector.html"
+><tt class="docutils literal">::boost::mpl::vector</tt></a> otherwise.</p>
 <dl class="docutils">
 <dt>Example:</dt>
 <dd>
 <pre class="first last literal-block">
-#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::fusion::vector
+#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE <a class="reference external"
+href="../../../fusion/doc/html/fusion/container/vector.html"
+><tt class="docutils literal">::boost::fusion::vector</tt></a>
 </pre>
 </dd>
 </dl>
@@ -3662,8 +3687,7 @@ leave it undefined accordingly.</p>
 <th class="field-name">Defined in:</th>
 <td class="field-body"><a class="reference external"
 href="../../../../boost/parameter/parameters.hpp"
->boost/parameter/parameters.hpp</a> if the user does not
-manually <tt class="docutils literal">#define</tt> this macro.</td>
+>boost/parameter/parameters.hpp</a></td>
 </tr>
 </tbody>
 </table>
@@ -3671,11 +3695,38 @@ manually <tt class="docutils literal">#define</tt> this macro.</td>
 <div class="section" id="boost-parameter-max-arity">
 <h2><a class="toc-backref" href="#id66">7.3&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_MAX_ARITY</tt></a></h2>
-<p>Determines the maximum number of arguments supported by the library.  Will
-only be <tt class="docutils literal">#defined</tt> by the library if it is not
-already <tt class="docutils literal">#defined</tt>.</p>
-<p>If this library supports perfect forwarding, then this macro can be safely
-ignored.  Otherwise, mutable references must be wrapped by
+<p>Determines the maximum number of arguments supported by the library.</p>
+<p>If <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is
+<tt class="docutils literal">#defined</tt>, then:</p>
+<ul>
+<li>If the <a class="reference external"
+href="../../../mpl/doc/refmanual/variadic-sequence.html">MPL Variadic
+Sequence</a> underlying the nested <tt class="docutils literal"
+>parameter_spec</tt> type of <a class="reference internal" href="#parameters"
+><tt class="docutils literal">parameters</tt></a> does not have a size
+limit--which is the case with <a class="reference external"
+href="../../../fusion/doc/html/fusion/container/list.html"
+><tt class="docutils literal">::boost::fusion::list</tt></a> and
+<a class="reference external"
+href="../../../fusion/doc/html/fusion/container/deque.html"
+><tt class="docutils literal">::boost::fusion::deque</tt></a> but not
+<a class="reference external"
+href="../../../mpl/doc/refmanual/vector.html"
+><tt class="docutils literal">::boost::mpl::vector</tt></a>--then this macro
+can be safely ignored.  User code that manually defines
+<a class="reference internal" href="#boost-parameter-variadic-mpl-sequence"
+><tt class="docutils literal">BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE</tt></a>
+should also manually define this macro to the size limit of the sequence if it
+has one.</li>
+</ul>
+<p>If <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is <strong>not</strong>
+<tt class="docutils literal">#defined</tt>, then:</p>
+<ul>
+<li>Mutable references must be wrapped by
 <a class="reference external" href="../../../core/doc/html/core/ref.html"
 ><tt class="docutils literal">boost::ref</tt></a> or
 <a class="reference external"
@@ -3683,9 +3734,10 @@ href="http://en.cppreference.com/w/cpp/utility/functional/ref"
 ><tt class="docutils literal">std::ref</tt></a> if passed by position to
 Boost.Parameter-enabled functions with arity greater than or equal to
 <a class="reference internal"
-href="#boost-parameter-exponential-overload-threshold-arity" id="id67"
+href="#boost-parameter-exponential-overload-threshold-arity"
 ><tt class="docutils literal"
->BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY</tt></a>.</p>
+>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY</tt></a>.</li>
+</ul>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -3704,7 +3756,10 @@ href="../../../../boost/parameter/config.hpp"
 <tbody valign="top">
 <tr class="field">
 <th class="field-name">Default Value:</th>
-<td class="field-body"><tt class="docutils literal">8</tt></td>
+<td class="field-body"><a class="reference external"
+href="../../../mpl/doc/refmanual/limit-vector-size.html"
+><tt class="docutils literal">BOOST_MPL_LIMIT_VECTOR_SIZE</tt></a> if perfect
+forwarding is supported, <tt class="docutils literal">8</tt> otherwise.</td>
 </tr>
 <tr class="field">
 <th class="field-name">Minimum Value:</th>
@@ -3756,9 +3811,32 @@ href="../../../../boost/parameter/config.hpp"
 </tbody>
 </table>
 </div>
+<div class="section" id="boost-parameter-uses-boost-vice-cx11-type-traits">
+<h2><a class="toc-backref" href="#id68">7.5&nbsp;&nbsp;&nbsp;<tt class=
+"docutils literal">BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS</tt></a
+></h2>
+<p>Determines whether or not the library uses <a class="reference external"
+href="../../../type_traits/doc/html/index.html"><strong
+>Boost.TypeTraits</strong></a> instead of the corresponding C++ standard
+utilities.  Users can manually <tt class="docutils literal">#define</tt> this
+macro if they suspect that their compilers are reporting internal errors
+otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name">Defined in:</th>
+<td class="field-body"><a class="reference external"
+href="../../../../boost/parameter/config.hpp"
+>boost/parameter/config.hpp</a></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section" id="tutorial">
-<h1><a class="toc-backref" href="#id68">8&nbsp;&nbsp;&nbsp;Tutorial</a></h1>
+<h1><a class="toc-backref" href="#id69">8&nbsp;&nbsp;&nbsp;Tutorial</a></h1>
 <p>Follow <a class="reference external" href="index.html#tutorial">this
 link</a> to the Boost.Parameter tutorial documentation.</p>
 <hr class="docutils" />
