@@ -421,8 +421,7 @@ alias parameter_evaluate_category_10
         :
         :
             <define>BOOST_PARAMETER_MAX_ARITY=10
-#            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=11
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=11
         :
         :
             <preserve-target-tests>off
@@ -436,8 +435,7 @@ alias parameter_preprocessor_eval_cat_8
         :
         :
             <define>BOOST_PARAMETER_MAX_ARITY=8
-#            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
         :
         :
             <preserve-target-tests>off
@@ -449,8 +447,7 @@ alias parameter_preprocessor_eval_cat_fail
     [ compile-fail preprocessor_eval_category.cpp
         :
             <define>BOOST_PARAMETER_MAX_ARITY=8
-#            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
         :
             preproc_eval_cat_fail
