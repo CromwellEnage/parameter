@@ -428,7 +428,7 @@ alias parameter_evaluate_category_10
     ]
     ;
 
-alias parameter_preproc_eval_cat_8
+alias parameter_preprocessor_eval_cat_8
     :
     [ run preprocessor_eval_cat_8.cpp
         :
@@ -442,7 +442,7 @@ alias parameter_preproc_eval_cat_8
     ]
     ;
 
-alias parameter_preproc_eval_cat_fail
+alias parameter_preprocessor_eval_cat_fail
     :
     [ compile-fail preprocessor_eval_category.cpp
         :
