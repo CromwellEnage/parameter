@@ -9,22 +9,31 @@
 
 #include <boost/parameter/config.hpp>
 
-#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-#include <boost/parameter/aux_/void.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#endif
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 
 namespace boost { namespace parameter { namespace aux {
 
     // Recast the ParameterSpec's nested match metafunction
     // as a free metafunction.
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+    //
     // No more limits set by BOOST_PARAMETER_MAX_ARITY. -- Cromwell D. Enage
     template <typename Parameters, typename ...Args>
     struct match : Parameters::BOOST_NESTED_TEMPLATE match<Args...>
+    {
+    };
+}}} // namespace boost::parameter::aux
+
 #else
+
+#include <boost/parameter/aux_/void.hpp>
+#include <boost/preprocessor/facilities/intercept.hpp>
+#include <boost/preprocessor/repetition/enum_params.hpp>
+#include <boost/preprocessor/repetition/enum_binary_params.hpp>
+
+namespace boost { namespace parameter { namespace aux {
+
+    // Recast the ParameterSpec's nested match metafunction
+    // as a free metafunction.
     template <
         typename Parameters
       , BOOST_PP_ENUM_BINARY_PARAMS(
@@ -37,10 +46,10 @@ namespace boost { namespace parameter { namespace aux {
       : Parameters::BOOST_NESTED_TEMPLATE match<
             BOOST_PP_ENUM_PARAMS(BOOST_PARAMETER_MAX_ARITY, A)
         >
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
     {
     };
 }}} // namespace boost::parameter::aux
 
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 #endif  // include guard
 

@@ -20,24 +20,14 @@
 #include <boost/type_traits/is_scalar.hpp>
 #include <boost/type_traits/is_lvalue_reference.hpp>
 #include <boost/type_traits/remove_const.hpp>
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
 namespace boost { namespace parameter { namespace aux { 
 
-    template <
-        typename Keyword
-      , typename ActualArg
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
-      , typename = typename ::boost::parameter::aux
-        ::is_cv_reference_wrapper<ActualArg>::type
-#endif
-    >
+    template <typename Keyword, typename ActualArg>
     struct tag
     {
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        typedef typename ::boost::parameter::aux::unwrap_cv_reference<
-            ActualArg
-        >::type Arg;
+        typedef typename ::boost::parameter::aux
+        ::unwrap_cv_reference<ActualArg>::type Arg;
         typedef typename ::boost::add_const<Arg>::type ConstArg;
         typedef typename ::boost::remove_const<Arg>::type MutArg;
         typedef typename ::boost::mpl::eval_if<
@@ -55,31 +45,11 @@ namespace boost { namespace parameter { namespace aux {
               , ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
             >
         >::type type;
+    };
+}}} // namespace boost::parameter::aux_
+
 #else
-        typedef ::boost::parameter::aux::tagged_argument<
-            Keyword
-          , typename ::boost::parameter::aux
-            ::unwrap_cv_reference<ActualArg>::type
-        > type;
+#include <boost/parameter/aux_/cpp03/tag.hpp>
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
-    };
-}}} // namespace boost::parameter::aux_
-
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
-#include <boost/type_traits/remove_reference.hpp>
-
-namespace boost { namespace parameter { namespace aux { 
-
-    template <typename Keyword, typename ActualArg>
-    struct tag<Keyword,ActualArg,::boost::mpl::false_>
-    {
-        typedef ::boost::parameter::aux::tagged_argument<
-            Keyword
-          , typename ::boost::remove_reference<ActualArg>::type
-        > type;
-    };
-}}} // namespace boost::parameter::aux_
-
-#endif  // Borland workarounds needed.
 #endif  // include guard
 
