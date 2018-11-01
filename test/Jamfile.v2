@@ -414,6 +414,21 @@ alias parameter_macros_eval_category
     ]
     ;
 
+alias parameter_macros_eval_category_cxx03
+    :
+    [ run macros_eval_category.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=10
+            <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
+        :
+            macros_eval_category_no_pf
+        :
+            <preserve-target-tests>off
+    ]
+    ;
+
 alias parameter_evaluate_category_10
     :
     [ run evaluate_category_10.cpp
@@ -428,6 +443,22 @@ alias parameter_evaluate_category_10
     ]
     ;
 
+alias parameter_evaluate_category_10_cxx03
+    :
+    [ run evaluate_category_10.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=10
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=11
+            <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
+        :
+            evaluate_category_10_no_pf
+        :
+            <preserve-target-tests>off
+    ]
+    ;
+
 alias parameter_preprocessor_eval_cat_8
     :
     [ run preprocessor_eval_cat_8.cpp
@@ -437,6 +468,22 @@ alias parameter_preprocessor_eval_cat_8
             <define>BOOST_PARAMETER_MAX_ARITY=8
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
         :
+        :
+            <preserve-target-tests>off
+    ]
+    ;
+
+alias parameter_preprocessor_eval_cat_8_cxx03
+    :
+    [ run preprocessor_eval_cat_8.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
+            <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
+        :
+            preprocessor_eval_cat_8_no_pf
         :
             <preserve-target-tests>off
     ]
@@ -517,6 +564,14 @@ alias parameter_1110_stress_tests
 alias parameter_all_stress_tests
     :
         parameter_1110_stress_tests
+        parameter_preprocessor_eval_cat_fail
+    ;
+
+alias parameter_all_stress_tests_cxx03
+    :
+        parameter_macros_eval_category_cxx03
+        parameter_evaluate_category_10_cxx03
+        parameter_preprocessor_eval_cat_8_cxx03
         parameter_preprocessor_eval_cat_fail
     ;
 
