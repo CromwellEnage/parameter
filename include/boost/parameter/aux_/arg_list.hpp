@@ -7,8 +7,6 @@
 #ifndef ARG_LIST_050329_HPP
 #define ARG_LIST_050329_HPP
 
-#include <boost/parameter/config.hpp>
-
 namespace boost { namespace parameter { namespace aux {
 
     //
@@ -29,6 +27,12 @@ namespace boost { namespace parameter { namespace aux {
     {
         typedef typename T::reference type;
     };
+}}} // namespace boost::parameter::aux
+
+#include <boost/parameter/config.hpp>
+
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+namespace boost { namespace parameter { namespace aux {
 
     struct value_type_is_void
     {
@@ -38,12 +42,19 @@ namespace boost { namespace parameter { namespace aux {
     {
     };
 }}} // namespace boost::parameter::aux
+#endif
 
 #include <boost/parameter/aux_/void.hpp>
 #include <boost/parameter/aux_/yesno.hpp>
 #include <boost/parameter/aux_/result_of0.hpp>
 #include <boost/parameter/aux_/default.hpp>
+
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <utility>
+#else
+#include <boost/preprocessor/repetition/enum_params.hpp>
+#include <boost/preprocessor/facilities/intercept.hpp>
+#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -52,6 +63,7 @@ namespace boost { namespace parameter { namespace aux {
     // feel for what's really happening here.
     struct empty_arg_list
     {
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         struct tagged_arg
         {
             typedef ::boost::parameter::void_ value_type;
@@ -62,6 +74,22 @@ namespace boost { namespace parameter { namespace aux {
         inline empty_arg_list(Args&&...)
         {
         }
+#else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+        inline empty_arg_list()
+        {
+        }
+
+        // Constructor taking BOOST_PARAMETER_MAX_ARITY empty_arg_list
+        // arguments; this makes initialization.
+        inline empty_arg_list(
+            BOOST_PP_ENUM_PARAMS(
+                BOOST_PARAMETER_MAX_ARITY
+              , ::boost::parameter::void_ BOOST_PP_INTERCEPT
+            )
+        )
+        {
+        }
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
         // A metafunction class that, given a keyword and a default type,
         // returns the appropriate result type for a keyword lookup given
@@ -105,12 +133,14 @@ namespace boost { namespace parameter { namespace aux {
             return x.value;
         }
 
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         template <typename K, typename Default>
         inline Default&&
             operator[](::boost::parameter::aux::default_r_<K,Default> x) const
         {
             return ::std::forward<Default>(x.value);
         }
+#endif
 
         // If this operator is called, it means there is no argument in the
         // list that matches the supplied keyword.  Just evaluate and return
@@ -154,6 +184,11 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/tti/detail/dnullptr.hpp>
 #endif
 
+#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#include <boost/preprocessor/repetition/enum_binary_params.hpp>
+#include <boost/preprocessor/repetition/enum_shifted_params.hpp>
+#endif
+
 namespace boost { namespace parameter { namespace aux {
 
     // A tuple of tagged arguments, terminated with empty_arg_list.  Every
@@ -195,6 +230,7 @@ namespace boost { namespace parameter { namespace aux {
         }
 
         // Store the arguments in successive nodes of this list.
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         // Use tag dispatching to determine whether to forward all arguments
         // to the Next constructor, or store the first argument and forward
         // the rest. -- Cromwell D. Enage
@@ -256,6 +292,23 @@ namespace boost { namespace parameter { namespace aux {
           , arg(::std::forward<A0>(a0))
         {
         }
+#else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+        template <
+            // typename A0, typename A1, ...
+            BOOST_PP_ENUM_PARAMS(BOOST_PARAMETER_MAX_ARITY, typename A)
+        >
+        inline arg_list(
+            // A0& a0, A1& a1, ...
+            BOOST_PP_ENUM_BINARY_PARAMS(BOOST_PARAMETER_MAX_ARITY, A, & a)
+        ) : Next(
+                // a1, a2, ...
+                BOOST_PP_ENUM_SHIFTED_PARAMS(BOOST_PARAMETER_MAX_ARITY, a)
+              , ::boost::parameter::aux::void_reference()
+            )
+          , arg(a0)
+        {
+        }
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
         // A metafunction class that, given a keyword and a default type,
         // returns the appropriate result type for a keyword lookup given
@@ -375,22 +428,6 @@ namespace boost { namespace parameter { namespace aux {
             return sublist.get(x);
         }
 
-        template <typename KW, typename Default>
-        inline typename ::boost::mpl::apply_wrap3<
-            binding
-          , KW
-          , Default&&
-          , ::boost::mpl::true_
-        >::type
-            operator[](
-                ::boost::parameter::aux::default_r_<KW,Default> const& x
-            ) const
-        {
-            typename ::boost::mpl::apply_wrap1<key_owner,KW>::type const&
-                sublist = *this;
-            return sublist.get(x);
-        }
-
         template <typename KW, typename F>
         inline typename ::boost::mpl::apply_wrap3<
             binding
@@ -430,15 +467,6 @@ namespace boost { namespace parameter { namespace aux {
         template <typename Default>
         inline reference
             get(
-                ::boost::parameter::aux::default_r_<key_type,Default> const& d
-            ) const
-        {
-            return this->get_default(d, holds_maybe());
-        }
-
-        template <typename Default>
-        inline reference
-            get(
                 BOOST_PARAMETER_lazy_default_fallback<key_type,Default> const&
             ) const
         {
@@ -461,6 +489,7 @@ namespace boost { namespace parameter { namespace aux {
             return this->get_default(d, holds_maybe());
         }
 
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         template <typename Default>
         inline reference
             operator[](
@@ -469,6 +498,7 @@ namespace boost { namespace parameter { namespace aux {
         {
             return this->get_default(d, holds_maybe());
         }
+#endif
 
         template <typename Default>
         inline reference
@@ -530,6 +560,7 @@ namespace boost { namespace parameter { namespace aux {
             >(x, *this);
         }
 
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         template <typename KW, typename T2>
         inline ::boost::parameter::aux::arg_list<
             ::boost::parameter::aux::tagged_argument_rref<KW,T2>
@@ -544,6 +575,7 @@ namespace boost { namespace parameter { namespace aux {
               , self
             >(x, *this);
         }
+#endif
 
         // MPL sequence support
         typedef self type;        // Convenience for users

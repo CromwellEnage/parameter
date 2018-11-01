@@ -7,8 +7,6 @@
 #ifndef BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 #define BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 
-#include <boost/parameter/config.hpp>
-
 namespace boost { namespace parameter { namespace aux {
 
     struct error_const_lvalue_bound_to_out_parameter;
@@ -43,6 +41,7 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/parameter/aux_/void.hpp>
 #include <boost/parameter/aux_/arg_list.hpp>
 #include <boost/parameter/aux_/result_of0.hpp>
+#include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/identity.hpp>
@@ -51,8 +50,11 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/type_traits/is_function.hpp>
 #include <boost/type_traits/is_scalar.hpp>
 #include <boost/type_traits/remove_reference.hpp>
+
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#include <boost/move/utility_core.hpp>
 #include <boost/core/enable_if.hpp>
-#include <utility>
+#endif
 
 #if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
 #include <boost/function.hpp>
@@ -67,6 +69,7 @@ namespace boost { namespace parameter { namespace aux {
     template <typename Keyword, typename Arg>
     class tagged_argument : ::boost::parameter::aux::tagged_argument_base
     {
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         typedef typename ::boost::mpl::eval_if<
             typename ::boost::mpl::eval_if<
                 ::boost::is_scalar<Arg>
@@ -83,6 +86,9 @@ namespace boost { namespace parameter { namespace aux {
               , ::boost::mpl::identity<Arg>
             >
         >::type arg_type;
+#else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+        typedef typename ::boost::remove_const<Arg>::type arg_type;
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
      public:
         typedef Keyword key_type;
@@ -172,6 +178,7 @@ namespace boost { namespace parameter { namespace aux {
             );
         }
 
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         template <typename Keyword2, typename Arg2>
         inline ::boost::parameter::aux::arg_list<
             ::boost::parameter::aux::tagged_argument<Keyword,Arg>
@@ -197,6 +204,7 @@ namespace boost { namespace parameter { namespace aux {
                 >(x, ::boost::parameter::aux::empty_arg_list())
             );
         }
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
         // Accessor interface.
         inline reference get_value() const
@@ -210,7 +218,8 @@ namespace boost { namespace parameter { namespace aux {
             return this->get_value();
         }
 
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#if defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) || \
+    BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
         template <typename KW, typename Default>
         inline Default&
             get_with_default(
@@ -221,6 +230,7 @@ namespace boost { namespace parameter { namespace aux {
             return x.value;
         }
 
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         template <typename KW, typename Default>
         inline Default&&
             get_with_default(
@@ -228,8 +238,9 @@ namespace boost { namespace parameter { namespace aux {
               , int
             ) const
         {
-            return ::std::forward<Default>(x.value);
+            return ::boost::forward<Default>(x.value);
         }
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
         template <typename Default>
         inline reference
@@ -288,7 +299,9 @@ namespace boost { namespace parameter { namespace aux {
         {
             return this->get_with_lazy_default(x, 0L);
         }
-#else   // !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#else
+//#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) && \
+//    !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
         template <typename Default>
         inline reference
             operator[](
@@ -316,14 +329,16 @@ namespace boost { namespace parameter { namespace aux {
             return x.value;
         }
 
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         template <typename KW, typename Default>
         inline Default&&
             operator[](
                 ::boost::parameter::aux::default_r_<KW,Default> const& x
             ) const
         {
-            return ::std::forward<Default>(x.value);
+            return ::boost::forward<Default>(x.value);
         }
+#endif
 
         template <typename KW, typename F>
         inline typename ::boost::parameter::aux::result_of0<F>::type
@@ -347,7 +362,7 @@ namespace boost { namespace parameter { namespace aux {
                   , HasDefault
                 >*
             );
-#endif  // Borland workarounds needed.
+#endif  // Function template ordering, Borland workarounds needed.
 
         // MPL sequence support
         // Convenience for users
@@ -364,6 +379,7 @@ namespace boost { namespace parameter { namespace aux {
 #endif
     };
 
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
     // Holds an rvalue reference to an argument of type Arg associated with
     // keyword Keyword
     template <typename Keyword, typename Arg>
@@ -386,12 +402,12 @@ namespace boost { namespace parameter { namespace aux {
 
      public:
         inline explicit tagged_argument_rref(reference x)
-          : value(::std::forward<Arg>(x))
+          : value(::boost::forward<Arg>(x))
         {
         }
 
         inline tagged_argument_rref(tagged_argument_rref const& copy)
-          : value(::std::forward<Arg>(copy.value))
+          : value(::boost::forward<Arg>(copy.value))
         {
         }
 
@@ -470,7 +486,7 @@ namespace boost { namespace parameter { namespace aux {
         // Accessor interface.
         inline reference get_value() const
         {
-            return ::std::forward<Arg>(this->value);
+            return ::boost::forward<Arg>(this->value);
         }
 
         inline reference
@@ -487,7 +503,7 @@ namespace boost { namespace parameter { namespace aux {
               , int
             ) const
         {
-            return ::std::forward<Default>(x.value);
+            return ::boost::forward<Default>(x.value);
         }
 
         template <typename Default>
@@ -572,7 +588,7 @@ namespace boost { namespace parameter { namespace aux {
                 ::boost::parameter::aux::default_r_<KW,Default> const& x
             ) const
         {
-            return ::std::forward<Default>(x.value);
+            return ::boost::forward<Default>(x.value);
         }
 
         template <typename KW, typename F>
@@ -616,6 +632,7 @@ namespace boost { namespace parameter { namespace aux {
         void operator=(type const&);
 #endif
     };
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 }}} // namespace boost::parameter::aux
 
 #endif  // include guard

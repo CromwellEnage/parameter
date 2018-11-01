@@ -553,29 +553,19 @@ __ ../../../../boost/parameter/keyword.hpp
 
         template <typename T>
         typename boost::`enable_if`_<
-            typename boost::mpl::`eval_if_`_<
-                typename boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+            boost::mpl::`and_`_<
+                boost::mpl::`or_`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::out_reference
                     >
-                  , boost::mpl::`true_`_
-                  , boost::mpl::`if_`_<
-                        std::`is_same`_<
-                            typename Tag::qualifier
-                          , boost::parameter::forward_reference
-                        >
-                      , boost::mpl::`true_`_
-                      , boost::mpl::`false_`_
+                  , boost::`is_same`_<
+                        typename Tag::qualifier
+                      , boost::parameter::forward_reference
                     >
-                >::type
-              , boost::mpl::`if_`_<
-                    std::`is_const`_<T>
-                  , boost::mpl::`false_`_
-                  , boost::mpl::`true_`_
                 >
-              , boost::mpl::`false_`_
-            >::type
+              , boost::mpl::`not_`_<boost::`is_const`_<T> >
+            >
           , |ArgumentPack|_
         >::type constexpr
             `operator=`_\(T& value) const;
@@ -607,29 +597,19 @@ __ ../../../../boost/parameter/keyword.hpp
 
         template <typename T>
         typename boost::`enable_if`_<
-            typename boost::mpl::`eval_if_`_<
-                typename boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+            boost::mpl::`and_`_<
+                boost::mpl::`or_`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::out_reference
                     >
-                  , boost::mpl::`true_`_
-                  , boost::mpl::`if_`_<
-                        std::`is_same`_<
-                            typename Tag::qualifier
-                          , boost::parameter::forward_reference
-                        >
-                      , boost::mpl::`true_`_
-                      , boost::mpl::`false_`_
+                  , boost::`is_same`_<
+                        typename Tag::qualifier
+                      , boost::parameter::forward_reference
                     >
-                >::type
-              , boost::mpl::`if_`_<
-                    std::`is_const`_<T>
-                  , boost::mpl::`false_`_
-                  , boost::mpl::`true_`_
                 >
-              , boost::mpl::`false_`_
-            >::type
+              , boost::mpl::`not_`_<boost::`is_const`_<T> >
+            >
           , *tagged default*
         >::type
             `operator|`_\(T& x) const;
@@ -972,9 +952,7 @@ either:
 These templates describe the requirements on a function parameter.
 
 ``optional`` is defined in: |optional_header|_
-
 ``required`` is defined in: |required_header|_
-
 Both headers are included by: |preprocessor_header|_
 
 .. |optional_header| replace:: boost/parameter/optional.hpp
@@ -2293,7 +2271,8 @@ only be ``#defined`` by the library if it is not already ``#defined``.
 If this library supports perfect forwarding, then this macro can be safely
 ignored.  Otherwise, mutable references must be wrapped by |boost_ref|_ or
 |std_ref|_ if passed by position to Boost.Parameter-enabled functions with
-arity higher than ``7``.
+arity greater than or equal to
+``BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY``.
 
 .. |BOOST_PARAMETER_MAX_ARITY| replace:: ``BOOST_PARAMETER_MAX_ARITY``
 .. |boost_ref| replace:: ``boost\:\:ref``
@@ -2326,21 +2305,6 @@ __ ../../../../boost/parameter/config.hpp
 
 :Default Value: ``11``
 :Minimum Value: ``1``
-
-``BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS``
------------------------------------------------------
-
-Determines whether or not the library uses |Boost.TypeTraits|_ internally
-instead of the corresponding C++ standard utilities.  Users can manually
-``#define`` this macro if they suspect that their compilers are reporting
-internal errors otherwise.
-
-.. |Boost.TypeTraits| replace:: **Boost.TypeTraits**
-.. _Boost.TypeTraits: ../../../type_traits/doc/html/index.html
-
-:Defined in: `boost/parameter/config.hpp`__
-
-__ ../../../../boost/parameter/config.hpp
 
 Tutorial
 ========

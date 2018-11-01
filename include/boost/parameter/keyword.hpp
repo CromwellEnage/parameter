@@ -7,18 +7,25 @@
 #ifndef KEYWORD_050328_HPP
 #define KEYWORD_050328_HPP
 
-#include <boost/parameter/config.hpp>
-#include <boost/parameter/keyword_fwd.hpp>
 #include <boost/parameter/aux_/tag.hpp>
 #include <boost/parameter/aux_/default.hpp>
+#include <boost/parameter/keyword_fwd.hpp>
+#include <boost/parameter/config.hpp>
+
+#if !defined(BOOST_NO_SFINAE)
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/core/enable_if.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/is_scalar.hpp>
+#endif  // BOOST_NO_SFINAE
+
 #include <boost/type_traits/is_const.hpp>
+
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <utility>
+#endif
 
 namespace boost { namespace parameter {
 
@@ -41,6 +48,9 @@ namespace boost { namespace parameter {
     struct keyword
     {
         template <typename T>
+#if defined(BOOST_NO_SFINAE)
+        inline typename ::boost::parameter::aux::tag<Tag,T const&>::type
+#else
         inline typename ::boost::lazy_enable_if<
             typename ::boost::mpl::eval_if<
                 ::boost::is_scalar<T>
@@ -63,6 +73,7 @@ namespace boost { namespace parameter {
             >::type
           , ::boost::parameter::aux::tag<Tag,T const&>
         >::type BOOST_CONSTEXPR
+#endif  // BOOST_NO_SFINAE
             operator=(T const& x) const
         {
             typedef typename ::boost::parameter::aux
@@ -71,6 +82,9 @@ namespace boost { namespace parameter {
         }
 
         template <typename Default>
+#if defined(BOOST_NO_SFINAE)
+        inline ::boost::parameter::aux::default_<Tag,Default const>
+#else
         inline typename ::boost::enable_if<
             typename ::boost::mpl::eval_if<
                 ::boost::is_scalar<Default>
@@ -93,12 +107,16 @@ namespace boost { namespace parameter {
             >::type
           , ::boost::parameter::aux::default_<Tag,Default const>
         >::type
+#endif  // BOOST_NO_SFINAE
             operator|(Default const& d) const
         {
             return ::boost::parameter::aux::default_<Tag,Default const>(d);
         }
 
         template <typename T>
+#if defined(BOOST_NO_SFINAE)
+        inline typename ::boost::parameter::aux::tag<Tag,T&>::type
+#else
         inline typename ::boost::lazy_enable_if<
             typename ::boost::mpl::eval_if<
                 typename ::boost::mpl::if_<
@@ -121,6 +139,7 @@ namespace boost { namespace parameter {
             >::type
           , ::boost::parameter::aux::tag<Tag,T&>
         >::type BOOST_CONSTEXPR
+#endif  // BOOST_NO_SFINAE
             operator=(T& x) const
         {
             typedef typename ::boost::parameter::aux
@@ -129,6 +148,9 @@ namespace boost { namespace parameter {
         }
 
         template <typename Default>
+#if defined(BOOST_NO_SFINAE)
+        inline ::boost::parameter::aux::default_<Tag,Default>
+#else
         inline typename ::boost::enable_if<
             typename ::boost::mpl::eval_if<
                 typename ::boost::mpl::if_<
@@ -151,6 +173,7 @@ namespace boost { namespace parameter {
             >::type
           , ::boost::parameter::aux::default_<Tag,Default>
         >::type
+#endif  // BOOST_NO_SFINAE
             operator|(Default& d) const
         {
             return ::boost::parameter::aux::default_<Tag,Default>(d);
@@ -171,6 +194,7 @@ namespace boost { namespace parameter {
             return ::boost::parameter::aux::lazy_default<Tag,Default>(d);
         }
 
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
         template <typename T>
         inline typename ::boost::lazy_enable_if<
             typename ::boost::mpl::eval_if<
@@ -288,6 +312,7 @@ namespace boost { namespace parameter {
             return ::boost::parameter::aux
             ::default_r_<Tag,Default>(::std::forward<Default>(d));
         }
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
      public: // Insurance against ODR violations
         // Users will need to define their keywords in header files.  To
