@@ -185,10 +185,6 @@ id="id66">7.3&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 href="#boost-parameter-exponential-overload-threshold-arity"
 id="id67">7.4&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY</tt></a></li>
-<li><a class="reference internal"
-href="#boost-parameter-uses-boost-vice-cxx11-type-traits"
-id="id68">7.5&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
->BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS</tt></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#tutorial"
@@ -527,8 +523,8 @@ class="docutils literal">enable_if</tt></a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-            std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_scalar"><tt
+            boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_scalar.html"><tt
 class="docutils literal">is_scalar</tt></a>&lt;T&gt;
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -536,8 +532,8 @@ class="docutils literal">true_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::in_reference
@@ -548,8 +544,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -579,8 +575,8 @@ class="docutils literal">eval_if</tt></a>&lt;
             typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::out_reference
@@ -591,8 +587,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -608,8 +604,8 @@ class="docutils literal">false_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_const"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_const.html"><tt
 class="docutils literal">is_const</tt></a>&lt;T&gt;
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -635,8 +631,8 @@ class="docutils literal">enable_if</tt></a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-            std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_scalar"><tt
+            boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_scalar.html"><tt
 class="docutils literal">is_scalar</tt></a>&lt;T&gt;
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -644,8 +640,8 @@ class="docutils literal">false_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::in_reference
@@ -656,8 +652,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -684,8 +680,8 @@ class="docutils literal">enable_if</tt></a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-            std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_scalar"><tt
+            boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_scalar.html"><tt
 class="docutils literal">is_scalar</tt></a>&lt;T&gt;
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -693,8 +689,8 @@ class="docutils literal">false_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::consume_reference
@@ -705,8 +701,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -733,8 +729,8 @@ class="docutils literal">enable_if</tt></a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-            std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_scalar"><tt
+            boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_scalar.html"><tt
 class="docutils literal">is_scalar</tt></a>&lt;T&gt;
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -742,8 +738,8 @@ class="docutils literal">true_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::in_reference
@@ -754,8 +750,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -784,8 +780,8 @@ class="docutils literal">eval_if</tt></a>&lt;
             typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::out_reference
@@ -796,8 +792,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -813,8 +809,8 @@ class="docutils literal">false_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_const"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_const.html"><tt
 class="docutils literal">is_const</tt></a>&lt;T&gt;
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -839,8 +835,8 @@ class="docutils literal">enable_if</tt></a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-            std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_scalar"><tt
+            boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_scalar.html"><tt
 class="docutils literal">is_scalar</tt></a>&lt;T&gt;
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -848,8 +844,8 @@ class="docutils literal">false_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::in_reference
@@ -860,8 +856,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -887,8 +883,8 @@ class="docutils literal">enable_if</tt></a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-            std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_scalar"><tt
+            boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_scalar.html"><tt
 class="docutils literal">is_scalar</tt></a>&lt;T&gt;
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -896,8 +892,8 @@ class="docutils literal">false_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::consume_reference
@@ -908,8 +904,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -959,8 +955,8 @@ class="docutils literal">enable_if</tt></a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-            std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_scalar"><tt
+            boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_scalar.html"><tt
 class="docutils literal">is_scalar</tt></a>&lt;T&gt;
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -968,8 +964,8 @@ class="docutils literal">true_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::in_reference
@@ -980,8 +976,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -1011,8 +1007,8 @@ class="docutils literal">eval_if</tt></a>&lt;
             typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::out_reference
@@ -1023,8 +1019,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -1040,8 +1036,8 @@ class="docutils literal">false_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_const"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_const.html"><tt
 class="docutils literal">is_const</tt></a>&lt;T&gt;
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -1067,8 +1063,8 @@ class="docutils literal">enable_if</tt></a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-            std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_scalar"><tt
+            boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_scalar.html"><tt
 class="docutils literal">is_scalar</tt></a>&lt;T&gt;
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -1076,8 +1072,8 @@ class="docutils literal">true_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::in_reference
@@ -1088,8 +1084,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -1118,8 +1114,8 @@ class="docutils literal">eval_if</tt></a>&lt;
             typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html"><tt
 class="docutils literal">eval_if</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                     typename Tag::qualifier
                   , boost::parameter::out_reference
@@ -1130,8 +1126,8 @@ class="docutils literal">true_</tt></a>
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                    std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_same"><tt
+                    boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_same.html"><tt
 class="docutils literal">is_same</tt></a>&lt;
                         typename Tag::qualifier
                       , boost::parameter::forward_reference
@@ -1147,8 +1143,8 @@ class="docutils literal">false_</tt></a>
           , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/if.html"><tt
 class="docutils literal">if_</tt></a>&lt;
-                std::<a class="reference external"
-href="http://en.cppreference.com/w/cpp/types/is_const"><tt
+                boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/is_const.html"><tt
 class="docutils literal">is_const</tt></a>&lt;T&gt;
               , boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/bool.html"><tt
@@ -3807,29 +3803,6 @@ href="../../../../boost/parameter/config.hpp"
 <tr class="field">
 <th class="field-name">Minimum Value:</th>
 <td class="field-body"><tt class="docutils literal">1</tt></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="boost-parameter-uses-boost-vice-cx11-type-traits">
-<h2><a class="toc-backref" href="#id68">7.5&nbsp;&nbsp;&nbsp;<tt class=
-"docutils literal">BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS</tt></a
-></h2>
-<p>Determines whether or not the library uses <a class="reference external"
-href="../../../type_traits/doc/html/index.html"><strong
->Boost.TypeTraits</strong></a> instead of the corresponding C++ standard
-utilities.  Users can manually <tt class="docutils literal">#define</tt> this
-macro if they suspect that their compilers are reporting internal errors
-otherwise.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field">
-<th class="field-name">Defined in:</th>
-<td class="field-body"><a class="reference external"
-href="../../../../boost/parameter/config.hpp"
->boost/parameter/config.hpp</a></td>
 </tr>
 </tbody>
 </table>

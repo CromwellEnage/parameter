@@ -302,16 +302,16 @@ __ ../../../../boost/parameter/keyword.hpp
         template <typename T>
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
-                std::`is_scalar`_<T>
+                boost::`is_scalar`_<T>
               , boost::mpl::`true_`_
               , boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::in_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -328,13 +328,13 @@ __ ../../../../boost/parameter/keyword.hpp
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 typename boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::out_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -343,7 +343,7 @@ __ ../../../../boost/parameter/keyword.hpp
                     >
                 >::type
               , boost::mpl::`if_`_<
-                    std::`is_const`_<T>
+                    boost::`is_const`_<T>
                   , boost::mpl::`false_`_
                   , boost::mpl::`true_`_
                 >
@@ -356,16 +356,16 @@ __ ../../../../boost/parameter/keyword.hpp
         template <typename T>
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
-                std::`is_scalar`_<T>
+                boost::`is_scalar`_<T>
               , boost::mpl::`false_`_
               , boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::in_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -381,16 +381,16 @@ __ ../../../../boost/parameter/keyword.hpp
         template <typename T>
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
-                std::`is_scalar`_<T>
+                boost::`is_scalar`_<T>
               , boost::mpl::`false_`_
               , boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::consume_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -406,16 +406,16 @@ __ ../../../../boost/parameter/keyword.hpp
         template <typename T>
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
-                std::`is_scalar`_<T>
+                boost::`is_scalar`_<T>
               , boost::mpl::`true_`_
               , boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::in_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -432,13 +432,13 @@ __ ../../../../boost/parameter/keyword.hpp
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 typename boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::out_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -447,7 +447,7 @@ __ ../../../../boost/parameter/keyword.hpp
                     >
                 >::type
               , boost::mpl::`if_`_<
-                    std::`is_const`_<T>
+                    boost::`is_const`_<T>
                   , boost::mpl::`false_`_
                   , boost::mpl::`true_`_
                 >
@@ -460,16 +460,16 @@ __ ../../../../boost/parameter/keyword.hpp
         template <typename T>
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
-                std::`is_scalar`_<T>
+                boost::`is_scalar`_<T>
               , boost::mpl::`true_`_
               , boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::in_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -485,16 +485,16 @@ __ ../../../../boost/parameter/keyword.hpp
         template <typename T>
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
-                std::`is_scalar`_<T>
+                boost::`is_scalar`_<T>
               , boost::mpl::`false_`_
               , boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::consume_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -529,16 +529,16 @@ __ ../../../../boost/parameter/keyword.hpp
         template <typename T>
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
-                std::`is_scalar`_<T>
+                boost::`is_scalar`_<T>
               , boost::mpl::`true_`_
               , boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::in_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -555,13 +555,13 @@ __ ../../../../boost/parameter/keyword.hpp
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 typename boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::out_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -570,7 +570,7 @@ __ ../../../../boost/parameter/keyword.hpp
                     >
                 >::type
               , boost::mpl::`if_`_<
-                    std::`is_const`_<T>
+                    boost::`is_const`_<T>
                   , boost::mpl::`false_`_
                   , boost::mpl::`true_`_
                 >
@@ -583,16 +583,16 @@ __ ../../../../boost/parameter/keyword.hpp
         template <typename T>
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
-                std::`is_scalar`_<T>
+                boost::`is_scalar`_<T>
               , boost::mpl::`true_`_
               , boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::in_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -609,13 +609,13 @@ __ ../../../../boost/parameter/keyword.hpp
         typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 typename boost::mpl::`eval_if_`_<
-                    std::`is_same`_<
+                    boost::`is_same`_<
                         typename Tag::qualifier
                       , boost::parameter::out_reference
                     >
                   , boost::mpl::`true_`_
                   , boost::mpl::`if_`_<
-                        std::`is_same`_<
+                        boost::`is_same`_<
                             typename Tag::qualifier
                           , boost::parameter::forward_reference
                         >
@@ -624,7 +624,7 @@ __ ../../../../boost/parameter/keyword.hpp
                     >
                 >::type
               , boost::mpl::`if_`_<
-                    std::`is_const`_<T>
+                    boost::`is_const`_<T>
                   , boost::mpl::`false_`_
                   , boost::mpl::`true_`_
                 >
@@ -649,9 +649,9 @@ __ ../../../../boost/parameter/keyword.hpp
 .. _eval_if_: ../../../mpl/doc/refmanual/eval-if.html
 .. _false_: ../../../mpl/doc/refmanual/bool.html
 .. _if_: ../../../mpl/doc/refmanual/if.html
-.. _is_const: http://en.cppreference.com/w/cpp/types/is_const
-.. _is_same: http://en.cppreference.com/w/cpp/types/is_same
-.. _is_scalar: http://en.cppreference.com/w/cpp/types/is_scalar
+.. _is_const: ../../../type_traits/doc/html/boost_typetraits/is_const.html
+.. _is_same: ../../../type_traits/doc/html/boost_typetraits/is_same.html
+.. _is_scalar: ../../../type_traits/doc/html/boost_typetraits/is_scalar.html
 .. _true_: ../../../mpl/doc/refmanual/bool.html
 
 .. |operator=| replace:: ``operator=``
@@ -2356,21 +2356,6 @@ __ ../../../../boost/parameter/config.hpp
 
 :Default Value: ``11``
 :Minimum Value: ``1``
-
-``BOOST_PARAMETER_USES_BOOST_VICE_CXX11_TYPE_TRAITS``
------------------------------------------------------
-
-Determines whether or not the library uses |Boost.TypeTraits|_ internally
-instead of the corresponding C++ standard utilities.  Users can manually
-``#define`` this macro if they suspect that their compilers are reporting
-internal errors otherwise.
-
-.. |Boost.TypeTraits| replace:: **Boost.TypeTraits**
-.. _Boost.TypeTraits: ../../../type_traits/doc/html/index.html
-
-:Defined in: `boost/parameter/config.hpp`__
-
-__ ../../../../boost/parameter/config.hpp
 
 Tutorial
 ========
