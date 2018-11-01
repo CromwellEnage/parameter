@@ -22,7 +22,11 @@ namespace test {
     BOOST_PARAMETER_NAME(in(lrc0))
     BOOST_PARAMETER_NAME(out(lr0))
     BOOST_PARAMETER_NAME(in(rrc0))
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+    BOOST_PARAMETER_NAME(consume(rr0))
+#else
     BOOST_PARAMETER_NAME(rr0)
+#endif
     BOOST_PARAMETER_NAME(in(lrc1))
     BOOST_PARAMETER_NAME(out(lr1))
     BOOST_PARAMETER_NAME(in(rrc1))
