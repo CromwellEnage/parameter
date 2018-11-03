@@ -7,12 +7,12 @@
 #ifndef BOOST_PARAMETER_AUX_TAG_DWA2005610_HPP
 #define BOOST_PARAMETER_AUX_TAG_DWA2005610_HPP
 
-#include <boost/parameter/aux_/unwrap_cv_reference.hpp>
-#include <boost/parameter/aux_/tagged_argument.hpp>
 #include <boost/parameter/config.hpp>
-#include <boost/mpl/bool.hpp>
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#include <boost/parameter/aux_/unwrap_cv_reference.hpp>
+#include <boost/parameter/aux_/tagged_argument.hpp>
+#include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/identity.hpp>

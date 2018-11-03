@@ -39,31 +39,18 @@
 
 #else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 
-namespace boost { namespace parameter { namespace aux {
-
-    template <typename T>
-    T& as_lvalue(T& value, long)
-    {
-        return value;
-    }
-
-    template <typename T>
-    T const& as_lvalue(T const& value, int)
-    {
-        return value;
-    }
-}}} // namespace boost::parameter::aux
-
 // Expands to a forwarding parameter for a dispatch function.  The parameter
 // type stores its const-ness.
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_DEFN(r, macro, arg)            \
   , BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_TYPE(macro(arg))& macro(arg)
 /**/
 
+#include <boost/parameter/aux_/cpp03/as_lvalue.hpp>
+
 // Expands to an argument passed from one dispatch function to the next.
 // Explicit forwarding takes the form of forcing the argument to be an lvalue.
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_FWD(r, macro, arg)             \
-  , ::boost::parameter::aux::as_lvalue(macro(arg), 0L)
+  , ::boost::parameter::as_lvalue(macro(arg))
 /**/
 
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING

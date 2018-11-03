@@ -9,8 +9,9 @@
 
 #include <boost/parameter/aux_/unwrap_cv_reference.hpp>
 #include <boost/parameter/aux_/tagged_argument.hpp>
-#include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
+#include <boost/config.hpp>
+#include <boost/config/workaround.hpp>
 
 namespace boost { namespace parameter { namespace aux { 
 

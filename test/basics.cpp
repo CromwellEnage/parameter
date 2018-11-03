@@ -73,7 +73,7 @@ namespace test {
     }
 }
 
-#include <boost/ref.hpp>
+#include <boost/core/ref.hpp>
 #include <boost/config/workaround.hpp>
 #include <string>
 

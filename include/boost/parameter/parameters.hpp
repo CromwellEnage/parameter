@@ -7,6 +7,7 @@
 #ifndef BOOST_PARAMETERS_031014_HPP
 #define BOOST_PARAMETERS_031014_HPP
 
+#include <boost/parameter/aux_/cpp03/as_lvalue.hpp>
 #include <boost/parameter/config.hpp>
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
@@ -74,14 +75,6 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/identity.hpp>
 
 #if !defined(BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE)
-#if !defined(BOOST_NO_CXX11_TEMPLATE_ALIASES) && \
-    !defined(BOOST_NO_CXX11_HDR_TUPLE) && \
-    !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS) && \
-    !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
-#include <boost/mp11/list.hpp>
-#include <boost/mp11/mpl.hpp>
-#define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::mp11::mp_list
-#else
 #include <boost/fusion/container/list/list_fwd.hpp>
 
 // Newer versions of MSVC fail on the evaluate_category and
@@ -106,7 +99,6 @@ namespace boost { namespace parameter { namespace aux {
 #define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::mpl::vector
 #endif  // BOOST_FUSION_HAS_VARIADIC_DEQUE
 #endif  // BOOST_FUSION_HAS_VARIADIC_LIST
-#endif  // Use ::boost::mp11::mp_list
 #endif  // BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE
 
 namespace boost { namespace parameter {
@@ -509,7 +501,8 @@ namespace boost { namespace parameter {
             error();
 
             return result_type(
-                a1,a0
+                a1
+              , a0
                 // , void_(), void_() ...
                 BOOST_PP_ENUM_TRAILING_PARAMS(
                     BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, 2)
