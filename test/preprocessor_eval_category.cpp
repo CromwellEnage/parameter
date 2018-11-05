@@ -231,7 +231,7 @@ namespace test {
     struct B
     {
 #if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
-    defined(BOOST_MSVC) && (BOOST_MSVC >= 1910) && (BOOST_MSVC < 1920)
+    defined(BOOST_MSVC)
         B()
         {
         }
@@ -394,7 +394,7 @@ namespace test {
     struct C : B
     {
 #if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
-    defined(BOOST_MSVC) && (BOOST_MSVC >= 1910) && (BOOST_MSVC < 1920)
+    defined(BOOST_MSVC)
         C() : B()
         {
         }
@@ -491,9 +491,8 @@ int main()
     typedef char char_arr[4];
 
 #if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
-    defined(BOOST_MSVC) && (BOOST_MSVC >= 1910) && (BOOST_MSVC < 1920)
-    // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
-    // as an lvalue.
+    defined(BOOST_MSVC)
+    // MSVC treats static_cast<char_arr&&>(baz_arr) as an lvalue.
 #else
     test::evaluate(
         "q2x"
@@ -517,7 +516,7 @@ int main()
 #endif
       , test::_lrc0 = "wld"
     );
-#endif  // MSVC 14.1
+#endif  // MSVC
     test::B::evaluate(test::lvalue_const_str()[0]);
     test::C::evaluate(
         test::lvalue_const_str()[0]
@@ -525,9 +524,8 @@ int main()
     );
 
 #if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
-    defined(BOOST_MSVC) && (BOOST_MSVC >= 1910) && (BOOST_MSVC < 1920)
-    // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
-    // as an lvalue.
+    defined(BOOST_MSVC)
+    // MSVC treats static_cast<char_arr&&>(baz_arr) as an lvalue.
     test::C cp0;
     test::C cp1;
 #else
@@ -553,7 +551,7 @@ int main()
 #endif
       , test::_lrc0 = "zts"
     );
-#endif  // MSVC 14.1
+#endif  // MSVC
 
     cp0.evaluate(
         test::lvalue_const_str()[0]

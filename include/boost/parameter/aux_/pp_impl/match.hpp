@@ -28,7 +28,7 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/parameter/aux_/void.hpp>
 #include <boost/preprocessor/facilities/intercept.hpp>
 #include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
+#include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -36,7 +36,7 @@ namespace boost { namespace parameter { namespace aux {
     // as a free metafunction.
     template <
         typename Parameters
-      , BOOST_PP_ENUM_BINARY_PARAMS(
+        BOOST_PP_ENUM_TRAILING_BINARY_PARAMS(
             BOOST_PARAMETER_MAX_ARITY
           , typename A
           , = ::boost::parameter::void_ BOOST_PP_INTERCEPT

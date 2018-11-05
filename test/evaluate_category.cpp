@@ -237,9 +237,8 @@ int main()
     typedef char char_arr[4];
 
 #if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
-    defined(BOOST_MSVC) && (BOOST_MSVC >= 1910) && (BOOST_MSVC < 1920)
-    // MSVC 14.1 on AppVeyor treats static_cast<char_arr&&>(baz_arr)
-    // as an lvalue.
+    defined(BOOST_MSVC)
+    // MSVC treats static_cast<char_arr&&>(baz_arr) as an lvalue.
 #else
     test::B<char_arr>::evaluate(
         test::f_parameters()(
@@ -265,7 +264,7 @@ int main()
 #endif
       , test::_lrc0 = "mos"
     ));
-#endif  // MSVC 14.1
+#endif  // MSVC
 
     test::E::evaluate(
         test::e_parameters()(

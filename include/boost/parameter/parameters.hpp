@@ -7,7 +7,6 @@
 #ifndef BOOST_PARAMETERS_031014_HPP
 #define BOOST_PARAMETERS_031014_HPP
 
-#include <boost/parameter/aux_/cpp03/as_lvalue.hpp>
 #include <boost/parameter/config.hpp>
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)

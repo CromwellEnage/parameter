@@ -3,8 +3,8 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_PARAMETER_AUX_CPP03_AS_LVALUE_HPP
-#define BOOST_PARAMETER_AUX_CPP03_AS_LVALUE_HPP
+#ifndef BOOST_PARAMETER_AS_LVALUE_HPP
+#define BOOST_PARAMETER_AS_LVALUE_HPP
 
 namespace boost { namespace parameter {
 

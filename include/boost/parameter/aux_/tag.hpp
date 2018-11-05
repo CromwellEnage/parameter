@@ -7,12 +7,12 @@
 #ifndef BOOST_PARAMETER_AUX_TAG_DWA2005610_HPP
 #define BOOST_PARAMETER_AUX_TAG_DWA2005610_HPP
 
-#include <boost/parameter/config.hpp>
-
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <boost/parameter/aux_/unwrap_cv_reference.hpp>
 #include <boost/parameter/aux_/tagged_argument.hpp>
+#include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
+
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/identity.hpp>
@@ -48,8 +48,44 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux_
 
-#else
-#include <boost/parameter/aux_/cpp03/tag.hpp>
+#else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+
+namespace boost { namespace parameter { namespace aux { 
+
+    template <
+        typename Keyword
+      , typename ActualArg
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+      , typename = typename ::boost::parameter::aux
+        ::is_cv_reference_wrapper<ActualArg>::type
+#endif
+    >
+    struct tag
+    {
+        typedef ::boost::parameter::aux::tagged_argument<
+            Keyword
+          , typename ::boost::parameter::aux
+            ::unwrap_cv_reference<ActualArg>::type
+        > type;
+    };
+}}} // namespace boost::parameter::aux_
+
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#include <boost/type_traits/remove_reference.hpp>
+
+namespace boost { namespace parameter { namespace aux { 
+
+    template <typename Keyword, typename ActualArg>
+    struct tag<Keyword,ActualArg,::boost::mpl::false_>
+    {
+        typedef ::boost::parameter::aux::tagged_argument<
+            Keyword
+          , typename ::boost::remove_reference<ActualArg>::type
+        > type;
+    };
+}}} // namespace boost::parameter::aux_
+
+#endif  // Borland workarounds needed.
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 #endif  // include guard
 

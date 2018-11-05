@@ -11,7 +11,7 @@
 
 // Expands to keyword_tag_type for some keyword_tag.
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_TYPE(keyword_tag)              \
-    BOOST_PP_CAT(BOOST_PP_CAT(keyword_tag, _), type)
+    BOOST_PP_CAT(keyword_tag, _type)
 /**/
 
 // Expands to a template parameter for each dispatch function.
@@ -45,7 +45,7 @@
   , BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_TYPE(macro(arg))& macro(arg)
 /**/
 
-#include <boost/parameter/aux_/cpp03/as_lvalue.hpp>
+#include <boost/parameter/as_lvalue.hpp>
 
 // Expands to an argument passed from one dispatch function to the next.
 // Explicit forwarding takes the form of forcing the argument to be an lvalue.

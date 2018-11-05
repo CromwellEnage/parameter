@@ -19,7 +19,7 @@
 #include <boost/parameter/aux_/pack/make_items.hpp>
 #include <boost/parameter/aux_/preprocessor/no_perfect_forwarding_begin.hpp>
 #include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
+#include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
 #endif
 
 namespace boost { namespace parameter { namespace aux {
@@ -29,7 +29,7 @@ namespace boost { namespace parameter { namespace aux {
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
       , typename ...Args
 #else
-      , BOOST_PP_ENUM_BINARY_PARAMS(
+        BOOST_PP_ENUM_TRAILING_BINARY_PARAMS(
             BOOST_PARAMETER_MAX_ARITY
           , typename A
           , = ::boost::parameter::void_ BOOST_PP_INTERCEPT

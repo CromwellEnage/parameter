@@ -38,6 +38,7 @@ namespace test {
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <utility>
 #else
+#include <boost/parameter/as_lvalue.hpp>
 #include <boost/core/ref.hpp>
 #endif
 

@@ -559,6 +559,38 @@ alias parameter_all_tests
         parameter_slp_tests
     ;
 
+alias parameter_msvc_fail_tests
+    :
+    [ compile-fail evaluate_category.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
+        :
+            evaluate_category_msvc_fail
+    ]
+    [ compile-fail preprocessor_eval_category.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
+        :
+            preproc_eval_cat_msvc_fail
+    ]
+    ;
+
+alias parameter_msvc_no_python_tests
+    :
+        parameter_all_but_python_tests
+        parameter_msvc_fail_tests
+    ;
+
+alias parameter_msvc_tests
+    :
+        parameter_all_tests
+        parameter_msvc_fail_tests
+    ;
+
 alias parameter_msvc11_fail_tests
     :
     [ compile-fail compose.cpp
@@ -571,39 +603,7 @@ alias parameter_msvc11_fail_tests
 
 alias parameter_msvc11_tests
     :
-        parameter_all_tests
+        parameter_msvc_tests
         parameter_msvc11_fail_tests
-    ;
-
-alias parameter_msvc14_fail_tests
-    :
-    [ compile-fail evaluate_category.cpp
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=4
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
-        :
-            evaluate_category_msvc14_fail
-    ]
-    [ compile-fail preprocessor_eval_category.cpp
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=8
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
-        :
-            preproc_eval_cat_msvc14_fail
-    ]
-    ;
-
-alias parameter_msvc14_no_python_tests
-    :
-        parameter_all_but_python_tests
-        parameter_msvc14_fail_tests
-    ;
-
-alias parameter_msvc14_tests
-    :
-        parameter_all_tests
-        parameter_msvc14_fail_tests
     ;
 
