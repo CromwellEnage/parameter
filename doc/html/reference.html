@@ -2234,14 +2234,14 @@ template &lt;typename A0, …, typename A ## <strong>n</strong>&gt;
 {
     return boost_param_impl ## <strong>name</strong>(
         boost_param_parameters_ ## __LINE__ ## <strong>name</strong>()(
-            boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A0&gt;(a0)
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A0&gt;(a0)
           , …
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A ## <strong>n</strong>&gt;(a ## <strong
->n</strong>)
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>n</strong>&gt;(a ## <strong>n</strong>)
         )
     );
 }
@@ -2262,14 +2262,14 @@ template &lt;typename A0, …, typename A ## <strong>m</strong>&gt;
 {
     return boost_param_impl ## <strong>name</strong>(
         boost_param_parameters_ ## __LINE__ ## <strong>name</strong>()(
-            boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A0&gt;(a0)
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A0&gt;(a0)
           , …
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A ## <strong>m</strong>&gt;(a ## <strong
->m</strong>)
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>m</strong>&gt;(a ## <strong>m</strong>)
         )
     );
 }
@@ -2320,9 +2320,9 @@ typename boost_param_result_ ## __LINE__ ## <strong
     return boost_param_dispatch_0boost_ ## __LINE__ ## <strong>name</strong>(
         static_cast&lt;ResultType(*)()&gt;(std::nullptr)
       , args
-      , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;
+      , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;
             typename boost::parameter::value_type&lt;
                 Args
               , <em
@@ -2331,9 +2331,9 @@ href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
         &gt;(args[ <em>keyword object of required parameter</em> ## <strong
 >0</strong>])
       , …
-      , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;
+      , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;
             typename boost::parameter::value_type&lt;
                 Args
               , <em
@@ -2369,22 +2369,22 @@ ResultType
             <em>default value of optional parameter</em> ## <strong
 >n + 1</strong>
         )
-      , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt; <em>argument name</em> ## <strong
->0</strong> ## _type&gt;(
+      , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt; <em
+>argument name</em> ## <strong>0</strong> ## _type&gt;(
             <em>argument name</em> ## <strong>0</strong>
         )
       , …
-      , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt; <em>argument name</em> ## <strong
->n</strong> ## _type&gt;(
+      , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt; <em
+>argument name</em> ## <strong>n</strong> ## _type&gt;(
             <em>argument name</em> ## <strong>n</strong>
         )
-      , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;
+      , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;
             typename boost::parameter::value_type&lt;
                 Args
               , <em
@@ -2867,13 +2867,14 @@ template &lt;typename A0, …, typename A ## <strong>n</strong>&gt;
 >n</strong> &amp;&amp; a ## <strong>n</strong>)
   : <em>impl</em>(
         constructor_parameters ## __LINE__(
-            boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A0&gt;(a0)
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A0&gt;(a0)
           , …
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A ## <strong>n</strong>&gt;(a ## <strong>n</strong>)
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>n</strong>&gt;(a ## <strong>n</strong>)
         )
     )
 {
@@ -2886,13 +2887,14 @@ template &lt;typename A0, …, typename A ## <strong>m</strong>&gt;
 >m</strong>&amp;&amp; a ## <strong>m</strong>)
   : <em>impl</em>(
         constructor_parameters ## __LINE__(
-            boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A0&gt;(a0)
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A0&gt;(a0)
           , …
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A ## <strong>m</strong>&gt;(a ## <strong>m</strong>)
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>m</strong>&gt;(a ## <strong>m</strong>)
         )
     )
 {
@@ -3273,16 +3275,17 @@ r
 {
     return <strong>name</strong>_with_named_params(
         pk(
-            boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A1&gt;(a1)
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A2&gt;(a2)
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A1&gt;(a1)
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A2&gt;(a2)
           , …
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A ## <strong>l</strong>&gt;(a ## <strong>l</strong>)
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>l</strong>&gt;(a ## <strong>l</strong>)
         )
     );
 }
@@ -3312,21 +3315,22 @@ href="../../../preprocessor/doc/ref/inc.html">BOOST_PP_INC</a>(<strong
 {
     return <strong>name</strong>_with_named_params(
         pk(
-            boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A1&gt;(a1)
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A2&gt;(a2)
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A1&gt;(a1)
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A2&gt;(a2)
           , …
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A ## <strong>l</strong>&gt;(a ## <strong>l</strong>)
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A ## <a class="reference external"
-href="../../../preprocessor/doc/ref/inc.html">BOOST_PP_INC</a>(<strong
->l</strong>)&gt;(a ## <a class="reference external"
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>l</strong>&gt;(a ## <strong>l</strong>)
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <a
+class="reference external" href="../../../preprocessor/doc/ref/inc.html"
+>BOOST_PP_INC</a>(<strong>l</strong>)&gt;(a ## <a class="reference external"
 href="../../../preprocessor/doc/ref/inc.html">BOOST_PP_INC</a>(<strong
 >l</strong>))
         )
@@ -3346,16 +3350,17 @@ r
 {
     return <strong>name</strong>_with_named_params(
         pk(
-            boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A1&gt;(a1)
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A2&gt;(a2)
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A1&gt;(a1)
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A2&gt;(a2)
           , …
-          , boost::<a class="reference external"
-href="../../../../doc/html/boost/forward.html"><tt class="docutils literal"
->forward</tt></a>&lt;A ## <strong>h</strong>&gt;(a ## <strong>h</strong>)
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>h</strong>&gt;(a ## <strong>h</strong>)
         )
     );
 }
@@ -3770,13 +3775,12 @@ class="docutils literal"
 >BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY</tt></a></h2>
 <p>If this library does <strong>not</strong> support perfect forwarding,
 determines the number of arguments less than which
-<a class="reference internal"
-href="#boost-parameter-function-result-name-tag-namespace-arguments"
-><tt class="docutils literal">BOOST_PARAMETER_FUNCTION</tt></a> et. al
-generates an exponential number of overloads, and greater than or equal to
-which the code generating macros do not.  Will only be
-<tt class="docutils literal">#defined</tt> by the library if it is not already
-<tt class="docutils literal">#defined</tt> and
+<a class="reference internal" href="#parameters"><tt class="docutils literal"
+>parameters</tt></a> generates an exponential number of function call operator
+overloads, and greater than or equal to which <a class="reference internal"
+href="#parameters"><tt class="docutils literal">parameters</tt></a> does
+not.  Will only be <tt class="docutils literal">#defined</tt> by the library
+if it is not already <tt class="docutils literal">#defined</tt> and
 <a class="reference internal" href="#boost-parameter-has-perfect-forwarding"
 ><tt class="docutils literal">BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a>
 is <strong>not</strong> <tt class="docutils literal">#defined</tt>.</p>

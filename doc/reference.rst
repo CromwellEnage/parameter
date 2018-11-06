@@ -1235,9 +1235,9 @@ Approximate expansion:
     {
         return boost_param_impl ## **name**\ (
             boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
-                boost::`forward`_<A0>(a0)
+                std::`forward`_<A0>(a0)
               , …
-              , boost::`forward`_<A ## **n**>(a ## **n**)
+              , std::`forward`_<A ## **n**>(a ## **n**)
             )
         );
     }
@@ -1254,9 +1254,9 @@ Approximate expansion:
     {
         return boost_param_impl ## **name**\ (
             boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
-                boost::`forward`_<A0>(a0)
+                std::`forward`_<A0>(a0)
               , …
-              , boost::`forward`_<A ## **m**>(a ## **m**)
+              , std::`forward`_<A ## **m**>(a ## **m**)
             )
         );
     }
@@ -1302,14 +1302,14 @@ Approximate expansion:
         return boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
             static_cast<ResultType(\ *)()>(std::nullptr)
           , args
-          , boost::`forward`_<
+          , std::`forward`_<
                 typename boost::parameter::value_type<
                     Args
                   , *keyword tag type of required parameter* ## **0**
                 >::type
             >(args[ *keyword object of required parameter* ## **0**])
           , …
-          , boost::`forward`_<
+          , std::`forward`_<
                 typename boost::parameter::value_type<
                     Args
                   , *keyword tag type of required parameter* ## **n**
@@ -1339,14 +1339,14 @@ Approximate expansion:
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
-          , boost::`forward`_<*argument name* ## **0** ## _type>(
+          , std::`forward`_<*argument name* ## **0** ## _type>(
                 *argument name* ## **0**
             )
           , …
-          , boost::`forward`_<*argument name* ## **n** ## _type>(
+          , std::`forward`_<*argument name* ## **n** ## _type>(
                 *argument name* ## **n**
             )
-          , boost::`forward`_<
+          , std::`forward`_<
                 typename boost::parameter::value_type<
                     Args
                   , *keyword tag type of optional parameter* ## **n + 1**
@@ -1566,6 +1566,7 @@ Approximate expansion:
 The |preprocessor|_, |preprocessor_deduced|_, and |preprocessor_eval_cat|_
 test programs demonstrate proper usage of this macro.
 
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
 .. |preprocessor_deduced| replace:: preprocessor_deduced.cpp
@@ -1697,9 +1698,9 @@ Approximate expansion:
     *cls*\ (A0&& a0, …, A ## **n** && a ## **n**)
       : *impl*\ (
             constructor_parameters ## __LINE__(
-                boost::`forward`_<A0>(a0)
+                std::`forward`_<A0>(a0)
               , …
-              , boost::`forward`_<A ## **n**>(a ## **n**)
+              , std::`forward`_<A ## **n**>(a ## **n**)
             )
         )
     {
@@ -1711,9 +1712,9 @@ Approximate expansion:
     *cls*\ (A0&& a0, …, A ## **m** && a ## **m**)
       : *impl*\ (
             constructor_parameters ## __LINE__(
-                boost::`forward`_<A0>(a0)
+                std::`forward`_<A0>(a0)
               , …
-              , boost::`forward`_<A ## **m**>(a ## **m**)
+              , std::`forward`_<A ## **m**>(a ## **m**)
             )
         )
     {
@@ -1769,7 +1770,7 @@ Approximate expansion:
 The |preprocessor|_ and |preprocessor_eval_cat|_ test programs demonstrate
 proper usage of this macro.
 
-.. _`forward`: ../../../../doc/html/boost/forward.html
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
 .. |preprocessor_eval_cat| replace:: preprocessor_eval_category.cpp
@@ -2003,10 +2004,10 @@ Expands to:
     {
         return **name**\ _with_named_params(
             **p**\ (
-                boost::`forward`_<A1>(a1)
-              , boost::`forward`_<A2>(a2)
+                std::`forward`_<A1>(a1)
+              , std::`forward`_<A2>(a2)
               , …
-              , boost::`forward`_<A ## **l**>(a ## **l**)
+              , std::`forward`_<A ## **l**>(a ## **l**)
             )
         );
     }
@@ -2029,11 +2030,11 @@ Expands to:
     {
         return **name**\ _with_named_params(
             **p**\ (
-                boost::`forward`_<A1>(a1)
-              , boost::`forward`_<A2>(a2)
+                std::`forward`_<A1>(a1)
+              , std::`forward`_<A2>(a2)
               , …
-              , boost::`forward`_<A ## **l**>(a ## **l**)
-              , boost::`forward`_<A ## `BOOST_PP_INC`_\ (**l**)>(
+              , std::`forward`_<A ## **l**>(a ## **l**)
+              , std::`forward`_<A ## `BOOST_PP_INC`_\ (**l**)>(
                     a ## `BOOST_PP_INC`_\ (**l**)
                 )
             )
@@ -2051,10 +2052,10 @@ Expands to:
     {
         return **name**\ _with_named_params(
             **p**\ (
-                boost::`forward`_<A1>(a1)
-              , boost::`forward`_<A2>(a2)
+                std::`forward`_<A1>(a1)
+              , std::`forward`_<A2>(a2)
               , …
-              , boost::`forward`_<A ## **h**>(a ## **h**)
+              , std::`forward`_<A ## **h**>(a ## **h**)
             )
         );
     }
@@ -2166,7 +2167,7 @@ The |macros_cpp|_ and |macros_eval_cat_cpp|_ test programs demonstrate proper
 usage of this macro.
 
 .. _`BOOST_PP_INC`: ../../../preprocessor/doc/ref/inc.html
-.. _`forward`: ../../../../doc/html/boost/forward.html
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 .. |macros_cpp| replace:: macros.cpp
 .. _macros_cpp: ../../test/macros.cpp
 .. |macros_eval_cat_cpp| replace:: macros_eval_category.cpp
@@ -2342,9 +2343,9 @@ __ ../../../../boost/parameter/config.hpp
 --------------------------------------------------------
 
 If this library does **not** support perfect forwarding, determines the number
-of arguments less than which ``BOOST_PARAMETER_FUNCTION`` et. al. generates an
-exponential number of overloads, and greater than or equal to which the code
-generating macros do not.  Will only be ``#defined`` by the library if it is
+of arguments less than which |parameters| generates an exponential number of
+function call operator overloads, and greater than or equal to which
+|parameters| does not.  Will only be ``#defined`` by the library if it is
 not already ``#defined`` and ``BOOST_PARAMETER_HAS_PERFECT_FORWARDING`` is
 **not** ``#defined``.
 

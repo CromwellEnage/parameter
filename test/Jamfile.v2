@@ -473,21 +473,6 @@ alias parameter_preprocessor_eval_cat_8
     ]
     ;
 
-alias parameter_preprocessor_eval_cat_8_cxx03
-    :
-    [ run preprocessor_eval_cat_8.cpp
-        :
-        :
-        :
-            <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
-            <define>BOOST_PARAMETER_MAX_ARITY=8
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
-        :
-        :
-            <preserve-target-tests>off
-    ]
-    ;
-
 alias parameter_preprocessor_eval_cat_fail
     :
     [ compile-fail preprocessor_eval_category.cpp
@@ -500,33 +485,14 @@ alias parameter_preprocessor_eval_cat_fail
     ]
     ;
 
-alias parameter_preprocessor_eval_cat_fail_cxx03
-    :
-    [ compile-fail preprocessor_eval_category.cpp
-        :
-            <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
-            <define>BOOST_PARAMETER_MAX_ARITY=8
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
-        :
-            preproc_eval_cat_fail
-    ]
-    ;
-
 alias parameter_all_stress_tests
     :
         parameter_macros_eval_category
+        parameter_macros_eval_category_cxx03
         parameter_evaluate_category_10
+        parameter_evaluate_category_10_cxx03
         parameter_preprocessor_eval_cat_8
         parameter_preprocessor_eval_cat_fail
-    ;
-
-alias parameter_all_stress_tests_cxx03
-    :
-        parameter_macros_eval_category_cxx03
-        parameter_evaluate_category_10_cxx03
-        parameter_preprocessor_eval_cat_8_cxx03
-        parameter_preprocessor_eval_cat_fail_cxx03
     ;
 
 alias parameter_sl_tests
@@ -545,12 +511,6 @@ alias parameter_all_but_python_tests
     :
         parameter_all_stress_tests
         parameter_sl_tests
-    ;
-
-alias parameter_all_tests_cxx03
-    :
-        parameter_all_stress_tests_cxx03
-        parameter_slp_tests
     ;
 
 alias parameter_all_tests
