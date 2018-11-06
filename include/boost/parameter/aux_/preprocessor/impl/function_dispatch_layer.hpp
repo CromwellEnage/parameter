@@ -45,12 +45,12 @@
   , BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_TYPE(macro(arg))& macro(arg)
 /**/
 
-#include <boost/parameter/as_lvalue.hpp>
+#include <boost/parameter/aux_/as_lvalue.hpp>
 
 // Expands to an argument passed from one dispatch function to the next.
 // Explicit forwarding takes the form of forcing the argument to be an lvalue.
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_ARG_FWD(r, macro, arg)             \
-  , ::boost::parameter::as_lvalue(macro(arg))
+  , ::boost::parameter::aux::as_lvalue(macro(arg))
 /**/
 
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING

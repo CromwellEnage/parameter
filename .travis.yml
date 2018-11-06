@@ -56,7 +56,16 @@ matrix:
             - ubuntu-toolchain-r-test
 
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-4.8 CXXSTD=03,11 TEST_SUITE=parameter_all_tests_cxx03
+      env: TOOLSET=gcc COMPILER=g++-4.8 CXXSTD=03 TEST_SUITE=parameter_all_tests_cxx03
+      addons:
+        apt:
+          packages:
+            - g++-4.8
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-4.8 CXXSTD=11 TEST_SUITE=parameter_all_tests_cxx03
       addons:
         apt:
           packages:
@@ -211,27 +220,7 @@ matrix:
             - llvm-toolchain-precise-3.5
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=03 TEST_SUITE=parameter_slp_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.6
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=03 TEST_SUITE=parameter_all_stress_tests
-      addons:
-        apt:
-          packages:
-            - clang-3.6
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-
-    - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=11 TEST_SUITE=parameter_all_tests
+      env: TOOLSET=clang COMPILER=clang++-3.6 CXXSTD=03,11 TEST_SUITE=parameter_all_tests
       addons:
         apt:
           packages:

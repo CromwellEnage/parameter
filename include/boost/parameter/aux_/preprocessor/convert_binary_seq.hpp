@@ -31,13 +31,13 @@
     (BOOST_PP_SEQ_ELEM(3, seq))
 /**/
 
+#include <boost/parameter/aux_/preprocessor/seq_enum.hpp>
 #include <boost/preprocessor/facilities/empty.hpp>
 #include <boost/preprocessor/seq/seq.hpp>
 #include <boost/preprocessor/seq/fold_left.hpp>
-#include <boost/preprocessor/seq/enum.hpp>
 
 #define BOOST_PARAMETER_AUX_PP_CONVERT_BINARY_SEQ(seq, macro0, macro1, data) \
-    BOOST_PP_SEQ_ENUM( \
+    BOOST_PARAMETER_SEQ_ENUM( \
         BOOST_PP_SEQ_ELEM( \
             0 \
           , BOOST_PP_SEQ_FOLD_LEFT( \

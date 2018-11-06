@@ -13,45 +13,19 @@
 #include <boost/mpl/pair.hpp>
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+
 #include <boost/parameter/aux_/pack/make_parameter_spec_items.hpp>
-#else
-#include <boost/parameter/aux_/void.hpp>
-#include <boost/parameter/aux_/pack/make_items.hpp>
-#include <boost/parameter/aux_/preprocessor/no_perfect_forwarding_begin.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
-    template <
-        typename Parameters
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-      , typename ...Args
-#else
-        BOOST_PP_ENUM_TRAILING_BINARY_PARAMS(
-            BOOST_PARAMETER_MAX_ARITY
-          , typename A
-          , = ::boost::parameter::void_ BOOST_PP_INTERCEPT
-        )
-#endif
-    >
+    template <typename Parameters, typename ...Args>
     struct argument_pack
     {
         typedef typename ::boost::parameter::aux::make_arg_list<
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
             typename ::boost::parameter::aux::make_parameter_spec_items<
                 typename Parameters::parameter_spec
               , Args...
             >::type
-#else
-            typename BOOST_PARAMETER_build_arg_list(
-                BOOST_PARAMETER_MAX_ARITY
-              , ::boost::parameter::aux::make_items
-              , typename Parameters::parameter_spec
-              , A
-            )::type
-#endif
           , typename Parameters::deduced_list
           , ::boost::parameter::aux::tag_keyword_arg
           , ::boost::mpl::false_
@@ -60,8 +34,43 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux
 
-#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+
+#include <boost/parameter/aux_/void.hpp>
+#include <boost/parameter/aux_/pack/make_items.hpp>
+#include <boost/parameter/aux_/preprocessor/no_perfect_forwarding_begin.hpp>
+#include <boost/preprocessor/facilities/intercept.hpp>
+#include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
+
+namespace boost { namespace parameter { namespace aux {
+
+    template <
+        typename Parameters
+        BOOST_PP_ENUM_TRAILING_BINARY_PARAMS(
+            BOOST_PARAMETER_MAX_ARITY
+          , typename A
+          , = ::boost::parameter::void_ BOOST_PP_INTERCEPT
+        )
+    >
+    struct argument_pack
+    {
+        typedef typename ::boost::parameter::aux::make_arg_list<
+            typename BOOST_PARAMETER_build_arg_list(
+                BOOST_PARAMETER_MAX_ARITY
+              , ::boost::parameter::aux::make_items
+              , typename Parameters::parameter_spec
+              , A
+            )::type
+          , typename Parameters::deduced_list
+          , ::boost::parameter::aux::tag_keyword_arg
+          , ::boost::mpl::false_
+        >::type result;
+        typedef typename ::boost::mpl::first<result>::type type;
+    };
+}}} // namespace boost::parameter::aux
+
 #include <boost/parameter/aux_/preprocessor/no_perfect_forwarding_end.hpp>
-#endif
+
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 #endif  // include guard
 

@@ -3,10 +3,10 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_PARAMETER_AS_LVALUE_HPP
-#define BOOST_PARAMETER_AS_LVALUE_HPP
+#ifndef BOOST_PARAMETER_AUX_AS_LVALUE_HPP
+#define BOOST_PARAMETER_AUX_AS_LVALUE_HPP
 
-namespace boost { namespace parameter {
+namespace boost { namespace parameter { namespace aux {
 
     template <typename T>
     T const& as_lvalue(T const& value)
@@ -19,7 +19,7 @@ namespace boost { namespace parameter {
     {
         return value;
     }
-}} // namespace boost::parameter
+}}} // namespace boost::parameter::aux
 
 #endif  // include guard
 

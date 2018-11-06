@@ -7,15 +7,7 @@
 #ifndef BOOST_PARAMETER_PREPROCESSOR_060206_HPP
 #define BOOST_PARAMETER_PREPROCESSOR_060206_HPP
 
-#include <boost/parameter/config.hpp>
-
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-    (0 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
 #include <boost/parameter/aux_/preprocessor/impl/forwarding_overloads.hpp>
-#else
-#include <boost/parameter/aux_/preprocessor/impl/forwarding_overloads_old.hpp>
-#endif
-
 #include <boost/parameter/aux_/preprocessor/impl/specification.hpp>
 #include <boost/preprocessor/cat.hpp>
 
@@ -101,13 +93,7 @@
     )
 /**/
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-    (0 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
 #include <boost/parameter/aux_/preprocessor/impl/function_dispatch_layer.hpp>
-#else
-#include \
-<boost/parameter/aux_/preprocessor/impl/function_dispatch_layer_old.hpp>
-#endif
 
 // Helper macro for BOOST_PARAMETER_FUNCTION.
 #define BOOST_PARAMETER_FUNCTION_AUX(result, name, tag_ns, args)             \

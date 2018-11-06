@@ -37,9 +37,6 @@ namespace test {
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <utility>
-#else
-#include <boost/parameter/as_lvalue.hpp>
-#include <boost/core/ref.hpp>
 #endif
 
 namespace test {
@@ -87,8 +84,6 @@ namespace test {
           , boost::mpl::false_
         > bs7_pred;
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-    (8 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
         BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
             (deduced
                 (required
@@ -105,27 +100,6 @@ namespace test {
                 )
             )
         )
-#else   // no perfect forwarding support and no exponential overloads
-        BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
-            (deduced
-                (required
-                    (lrc0, *(bs0_pred))
-                    (lr0, *(bs1_pred))
-                    (rrc0, *(bs2_pred))
-                    (rr0, *(bs3_pred))
-                    (lrc1, *(bs4_pred))
-                )
-                (optional
-                    (lr1, *(bs5_pred), boost::ref(test::lvalue_bitset<5>()))
-                    (rrc1, *(bs6_pred), test::rvalue_const_bitset<6>())
-                    (rr1
-                      , *(bs7_pred)
-                      , boost::parameter::as_lvalue(test::rvalue_bitset<7>())
-                    )
-                )
-            )
-        )
-#endif  // perfect forwarding support, or exponential overloads
         {
             BOOST_TEST_EQ(
                 passed_by_lvalue_reference_to_const
@@ -189,8 +163,6 @@ int main()
     test::C cp0;
     test::C cp1;
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-    (8 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
     cp0(
         test::lvalue_const_bitset<4>()
       , test::lvalue_const_bitset<0>()
@@ -216,33 +188,6 @@ int main()
       , test::rvalue_bitset<7>()
       , test::lvalue_const_bitset<0>()
     );
-#else   // no perfect forwarding support and no exponential overloads
-    cp0(
-        test::lvalue_const_bitset<4>()
-      , test::lvalue_const_bitset<0>()
-      , boost::ref(test::lvalue_bitset<1>())
-      , test::rvalue_const_bitset<2>()
-      , boost::parameter::as_lvalue(test::rvalue_bitset<3>())
-    );
-    cp0(
-        test::lvalue_const_bitset<4>()
-      , test::lvalue_const_bitset<0>()
-      , test::rvalue_const_bitset<6>()
-      , boost::ref(test::lvalue_bitset<1>())
-      , test::rvalue_const_bitset<2>()
-      , boost::parameter::as_lvalue(test::rvalue_bitset<3>())
-    );
-    cp1(
-        boost::ref(test::lvalue_bitset<1>())
-      , test::rvalue_const_bitset<2>()
-      , boost::parameter::as_lvalue(test::rvalue_bitset<3>())
-      , test::lvalue_const_bitset<4>()
-      , boost::ref(test::lvalue_bitset<5>())
-      , test::rvalue_const_bitset<6>()
-      , boost::parameter::as_lvalue(test::rvalue_bitset<7>())
-      , test::lvalue_const_bitset<0>()
-    );
-#endif  // perfect forwarding support, or exponential overloads
     return boost::report_errors();
 }
 
