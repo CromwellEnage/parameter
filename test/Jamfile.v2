@@ -491,6 +491,13 @@ alias parameter_all_stress_tests
         parameter_preprocessor_eval_cat_fail
     ;
 
+alias parameter_all_stress_tests_except_preproc_eval_cat_8
+    :
+        parameter_macros_eval_category_cxx03
+        parameter_evaluate_category_10_cxx03
+        parameter_preprocessor_eval_cat_fail
+    ;
+
 alias parameter_all_stress_tests_cxx03
     :
         parameter_macros_eval_category_cxx03
@@ -520,6 +527,12 @@ alias parameter_all_but_python_tests
 alias parameter_all_tests
     :
         parameter_all_stress_tests
+        parameter_slp_tests
+    ;
+
+alias parameter_all_tests_except_preproc_eval_cat_8
+    :
+        parameter_all_stress_tests_except_preproc_eval_cat_8
         parameter_slp_tests
     ;
 
