@@ -421,7 +421,6 @@ alias parameter_macros_eval_category_cxx03
         :
         :
         :
-            <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
             <define>BOOST_PARAMETER_MAX_ARITY=10
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
         :
@@ -450,7 +449,6 @@ alias parameter_evaluate_category_10_cxx03
         :
         :
         :
-            <define>BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING
             <define>BOOST_PARAMETER_MAX_ARITY=10
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
         :
@@ -488,8 +486,14 @@ alias parameter_preprocessor_eval_cat_fail
 alias parameter_all_stress_tests
     :
         parameter_macros_eval_category
-        parameter_macros_eval_category_cxx03
         parameter_evaluate_category_10
+        parameter_preprocessor_eval_cat_8
+        parameter_preprocessor_eval_cat_fail
+    ;
+
+alias parameter_all_stress_tests_cxx03
+    :
+        parameter_macros_eval_category_cxx03
         parameter_evaluate_category_10_cxx03
         parameter_preprocessor_eval_cat_8
         parameter_preprocessor_eval_cat_fail
@@ -516,6 +520,12 @@ alias parameter_all_but_python_tests
 alias parameter_all_tests
     :
         parameter_all_stress_tests
+        parameter_slp_tests
+    ;
+
+alias parameter_all_tests_cxx03
+    :
+        parameter_all_stress_tests_cxx03
         parameter_slp_tests
     ;
 
