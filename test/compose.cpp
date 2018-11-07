@@ -36,7 +36,7 @@ namespace test {
     {
         int i;
         int j;
-        
+
         template <typename ArgPack>
         A(ArgPack const& args) : i(args[param::_a0]), j(args[param::_a1])
         {
