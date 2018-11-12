@@ -24,6 +24,7 @@ namespace test {
     BOOST_PARAMETER_NAME(y)
 } // namespace test
 
+#include <boost/parameter/is_argument_pack.hpp>
 #include <boost/core/lightweight_test.hpp>
 
 namespace test {
@@ -31,6 +32,7 @@ namespace test {
     template <typename ArgumentPack, typename K, typename T>
     void check0(ArgumentPack const& p, K const& kw, T const& value)
     {
+        BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgumentPack>));
         BOOST_TEST_EQ(p[kw], value);
     }
 } // namespace test
@@ -51,6 +53,7 @@ namespace test {
     template <typename ArgumentPack, typename K, typename T>
     void check1(ArgumentPack const& p, K const& kw, T const& value)
     {
+        BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgumentPack>));
         BOOST_MPL_ASSERT((boost::mpl::has_key<ArgumentPack,typename K::tag>));
         BOOST_MPL_ASSERT((
             boost::mpl::equal_to<

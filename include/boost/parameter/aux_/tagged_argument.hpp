@@ -66,7 +66,8 @@ namespace boost { namespace parameter { namespace aux {
     // Holds an lvalue reference to an argument of type Arg associated with
     // keyword Keyword
     template <typename Keyword, typename Arg>
-    class tagged_argument : ::boost::parameter::aux::tagged_argument_base
+    class tagged_argument
+      : public ::boost::parameter::aux::tagged_argument_base
     {
         typedef typename ::boost::mpl::eval_if<
             typename ::boost::mpl::eval_if<
@@ -464,7 +465,8 @@ namespace boost { namespace parameter { namespace aux {
     // Holds an lvalue reference to an argument of type Arg associated with
     // keyword Keyword
     template <typename Keyword, typename Arg>
-    class tagged_argument : ::boost::parameter::aux::tagged_argument_base
+    class tagged_argument
+      : public ::boost::parameter::aux::tagged_argument_base
     {
         typedef typename ::boost::remove_const<Arg>::type arg_type;
 
@@ -637,9 +639,7 @@ namespace boost { namespace parameter { namespace aux {
         {
             return this->get_with_lazy_default(x, 0L);
         }
-#else
-//#if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING) && \
-//    !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#else   // No function template ordering or Borland workarounds needed.
         template <typename Default>
         inline reference
             operator[](
