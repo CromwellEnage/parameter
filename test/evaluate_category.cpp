@@ -237,7 +237,7 @@ int main()
     typedef char char_arr[4];
 
 #if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
-    defined(BOOST_MSVC)
+    BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
     // MSVC treats static_cast<char_arr&&>(baz_arr) as an lvalue.
 #else
     test::B<char_arr>::evaluate(
