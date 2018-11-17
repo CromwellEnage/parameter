@@ -492,7 +492,7 @@ int main()
 
 #if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
-    // MSVC treats static_cast<char_arr&&>(baz_arr) as an lvalue.
+    // MSVC-12+ treats static_cast<char_arr&&>(baz_arr) as an lvalue.
 #else
     test::evaluate(
         "q2x"
@@ -516,7 +516,7 @@ int main()
 #endif
       , test::_lrc0 = "wld"
     );
-#endif  // MSVC
+#endif  // MSVC-12+
     test::B::evaluate(test::lvalue_const_str()[0]);
     test::C::evaluate(
         test::lvalue_const_str()[0]
@@ -525,7 +525,7 @@ int main()
 
 #if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
-    // MSVC treats static_cast<char_arr&&>(baz_arr) as an lvalue.
+    // MSVC-12+ treats static_cast<char_arr&&>(baz_arr) as an lvalue.
     test::C cp0;
     test::C cp1;
 #else
@@ -551,7 +551,7 @@ int main()
 #endif
       , test::_lrc0 = "zts"
     );
-#endif  // MSVC
+#endif  // MSVC-12+
 
     cp0.evaluate(
         test::lvalue_const_str()[0]
