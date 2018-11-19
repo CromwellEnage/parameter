@@ -417,11 +417,11 @@ alias parameter_python_test
 alias parameter_python_test
     :
     :
-        # Python fails for clang 8.1.0 on osx
+        # Python fails for xcode 8.3.0 on osx
         <target-os>osx
         <toolset>clang
         <toolset-clang:platform>darwin
-        <version>8.1.0
+        <version>8.3.0
     ;
 
 alias parameter_python_test
@@ -436,6 +436,14 @@ alias parameter_python_test
 alias parameter_python_test
     :
     [ bpl-test python_test ]
+    ;
+
+alias parameter_macros_eval_category
+    :
+    :
+        <target-os>linux
+        <toolset>gcc
+        <version>4.8
     ;
 
 alias parameter_macros_eval_category
@@ -500,6 +508,14 @@ alias parameter_macros_eval_category
         :
             <preserve-target-tests>off
     ]
+    ;
+
+alias parameter_evaluate_category_10
+    :
+    :
+        <target-os>linux
+        <toolset>gcc
+        <version>4.8
     ;
 
 alias parameter_evaluate_category_10
@@ -602,6 +618,15 @@ alias parameter_preprocessor_eval_cat_8
 alias parameter_preprocessor_eval_cat_8
     :
     :
+        <target-os>osx
+        <toolset>clang
+        <toolset-clang:platform>darwin
+        <version>8.3.0
+    ;
+
+alias parameter_preprocessor_eval_cat_8
+    :
+    :
         <target-os>windows
         <toolset>gcc
     ;
@@ -627,6 +652,15 @@ alias parameter_preprocessor_eval_cat_fail
         <toolset>clang
         <toolset-clang:platform>darwin
         <version>7.3.0
+    ;
+
+alias parameter_preprocessor_eval_cat_fail
+    :
+    :
+        <target-os>osx
+        <toolset>clang
+        <toolset-clang:platform>darwin
+        <version>8.3.0
     ;
 
 alias parameter_preprocessor_eval_cat_fail
