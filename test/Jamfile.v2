@@ -751,6 +751,7 @@ alias parameter_msvc_fail_tests
         <toolset-msvc:version>14.1
     ;
 
+# TODO: Replace with "undeprecated" version.
 test-suite "parameter"
     :
         parameter_macros_eval_category
