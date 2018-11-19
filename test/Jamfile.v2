@@ -422,7 +422,7 @@ alias parameter_python_test
         <toolset>clang
         <toolset-clang:platform>darwin
         # TODO: Use xcode version instead.
-        <macosx-version>10.12
+        <version>802.0.42
     ;
 
 alias parameter_python_test
@@ -454,7 +454,7 @@ alias parameter_macros_eval_category
         <toolset>clang
         <toolset-clang:platform>darwin
         # TODO: Use xcode version instead.
-        <macosx-version>10.11
+        <version>703.0.31
     ;
 
 alias parameter_macros_eval_category
@@ -527,7 +527,7 @@ alias parameter_evaluate_category_10
         <toolset>clang
         <toolset-clang:platform>darwin
         # TODO: Use xcode version instead.
-        <macosx-version>10.11
+        <version>703.0.31
     ;
 
 alias parameter_evaluate_category_10
@@ -616,7 +616,7 @@ alias parameter_preprocessor_eval_cat_8
         <toolset>clang
         <toolset-clang:platform>darwin
         # TODO: Use xcode version instead.
-        <macosx-version>10.11
+        <version>703.0.31
     ;
 
 alias parameter_preprocessor_eval_cat_8
@@ -626,7 +626,7 @@ alias parameter_preprocessor_eval_cat_8
         <toolset>clang
         <toolset-clang:platform>darwin
         # TODO: Use xcode version instead.
-        <macosx-version>10.12
+        <version>802.0.42
     ;
 
 alias parameter_preprocessor_eval_cat_8
@@ -657,7 +657,7 @@ alias parameter_preprocessor_eval_cat_fail
         <toolset>clang
         <toolset-clang:platform>darwin
         # TODO: Use xcode version instead.
-        <macosx-version>10.11
+        <version>703.0.31
     ;
 
 alias parameter_preprocessor_eval_cat_fail
@@ -667,7 +667,7 @@ alias parameter_preprocessor_eval_cat_fail
         <toolset>clang
         <toolset-clang:platform>darwin
         # TODO: Use xcode version instead.
-        <macosx-version>10.12
+        <version>802.0.42
     ;
 
 alias parameter_preprocessor_eval_cat_fail
