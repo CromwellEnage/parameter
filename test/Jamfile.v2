@@ -452,7 +452,7 @@ alias parameter_macros_eval_category
         <target-os>osx
         <toolset>clang
         <toolset-clang:platform>darwin
-        <version>7.3.0
+        <version>7.3
     ;
 
 alias parameter_macros_eval_category
@@ -524,7 +524,7 @@ alias parameter_evaluate_category_10
         <target-os>osx
         <toolset>clang
         <toolset-clang:platform>darwin
-        <version>7.3.0
+        <version>7.3
     ;
 
 alias parameter_evaluate_category_10
@@ -612,7 +612,7 @@ alias parameter_preprocessor_eval_cat_8
         <target-os>osx
         <toolset>clang
         <toolset-clang:platform>darwin
-        <version>7.3.0
+        <version>7.3
     ;
 
 alias parameter_preprocessor_eval_cat_8
@@ -621,7 +621,7 @@ alias parameter_preprocessor_eval_cat_8
         <target-os>osx
         <toolset>clang
         <toolset-clang:platform>darwin
-        <version>8.3.0
+        <version>8.3
     ;
 
 alias parameter_preprocessor_eval_cat_8
@@ -651,7 +651,7 @@ alias parameter_preprocessor_eval_cat_fail
         <target-os>osx
         <toolset>clang
         <toolset-clang:platform>darwin
-        <version>7.3.0
+        <version>7.3
     ;
 
 alias parameter_preprocessor_eval_cat_fail
@@ -660,7 +660,7 @@ alias parameter_preprocessor_eval_cat_fail
         <target-os>osx
         <toolset>clang
         <toolset-clang:platform>darwin
-        <version>8.3.0
+        <version>8.3
     ;
 
 alias parameter_preprocessor_eval_cat_fail
