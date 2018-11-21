@@ -68,6 +68,9 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux
 
+#include <boost/mpl/eval_if.hpp>
+#include <boost/mpl/identity.hpp>
+#include <boost/type_traits/add_lvalue_reference.hpp>
 #include <boost/type_traits/is_function.hpp>
 #include <boost/type_traits/is_array.hpp>
 
@@ -94,14 +97,14 @@ namespace boost { namespace parameter {
         // Simply making reference == value_type& would break all the
         // legacy code that uses binding<...> to access named template
         // parameters. -- dwa
-        typedef typename ::boost::mpl::if_<
+        typedef typename ::boost::mpl::eval_if<
             typename ::boost::mpl::if_<
                 ::boost::is_function<T>
               , ::boost::mpl::true_
               , ::boost::is_array<T>
             >::type
-          , value_type&
-          , value_type
+          , ::boost::add_lvalue_reference<value_type>
+          , ::boost::mpl::identity<value_type>
         >::type reference;
     };
 }} // namespace boost::parameter
