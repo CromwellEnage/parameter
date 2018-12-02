@@ -131,6 +131,15 @@ alias parameter_standard_tests
         :
             <preserve-target-tests>off
     ]
+    [ run parameterized_inheritance.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=3
+        :
+        :
+            <preserve-target-tests>off
+    ]
     [ run preprocessor.cpp
         :
         :

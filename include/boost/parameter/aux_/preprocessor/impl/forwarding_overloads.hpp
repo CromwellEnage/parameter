@@ -11,6 +11,30 @@
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 
+#include <boost/parameter/parameters.hpp>
+#include <boost/parameter/aux_/pp_impl/tagged_argument_predicate.hpp>
+#include <boost/parameter/aux_/preprocessor/impl/parenthesized_type.hpp>
+#include <boost/core/enable_if.hpp>
+
+// Exapnds to a variadic constructor that is enabled if and only if
+// all its arguments are tagged arguments.
+#define BOOST_PARAMETER_TAGGED_ARGUMENT_CONSTRUCTOR(class_, base)            \
+    template <                                                               \
+        typename TaggedArg0                                                  \
+      , typename ...TaggedArgs                                               \
+      , typename = typename ::boost::enable_if<                              \
+            ::boost::parameter::aux                                          \
+            ::tagged_argument_predicate<TaggedArg0,TaggedArgs...>            \
+        >::type                                                              \
+    > inline explicit                                                        \
+    class_(TaggedArg0 const& arg0, TaggedArgs const&... args)                \
+      : BOOST_PARAMETER_PARENTHESIZED_TYPE(base)(                            \
+            ::boost::parameter::parameters<>()(arg0, args...)                \
+        )                                                                    \
+    {                                                                        \
+    }
+/**/
+
 #include <boost/preprocessor/cat.hpp>
 
 // Expands to a forwarding parameter for a constructor or forwarding function.
@@ -26,7 +50,6 @@
     ::std::forward<BOOST_PP_CAT(type_prefix, n)>(BOOST_PP_CAT(a, n))
 /**/
 
-#include <boost/parameter/aux_/preprocessor/impl/parenthesized_type.hpp>
 #include <boost/preprocessor/tuple/elem.hpp>
 
 // Expands to the default constructor, whose job is to pass an empty back to
@@ -208,9 +231,75 @@
 
 #else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 
+#include <boost/parameter/parameters.hpp>
 #include <boost/parameter/aux_/preprocessor/impl/parenthesized_type.hpp>
-#include <boost/preprocessor/seq/seq.hpp>
+#include <boost/preprocessor/comparison/equal.hpp>
+#include <boost/preprocessor/control/expr_if.hpp>
+#include <boost/preprocessor/repetition/enum_params.hpp>
+#include <boost/preprocessor/repetition/enum_binary_params.hpp>
 #include <boost/preprocessor/tuple/elem.hpp>
+
+#if defined(BOOST_NO_SFINAE)
+
+// Exapnds to a tagged-argument constructor overload.
+#define BOOST_PARAMETER_TAGGED_ARGUMENT_CONSTRUCTOR_OVERLOAD_Z(z, n, data)   \
+    template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename TaggedArg)>              \
+    BOOST_PP_EXPR_IF(BOOST_PP_EQUAL(n, 1), explicit) inline                  \
+    BOOST_PP_TUPLE_ELEM(2, 0, data)(                                         \
+        BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, TaggedArg, const& arg)           \
+    ) : BOOST_PARAMETER_PARENTHESIZED_TYPE(BOOST_PP_TUPLE_ELEM(2, 1, data))( \
+            ::boost::parameter::parameters<>()(                              \
+                BOOST_PP_ENUM_PARAMS_Z(z, n, arg)                            \
+            )                                                                \
+        )                                                                    \
+    {                                                                        \
+    }
+/**/
+
+#else   // !defined(BOOST_NO_SFINAE)
+
+#include <boost/parameter/aux_/pp_impl/tagged_argument_predicate.hpp>
+#include <boost/core/enable_if.hpp>
+
+// Exapnds to a constructor overload that is enabled if and only if
+// all its arguments are tagged arguments.
+#define BOOST_PARAMETER_TAGGED_ARGUMENT_CONSTRUCTOR_OVERLOAD_Z(z, n, data)   \
+    template <                                                               \
+        BOOST_PP_ENUM_PARAMS_Z(z, n, typename TaggedArg)                     \
+      , typename = typename ::boost::enable_if<                              \
+            ::boost::parameter::aux::tagged_argument_predicate<              \
+                BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)                      \
+            >                                                                \
+        >::type                                                              \
+    >                                                                        \
+    BOOST_PP_EXPR_IF(BOOST_PP_EQUAL(n, 1), explicit) inline                  \
+    BOOST_PP_TUPLE_ELEM(2, 0, data)(                                         \
+        BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, TaggedArg, const& arg)           \
+    ) : BOOST_PARAMETER_PARENTHESIZED_TYPE(BOOST_PP_TUPLE_ELEM(2, 1, data))( \
+            ::boost::parameter::parameters<>()(                              \
+                BOOST_PP_ENUM_PARAMS_Z(z, n, arg)                            \
+            )                                                                \
+        )                                                                    \
+    {                                                                        \
+    }
+/**/
+
+#endif  // BOOST_NO_SFINAE
+
+#include <boost/preprocessor/repetition/repeat_from_to.hpp>
+
+// Exapnds to a variadic constructor that is enabled if and only if
+// all its arguments are tagged arguments.
+#define BOOST_PARAMETER_TAGGED_ARGUMENT_CONSTRUCTOR(class_, base)            \
+    BOOST_PP_REPEAT_FROM_TO(                                                 \
+        1                                                                    \
+      , BOOST_PARAMETER_MAX_ARITY                                            \
+      , BOOST_PARAMETER_TAGGED_ARGUMENT_CONSTRUCTOR_OVERLOAD_Z               \
+      , (class_, base)                                                       \
+    )
+/**/
+
+#include <boost/preprocessor/seq/seq.hpp>
 #include <boost/preprocessor/cat.hpp>
 
 // Expands to the default constructor, whose job is to pass an empty argument
@@ -229,7 +318,6 @@
 
 #include <boost/parameter/aux_/pp_impl/argument_pack.hpp>
 #include <boost/parameter/aux_/preprocessor/impl/function_name.hpp>
-#include <boost/preprocessor/control/expr_if.hpp>
 
 // Expands to a 0-arity forwarding function, whose job is to pass an empty
 // argument pack to the front-end implementation function.
@@ -279,8 +367,6 @@
 
 #include <boost/parameter/aux_/preprocessor/binary_seq_to_args.hpp>
 #include <boost/parameter/aux_/preprocessor/impl/function_forward_match.hpp>
-#include <boost/preprocessor/comparison/equal.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
 #include <boost/preprocessor/seq/size.hpp>
 
 // Expands to a constructor whose job is to consolidate its arguments into a
@@ -401,8 +487,6 @@
       , BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_0_ARITY                    \
     )(z, n, (BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_R)(data))
 /**/
-
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
 
 // Helper macro for BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS.
 #define BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS_AUX(class_, base, range)       \
