@@ -57,14 +57,23 @@ namespace boost { namespace parameter { namespace aux {
         ::boost::parameter::aux::is_tagged_argument<BOOST_PP_CAT(prefix, n)>,
 /**/
 
+#include <boost/parameter/aux_/void.hpp>
 #include <boost/mpl/bool.hpp>
+#include <boost/preprocessor/arithmetic/sub.hpp>
+#include <boost/preprocessor/facilities/intercept.hpp>
 #include <boost/preprocessor/repetition/repeat.hpp>
 #include <boost/preprocessor/repetition/enum_params.hpp>
+#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
 
 #define BOOST_PARAMETER_AUX_PP_IMPL_TAGGED_ARGUMENT_PRED_Z(z, n, prefix)     \
     template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename prefix)>                 \
-    struct tagged_argument_predicate<BOOST_PP_ENUM_PARAMS_Z(z, n, prefix)>   \
-      : BOOST_PP_CAT(BOOST_PP_REPEAT_, z)(                                   \
+    struct tagged_argument_predicate<                                        \
+        BOOST_PP_ENUM_PARAMS_Z(z, n, prefix)                                 \
+        BOOST_PP_ENUM_TRAILING_PARAMS(                                       \
+            BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, n)                       \
+          , ::boost::parameter::aux::void_ BOOST_PP_INTERCEPT                \
+        )                                                                    \
+    > : BOOST_PP_CAT(BOOST_PP_REPEAT_, z)(                                   \
             n                                                                \
           , BOOST_PARAMETER_AUX_PP_IMPL_TAGGED_ARGUMENT_PRED_BEG_Z           \
           , prefix                                                           \
@@ -79,8 +88,6 @@ namespace boost { namespace parameter { namespace aux {
     };
 /**/
 
-#include <boost/parameter/aux_/void.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
 
 namespace boost { namespace parameter { namespace aux {
