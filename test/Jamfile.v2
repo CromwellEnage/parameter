@@ -234,6 +234,46 @@ alias parameter_standard_tests
 
 alias parameter_literate_tests
     :
+    [ run literate/building-argumentpacks0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/deduced-parameters0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=5
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/deduced-template-parameters0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/default-expression-evaluation0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=5
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
+        :
+        :
+            <preserve-target-tests>off
+    ]
     [ run literate/extracting-parameter-types0.cpp
         :
         :
@@ -250,27 +290,7 @@ alias parameter_literate_tests
         :
             <preserve-target-tests>off
     ]
-    [ run literate/top-level0.cpp
-        :
-        :
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=3
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=4
-        :
-        :
-            <preserve-target-tests>off
-    ]
-    [ run literate/predicate-requirements0.cpp
-        :
-        :
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=5
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
-        :
-        :
-            <preserve-target-tests>off
-    ]
-    [ run literate/building-argumentpacks0.cpp
+    [ run literate/fine-grained-name-control0.cpp
         :
         :
         :
@@ -346,37 +366,7 @@ alias parameter_literate_tests
         :
             <preserve-target-tests>off
     ]
-    [ run literate/deduced-template-parameters0.cpp
-        :
-        :
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=4
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
-        :
-        :
-            <preserve-target-tests>off
-    ]
-    [ run literate/deduced-parameters0.cpp
-        :
-        :
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=5
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
-        :
-        :
-            <preserve-target-tests>off
-    ]
-    [ run literate/default-expression-evaluation0.cpp
-        :
-        :
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=5
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
-        :
-        :
-            <preserve-target-tests>off
-    ]
-    [ run literate/fine-grained-name-control0.cpp
+    [ run literate/parameter-enabled-function-call-operators0.cpp
         :
         :
         :
@@ -386,18 +376,50 @@ alias parameter_literate_tests
         :
             <preserve-target-tests>off
     ]
-    [ compile literate/template-keywords0.cpp ]
-    [ compile literate/template-keywords1.cpp ]
-    [ compile literate/headers-and-namespaces0.cpp ]
-    [ compile literate/handling-out-parameters0.cpp
+    [ run literate/parameter-enabled-member-functions0.cpp
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=5
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
+        :
+        :
+            <preserve-target-tests>off
     ]
-    [ compile literate/writing-the-function0.cpp
+    [ run literate/predicate-requirements0.cpp
+        :
+        :
         :
             <define>BOOST_PARAMETER_MAX_ARITY=5
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/static-member-functions0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=2
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ run literate/top-level0.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=3
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=4
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    [ compile literate/class-template-skeleton0.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
     ]
     [ compile literate/defining-the-keywords0.cpp ]
     [ compile literate/defining-the-keywords1.cpp ]
@@ -406,12 +428,18 @@ alias parameter_literate_tests
             <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
     ]
+    [ compile literate/handling-out-parameters0.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=5
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
+    ]
+    [ compile literate/headers-and-namespaces0.cpp ]
     [ compile literate/optional-parameters0.cpp
         :
             <define>BOOST_PARAMETER_MAX_ARITY=5
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
     ]
-    [ compile literate/static-member-functions0.cpp
+    [ compile literate/parameter-enabled-member-functions1.cpp
         :
             <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
@@ -421,20 +449,12 @@ alias parameter_literate_tests
             <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
     ]
-    [ compile literate/class-template-skeleton0.cpp
+    [ compile literate/template-keywords0.cpp ]
+    [ compile literate/template-keywords1.cpp ]
+    [ compile literate/writing-the-function0.cpp
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=4
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
-    ]
-    [ compile literate/parameter-enabled-member-functions0.cpp
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=2
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
-    ]
-    [ compile literate/parameter-enabled-member-functions1.cpp
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=2
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
+            <define>BOOST_PARAMETER_MAX_ARITY=5
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
     ]
     ;
 
