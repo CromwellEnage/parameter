@@ -71,7 +71,7 @@ namespace boost { namespace parameter { namespace aux {
         BOOST_PP_ENUM_PARAMS_Z(z, n, prefix)                                 \
         BOOST_PP_ENUM_TRAILING_PARAMS(                                       \
             BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, n)                       \
-          , ::boost::parameter::aux::void_ BOOST_PP_INTERCEPT                \
+          , ::boost::parameter::void_ BOOST_PP_INTERCEPT                     \
         )                                                                    \
     > : BOOST_PP_CAT(BOOST_PP_REPEAT_, z)(                                   \
             n                                                                \
