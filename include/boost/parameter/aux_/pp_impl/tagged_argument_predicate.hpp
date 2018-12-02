@@ -95,13 +95,14 @@ namespace boost { namespace parameter { namespace aux {
     struct tagged_argument_predicate;
 }}} // namespace boost::parameter::aux
 
+#include <boost/preprocessor/arithmetic/inc.hpp>
 #include <boost/preprocessor/repetition/repeat_from_to.hpp>
 
 namespace boost { namespace parameter { namespace aux {
 
     BOOST_PP_REPEAT_FROM_TO(
         1
-      , BOOST_PARAMETER_MAX_ARITY
+      , BOOST_PP_INC(BOOST_PARAMETER_MAX_ARITY)
       , BOOST_PARAMETER_AUX_PP_IMPL_TAGGED_ARGUMENT_PRED_Z
       , TaggedArg
     )

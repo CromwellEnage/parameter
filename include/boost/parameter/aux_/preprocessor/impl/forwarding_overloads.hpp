@@ -285,6 +285,7 @@
 
 #endif  // BOOST_NO_SFINAE
 
+#include <boost/preprocessor/arithmetic/inc.hpp>
 #include <boost/preprocessor/repetition/repeat_from_to.hpp>
 
 // Exapnds to a variadic constructor that is enabled if and only if
@@ -292,7 +293,7 @@
 #define BOOST_PARAMETER_TAGGED_ARGUMENT_CONSTRUCTOR(class_, base)            \
     BOOST_PP_REPEAT_FROM_TO(                                                 \
         1                                                                    \
-      , BOOST_PARAMETER_MAX_ARITY                                            \
+      , BOOST_PP_INC(BOOST_PARAMETER_MAX_ARITY)                              \
       , BOOST_PARAMETER_TAGGED_ARGUMENT_CONSTRUCTOR_OVERLOAD_Z               \
       , (class_, base)                                                       \
     )

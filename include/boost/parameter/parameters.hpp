@@ -588,7 +588,7 @@ namespace boost { namespace parameter {
 
         BOOST_PP_REPEAT_FROM_TO(
             1
-          , BOOST_PARAMETER_MAX_ARITY
+          , BOOST_PP_INC(BOOST_PARAMETER_MAX_ARITY)
           , BOOST_PARAMETER_make_simple_arg_list_function_call_op
           , TaggedArg
         )
