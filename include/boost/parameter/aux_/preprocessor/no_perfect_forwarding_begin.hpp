@@ -43,8 +43,9 @@
     {                                                                        \
         return BOOST_PARAMETER_make_simple_arg_list_type(z, n, prefix)(      \
             BOOST_PP_ENUM_PARAMS_Z(z, n, a)                                  \
-            BOOST_PP_ENUM_TRAILING_PARAMS(                                   \
-                BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, n)                   \
+            BOOST_PP_ENUM_TRAILING_PARAMS_Z(                                 \
+                z                                                            \
+              , BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, n)                   \
               , ::boost::parameter::aux::void_reference() BOOST_PP_INTERCEPT \
             )                                                                \
         );                                                                   \

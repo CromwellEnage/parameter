@@ -69,8 +69,9 @@ namespace boost { namespace parameter { namespace aux {
     template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename prefix)>                 \
     struct tagged_argument_predicate<                                        \
         BOOST_PP_ENUM_PARAMS_Z(z, n, prefix)                                 \
-        BOOST_PP_ENUM_TRAILING_PARAMS(                                       \
-            BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, n)                       \
+        BOOST_PP_ENUM_TRAILING_PARAMS_Z(                                     \
+            z                                                                \
+          , BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, n)                       \
           , ::boost::parameter::void_ BOOST_PP_INTERCEPT                     \
         )                                                                    \
     > : BOOST_PP_CAT(BOOST_PP_REPEAT_, z)(                                   \
@@ -88,13 +89,14 @@ namespace boost { namespace parameter { namespace aux {
     };
 /**/
 
+#include <boost/preprocessor/arithmetic/inc.hpp>
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
 
 namespace boost { namespace parameter { namespace aux {
 
     template <
         BOOST_PP_ENUM_BINARY_PARAMS(
-            BOOST_PARAMETER_MAX_ARITY
+            BOOST_PP_INC(BOOST_PARAMETER_MAX_ARITY)
           , typename TaggedArg
           , = ::boost::parameter::void_ BOOST_PP_INTERCEPT
         )
@@ -102,7 +104,6 @@ namespace boost { namespace parameter { namespace aux {
     struct tagged_argument_predicate;
 }}} // namespace boost::parameter::aux
 
-#include <boost/preprocessor/arithmetic/inc.hpp>
 #include <boost/preprocessor/repetition/repeat_from_to.hpp>
 
 namespace boost { namespace parameter { namespace aux {
