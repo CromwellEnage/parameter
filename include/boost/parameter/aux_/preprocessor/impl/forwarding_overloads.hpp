@@ -259,22 +259,21 @@
 #else   // !defined(BOOST_NO_SFINAE)
 
 #include <boost/parameter/aux_/pp_impl/tagged_argument_predicate.hpp>
+#include <boost/tti/detail/dnullptr.hpp>
 #include <boost/core/enable_if.hpp>
 
 // Exapnds to a constructor overload that is enabled if and only if
 // all its arguments are tagged arguments.
 #define BOOST_PARAMETER_TAGGED_ARGUMENT_CONSTRUCTOR_OVERLOAD_Z(z, n, data)   \
-    template <                                                               \
-        BOOST_PP_ENUM_PARAMS_Z(z, n, typename TaggedArg)                     \
-      , typename = typename ::boost::enable_if<                              \
-            ::boost::parameter::aux::tagged_argument_predicate<              \
-                BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)                      \
-            >                                                                \
-        >::type                                                              \
-    >                                                                        \
+    template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename TaggedArg)>              \
     BOOST_PP_EXPR_IF(BOOST_PP_EQUAL(n, 1), explicit) inline                  \
     BOOST_PP_TUPLE_ELEM(2, 0, data)(                                         \
         BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, TaggedArg, const& arg)           \
+      , typename ::boost::enable_if<                                         \
+            ::boost::parameter::aux::tagged_argument_predicate<              \
+                BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)                      \
+            >                                                                \
+        >::type* = BOOST_TTI_DETAIL_NULLPTR                                  \
     ) : BOOST_PARAMETER_PARENTHESIZED_TYPE(BOOST_PP_TUPLE_ELEM(2, 1, data))( \
             ::boost::parameter::parameters<>()(                              \
                 BOOST_PP_ENUM_PARAMS_Z(z, n, arg)                            \
