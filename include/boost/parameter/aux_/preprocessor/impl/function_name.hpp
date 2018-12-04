@@ -75,7 +75,16 @@
 #define BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(base)                    \
     BOOST_PP_CAT(                                                            \
         BOOST_PP_CAT(boost_param_parameters_, __LINE__)                      \
-      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(name)                           \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
+    )
+/**/
+
+// Produces a name for a result type metafunction for the no-spec function
+// named base.
+#define BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(base)                   \
+    BOOST_PP_CAT(                                                            \
+        BOOST_PP_CAT(boost_param_no_spec_result_, __LINE__)                  \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
     )
 /**/
 
@@ -83,7 +92,16 @@
 #define BOOST_PARAMETER_FUNCTION_RESULT_NAME(base)                           \
     BOOST_PP_CAT(                                                            \
         BOOST_PP_CAT(boost_param_result_, __LINE__)                          \
-      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(name)                           \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
+    )
+/**/
+
+// Produces a name for the implementation function to which the no-spec
+// function named base forwards its result type and argument pack.
+#define BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_NAME(base)                     \
+    BOOST_PP_CAT(                                                            \
+        BOOST_PP_CAT(boost_param_no_spec_impl, __LINE__)                     \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
     )
 /**/
 

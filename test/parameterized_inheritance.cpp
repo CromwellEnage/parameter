@@ -5,8 +5,7 @@
 
 #include <boost/parameter/config.hpp>
 
-#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-    (BOOST_PARAMETER_MAX_ARITY < 3)
+#if BOOST_PARAMETER_MAX_ARITY < 3
 #error Define BOOST_PARAMETER_MAX_ARITY as 3 or greater.
 #endif
 
@@ -33,6 +32,13 @@ namespace test {
         {
             return this->_a0;
         }
+
+     protected:
+        template <typename ArgPack>
+        void initialize_impl(ArgPack const& args)
+        {
+            this->_a0 = args[test::_a0];
+        }
     };
 
     template <typename B, typename T>
@@ -49,6 +55,14 @@ namespace test {
         T const& get_a1() const
         {
             return this->_a1;
+        }
+
+     protected:
+        template <typename ArgPack>
+        void initialize_impl(ArgPack const& args)
+        {
+            B::initialize_impl(args);
+            this->_a1 = args[test::_a1];
         }
     };
 
@@ -67,6 +81,14 @@ namespace test {
         {
             return this->_a2;
         }
+
+     protected:
+        template <typename ArgPack>
+        void initialize_impl(ArgPack const& args)
+        {
+            B::initialize_impl(args);
+            this->_a2 = args[test::_a2];
+        }
     };
 }
 
@@ -77,7 +99,11 @@ namespace test {
     template <typename B>
     struct derived : public B
     {
-        BOOST_PARAMETER_TAGGED_ARGUMENT_CONSTRUCTOR(derived, (B))
+        BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(derived, (B))
+        BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION((void), initialize)
+        {
+            this->initialize_impl(args);
+        }
     };
 } // namespace test
 
@@ -86,12 +112,18 @@ namespace test {
 int main()
 {
     char const* p = "foo";
+    char const* q = "bar";
     test::derived<
         test::base2<test::base1<test::base0<char const*>, char>, int>
     > t0(test::_a2 = 4, test::_a1 = ' ', test::_a0 = p);
     test::derived<
         test::base1<test::base2<test::base0<char const*>, int>, char>
     > t1(test::_a0 = p, test::_a1 = ' ', test::_a2 = 4);
+    BOOST_TEST_EQ(t0.get_a0(), t1.get_a0());
+    BOOST_TEST_EQ(t0.get_a1(), t1.get_a1());
+    BOOST_TEST_EQ(t0.get_a2(), t1.get_a2());
+    t0.initialize(test::_a0 = q, test::_a1 = '!', test::_a2 = 8);
+    t1.initialize(test::_a2 = 8, test::_a1 = '!', test::_a0 = q);
     BOOST_TEST_EQ(t0.get_a0(), t1.get_a0());
     BOOST_TEST_EQ(t0.get_a1(), t1.get_a1());
     BOOST_TEST_EQ(t0.get_a2(), t1.get_a2());
