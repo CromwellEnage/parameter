@@ -269,7 +269,20 @@ namespace test {
 #endif
 
         BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(C, (B))
+
+        BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION((bool), evaluate_m)
+        {
+            return C::_evaluate(args);
+        }
+
         BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR((bool))
+        {
+            return C::_evaluate(args);
+        }
+
+     private:
+        template <typename Args>
+        static bool _evaluate(Args const& args)
         {
             BOOST_TEST_EQ(
                 test::passed_by_lvalue_reference_to_const
@@ -444,6 +457,31 @@ int main()
       , test::_rr0 = test::rvalue_str()
       , test::_rrc0 = test::rvalue_const_float()
       , test::_lr0 = test::lvalue_char_ptr()
+    );
+    cp0.evaluate_m(
+        test::_lrc1 = test::lvalue_const_bitset<4>()
+      , test::_lrc0 = test::lvalue_const_bitset<0>()
+      , test::_lr0 = test::lvalue_bitset<1>()
+      , test::_rrc0 = test::rvalue_const_bitset<2>()
+      , test::_rr0 = test::rvalue_bitset<3>()
+    );
+    cp0.evaluate_m(
+        test::_lrc1 = test::lvalue_const_bitset<4>()
+      , test::_lrc0 = test::lvalue_const_bitset<0>()
+      , test::_rrc1 = test::rvalue_const_bitset<6>()
+      , test::_lr0 = test::lvalue_bitset<1>()
+      , test::_rrc0 = test::rvalue_const_bitset<2>()
+      , test::_rr0 = test::rvalue_bitset<3>()
+    );
+    cp1.evaluate_m(
+        test::_lr0 = test::lvalue_bitset<1>()
+      , test::_rrc0 = test::rvalue_const_bitset<2>()
+      , test::_rr0 = test::rvalue_bitset<3>()
+      , test::_lrc1 = test::lvalue_const_bitset<4>()
+      , test::_lr1 = test::lvalue_bitset<5>()
+      , test::_rrc1 = test::rvalue_const_bitset<6>()
+      , test::_rr1 = test::rvalue_bitset<7>()
+      , test::_lrc0 = test::lvalue_const_bitset<0>()
     );
     cp0(
         test::_lrc1 = test::lvalue_const_bitset<4>()

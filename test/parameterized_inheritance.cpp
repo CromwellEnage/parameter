@@ -100,7 +100,13 @@ namespace test {
     struct derived : public B
     {
         BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(derived, (B))
+
         BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION((void), initialize)
+        {
+            this->initialize_impl(args);
+        }
+
+        BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR((void))
         {
             this->initialize_impl(args);
         }
@@ -124,6 +130,11 @@ int main()
     BOOST_TEST_EQ(t0.get_a2(), t1.get_a2());
     t0.initialize(test::_a0 = q, test::_a1 = '!', test::_a2 = 8);
     t1.initialize(test::_a2 = 8, test::_a1 = '!', test::_a0 = q);
+    BOOST_TEST_EQ(t0.get_a0(), t1.get_a0());
+    BOOST_TEST_EQ(t0.get_a1(), t1.get_a1());
+    BOOST_TEST_EQ(t0.get_a2(), t1.get_a2());
+    t0(test::_a2 = 8, test::_a1 = '!', test::_a0 = q);
+    t1(test::_a0 = q, test::_a1 = '!', test::_a2 = 8);
     BOOST_TEST_EQ(t0.get_a0(), t1.get_a0());
     BOOST_TEST_EQ(t0.get_a1(), t1.get_a1());
     BOOST_TEST_EQ(t0.get_a2(), t1.get_a2());

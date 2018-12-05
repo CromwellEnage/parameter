@@ -196,6 +196,18 @@ namespace test {
                 (index, *)
             )
         )
+
+        BOOST_PARAMETER_BASIC_FUNCTION_CALL_OPERATOR((int), test::tag,
+            (optional
+                (value, *)
+                (index, *)
+            )
+        )
+        {
+            this->f = args[test::_value | 2.f];
+            this->i = args[test::_index | 1];
+            return 1;
+        }
     };
 
     struct base_1
@@ -392,6 +404,16 @@ namespace test {
             >
         {
         };
+
+        BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR((bool), test::tag,
+            (required
+                (value, *)
+                (index, *)
+            )
+        )
+        {
+            return args[test::_value] < args[test::_index];
+        }
     };
 
     BOOST_PARAMETER_FUNCTION((int), sfinae1, test::tag,
@@ -514,6 +536,11 @@ int main()
     BOOST_TEST(2 == u.i);
     BOOST_TEST(1.f == u.f);
 
+    u();
+
+    BOOST_TEST(1 == u.i);
+    BOOST_TEST(2.f == u.f);
+
     test::class_1 x(
         test::values(std::string("foo"), 1.f, 2)
       , std::string("foo")
@@ -562,6 +589,13 @@ int main()
       , test::_name = std::string("foo")
     );
 
+    test::predicate p;
+    test::predicate const& p_const = p;
+
+    BOOST_TEST(p_const(3, 4));
+    BOOST_TEST(!p_const(4, 3));
+    BOOST_TEST(!p_const(test::_index = 3, test::_value = 4));
+
 #if !defined(BOOST_NO_SFINAE) && \
     !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x592))
     BOOST_TEST(test::sfinae("foo") == 1);
@@ -577,7 +611,7 @@ int main()
     BOOST_TEST(test::sfinae1(1) == 0);
 #endif
 
-    test::lazy_defaults(test::_name = test::udt(0,1));
+    test::lazy_defaults(test::_name = test::udt(0, 1));
     test::lazy_defaults(test::_name = 0, test::_value = 1, test::_index = 2);
 
     return boost::report_errors();
