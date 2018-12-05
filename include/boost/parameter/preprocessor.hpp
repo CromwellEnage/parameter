@@ -7,6 +7,16 @@
 #ifndef BOOST_PARAMETER_PREPROCESSOR_060206_HPP
 #define BOOST_PARAMETER_PREPROCESSOR_060206_HPP
 
+#include <boost/parameter/aux_/preprocessor/impl/function_name.hpp>
+
+// Defines the implementation function header.
+#define BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name)                             \
+    template <typename Args>                                                 \
+    typename BOOST_PARAMETER_FUNCTION_RESULT_NAME(name)<                     \
+        Args                                                                 \
+    >::type BOOST_PARAMETER_FUNCTION_IMPL_NAME(name)(Args const& args)
+/**/
+
 #include <boost/parameter/aux_/preprocessor/impl/forwarding_overloads.hpp>
 
 // Exapnds to a variadic function header that is enabled if and only if all
@@ -20,6 +30,7 @@
 /**/
 
 #include <boost/preprocessor/control/expr_if.hpp>
+#include <boost/preprocessor/control/if.hpp>
 
 // Helper macro for BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION,
 // BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION,
@@ -27,7 +38,12 @@
 // and BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR.
 #define BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION_AUX(result, name, impl, c)   \
     BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, impl)                      \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD(name, impl, 1, c)              \
+    BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD(                               \
+        name                                                                 \
+      , impl                                                                 \
+      , BOOST_PP_IF(BOOST_PARAMETER_MEMBER_FUNCTION_IS_STATIC(impl), 0, 1)   \
+      , c                                                                    \
+    )                                                                        \
     BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(impl)                         \
     BOOST_PP_EXPR_IF(c, const)
 /**/
@@ -72,16 +88,6 @@
     BOOST_PARAMETER_SPECIFICATION(tag_namespace, ctor, args)                 \
         BOOST_PP_CAT(constructor_parameters, __LINE__);                      \
     BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS(class_, base, args)
-/**/
-
-#include <boost/parameter/aux_/preprocessor/impl/function_name.hpp>
-
-// Defines the implementation function header.
-#define BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name)                             \
-    template <typename Args>                                                 \
-    typename BOOST_PARAMETER_FUNCTION_RESULT_NAME(name)<                     \
-        Args                                                                 \
-    >::type BOOST_PARAMETER_FUNCTION_IMPL_NAME(name)(Args const& args)
 /**/
 
 #include <boost/parameter/aux_/preprocessor/impl/parenthesized_type.hpp>

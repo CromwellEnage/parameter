@@ -12,7 +12,7 @@
 // Defines the no-spec implementation function header.
 #define BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(name)                     \
     template <typename ResultType, typename Args>                            \
-    ResultType                                                               \
+    BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(name) ResultType                  \
         BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_NAME(                          \
             name                                                             \
         )(ResultType(*)(), Args const& args)
@@ -661,7 +661,7 @@
             nm                                                               \
           , impl                                                             \
           , BOOST_PP_IF(                                                     \
-                BOOST_PARAMETER_MEMBER_FUNCTION_IS_STATIC(nm)                \
+                BOOST_PARAMETER_MEMBER_FUNCTION_IS_STATIC(impl)              \
               , 0                                                            \
               , is_m                                                         \
             )                                                                \
@@ -688,7 +688,7 @@
     BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS_AUX(                          \
         name                                                                 \
       , impl                                                                 \
-      , BOOST_PARAMETER_ARITY_RANGE(args)                                    \
+      , BOOST_PARAMETER_ARITY_RANGE(a)                                       \
       , is_m                                                                 \
       , c                                                                    \
     )

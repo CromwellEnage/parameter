@@ -5,7 +5,7 @@
 
 #include <boost/parameter/config.hpp>
 
-#if BOOST_PARAMETER_MAX_ARITY < 3
+#if (BOOST_PARAMETER_MAX_ARITY < 3)
 #error Define BOOST_PARAMETER_MAX_ARITY as 3 or greater.
 #endif
 

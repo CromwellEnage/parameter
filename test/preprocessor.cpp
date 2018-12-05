@@ -5,7 +5,7 @@
 
 #include <boost/parameter/config.hpp>
 #include <boost/parameter/preprocessor.hpp>
-#include <boost/parameter/keyword.hpp>
+#include <boost/parameter/binding.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/type_traits/is_same.hpp>
@@ -46,6 +46,7 @@ namespace test {
     }
 } // namespace test
 
+#include <boost/parameter/value_type.hpp>
 #include <boost/type_traits/remove_const.hpp>
 
 namespace test {
@@ -423,12 +424,6 @@ namespace test {
     }
 #endif  // BOOST_NO_SFINAE
 
-    template <typename T>
-    T const& as_lvalue(T const& x)
-    {
-        return x;
-    }
-
     struct udt
     {
         udt(int foo_, int bar_) : foo(foo_), bar(bar_)
@@ -452,6 +447,10 @@ namespace test {
         return 0;
     }
 } // namespace test
+
+#if BOOST_WORKAROUND(BOOST_MSVC, == 1300)
+#include <boost/parameter/aux_/as_lvalue.hpp>
+#endif
 
 #include <boost/core/lightweight_test.hpp>
 
@@ -487,7 +486,7 @@ int main()
       , std::string("foo")
       , 1.f
 #if BOOST_WORKAROUND(BOOST_MSVC, == 1300)
-      , test::as_lvalue(2)
+      , boost::parameter::aux::as_lvalue(2)
 #else
       , 2
 #endif
@@ -498,7 +497,7 @@ int main()
       , std::string("foo")
       , 1.f
 #if BOOST_WORKAROUND(BOOST_MSVC, == 1300)
-      , test::as_lvalue(2)
+      , boost::parameter::aux::as_lvalue(2)
 #else
       , 2
 #endif

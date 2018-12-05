@@ -81,6 +81,15 @@ alias parameter_standard_tests
         :
             <preserve-target-tests>off
     ]
+    [ run preprocessor_eval_cat_no_spec.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=8
+        :
+        :
+            <preserve-target-tests>off
+    ]
     [ run normalized_argument_types.cpp
         :
         :
@@ -784,6 +793,13 @@ alias parameter_msvc_fail_tests
         :
             preproc_eval_cat_msvc12_fail
     ]
+    [ compile-fail preprocessor_eval_cat_no_spec.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
+        :
+            preproc_eval_cat_no_spec_msvc12_fail
+    ]
     :
         <toolset>msvc
         <toolset-msvc:version>12.0
@@ -807,6 +823,13 @@ alias parameter_msvc_fail_tests
         :
             preproc_eval_cat_msvc14_0_fail
     ]
+    [ compile-fail preprocessor_eval_cat_no_spec.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
+        :
+            preproc_eval_cat_no_spec_msvc14_0_fail
+    ]
     :
         <toolset>msvc
         <toolset-msvc:version>14.0
@@ -829,6 +852,13 @@ alias parameter_msvc_fail_tests
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
         :
             preproc_eval_cat_msvc14_1_fail
+    ]
+    [ compile-fail preprocessor_eval_cat_no_spec.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
+        :
+            preproc_eval_cat_no_spec_msvc14_1_fail
     ]
     :
         <toolset>msvc
