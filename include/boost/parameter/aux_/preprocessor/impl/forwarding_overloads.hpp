@@ -34,7 +34,7 @@
 /**/
 
 #include <boost/parameter/parameters.hpp>
-#include <boost/parameter/aux_/pp_impl/tagged_argument_predicate.hpp>
+#include <boost/parameter/are_tagged_arguments.hpp>
 #include <boost/core/enable_if.hpp>
 
 // Exapnds to a variadic constructor that is enabled if and only if
@@ -44,8 +44,8 @@
         typename TaggedArg0                                                  \
       , typename ...TaggedArgs                                               \
       , typename = typename ::boost::enable_if<                              \
-            ::boost::parameter::aux                                          \
-            ::tagged_argument_predicate<TaggedArg0,TaggedArgs...>            \
+            ::boost::parameter                                               \
+            ::are_tagged_arguments<TaggedArg0,TaggedArgs...>                 \
         >::type                                                              \
     > inline explicit                                                        \
     class_(TaggedArg0 const& arg0, TaggedArgs const&... args)                \
@@ -65,8 +65,8 @@
     template <typename TaggedArg0, typename ...TaggedArgs>                   \
     BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(impl)                             \
     inline typename ::boost::lazy_enable_if<                                 \
-        ::boost::parameter::aux                                              \
-        ::tagged_argument_predicate<TaggedArg0,TaggedArgs...>                \
+        ::boost::parameter                                                   \
+        ::are_tagged_arguments<TaggedArg0,TaggedArgs...>                     \
       , BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(                        \
             impl                                                             \
         )<TaggedArg0,TaggedArgs...>                                          \
@@ -336,12 +336,13 @@
 #define BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD_Z(z, n, data)              \
     template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename TaggedArg)>              \
     BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(BOOST_PP_TUPLE_ELEM(4, 1, data))  \
-    inline typename ::boost::parameter::aux::tagged_argument_predicate<      \
-        BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)                              \
-    >::type BOOST_PARAMETER_MEMBER_FUNCTION_NAME(                            \
-        BOOST_PP_TUPLE_ELEM(4, 0, data)                                      \
-    )(BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, TaggedArg, const& arg))            \
-    BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(4, 3, data), const)                 \
+    inline typename BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(            \
+        BOOST_PP_TUPLE_ELEM(4, 1, data)                                      \
+    )<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>::type                         \
+        BOOST_PARAMETER_MEMBER_FUNCTION_NAME(                                \
+            BOOST_PP_TUPLE_ELEM(4, 0, data)                                  \
+        )(BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, TaggedArg, const& arg))        \
+        BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(4, 3, data), const)             \
     {                                                                        \
         return BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(4, 2, data), this->)     \
         BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_NAME(                          \
@@ -361,7 +362,7 @@
 
 #else   // !defined(BOOST_NO_SFINAE)
 
-#include <boost/parameter/aux_/pp_impl/tagged_argument_predicate.hpp>
+#include <boost/parameter/are_tagged_arguments.hpp>
 #include <boost/tti/detail/dnullptr.hpp>
 #include <boost/core/enable_if.hpp>
 
@@ -373,7 +374,7 @@
     BOOST_PP_TUPLE_ELEM(2, 0, data)(                                         \
         BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, TaggedArg, const& arg)           \
       , typename ::boost::enable_if<                                         \
-            ::boost::parameter::aux::tagged_argument_predicate<              \
+            ::boost::parameter::are_tagged_arguments<                        \
                 BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)                      \
             >                                                                \
         >::type* = BOOST_TTI_DETAIL_NULLPTR                                  \
@@ -392,8 +393,8 @@
     template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename TaggedArg)>              \
     BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(BOOST_PP_TUPLE_ELEM(4, 1, data))  \
     inline typename ::boost::lazy_enable_if<                                 \
-        ::boost::parameter::aux                                              \
-        ::tagged_argument_predicate<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)> \
+        ::boost::parameter                                                   \
+        ::are_tagged_arguments<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>      \
       , BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(                        \
             BOOST_PP_TUPLE_ELEM(4, 1, data)                                  \
         )<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>                           \

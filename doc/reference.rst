@@ -801,10 +801,11 @@ The |ntp_cpp|_ test program demonstrates proper usage of this class template.
 ``parameters``
 --------------
 
-Provides an interface for assembling the actual arguments to a
-`forwarding function` into an |ArgumentPack|, in which any
-|positional| arguments will be tagged according to the
-corresponding template argument to ``parameters``.  
+Provides an interface for assembling the actual arguments to a `forwarding
+function` into an |ArgumentPack|, in which any |positional| arguments will be
+tagged according to the corresponding template argument to ``parameters``.  If
+no template arguments are passed into ``parameters``, then the interface
+cannot assemble any |positional| arguments, only |tagged reference| arguments.
 
 .. _forwarding function: `forwarding functions`_
 
@@ -827,6 +828,17 @@ __ ../../../../boost/parameter/parameters.hpp
 
         template <typename ...Args>
         |ArgumentPack|_ `operator()`_\(Args&&... args) const;
+    };
+
+    template <>
+    struct parameters<>
+    {
+        template <typename ...Args>
+        typename boost::`enable_if`_<
+            *all types in Args are tagged reference types*
+          , |ArgumentPack|_
+        >::type
+            `operator()`_\(Args const&... args) const;
     };
 
 :Requires: Each element in the ``PSpec`` parameter pack must be a model of
@@ -891,7 +903,36 @@ __ ../../../../boost/parameter/parameters.hpp
 
         template <typename A0, typename A1, …, typename A ## β>
         |ArgumentPack|_
-        `operator()`_\(A0& a0, A1& a1, …, A ## β & a ## β) const;
+            `operator()`_\(A0& a0, A1& a1, …, A ## β & a ## β) const;
+    };
+
+    template <>
+    struct parameters<>
+    {
+        template <typename A0>
+        typename boost::`enable_if`_<
+            *A0 is a tagged reference type*
+          , |ArgumentPack|_
+        >::type
+            `operator()`_\(A0 const& a0) const;
+
+        template <typename A0, typename A1>
+        typename boost::`enable_if`_<
+            *A0 and A1 are tagged reference types*
+          , |ArgumentPack|_
+        >::type
+            `operator()`_\(A0 const& a0, A1 const& a1) const;
+
+        :vellipsis:`⋮`
+
+        template <typename A0, typename A1, …, typename A ## β>
+        typename boost::`enable_if`_<
+            *A0, A1, …, A ## β are tagged reference types*
+          , |ArgumentPack|_
+        >::type
+            `operator()`_\(
+                A0 const& a0, A1 const& a1, …, A ## β const& a ## β
+            ) const;
     };
 
 :Requires: ``P0``, ``P1``, …, ``P`` ## β must be models of |ParameterSpec|_.
@@ -986,7 +1027,7 @@ either:
 
     template <typename A0, …, typename A ## β>
     |ArgumentPack|_
-    `operator()`_\(A0 const& a0, …, A ## β const& a ## β) const;
+        `operator()`_\(A0 const& a0, …, A ## β const& a ## β) const;
 
 :Returns: An |ArgumentPack|_ containing, for each ``a`` ## *i*,  
 
@@ -1632,6 +1673,13 @@ test programs demonstrate proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
+:Argument specifiers syntax:
+Same as ``BOOST_PARAMETER_FUNCTION``.
+
+:Generated names in enclosing scope:
+Same as ``BOOST_PARAMETER_FUNCTION``.
+
+Approximate expansion:
 Same as ``BOOST_PARAMETER_FUNCTION``, except:
 
 \*. ``name`` may be qualified by the ``static`` keyword to declare the member
@@ -1656,6 +1704,13 @@ proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
+:Argument specifiers syntax:
+Same as ``BOOST_PARAMETER_FUNCTION``.
+
+:Generated names in enclosing scope:
+Same as ``BOOST_PARAMETER_FUNCTION``.
+
+Approximate expansion:
 Same as ``BOOST_PARAMETER_MEMBER_FUNCTION``, except that the overloaded
 forwarding member functions and their helper methods are
 ``const``-qualified.
@@ -1672,8 +1727,8 @@ The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
-Same as ``BOOST_PARAMETER_MEMBER_FUNCTION``, except that the name of the
-forwarding member function overloads is ``operator()``.
+:Argument specifiers syntax:
+Same as ``BOOST_PARAMETER_FUNCTION``.
 
 :Generated names in enclosing scope:
 * ``boost_param_result_ ## __LINE__ ## operator``
@@ -1682,6 +1737,10 @@ forwarding member function overloads is ``operator()``.
 * ``boost_param_impl ## operator``
 * ``boost_param_dispatch_0boost_ ## __LINE__ ## operator``
 * ``boost_param_dispatch_1boost_ ## __LINE__ ## operator``
+
+Approximate expansion:
+Same as ``BOOST_PARAMETER_MEMBER_FUNCTION``, except that the name of the
+forwarding member function overloads is ``operator()``.
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
@@ -1695,6 +1754,13 @@ The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
+:Argument specifiers syntax:
+Same as ``BOOST_PARAMETER_FUNCTION``.
+
+:Generated names in enclosing scope:
+Same as ``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR``.
+
+Approximate expansion:
 Same as ``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR``, except that the overloaded
 function call operators and their helper methods are ``const``-qualified.
 
@@ -1716,10 +1782,12 @@ __ ../../../../boost/parameter/preprocessor.hpp
 :Requires: ``cls`` is the name of the enclosing class.  ``impl`` is the
 parenthesized implementation base class for ``cls``.  ``tag_namespace`` is the
 namespace in which the keywords used by the function resides.  ``arguments``
-is a list of *argument-specifiers*, as defined in ``BOOST_PARAMETER_FUNCTION``
-except that *optional-specifier* no longer includes *default-value*.  It is up
-to the delegate constructor in ``impl`` to determine the default value of all
-optional arguments.
+is a list of *argument-specifiers*, as defined below.
+
+:Argument specifiers syntax:
+Same as ``BOOST_PARAMETER_FUNCTION``, except that *optional-specifier* no
+longer includes *default-value*.  It is up to the delegate constructor in
+``impl`` to determine the default value of all optional arguments.
 
 :Generated names in enclosing scope:
 * ``boost_param_params_ ## __LINE__ ## ctor``
@@ -1834,18 +1902,19 @@ proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
-Same as ``BOOST_PARAMETER_FUNCTION``, except:
+:Argument specifiers syntax:
+Same as ``BOOST_PARAMETER_FUNCTION``, except that *optional-specifier* no
+longer includes *default-value*.  It is up to the function body to determine
+the default value of all optional arguments.
 
-\*. For the argument specifiers syntax, *optional-specifier* no longer
-includes *default-value*.  It is up to the function body to determine the
-default value of all optional arguments.
-
-\*. Generated names in the enclosing scope no longer include
-``boost_param_dispatch_0boost_ ## __LINE__ ## name`` or
+:Generated names in enclosing scope:
+Same as ``BOOST_PARAMETER_FUNCTION``, except that these names no longer
+include ``boost_param_dispatch_0boost_ ## __LINE__ ## name`` or
 ``boost_param_dispatch_1boost_ ## __LINE__ ## name``.
 
-\*. Expansion of this macro omits all overloads of
-``boost_param_dispatch_0boost_ ## __LINE__ ## name`` and
+Approximate expansion:
+Same as ``BOOST_PARAMETER_FUNCTION``, except that this expansion omits all
+overloads of ``boost_param_dispatch_0boost_ ## __LINE__ ## name`` and
 ``boost_param_dispatch_1boost_ ## __LINE__ ## name`` and stops at the header
 of ``boost_param_impl ## name``.  Therefore, only the |ArgumentPack|_ type
 ``Args`` and its object instance ``args`` are available for use within the
@@ -1863,6 +1932,10 @@ The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
+:Generated names in enclosing scope:
+Same as ``BOOST_PARAMETER_BASIC_FUNCTION``.
+
+Approximate expansion:
 Same as ``BOOST_PARAMETER_BASIC_FUNCTION``, except that:
 
 \*. ``name`` may be qualified by the ``static`` keyword to declare the member
@@ -1884,6 +1957,10 @@ The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
+:Generated names in enclosing scope:
+Same as ``BOOST_PARAMETER_BASIC_MEMBER_FUNCTION``.
+
+Approximate expansion:
 Same as ``BOOST_PARAMETER_BASIC_MEMBER_FUNCTION``, except that the overloaded
 forwarding member functions and their helper methods are ``const``-qualified.
 
@@ -1891,6 +1968,70 @@ The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
+
+``BOOST_PARAMETER_BASIC_FUNCTION_CALL_OPERATOR(result, tag_ns, arguments)``
+---------------------------------------------------------------------------
+
+:Defined in: `boost/parameter/preprocessor.hpp`__
+
+__ ../../../../boost/parameter/preprocessor.hpp
+
+Same as ``BOOST_PARAMETER_BASIC_MEMBER_FUNCTION``, except that the name of the
+forwarding member function overloads is ``operator()``.
+
+The |preprocessor|_ test program demonstrates proper usage of this macro.
+
+.. |preprocessor| replace:: preprocessor.cpp
+.. _preprocessor: ../../test/preprocessor.cpp
+
+``BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR(result, tag_ns, args)``
+----------------------------------------------------------------------------
+
+:Defined in: `boost/parameter/preprocessor.hpp`__
+
+__ ../../../../boost/parameter/preprocessor.hpp
+
+Same as ``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR``, except that the overloaded
+function call operators and their helper methods are ``const``-qualified.
+
+The |preprocessor|_ test program demonstrates proper usage of this macro.
+
+.. |preprocessor| replace:: preprocessor.cpp
+.. _preprocessor: ../../test/preprocessor.cpp
+
+``BOOST_PARAMETER_NO_SPEC_FUNCTION(result, name)``
+--------------------------------------------------
+
+:Defined in: `boost/parameter/preprocessor.hpp`__
+
+__ ../../../../boost/parameter/preprocessor.hpp
+
+The |preproc_eval_cat_no_spec|_ test program demonstrates proper usage of
+this macro.
+
+.. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
+.. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
+
+``BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(cls, impl)``
+--------------------------------------------------
+
+:Defined in: `boost/parameter/preprocessor.hpp`__
+
+__ ../../../../boost/parameter/preprocessor.hpp
+
+:Requires: ``cls`` is the name of the enclosing class.  ``impl`` is the
+parenthesized implementation base class for ``cls``.
+
+Approximate expansion:
+
+
+The |parameterized_inheritance|_ and |preproc_eval_cat_no_spec|_ test programs
+demonstrate proper usage of this macro.
+
+.. |parameterized_inheritance| replace:: parameterized_inheritance.cpp
+.. _parameterized_inheritance: ../../test/parameterized_inheritance.cpp
+.. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
+.. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
 
 ``BOOST_PARAMETER_NAME(name)``
 ------------------------------
