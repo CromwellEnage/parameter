@@ -76,11 +76,15 @@
 #define BOOST_PARAMETER_SPECIFICATION(tag_ns, base, split_args, is_const)    \
     template <typename BoostParameterDummy>                                  \
     struct BOOST_PP_CAT(                                                     \
-        BOOST_PP_CAT(boost_param_params_, __LINE__)                          \
-      , BOOST_PP_CAT(                                                        \
-            BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                       \
-          , BOOST_PP_IF(is_const, _const, _)                                 \
+        BOOST_PP_CAT(                                                        \
+            BOOST_PP_IF(                                                     \
+                is_const                                                     \
+              , boost_param_params_const_                                    \
+              , boost_param_params_                                          \
+            )                                                                \
+          , __LINE__                                                         \
         )                                                                    \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
     ) : ::boost::parameter::parameters<                                      \
             BOOST_PP_SEQ_FOR_EACH_I(                                         \
                 BOOST_PARAMETER_SPECIFICATION_ELEM_R, tag_ns, split_args     \
@@ -89,11 +93,15 @@
     {                                                                        \
     };                                                                       \
     typedef BOOST_PP_CAT(                                                    \
-        BOOST_PP_CAT(boost_param_params_, __LINE__)                          \
-      , BOOST_PP_CAT(                                                        \
-            BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                       \
-          , BOOST_PP_IF(is_const, _const, _)                                 \
+        BOOST_PP_CAT(                                                        \
+            BOOST_PP_IF(                                                     \
+                is_const                                                     \
+              , boost_param_params_const_                                    \
+              , boost_param_params_                                          \
+            )                                                                \
+          , __LINE__                                                         \
         )                                                                    \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
     )<int>
 /**/
 

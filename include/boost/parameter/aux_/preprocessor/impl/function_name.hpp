@@ -74,11 +74,15 @@
 // Produces a name for a parameter specification for the function named base.
 #define BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(base, is_const)          \
     BOOST_PP_CAT(                                                            \
-        BOOST_PP_CAT(boost_param_parameters_, __LINE__)                      \
-      , BOOST_PP_CAT(                                                        \
-            BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                       \
-          , BOOST_PP_IF(is_const, _const, _)                                 \
+        BOOST_PP_CAT(                                                        \
+            BOOST_PP_IF(                                                     \
+                is_const                                                     \
+              , boost_param_parameters_const_                                \
+              , boost_param_parameters_                                      \
+            )                                                                \
+          , __LINE__                                                         \
         )                                                                    \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
     )
 /**/
 
@@ -86,22 +90,30 @@
 // named base.
 #define BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(base, is_const)         \
     BOOST_PP_CAT(                                                            \
-        BOOST_PP_CAT(boost_param_no_spec_result_, __LINE__)                  \
-      , BOOST_PP_CAT(                                                        \
-            BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                       \
-          , BOOST_PP_IF(is_const, _const, _)                                 \
+        BOOST_PP_CAT(                                                        \
+            BOOST_PP_IF(                                                     \
+                is_const                                                     \
+              , boost_param_no_spec_result_const_                            \
+              , boost_param_no_spec_result_                                  \
+            )                                                                \
+          , __LINE__                                                         \
         )                                                                    \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
     )
 /**/
 
 // Produces a name for a result type metafunction for the function named base.
 #define BOOST_PARAMETER_FUNCTION_RESULT_NAME(base, is_const)                 \
     BOOST_PP_CAT(                                                            \
-        BOOST_PP_CAT(boost_param_result_, __LINE__)                          \
-      , BOOST_PP_CAT(                                                        \
-            BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                       \
-          , BOOST_PP_IF(is_const, _const, _)                                 \
+        BOOST_PP_CAT(                                                        \
+            BOOST_PP_IF(                                                     \
+                is_const                                                     \
+              , boost_param_result_const_                                    \
+              , boost_param_result_                                          \
+            )                                                                \
+          , __LINE__                                                         \
         )                                                                    \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
     )
 /**/
 
@@ -109,11 +121,15 @@
 // function named base forwards its result type and argument pack.
 #define BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_NAME(base, is_const)           \
     BOOST_PP_CAT(                                                            \
-        BOOST_PP_CAT(boost_param_no_spec_impl, __LINE__)                     \
-      , BOOST_PP_CAT(                                                        \
-            BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                       \
-          , BOOST_PP_IF(is_const, _const, _)                                 \
+        BOOST_PP_CAT(                                                        \
+            BOOST_PP_IF(                                                     \
+                is_const                                                     \
+              , boost_param_no_spec_impl_const                               \
+              , boost_param_no_spec_impl                                     \
+            )                                                                \
+          , __LINE__                                                         \
         )                                                                    \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
     )
 /**/
 
@@ -124,11 +140,11 @@
 // but it's more stable to do it.
 #define BOOST_PARAMETER_FUNCTION_IMPL_NAME(base, is_const)                   \
     BOOST_PP_CAT(                                                            \
-        BOOST_PP_CAT(boost_param_impl, __LINE__)                             \
-      , BOOST_PP_CAT(                                                        \
-            BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                       \
-          , BOOST_PP_IF(is_const, _const, _)                                 \
+        BOOST_PP_CAT(                                                        \
+            BOOST_PP_IF(is_const, boost_param_impl_const, boost_param_impl)  \
+          , __LINE__                                                         \
         )                                                                    \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(base)                           \
     )
 /**/
 
@@ -138,18 +154,15 @@
 #define BOOST_PARAMETER_FUNCTION_DISPATCH_NAME(x, n)                         \
     BOOST_PP_CAT(                                                            \
         BOOST_PP_CAT(                                                        \
-            BOOST_PP_CAT(boost_param_dispatch_, n)                           \
-          , BOOST_PP_CAT(boost_, __LINE__)                                   \
-        )                                                                    \
-      , BOOST_PP_CAT(                                                        \
-            BOOST_PARAMETER_MEMBER_FUNCTION_NAME(                            \
-                BOOST_PARAMETER_FUNCTION_DISPATCH_BASE_NAME(x)               \
-            )                                                                \
-          , BOOST_PP_IF(                                                     \
+            BOOST_PP_IF(                                                     \
                 BOOST_PARAMETER_FUNCTION_DISPATCH_IS_CONST(x)                \
-              , _const                                                       \
-              , _                                                            \
+              , boost_param_dispatch_const_                                  \
+              , boost_param_dispatch_                                        \
             )                                                                \
+          , BOOST_PP_CAT(BOOST_PP_CAT(n, boost_), __LINE__)                  \
+        )                                                                    \
+      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(                                \
+            BOOST_PARAMETER_FUNCTION_DISPATCH_BASE_NAME(x)                   \
         )                                                                    \
     )
 /**/
