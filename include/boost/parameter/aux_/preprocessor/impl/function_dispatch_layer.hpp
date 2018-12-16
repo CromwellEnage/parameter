@@ -400,8 +400,10 @@
         BOOST_PARAMETER_FUNCTION_DISPATCH_BASE_NAME(x)                       \
     ) inline typename BOOST_PARAMETER_FUNCTION_RESULT_NAME(                  \
         BOOST_PARAMETER_FUNCTION_DISPATCH_BASE_NAME(x)                       \
+      , BOOST_PARAMETER_FUNCTION_DISPATCH_IS_CONST(x)                        \
     )<Args>::type BOOST_PARAMETER_FUNCTION_IMPL_NAME(                        \
         BOOST_PARAMETER_FUNCTION_DISPATCH_BASE_NAME(x)                       \
+      , BOOST_PARAMETER_FUNCTION_DISPATCH_IS_CONST(x)                        \
     )(Args const& args)                                                      \
     BOOST_PP_EXPR_IF(BOOST_PARAMETER_FUNCTION_DISPATCH_IS_CONST(x), const)   \
     {                                                                        \
@@ -412,6 +414,7 @@
             static_cast<                                                     \
                 typename BOOST_PARAMETER_FUNCTION_RESULT_NAME(               \
                     BOOST_PARAMETER_FUNCTION_DISPATCH_BASE_NAME(x)           \
+                  , BOOST_PARAMETER_FUNCTION_DISPATCH_IS_CONST(x)            \
                 )<Args>::type(*)()                                           \
             >(BOOST_TTI_DETAIL_NULLPTR)                                      \
           , args                                                             \

@@ -10,11 +10,13 @@
 #include <boost/parameter/aux_/preprocessor/impl/function_name.hpp>
 
 // Defines the implementation function header.
-#define BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name)                             \
+#define BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name, is_const)                   \
     template <typename Args>                                                 \
-    typename BOOST_PARAMETER_FUNCTION_RESULT_NAME(name)<                     \
+    typename BOOST_PARAMETER_FUNCTION_RESULT_NAME(name, is_const)<           \
         Args                                                                 \
-    >::type BOOST_PARAMETER_FUNCTION_IMPL_NAME(name)(Args const& args)
+    >::type BOOST_PARAMETER_FUNCTION_IMPL_NAME(name, is_const)(              \
+        Args const& args                                                     \
+    )
 /**/
 
 #include <boost/parameter/aux_/preprocessor/impl/forwarding_overloads.hpp>
@@ -23,10 +25,10 @@
 // its arguments are tagged arguments.  All arguments are accessible via args
 // and keywords only.
 #define BOOST_PARAMETER_NO_SPEC_FUNCTION(result, name)                       \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, name)                      \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(name);                        \
+    BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, name, 0)                   \
+    BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(name, 0);                     \
     BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD(name, name, 0, 0)              \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(name)
+    BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(name, 0)
 /**/
 
 #include <boost/preprocessor/control/expr_if.hpp>
@@ -37,14 +39,14 @@
 // BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR, and
 // and BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR.
 #define BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION_AUX(result, name, impl, c)   \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, impl)                      \
+    BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, impl, c)                   \
     BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD(                               \
         name                                                                 \
       , impl                                                                 \
       , BOOST_PP_IF(BOOST_PARAMETER_MEMBER_FUNCTION_IS_STATIC(impl), 0, 1)   \
       , c                                                                    \
     )                                                                        \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(impl)                         \
+    BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(impl, c)                      \
     BOOST_PP_EXPR_IF(c, const)
 /**/
 
@@ -93,22 +95,22 @@
 #include <boost/parameter/aux_/preprocessor/impl/parenthesized_type.hpp>
 
 // Expands to the result metafunction and the parameters specialization.
-#define BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_namespace, args)     \
+#define BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_ns, args, is_const)  \
     template <typename Args>                                                 \
-    struct BOOST_PARAMETER_FUNCTION_RESULT_NAME(name)                        \
+    struct BOOST_PARAMETER_FUNCTION_RESULT_NAME(name, is_const)              \
     {                                                                        \
         typedef typename BOOST_PARAMETER_PARENTHESIZED_TYPE(result) type;    \
     };                                                                       \
-    BOOST_PARAMETER_SPECIFICATION(tag_namespace, name, args)                 \
-        BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(name);
+    BOOST_PARAMETER_SPECIFICATION(tag_ns, name, args, is_const)              \
+        BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(name, is_const);
 /**/
 
 // Helper macro for BOOST_PARAMETER_BASIC_FUNCTION.
 #define BOOST_PARAMETER_BASIC_FUNCTION_AUX(result, name, tag_ns, args)       \
-    BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_ns, args)                \
-    BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name);                                \
+    BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_ns, args, 0)             \
+    BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name, 0);                             \
     BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS(name, name, args, 0, 0)       \
-    BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name)
+    BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name, 0)
 /**/
 
 // Helper macro for BOOST_PARAMETER_BASIC_MEMBER_FUNCTION,
@@ -116,9 +118,9 @@
 // BOOST_PARAMETER_BASIC_FUNCTION_CALL_OPERATOR, and
 // BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR.
 #define BOOST_PARAMETER_BASIC_MEMBER_FUNCTION_AUX(r, n, i, tag_ns, args, c)  \
-    BOOST_PARAMETER_FUNCTION_HEAD(r, i, tag_ns, args)                        \
+    BOOST_PARAMETER_FUNCTION_HEAD(r, i, tag_ns, args, c)                     \
     BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS(n, i, args, 1, c)             \
-    BOOST_PARAMETER_FUNCTION_IMPL_HEAD(i) BOOST_PP_EXPR_IF(c, const)
+    BOOST_PARAMETER_FUNCTION_IMPL_HEAD(i, c) BOOST_PP_EXPR_IF(c, const)
 /**/
 
 #include <boost/parameter/aux_/preprocessor/impl/flatten.hpp>
@@ -181,8 +183,8 @@
 
 // Helper macro for BOOST_PARAMETER_FUNCTION.
 #define BOOST_PARAMETER_FUNCTION_AUX(result, name, tag_ns, args)             \
-    BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_ns, args)                \
-    BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name);                                \
+    BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_ns, args, 0)             \
+    BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name, 0);                             \
     BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS(name, name, args, 0, 0)       \
     BOOST_PARAMETER_FUNCTION_DISPATCH_LAYER(                                 \
         1, (name, BOOST_PARAMETER_FUNCTION_SPLIT_ARGS(args), 0, 0, tag_ns)   \
@@ -203,7 +205,7 @@
 // BOOST_PARAMETER_FUNCTION_CALL_OPERATOR, and
 // BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR.
 #define BOOST_PARAMETER_MEMBER_FUNCTION_AUX(r, name, impl, tag_ns, c, args)  \
-    BOOST_PARAMETER_FUNCTION_HEAD(r, impl, tag_ns, args)                     \
+    BOOST_PARAMETER_FUNCTION_HEAD(r, impl, tag_ns, args, c)                  \
     BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS(name, impl, args, 1, c)       \
     BOOST_PARAMETER_FUNCTION_DISPATCH_LAYER(                                 \
         0, (                                                                 \

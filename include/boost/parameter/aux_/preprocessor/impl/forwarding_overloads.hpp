@@ -10,11 +10,11 @@
 #include <boost/parameter/aux_/preprocessor/impl/function_name.hpp>
 
 // Defines the no-spec implementation function header.
-#define BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(name)                     \
+#define BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(name, is_const)           \
     template <typename ResultType, typename Args>                            \
     BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(name) ResultType                  \
         BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_NAME(                          \
-            name                                                             \
+            name, is_const                                                   \
         )(ResultType(*)(), Args const& args)
 /**/
 
@@ -25,9 +25,9 @@
 #include <boost/parameter/aux_/preprocessor/impl/parenthesized_type.hpp>
 
 // Expands to the result metafunction for the specified no-spec function.
-#define BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, name)                  \
+#define BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, name, is_const)        \
     template <typename TaggedArg0, typename ...TaggedArgs>                   \
-    struct BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(name)                \
+    struct BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(name, is_const)      \
     {                                                                        \
         typedef typename BOOST_PARAMETER_PARENTHESIZED_TYPE(result) type;    \
     };
@@ -68,17 +68,17 @@
         ::boost::parameter                                                   \
         ::are_tagged_arguments<TaggedArg0,TaggedArgs...>                     \
       , BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(                        \
-            impl                                                             \
+            impl, c                                                          \
         )<TaggedArg0,TaggedArgs...>                                          \
     >::type BOOST_PARAMETER_MEMBER_FUNCTION_NAME(name)                       \
     (TaggedArg0 const& arg0, TaggedArgs const&... args)                      \
     BOOST_PP_EXPR_IF(c, const)                                               \
     {                                                                        \
         return BOOST_PP_EXPR_IF(is_m, this->)                                \
-        BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_NAME(impl)(                    \
+        BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_NAME(impl, c)(                 \
             static_cast<                                                     \
                 typename BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(       \
-                    impl                                                     \
+                    impl, c                                                  \
                 )<TaggedArg0,TaggedArgs...>::type(*)()                       \
             >(BOOST_TTI_DETAIL_NULLPTR)                                      \
           , ::boost::parameter::parameters<>()(arg0, args...)                \
@@ -120,11 +120,14 @@
 // pack to the front-end implementation function.
 #define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_0_Z(z, n, data)            \
     BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(BOOST_PP_TUPLE_ELEM(4, 1, data))  \
-    inline                                                                   \
-    BOOST_PARAMETER_FUNCTION_RESULT_NAME(BOOST_PP_TUPLE_ELEM(4, 1, data))<   \
+    inline BOOST_PARAMETER_FUNCTION_RESULT_NAME(                             \
+        BOOST_PP_TUPLE_ELEM(4, 1, data)                                      \
+      , BOOST_PP_TUPLE_ELEM(4, 3, data)                                      \
+    )<                                                                       \
         ::boost::parameter::aux::argument_pack<                              \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
                 BOOST_PP_TUPLE_ELEM(4, 1, data)                              \
+              , BOOST_PP_TUPLE_ELEM(4, 3, data)                              \
             )                                                                \
         >::type                                                              \
     >::type                                                                  \
@@ -132,9 +135,13 @@
     BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(4, 3, data), const)                 \
     {                                                                        \
         return BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(4, 2, data), this->)     \
-        BOOST_PARAMETER_FUNCTION_IMPL_NAME(BOOST_PP_TUPLE_ELEM(4, 1, data))( \
+        BOOST_PARAMETER_FUNCTION_IMPL_NAME(                                  \
+            BOOST_PP_TUPLE_ELEM(4, 1, data)                                  \
+          , BOOST_PP_TUPLE_ELEM(4, 3, data)                                  \
+        )(                                                                   \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
                 BOOST_PP_TUPLE_ELEM(4, 1, data)                              \
+              , BOOST_PP_TUPLE_ELEM(4, 3, data)                              \
             )()()                                                            \
         );                                                                   \
     }
@@ -150,11 +157,14 @@
 #define BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOAD_1_Z(z, n, data)            \
     template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename ParameterArgumentType)>  \
     BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(BOOST_PP_TUPLE_ELEM(4, 1, data))  \
-    inline typename                                                          \
-    BOOST_PARAMETER_FUNCTION_RESULT_NAME(BOOST_PP_TUPLE_ELEM(4, 1, data))<   \
+    inline typename BOOST_PARAMETER_FUNCTION_RESULT_NAME(                    \
+        BOOST_PP_TUPLE_ELEM(4, 1, data)                                      \
+      , BOOST_PP_TUPLE_ELEM(4, 3, data)                                      \
+    )<                                                                       \
         typename ::boost::parameter::aux::argument_pack<                     \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
                 BOOST_PP_TUPLE_ELEM(4, 1, data)                              \
+              , BOOST_PP_TUPLE_ELEM(4, 3, data)                              \
             )                                                                \
           , BOOST_PP_CAT(BOOST_PP_ENUM_, z)(                                 \
                 n                                                            \
@@ -169,6 +179,7 @@
             z                                                                \
           , BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
                 BOOST_PP_TUPLE_ELEM(4, 1, data)                              \
+              , BOOST_PP_TUPLE_ELEM(4, 3, data)                              \
             )                                                                \
           , n                                                                \
           , ParameterArgumentType                                            \
@@ -176,9 +187,13 @@
     ) BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(4, 3, data), const)               \
     {                                                                        \
         return BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(4, 2, data), this->)     \
-        BOOST_PARAMETER_FUNCTION_IMPL_NAME(BOOST_PP_TUPLE_ELEM(4, 1, data))( \
+        BOOST_PARAMETER_FUNCTION_IMPL_NAME(                                  \
+            BOOST_PP_TUPLE_ELEM(4, 1, data)                                  \
+          , BOOST_PP_TUPLE_ELEM(4, 3, data)                                  \
+        )(                                                                   \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
                 BOOST_PP_TUPLE_ELEM(4, 1, data)                              \
+              , BOOST_PP_TUPLE_ELEM(4, 3, data)                              \
             )()(                                                             \
                 BOOST_PP_CAT(BOOST_PP_ENUM_, z)(                             \
                     n                                                        \
@@ -293,7 +308,7 @@
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
 
 // Expands to the result metafunction for the specified no-spec function.
-#define BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, name)                  \
+#define BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, name, is_const)        \
     template <                                                               \
         BOOST_PP_ENUM_BINARY_PARAMS(                                         \
             BOOST_PARAMETER_MAX_ARITY                                        \
@@ -301,7 +316,7 @@
           , = ::boost::parameter::void_ BOOST_PP_INTERCEPT                   \
         )                                                                    \
     >                                                                        \
-    struct BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(name)                \
+    struct BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(name, is_const)      \
     {                                                                        \
         typedef typename BOOST_PARAMETER_PARENTHESIZED_TYPE(result) type;    \
     };
@@ -338,6 +353,7 @@
     BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(BOOST_PP_TUPLE_ELEM(4, 1, data))  \
     inline typename BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(            \
         BOOST_PP_TUPLE_ELEM(4, 1, data)                                      \
+      , BOOST_PP_TUPLE_ELEM(4, 3, data)                                      \
     )<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>::type                         \
         BOOST_PARAMETER_MEMBER_FUNCTION_NAME(                                \
             BOOST_PP_TUPLE_ELEM(4, 0, data)                                  \
@@ -347,10 +363,12 @@
         return BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(4, 2, data), this->)     \
         BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_NAME(                          \
             BOOST_PP_TUPLE_ELEM(4, 1, data)                                  \
+          , BOOST_PP_TUPLE_ELEM(4, 3, data)                                  \
         )(                                                                   \
             static_cast<                                                     \
                 typename BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(       \
                     BOOST_PP_TUPLE_ELEM(4, 1, data)                          \
+                  , BOOST_PP_TUPLE_ELEM(4, 3, data)                          \
                 )<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>::type(*)()        \
             >(BOOST_TTI_DETAIL_NULLPTR)                                      \
           , ::boost::parameter::parameters<>()(                              \
@@ -397,6 +415,7 @@
         ::are_tagged_arguments<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>      \
       , BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(                        \
             BOOST_PP_TUPLE_ELEM(4, 1, data)                                  \
+          , BOOST_PP_TUPLE_ELEM(4, 3, data)                                  \
         )<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>                           \
     >::type BOOST_PARAMETER_MEMBER_FUNCTION_NAME(                            \
         BOOST_PP_TUPLE_ELEM(4, 0, data)                                      \
@@ -406,10 +425,12 @@
         return BOOST_PP_EXPR_IF(BOOST_PP_TUPLE_ELEM(4, 2, data), this->)     \
         BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_NAME(                          \
             BOOST_PP_TUPLE_ELEM(4, 1, data)                                  \
+          , BOOST_PP_TUPLE_ELEM(4, 3, data)                                  \
         )(                                                                   \
             static_cast<                                                     \
                 typename BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(       \
                     BOOST_PP_TUPLE_ELEM(4, 1, data)                          \
+                  , BOOST_PP_TUPLE_ELEM(4, 3, data)                          \
                 )<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>::type(*)()        \
             >(BOOST_TTI_DETAIL_NULLPTR)                                      \
           , ::boost::parameter::parameters<>()(                              \
@@ -477,11 +498,17 @@
         BOOST_PP_TUPLE_ELEM(                                                 \
             4, 1, BOOST_PP_SEQ_HEAD(BOOST_PP_SEQ_TAIL(seq))                  \
         )                                                                    \
+      , BOOST_PP_TUPLE_ELEM(                                                 \
+            4, 3, BOOST_PP_SEQ_HEAD(BOOST_PP_SEQ_TAIL(seq))                  \
+        )                                                                    \
     )<                                                                       \
         ::boost::parameter::aux::argument_pack<                              \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
                 BOOST_PP_TUPLE_ELEM(                                         \
                     4, 1, BOOST_PP_SEQ_HEAD(BOOST_PP_SEQ_TAIL(seq))          \
+                )                                                            \
+              , BOOST_PP_TUPLE_ELEM(                                         \
+                    4, 3, BOOST_PP_SEQ_HEAD(BOOST_PP_SEQ_TAIL(seq))          \
                 )                                                            \
             )                                                                \
         >::type                                                              \
@@ -506,10 +533,16 @@
             BOOST_PP_TUPLE_ELEM(                                             \
                 4, 1, BOOST_PP_SEQ_HEAD(BOOST_PP_SEQ_TAIL(seq))              \
             )                                                                \
+          , BOOST_PP_TUPLE_ELEM(                                             \
+                4, 3, BOOST_PP_SEQ_HEAD(BOOST_PP_SEQ_TAIL(seq))              \
+            )                                                                \
         )(                                                                   \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
                 BOOST_PP_TUPLE_ELEM(                                         \
                     4, 1, BOOST_PP_SEQ_HEAD(BOOST_PP_SEQ_TAIL(seq))          \
+                )                                                            \
+              , BOOST_PP_TUPLE_ELEM(                                         \
+                    4, 3, BOOST_PP_SEQ_HEAD(BOOST_PP_SEQ_TAIL(seq))          \
                 )                                                            \
             )()()                                                            \
         );                                                                   \
@@ -573,10 +606,12 @@
     )                                                                        \
     inline typename BOOST_PARAMETER_FUNCTION_RESULT_NAME(                    \
         BOOST_PP_TUPLE_ELEM(4, 1, BOOST_PP_SEQ_HEAD(seq))                    \
+      , BOOST_PP_TUPLE_ELEM(4, 3, BOOST_PP_SEQ_HEAD(seq))                    \
     )<                                                                       \
         typename ::boost::parameter::aux::argument_pack<                     \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
                 BOOST_PP_TUPLE_ELEM(4, 1, BOOST_PP_SEQ_HEAD(seq))            \
+              , BOOST_PP_TUPLE_ELEM(4, 3, BOOST_PP_SEQ_HEAD(seq))            \
             )                                                                \
           , BOOST_PARAMETER_AUX_PP_BINARY_SEQ_TO_ARGS(                       \
                 BOOST_PP_SEQ_TAIL(seq), (ParameterArgumentType)              \
@@ -592,6 +627,7 @@
         BOOST_PARAMETER_FUNCTION_FORWARD_MATCH(                              \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
                 BOOST_PP_TUPLE_ELEM(4, 1, BOOST_PP_SEQ_HEAD(seq))            \
+              , BOOST_PP_TUPLE_ELEM(4, 3, BOOST_PP_SEQ_HEAD(seq))            \
             )                                                                \
           , BOOST_PP_SEQ_SIZE(BOOST_PP_SEQ_TAIL(seq))                        \
           , ParameterArgumentType                                            \
@@ -605,9 +641,11 @@
           , this->                                                           \
         ) BOOST_PARAMETER_FUNCTION_IMPL_NAME(                                \
             BOOST_PP_TUPLE_ELEM(4, 1, BOOST_PP_SEQ_HEAD(seq))                \
+          , BOOST_PP_TUPLE_ELEM(4, 3, BOOST_PP_SEQ_HEAD(seq))                \
         )(                                                                   \
             BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(                     \
                 BOOST_PP_TUPLE_ELEM(4, 1, BOOST_PP_SEQ_HEAD(seq))            \
+              , BOOST_PP_TUPLE_ELEM(4, 3, BOOST_PP_SEQ_HEAD(seq))            \
             )()(                                                             \
                 BOOST_PP_ENUM_PARAMS(                                        \
                     BOOST_PP_SEQ_SIZE(BOOST_PP_SEQ_TAIL(seq)), a             \

@@ -15,6 +15,7 @@
 
 #if !defined(BOOST_NO_SFINAE)
 #include <boost/core/enable_if.hpp>
+#include <boost/type_traits/is_same.hpp>
 #endif
 
 namespace test {
@@ -30,7 +31,7 @@ namespace test {
     //   template1< r* ( template2<x> ) >
     //
     // Workaround: factor template2<x> into separate typedefs
-    struct predicate1
+    struct predicate_int
     {
         template <typename From, typename Args>
         struct apply
@@ -43,7 +44,7 @@ namespace test {
         };
     };
 
-    struct predicate2
+    struct predicate_string
     {
         template <typename From, typename Args>
         struct apply
@@ -116,7 +117,7 @@ namespace test {
 
 #if BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x580))
     // SunPro workaround; see above
-    struct predicate3
+    struct predicate_X
     {
         template <typename From, typename Args>
         struct apply
@@ -135,11 +136,11 @@ namespace test {
         )
         (deduced
             (required
-                (x, *(test::predicate1))
-                (y, *(test::predicate2))
+                (x, *(test::predicate_int))
+                (y, *(test::predicate_string))
             )
             (optional
-                (z, *(test::predicate3), test::X())
+                (z, *(test::predicate_X), test::X())
             )
         )
     )
@@ -170,7 +171,7 @@ namespace test {
     BOOST_PARAMETER_FUNCTION((int), sfinae, test::tag,
         (deduced
             (required
-                (x, *(test::predicate2))
+                (x, *(test::predicate_string))
             )
         )
     )
