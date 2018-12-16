@@ -87,7 +87,7 @@
 
 // Helper macro for BOOST_PARAMETER_CONSTRUCTOR.
 #define BOOST_PARAMETER_CONSTRUCTOR_AUX(class_, base, tag_namespace, args)   \
-    BOOST_PARAMETER_SPECIFICATION(tag_namespace, ctor, args)                 \
+    BOOST_PARAMETER_SPECIFICATION(tag_namespace, ctor, args, 0)              \
         BOOST_PP_CAT(constructor_parameters, __LINE__);                      \
     BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS(class_, base, args)
 /**/
