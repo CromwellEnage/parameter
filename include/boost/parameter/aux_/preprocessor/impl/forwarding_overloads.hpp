@@ -379,7 +379,7 @@
             ::boost::parameter::parameters<>()(                              \
                 BOOST_PP_ENUM_PARAMS_Z(z, n, arg)                            \
             )                                                                \
-        )                                                                    \
+        );                                                                   \
     }
 /**/
 
@@ -463,7 +463,7 @@
             ::boost::parameter::parameters<>()(                              \
                 BOOST_PP_ENUM_PARAMS_Z(z, n, arg)                            \
             )                                                                \
-        )                                                                    \
+        );                                                                   \
     }
 /**/
 

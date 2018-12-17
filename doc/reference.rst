@@ -291,8 +291,6 @@ The type of every |keyword object| is a specialization of |keyword|.
 
 __ ../../../../boost/parameter/keyword.hpp
 
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, **then**
-
 .. parsed-literal::
 
     template <typename Tag>
@@ -519,135 +517,6 @@ __ ../../../../boost/parameter/keyword.hpp
         static keyword<Tag>& get_\();
     };
 
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is **not** ``#defined``,
-**then**
-
-.. parsed-literal::
-
-    template <typename Tag>
-    struct keyword
-    {
-        typedef Tag tag;
-
-        template <typename T>
-        typename boost::`enable_if`_<
-            typename boost::mpl::`eval_if_`_<
-                boost::`is_scalar`_<T>
-              , boost::mpl::`true_`_
-              , boost::mpl::`eval_if_`_<
-                    boost::`is_same`_<
-                        typename Tag::qualifier
-                      , boost::parameter::in_reference
-                    >
-                  , boost::mpl::`true_`_
-                  , boost::mpl::`if_`_<
-                        boost::`is_same`_<
-                            typename Tag::qualifier
-                          , boost::parameter::forward_reference
-                        >
-                      , boost::mpl::`true_`_
-                      , boost::mpl::`false_`_
-                    >
-                >
-            >::type
-          , |ArgumentPack|_
-        >::type constexpr
-            `operator=`_\(T const& value) const;
-
-        template <typename T>
-        typename boost::`enable_if`_<
-            typename boost::mpl::`eval_if_`_<
-                typename boost::mpl::`eval_if_`_<
-                    boost::`is_same`_<
-                        typename Tag::qualifier
-                      , boost::parameter::out_reference
-                    >
-                  , boost::mpl::`true_`_
-                  , boost::mpl::`if_`_<
-                        boost::`is_same`_<
-                            typename Tag::qualifier
-                          , boost::parameter::forward_reference
-                        >
-                      , boost::mpl::`true_`_
-                      , boost::mpl::`false_`_
-                    >
-                >::type
-              , boost::mpl::`if_`_<
-                    boost::`is_const`_<T>
-                  , boost::mpl::`false_`_
-                  , boost::mpl::`true_`_
-                >
-              , boost::mpl::`false_`_
-            >::type
-          , |ArgumentPack|_
-        >::type constexpr
-            `operator=`_\(T& value) const;
-
-        template <typename T>
-        typename boost::`enable_if`_<
-            typename boost::mpl::`eval_if_`_<
-                boost::`is_scalar`_<T>
-              , boost::mpl::`true_`_
-              , boost::mpl::`eval_if_`_<
-                    boost::`is_same`_<
-                        typename Tag::qualifier
-                      , boost::parameter::in_reference
-                    >
-                  , boost::mpl::`true_`_
-                  , boost::mpl::`if_`_<
-                        boost::`is_same`_<
-                            typename Tag::qualifier
-                          , boost::parameter::forward_reference
-                        >
-                      , boost::mpl::`true_`_
-                      , boost::mpl::`false_`_
-                    >
-                >
-            >::type
-          , *tagged default*
-        >::type
-            `operator|`_\(T const& x) const;
-
-        template <typename T>
-        typename boost::`enable_if`_<
-            typename boost::mpl::`eval_if_`_<
-                typename boost::mpl::`eval_if_`_<
-                    boost::`is_same`_<
-                        typename Tag::qualifier
-                      , boost::parameter::out_reference
-                    >
-                  , boost::mpl::`true_`_
-                  , boost::mpl::`if_`_<
-                        boost::`is_same`_<
-                            typename Tag::qualifier
-                          , boost::parameter::forward_reference
-                        >
-                      , boost::mpl::`true_`_
-                      , boost::mpl::`false_`_
-                    >
-                >::type
-              , boost::mpl::`if_`_<
-                    boost::`is_const`_<T>
-                  , boost::mpl::`false_`_
-                  , boost::mpl::`true_`_
-                >
-              , boost::mpl::`false_`_
-            >::type
-          , *tagged default*
-        >::type
-            `operator|`_\(T& x) const;
-
-        template <typename F>
-        *tagged lazy default* `operator||`_\(F const&) const;
-
-        template <typename F>
-        *tagged lazy default* `operator||`_\(F&) const;
-
-        static keyword<Tag> const& instance;
-
-        static keyword<Tag>& get_\();
-    };
-
 .. _enable_if: ../../../core/doc/html/core/enable_if.html
 .. _eval_if_: ../../../mpl/doc/refmanual/eval-if.html
 .. _false_: ../../../mpl/doc/refmanual/bool.html
@@ -665,10 +534,6 @@ __ ../../../../boost/parameter/keyword.hpp
 
     template <typename T> |ArgumentPack|_ operator=(T const& value) const;
     template <typename T> |ArgumentPack|_ operator=(T& value) const;
-
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, **then**
-.. parsed-literal::
-
     template <typename T> |ArgumentPack|_ operator=(T const&& value) const;
     template <typename T> |ArgumentPack|_ operator=(T&& value) const;
 
@@ -700,10 +565,6 @@ nested ``qualifier`` type of ``Tag`` must be ``consume_reference`` or
 
     template <typename T> *tagged default* operator|(T const& x) const;
     template <typename T> *tagged default* operator|(T& x) const;
-
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, **then**
-.. parsed-literal::
-
     template <typename T> *tagged default* operator|(T const&& x) const;
     template <typename T> *tagged default* operator|(T&& x) const;
 
@@ -813,8 +674,6 @@ cannot assemble any |positional| arguments, only |tagged reference| arguments.
 
 __ ../../../../boost/parameter/parameters.hpp
 
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, **then**
-
 .. parsed-literal::
 
     template <typename ...PSpec>
@@ -835,7 +694,7 @@ __ ../../../../boost/parameter/parameters.hpp
     {
         template <typename ...Args>
         typename boost::`enable_if`_<
-            *all types in Args are tagged reference types*
+            boost::parameter::|are_tagged_arguments|_<Args...>
           , |ArgumentPack|_
         >::type
             `operator()`_\(Args const&... args) const;
@@ -869,106 +728,11 @@ __ ../../../../boost/parameter/parameters.hpp
     |     else
     |         ``K`` ## *i* is the |keyword tag type| of ``P`` ## *i*.
 
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is **not** ``#defined``,
-**then**
-
-.. parsed-literal::
-
-    template <
-        typename P0 = *unspecified*
-      , typename P1 = *unspecified*
-      , …
-      , typename P ## β = *unspecified*
-    >
-    struct parameters
-    {
-        template <
-            typename A0
-          , typename A1 = *unspecified*
-          , …
-          , typename A ## β = *unspecified*
-        >
-        struct `match`_
-        {
-            typedef … type;
-        };
-
-        template <typename A0>
-        |ArgumentPack|_ `operator()`_\(A0& a0) const;
-
-        template <typename A0, typename A1>
-        |ArgumentPack|_ `operator()`_\(A0& a0, A1& a1) const;
-
-        :vellipsis:`⋮`
-
-        template <typename A0, typename A1, …, typename A ## β>
-        |ArgumentPack|_
-            `operator()`_\(A0& a0, A1& a1, …, A ## β & a ## β) const;
-    };
-
-    template <>
-    struct parameters<>
-    {
-        template <typename A0>
-        typename boost::`enable_if`_<
-            *A0 is a tagged reference type*
-          , |ArgumentPack|_
-        >::type
-            `operator()`_\(A0 const& a0) const;
-
-        template <typename A0, typename A1>
-        typename boost::`enable_if`_<
-            *A0 and A1 are tagged reference types*
-          , |ArgumentPack|_
-        >::type
-            `operator()`_\(A0 const& a0, A1 const& a1) const;
-
-        :vellipsis:`⋮`
-
-        template <typename A0, typename A1, …, typename A ## β>
-        typename boost::`enable_if`_<
-            *A0, A1, …, A ## β are tagged reference types*
-          , |ArgumentPack|_
-        >::type
-            `operator()`_\(
-                A0 const& a0, A1 const& a1, …, A ## β const& a ## β
-            ) const;
-    };
-
-:Requires: ``P0``, ``P1``, …, ``P`` ## β must be models of |ParameterSpec|_.
-
-.. Note::
-
-    In this section, ``R`` ## *i* and ``K`` ## *i* are defined as follows: for
-    any argument type ``A`` ## *i*:
-
-    | let ``D0`` the set [ d0, …, d ## *j*] of all **deduced**
-    | *parameter specs* in [ ``P0``, …, ``P`` ## β]
-    | ``R`` ## *i* is the |intended argument type| of ``A`` ## *i*
-    |
-    | if ``A`` ## *i* is a result type of ``keyword<T>::`` |operator=|_
-    | then 
-    |     ``K`` ## *i* is ``T``
-    | else
-    |     if some ``A`` ## *j* where *j* ≤ *i* is a result type of
-    |     ``keyword<T>::`` |operator=|_
-    |     *or* some ``P`` ## *j* in *j* ≤ *i* is **deduced**
-    |     then
-    |         if some *parameter spec* ``d`` ## *j* in ``D`` ## *i*
-    |         matches ``A`` ## *i*
-    |         then
-    |             ``K`` ## *i* is the |keyword tag type| of ``d`` ## *j*.
-    |             ``D``:sub:`i+1` is ``D`` ## *i* - [ ``d`` ## *j*]
-    |     else
-    |         ``K`` ## *i* is the |keyword tag type| of ``P`` ## *i*.
-
 .. _match:
 
 ``match``
     A |Metafunction|_ used to remove a `forwarding function`_ from overload
     resolution.
-
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, **then**
 
 :Returns: if all elements in ``Params...`` are *satisfied* (see below), then
 ``parameters<Params...>``.  Otherwise, ``match<Args...>::type`` is not
@@ -986,48 +750,14 @@ Each element ``P`` in ``Params...`` is **satisfied** if either:
     - ``X`` is some ``K`` ## *i*, **and**
     - ``mpl::apply<F,R`` ## *i* ``>::type::value`` is ``true``
 
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is **not** ``#defined``,
-**then**
-
-:Returns: if ``P0``, ``P1``, …, ``Pβ`` are *satisfied* (see below), then
-``parameters<P0,P1,…,Pβ>``.  Otherwise, ``match<A0,A1,…,Aβ>::type`` is not
-defined.
-
-``P0``, ``P1``, …, ``Pβ`` are **satisfied** if, for every *j* in 0…β,
-either:
-
-* ``P`` ## *j* is the *unspecified* default
-* **or**, ``P`` ## *j* is a *keyword tag type*
-* **or**, ``P`` ## *j* is |optional|_ ``<X,F>`` and either
-    - ``X`` is not ``K`` ## *i* for any *i*,
-    - **or** ``X`` is some ``K`` ## *i*  and ``mpl::apply<F,R`` ## *i*\
-        ``>::type::value`` is ``true``
-* **or**, ``P`` ## *j* is |required|_ ``<X,F>``, and
-    - ``X`` is some ``K`` ## *i*, **and**
-    - ``mpl::apply<F,R`` ## *i* ``>::type::value`` is ``true``
-
 .. _operator():
 
 ``operator()``
-
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, **then**
 
 .. parsed-literal::
 
     template <typename ...Args>
     |ArgumentPack|_ operator()(Args&&... args) const;
-
-**Else**
-
-.. parsed-literal::
-
-    template <typename A0> |ArgumentPack|_ operator()(A0 const& a0) const;
-
-    :vellipsis:`⋮`
-
-    template <typename A0, …, typename A ## β>
-    |ArgumentPack|_
-        `operator()`_\(A0 const& a0, …, A ## β const& a ## β) const;
 
 :Returns: An |ArgumentPack|_ containing, for each ``a`` ## *i*,  
 
@@ -1181,6 +911,59 @@ exists, returns ``D``. Equivalent to::
 
 … when ``D`` is not a reference type.
 
+``are_tagged_arguments``
+------------------------
+
+:Defined in: `boost/parameter/are_tagged_arguments.hpp`__
+
+__ ../../../../boost/parameter/are_tagged_arguments.hpp
+
+.. parsed-literal::
+
+    template <typename T0, typename ...Pack>
+    struct are_tagged_arguments  // : mpl::true_ or mpl::false_
+    {
+    };
+
+:Returns:
+``mpl::true_`` if ``T0`` and all elements in parameter pack ``Pack`` are
+|tagged reference| types, ``mpl::false_`` otherwise.
+
+:Example usage:
+When implementing a Boost.Parameter-enabled constructor for a container that
+conforms to the C++ standard, one needs to remember that the standard requires
+the presence of other constructors that are typically defined as templates,
+such as range constructors.  To avoid overload ambiguities between the two
+constructors, use this metafunction in conjunction with ``disable_if`` to
+define the range constructor.
+
+.. parsed-literal::
+
+    template <typename B>
+    class frontend : public B
+    {
+        struct _enabler
+        {
+        };
+
+     public:
+        BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(frontend, (B))
+
+        template <typename Iterator>
+        frontend(
+            Iterator itr
+          , Iterator itr_end
+          , typename boost::`disable_if`_<
+                boost::parameter::are_tagged_arguments<Iterator>
+              , _enabler
+            >::type = _enabler()
+        ) : B(itr, itr_end)
+        {
+        }
+    };
+
+.. _disable_if: ../../../core/doc/html/core/enable_if.html
+
 ``is_argument_pack``
 --------------------
 
@@ -1195,8 +978,58 @@ __ ../../../../boost/parameter/is_argument_pack.hpp
     {
     };
 
-:Returns: ``mpl::true_`` if ``T`` is a model of |ArgumentPack|_,
-``mpl::false_`` otherwise.
+:Returns:
+``mpl::true_`` if ``T`` is a model of |ArgumentPack|_, ``mpl::false_``
+otherwise.
+
+:Example usage:
+To avoid overload ambiguities between a constructor that takes in an
+|ArgumentPack|_ and a templated conversion constructor, use this metafunction
+in conjunction with ``enable_if``.
+
+.. parsed-literal::
+
+    BOOST_PARAMETER_NAME(a0)
+
+    template <typename T>
+    class backend0
+    {
+        struct _enabler
+        {
+        };
+
+        T a0;
+
+     public:
+        template <typename ArgPack>
+        explicit backend0(
+            ArgPack const& args
+          , typename boost::`enable_if`_<
+                boost::parameter::is_argument_pack<ArgPack>
+              , _enabler
+            >::type = _enabler()
+        ) : a0(args[_a0])
+        {
+        }
+
+        template <typename U>
+        backend0(
+            backend0<U> const& copy
+          , typename boost::`enable_if`_<
+                boost::`is_convertible`_<U,T>
+              , _enabler
+            >::type = _enabler()
+        ) : a0(copy.get_a0())
+        {
+        }
+
+        T const& get_a0() const
+        {
+            return this->a0;
+        }
+    };
+
+.. _is_convertible: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -1213,11 +1046,29 @@ using the Parameter library by eliminating repetitive boilerplate.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
-:Requires: ``result`` is the parenthesized return type of the
-function.  ``name`` is the base name of the function; it determines the name
-of the generated forwarding functions.  ``tag_namespace`` is the namespace in
-which the keywords used by the function resides.  ``arguments`` is a
-`Boost.Preprocessor`_ `sequence`_ of *argument-specifiers*, as defined below.
+:Example usage:
+.. parsed-literal::
+
+    // First, define the names of the parameters.
+
+The |preprocessor|_, |preprocessor_deduced|_, and |preprocessor_eval_cat|_
+test programs demonstrate proper usage of this macro.
+
+.. |preprocessor| replace:: preprocessor.cpp
+.. _preprocessor: ../../test/preprocessor.cpp
+.. |preprocessor_deduced| replace:: preprocessor_deduced.cpp
+.. _preprocessor_deduced: ../../test/preprocessor_deduced.cpp
+.. |preprocessor_eval_cat| replace:: preprocessor_eval_category.cpp
+.. _preprocessor_eval_cat: ../../test/preprocessor_eval_category.cpp
+
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function.
+\*. ``name`` is the base name of the function; it determines the name of the
+generated forwarding functions.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+function resides.
+\*. ``arguments`` is a `Boost.Preprocessor`_ `sequence`_ of
+*argument-specifiers*, as defined below.
 
 :Argument specifiers syntax:
 .. parsed-literal::
@@ -1255,17 +1106,17 @@ which the keywords used by the function resides.  ``arguments`` is a
         ( '**(**' *type-name* '**)**' ) |
         '**\***'
 
-* ``argument-name`` is any valid C++ identifier.
-* ``default-value`` is any valid C++ expression; if necessary, user code can
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``default-value`` is any valid C++ expression; if necessary, user code can
 compute it in terms of ``previous-name ## _type``, where ``previous-name`` is
 the ``argument-name`` in a previous ``specifier-group0`` or
 ``specifier-group1``.  *This expression will be invoked exactly once.*
-* ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will be
-the type of the corresponding ``argument-name``, whose second argument will be
-the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
 Constant`_; however, user code *cannot* compute ``mfc`` in terms of
 ``previous-name ## _type``.
-* ``type-name`` is either the name of a **target type** or an `MPL Binary
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
 Metafunction Class`_ whose first argument will be the type of the
 corresponding ``argument-name``, whose second argument will be the entire
 |ArgumentPack|_, and whose return type is the **target type**.  If
@@ -1279,21 +1130,11 @@ in ``args``) will be cast to that type.
 .. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
 .. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
 
-:Generated names in enclosing scope:
-* ``boost_param_result_ ## __LINE__ ## name``
-* ``boost_param_params_ ## __LINE__ ## name``
-* ``boost_param_parameters_ ## __LINE__ ## name``
-* ``boost_param_impl ## name``
-* ``boost_param_dispatch_0boost_ ## __LINE__ ## name``
-* ``boost_param_dispatch_1boost_ ## __LINE__ ## name``
-
 Approximate expansion:
 **Where**:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
-
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, **then**
 
 .. parsed-literal::
 
@@ -1304,28 +1145,28 @@ Approximate expansion:
     };
 
     struct boost_param_params\_ ## __LINE__ ## **name**
-      : boost::parameter::parameters<
+      : boost::parameter::|parameters|_<
             *list of parameter specifications, based on arguments*
         >
     {
     };
 
-    typedef boost_param_params\_ ## __LINE__ ## **name** 
+    typedef boost_param_params\_ ## __LINE__ ## **name**
         boost_param_parameters\_ ## __LINE__ ## **name**;
 
     template <typename Args>
     typename boost_param_result\_ ## __LINE__ ## **name**\ <Args>::type
-        boost_param_impl ## **name**\ (Args const&);
+        boost_param_impl ## __LINE__ ## **name**\ (Args const&);
 
     template <typename A0, …, typename A ## **n**>
     **result** **name**\ (
         A0&& a0, …, A ## **n**\ && a ## **n**
-      , typename boost_param_parameters\_ ## __LINE__ ## **name**::match<
-            A0, …, A ## **n**
-        >::type = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
+      , typename boost_param_parameters\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **n**>::type
+        = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
     )
     {
-        return boost_param_impl ## **name**\ (
+        return boost_param_impl ## __LINE__ ## **name**\ (
             boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
                 std::`forward`_<A0>(a0)
               , …
@@ -1339,12 +1180,12 @@ Approximate expansion:
     template <typename A0, …, typename A ## **m**>
     **result** **name**\ (
         A0&& a0, …, A ## **m**\ && a ## **m**
-      , typename boost_param_parameters\_ ## __LINE__ ## **name**::match<
-            A0, …, A ## **m**
-        >::type = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
+      , typename boost_param_parameters\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **m**>::type
+        = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
     )
     {
-        return boost_param_impl ## **name**\ (
+        return boost_param_impl ## __LINE__ ## **name**\ (
             boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
                 std::`forward`_<A0>(a0)
               , …
@@ -1389,10 +1230,14 @@ Approximate expansion:
 
     template <typename Args>
     typename boost_param_result\_ ## __LINE__ ## **name**\ <Args>::type
-        boost_param_impl ## **name**\ (Args const& args)
+        boost_param_impl ## __LINE__ ## **name**\ (Args const& args)
     {
         return boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            static_cast<ResultType(\ *)()>(std::nullptr)
+            static_cast<
+                typename boost_param_result\_ ## __LINE__ ## **name**\ <
+                    Args
+                >::type(\ *)()
+            >(std::nullptr)
           , args
           , std::`forward`_<
                 typename boost::parameter::value_type<
@@ -1465,8 +1310,101 @@ Approximate expansion:
           , *argument name* ## **m** ## _type&& *argument name* ## **m**
         )
 
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is **not** ``#defined``,
-**then**
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+
+``BOOST_PARAMETER_MEMBER_FUNCTION(result, name, tag_namespace, arguments)``
+---------------------------------------------------------------------------
+
+:Defined in: `boost/parameter/preprocessor.hpp`__
+
+__ ../../../../boost/parameter/preprocessor.hpp
+
+:Example usage:
+
+The |preprocessor|_ and |preprocessor_eval_cat|_ test programs demonstrate
+proper usage of this macro.
+
+.. |preprocessor| replace:: preprocessor.cpp
+.. _preprocessor: ../../test/preprocessor.cpp
+.. |preprocessor_eval_cat| replace:: preprocessor_eval_category.cpp
+.. _preprocessor_eval_cat: ../../test/preprocessor_eval_category.cpp
+
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function.
+\*. ``name`` is the base name of the function; it determines the name of the
+generated forwarding functions.  ``name`` may be qualified by the ``static``
+keyword to declare the member function and its helpers as not associated with
+any object of the enclosing type.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+function resides.
+\*. ``arguments`` is a `Boost.Preprocessor`_ `sequence`_ of
+*argument-specifiers*, as defined below.
+
+:Argument specifiers syntax:
+.. parsed-literal::
+
+    argument-specifiers ::= *specifier-group0* {*specifier-group0*\ }
+
+    specifier-group0 ::= *specifier-group1* |
+        (
+            '**(**' '**deduced**'
+                *specifier-group1* {*specifier-group1*\ }
+            '**)**'
+        )
+
+    specifier-group1 ::=
+        (
+            '**(**' '**optional**'
+                *optional-specifier* {*optional-specifier*\ }
+            '**)**'
+        ) | (
+            '**(**' '**required**'
+                *required-specifier* {*required-specifier*\ }
+            '**)**'
+        )
+
+    optional-specifier ::=
+        '**(**'
+            *argument-name* '**,**' *restriction* '**,**' *default-value*
+        ')'
+
+    required-specifier ::=
+        '**(**' *argument-name* '**,**' *restriction* ')'
+
+    restriction ::=
+        ( '**\***' '**(**' *mfc* '**)**' ) |
+        ( '**(**' *type-name* '**)**' ) |
+        '**\***'
+
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``default-value`` is any valid C++ expression; if necessary, user code can
+compute it in terms of ``previous-name ## _type``, where ``previous-name`` is
+the ``argument-name`` in a previous ``specifier-group0`` or
+``specifier-group1``.  *This expression will be invoked exactly once.*
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+Constant`_; however, user code *cannot* compute ``mfc`` in terms of
+``previous-name ## _type``.
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
+Metafunction Class`_ whose first argument will be the type of the
+corresponding ``argument-name``, whose second argument will be the entire
+|ArgumentPack|_, and whose return type is the **target type**.  If
+``restriction`` uses this form, then the type of the generated name
+``argument-name ## _type`` will be computed in terms of the **target type**,
+and the generated reference ``argument-name`` (but not its corresponding entry
+in ``args``) will be cast to that type.
+
+.. _`Boost.Preprocessor`: ../../../preprocessor/doc/index.html
+.. _`sequence`: ../../../preprocessor/doc/data/sequences.html
+.. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
+
+Approximate expansion:
+**Where**:
+
+* ``n`` denotes the *minimum* arity, as determined from ``arguments``.
+* ``m`` denotes the *maximum* arity, as determined from ``arguments``.
 
 .. parsed-literal::
 
@@ -1477,50 +1415,28 @@ Approximate expansion:
     };
 
     struct boost_param_params\_ ## __LINE__ ## **name**
-      : boost::parameter::parameters<
+      : boost::parameter::|parameters|_<
             *list of parameter specifications, based on arguments*
         >
     {
     };
 
-    typedef boost_param_params\_ ## __LINE__ ## **name** 
+    typedef boost_param_params\_ ## __LINE__ ## **name**
         boost_param_parameters\_ ## __LINE__ ## **name**;
 
-    template <typename Args>
-    typename boost_param_result\_ ## __LINE__ ## **name**\ <Args>::type
-        boost_param_impl ## **name**\ (Args const&);
-
     template <typename A0, …, typename A ## **n**>
-    **result**
-        **name**\ (
-            A0 const& a0, …, A ## **n** const& a ## **n**
-          , typename boost_param_parameters\_ ## __LINE__ ## **name**::match<
-                A0 const, …, A ## **n** const
-            >::type = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
-        )
+    **result** **name**\ (
+        A0&& a0, …, A ## **n**\ && a ## **n**
+      , typename boost_param_parameters\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **n**>::type
+        = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
+    )
     {
-        return boost_param_impl ## **name**\ (
+        return this->boost_param_impl ## __LINE__ ## **name**\ (
             boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
-                a0, …, a ## **n**
-            )
-        );
-    }
-
-    *… exponential number of overloads …*
-    :vellipsis:`⋮`
-
-    template <typename A0, …, typename A ## **n**>
-    **result**
-        **name**\ (
-            A0& a0, …, A ## **n** & a ## **n**
-          , typename boost_param_parameters\_ ## __LINE__ ## **name**::match<
-                A0, …, A ## **n**
-            >::type = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
-        )
-    {
-        return boost_param_impl ## **name**\ (
-            boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
-                a0, …, a ## **n**
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **n**>(a ## **n**)
             )
         );
     }
@@ -1528,84 +1444,46 @@ Approximate expansion:
     :vellipsis:`⋮`
 
     template <typename A0, …, typename A ## **m**>
-    **result**
-        **name**\ (
-            A0 const& a0, …, A ## **m** const& a ## **m**
-          , typename boost_param_parameters\_ ## __LINE__ ## **name**::match<
-                A0 const, …, A ## **m** const
-            >::type = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
-        )
+    **result** **name**\ (
+        A0&& a0, …, A ## **m**\ && a ## **m**
+      , typename boost_param_parameters\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **m**>::type
+        = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
+    )
     {
-        return boost_param_impl ## **name**\ (
+        return this->boost_param_impl ## __LINE__ ## **name**\ (
             boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
-                a0, …, a ## **m**
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **m**>(a ## **m**)
             )
         );
     }
-
-    *… exponential number of overloads …*
-    :vellipsis:`⋮`
-
-    template <typename A0, …, typename A ## **m**>
-    **result**
-        **name**\ (
-            A0& a0, …, A ## **m** & a ## **m**
-          , typename boost_param_parameters\_ ## __LINE__ ## **name**::match<
-                A0, …, A ## **m**
-            >::type = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
-        )
-    {
-        return boost_param_impl ## **name**\ (
-            boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
-                a0, …, a ## **m**
-            )
-        );
-    }
-
-    template <
-        typename ResultType
-      , typename Args
-      , typename *argument name* ## **0** ## _type
-      , …
-      , typename *argument name* ## **n** ## _type
-    >
-    ResultType
-        boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
-          , Args const& args
-          , *argument name* ## **0** ## _type& *argument name* ## **0**
-          , …
-          , *argument name* ## **n** ## _type& *argument name* ## **m**
-        );
-
-    :vellipsis:`⋮`
-
-    template <
-        typename ResultType
-      , typename Args
-      , typename *argument name* ## **0** ## _type
-      , …
-      , typename *argument name* ## **m** ## _type
-    >
-    ResultType
-        boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
-          , Args const& args
-          , *argument name* ## **0** ## _type& *argument name* ## **0**
-          , …
-          , *argument name* ## **m** ## _type& *argument name* ## **m**
-        );
 
     template <typename Args>
     typename boost_param_result\_ ## __LINE__ ## **name**\ <Args>::type
-        boost_param_impl ## **name**\ (Args const& args)
+        boost_param_impl ## __LINE__ ## **name**\ (Args const& args)
     {
-        return boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            static_cast<ResultType(\ *)()>(std::nullptr)
+        return this->boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
+            static_cast<
+                typename boost_param_result\_ ## __LINE__ ## **name**\ <
+                    Args
+                >::type(\ *)()
+            >(std::nullptr)
           , args
-          , args[ *keyword object of required parameter* ## **0**]
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of required parameter* ## **0**
+                >::type
+            >(args[ *keyword object of required parameter* ## **0**])
           , …
-          , args[ *keyword object of required parameter* ## **n**]
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of required parameter* ## **n**
+                >::type
+            >(args[ *keyword object of required parameter* ## **n**])
         );
     }
 
@@ -1620,20 +1498,29 @@ Approximate expansion:
         boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
             (ResultType(\ *)())
           , Args const& args
-          , *argument name* ## **0** ## _type& *argument name* ## **0**
+          , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
-          , *argument name* ## **n** ## _type& *argument name* ## **m**
+          , *argument name* ## **n** ## _type&& *argument name* ## **n**
         )
     {
-        return boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
+        return this->boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
             static_cast<ResultType(\ *)()>(std::nullptr)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
-          , *argument name* ## **0**
+          , std::`forward`_<*argument name* ## **0** ## _type>(
+                *argument name* ## **0**
+            )
           , …
-          , *argument name* ## **n**
-          , *default value of optional parameter* ## **n + 1**
+          , std::`forward`_<*argument name* ## **n** ## _type>(
+                *argument name* ## **n**
+            )
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of optional parameter* ## **n + 1**
+                >::type
+            >(*default value of optional parameter* ## **n + 1**)
         );
     }
 
@@ -1650,44 +1537,707 @@ Approximate expansion:
         boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
             (ResultType(\ *)())
           , Args const& args
-          , *argument name* ## **0** ## _type& *argument name* ## **0**
-            :vellipsis:`⋮`
-          , *argument name* ## **m** ## _type& *argument name* ## **m**
+          , *argument name* ## **0** ## _type&& *argument name* ## **0**
+          , …
+          , *argument name* ## **m** ## _type&& *argument name* ## **m**
         )
 
-The |preprocessor|_, |preprocessor_deduced|_, and |preprocessor_eval_cat|_
-test programs demonstrate proper usage of this macro.
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+
+``BOOST_PARAMETER_CONST_MEMBER_FUNCTION(result, name, tag_ns, arguments)``
+--------------------------------------------------------------------------
+
+:Defined in: `boost/parameter/preprocessor.hpp`__
+
+__ ../../../../boost/parameter/preprocessor.hpp
+
+:Example usage:
+
+The |preprocessor|_ test program demonstrates proper usage of this macro.
+
+.. |preprocessor| replace:: preprocessor.cpp
+.. _preprocessor: ../../test/preprocessor.cpp
+
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function.
+\*. ``name`` is the base name of the function; it determines the name of the
+generated forwarding functions.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+function resides.
+\*. ``arguments`` is a `Boost.Preprocessor`_ `sequence`_ of
+*argument-specifiers*, as defined below.
+
+:Argument specifiers syntax:
+.. parsed-literal::
+
+    argument-specifiers ::= *specifier-group0* {*specifier-group0*\ }
+
+    specifier-group0 ::= *specifier-group1* |
+        (
+            '**(**' '**deduced**'
+                *specifier-group1* {*specifier-group1*\ }
+            '**)**'
+        )
+
+    specifier-group1 ::=
+        (
+            '**(**' '**optional**'
+                *optional-specifier* {*optional-specifier*\ }
+            '**)**'
+        ) | (
+            '**(**' '**required**'
+                *required-specifier* {*required-specifier*\ }
+            '**)**'
+        )
+
+    optional-specifier ::=
+        '**(**'
+            *argument-name* '**,**' *restriction* '**,**' *default-value*
+        ')'
+
+    required-specifier ::=
+        '**(**' *argument-name* '**,**' *restriction* ')'
+
+    restriction ::=
+        ( '**\***' '**(**' *mfc* '**)**' ) |
+        ( '**(**' *type-name* '**)**' ) |
+        '**\***'
+
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``default-value`` is any valid C++ expression; if necessary, user code can
+compute it in terms of ``previous-name ## _type``, where ``previous-name`` is
+the ``argument-name`` in a previous ``specifier-group0`` or
+``specifier-group1``.  *This expression will be invoked exactly once.*
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+Constant`_; however, user code *cannot* compute ``mfc`` in terms of
+``previous-name ## _type``.
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
+Metafunction Class`_ whose first argument will be the type of the
+corresponding ``argument-name``, whose second argument will be the entire
+|ArgumentPack|_, and whose return type is the **target type**.  If
+``restriction`` uses this form, then the type of the generated name
+``argument-name ## _type`` will be computed in terms of the **target type**,
+and the generated reference ``argument-name`` (but not its corresponding entry
+in ``args``) will be cast to that type.
+
+.. _`Boost.Preprocessor`: ../../../preprocessor/doc/index.html
+.. _`sequence`: ../../../preprocessor/doc/data/sequences.html
+.. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
+
+Approximate expansion:
+**Where**:
+
+* ``n`` denotes the *minimum* arity, as determined from ``arguments``.
+* ``m`` denotes the *maximum* arity, as determined from ``arguments``.
+
+.. parsed-literal::
+
+    template <typename T>
+    struct boost_param_result_const\_ ## __LINE__ ## **name**
+    {
+        typedef **result** type;
+    };
+
+    struct boost_param_params_const\_ ## __LINE__ ## **name**
+      : boost::parameter::|parameters|_<
+            *list of parameter specifications, based on arguments*
+        >
+    {
+    };
+
+    typedef boost_param_params_const\_ ## __LINE__ ## **name**
+        boost_param_parameters_const\_ ## __LINE__ ## **name**;
+
+    template <typename A0, …, typename A ## **n**>
+    **result** **name**\ (
+        A0&& a0, …, A ## **n**\ && a ## **n**
+      , typename boost_param_parameters_const\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **n**>::type
+        = boost_param_parameters_const\_ ## __LINE__ ## **name**\ ()
+    ) const
+    {
+        return this->boost_param_impl_const ## **name**\ (
+            boost_param_parameters_const\_ ## __LINE__ ## **name**\ (
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **n**>(a ## **n**)
+            )
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <typename A0, …, typename A ## **m**>
+    **result** **name**\ (
+        A0&& a0, …, A ## **m**\ && a ## **m**
+      , typename boost_param_parameters_const\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **m**>::type
+        = boost_param_parameters_const\_ ## __LINE__ ## **name**\ ()
+    ) const
+    {
+        return this->boost_param_impl_const ## **name**\ (
+            boost_param_parameters_const\_ ## __LINE__ ## **name**\ ()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **m**>(a ## **m**)
+            )
+        );
+    }
+
+    template <typename Args>
+    typename boost_param_result_const\_ ## __LINE__ ## **name**\ <Args>::type
+        boost_param_impl_const ## **name**\ (Args const& args) const
+    {
+        return this->
+        boost_param_dispatch_const_0boost\_ ## __LINE__ ## **name**\ (
+            static_cast<
+                typename boost_param_result_const\_ ## __LINE__ ## **name**\ <
+                    Args
+                >::type(\ *)()
+            >(std::nullptr)
+          , args
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of required parameter* ## **0**
+                >::type
+            >(args[ *keyword object of required parameter* ## **0**])
+          , …
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of required parameter* ## **n**
+                >::type
+            >(args[ *keyword object of required parameter* ## **n**])
+        );
+    }
+
+    template <
+        typename ResultType
+      , typename Args
+      , typename *argument name* ## **0** ## _type
+      , …
+      , typename *argument name* ## **n** ## _type
+    >
+    ResultType
+        boost_param_dispatch_const_0boost\_ ## __LINE__ ## **name**\ (
+            (ResultType(\ *)())
+          , Args const& args
+          , *argument name* ## **0** ## _type&& *argument name* ## **0**
+          , …
+          , *argument name* ## **n** ## _type&& *argument name* ## **n**
+        ) const
+    {
+        return this->
+        boost_param_dispatch_const_0boost\_ ## __LINE__ ## **name**\ (
+            static_cast<ResultType(\ *)()>(std::nullptr)
+          , (args, *keyword object of optional parameter* ## **n + 1** =
+                *default value of optional parameter* ## **n + 1**
+            )
+          , std::`forward`_<*argument name* ## **0** ## _type>(
+                *argument name* ## **0**
+            )
+          , …
+          , std::`forward`_<*argument name* ## **n** ## _type>(
+                *argument name* ## **n**
+            )
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of optional parameter* ## **n + 1**
+                >::type
+            >(*default value of optional parameter* ## **n + 1**)
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <
+        typename ResultType
+      , typename Args
+      , typename *argument name* ## **0** ## _type
+      , …
+      , typename *argument name* ## **m** ## _type
+    >
+    ResultType
+        boost_param_dispatch_const_0boost\_ ## __LINE__ ## **name**\ (
+            (ResultType(\ *)())
+          , Args const& args
+          , *argument name* ## **0** ## _type&& *argument name* ## **0**
+          , …
+          , *argument name* ## **m** ## _type&& *argument name* ## **m**
+        ) const
+
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+
+``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR(result, tag_namespace, arguments)``
+----------------------------------------------------------------------------
+
+:Defined in: `boost/parameter/preprocessor.hpp`__
+
+__ ../../../../boost/parameter/preprocessor.hpp
+
+:Example usage:
+
+The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
-.. |preprocessor_deduced| replace:: preprocessor_deduced.cpp
-.. _preprocessor_deduced: ../../test/preprocessor_deduced.cpp
-.. |preprocessor_eval_cat| replace:: preprocessor_eval_category.cpp
-.. _preprocessor_eval_cat: ../../test/preprocessor_eval_category.cpp
 
-``BOOST_PARAMETER_MEMBER_FUNCTION(result, name, tag_namespace, arguments)``
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function call operator.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+function call operator resides.
+\*. ``arguments`` is a `Boost.Preprocessor`_ `sequence`_ of
+*argument-specifiers*, as defined below.
+
+:Argument specifiers syntax:
+.. parsed-literal::
+
+    argument-specifiers ::= *specifier-group0* {*specifier-group0*\ }
+
+    specifier-group0 ::= *specifier-group1* |
+        (
+            '**(**' '**deduced**'
+                *specifier-group1* {*specifier-group1*\ }
+            '**)**'
+        )
+
+    specifier-group1 ::=
+        (
+            '**(**' '**optional**'
+                *optional-specifier* {*optional-specifier*\ }
+            '**)**'
+        ) | (
+            '**(**' '**required**'
+                *required-specifier* {*required-specifier*\ }
+            '**)**'
+        )
+
+    optional-specifier ::=
+        '**(**'
+            *argument-name* '**,**' *restriction* '**,**' *default-value*
+        ')'
+
+    required-specifier ::=
+        '**(**' *argument-name* '**,**' *restriction* ')'
+
+    restriction ::=
+        ( '**\***' '**(**' *mfc* '**)**' ) |
+        ( '**(**' *type-name* '**)**' ) |
+        '**\***'
+
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``default-value`` is any valid C++ expression; if necessary, user code can
+compute it in terms of ``previous-name ## _type``, where ``previous-name`` is
+the ``argument-name`` in a previous ``specifier-group0`` or
+``specifier-group1``.  *This expression will be invoked exactly once.*
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+Constant`_; however, user code *cannot* compute ``mfc`` in terms of
+``previous-name ## _type``.
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
+Metafunction Class`_ whose first argument will be the type of the
+corresponding ``argument-name``, whose second argument will be the entire
+|ArgumentPack|_, and whose return type is the **target type**.  If
+``restriction`` uses this form, then the type of the generated name
+``argument-name ## _type`` will be computed in terms of the **target type**,
+and the generated reference ``argument-name`` (but not its corresponding entry
+in ``args``) will be cast to that type.
+
+.. _`Boost.Preprocessor`: ../../../preprocessor/doc/index.html
+.. _`sequence`: ../../../preprocessor/doc/data/sequences.html
+.. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
+
+Approximate expansion:
+**Where**:
+
+* ``n`` denotes the *minimum* arity, as determined from ``arguments``.
+* ``m`` denotes the *maximum* arity, as determined from ``arguments``.
+
+.. parsed-literal::
+
+    template <typename T>
+    struct boost_param_result\_ ## __LINE__ ## operator
+    {
+        typedef **result** type;
+    };
+
+    struct boost_param_params\_ ## __LINE__ ## operator
+      : boost::parameter::|parameters|_<
+            *list of parameter specifications, based on arguments*
+        >
+    {
+    };
+
+    typedef boost_param_params\_ ## __LINE__ ## operator
+        boost_param_parameters\_ ## __LINE__ ## operator;
+
+    template <typename A0, …, typename A ## **n**>
+    **result** operator()(
+        A0&& a0, …, A ## **n**\ && a ## **n**
+      , typename boost_param_parameters\_ ## __LINE__ ## operator::match<
+            A0, …, A ## **n**
+        >::type = boost_param_parameters\_ ## __LINE__ ## operator()
+    )
+    {
+        return this->boost_param_imploperator(
+            boost_param_parameters\_ ## __LINE__ ## operator()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **n**>(a ## **n**)
+            )
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <typename A0, …, typename A ## **m**>
+    **result** operator()(
+        A0&& a0, …, A ## **m**\ && a ## **m**
+      , typename boost_param_parameters\_ ## __LINE__ ## operator::match<
+            A0, …, A ## **m**
+        >::type = boost_param_parameters\_ ## __LINE__ ## operator()
+    )
+    {
+        return this->boost_param_imploperator(
+            boost_param_parameters\_ ## __LINE__ ## operator()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **m**>(a ## **m**)
+            )
+        );
+    }
+
+    template <typename Args>
+    typename boost_param_result\_ ## __LINE__ ## operator<Args>::type
+        boost_param_imploperator(Args const& args)
+    {
+        return this->boost_param_dispatch_0boost\_ ## __LINE__ ## operator(
+            static_cast<
+                typename boost_param_result\_ ## __LINE__ ## operator<
+                    Args
+                >::type(\ *)()
+            >(std::nullptr)
+          , args
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of required parameter* ## **0**
+                >::type
+            >(args[ *keyword object of required parameter* ## **0**])
+          , …
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of required parameter* ## **n**
+                >::type
+            >(args[ *keyword object of required parameter* ## **n**])
+        );
+    }
+
+    template <
+        typename ResultType
+      , typename Args
+      , typename *argument name* ## **0** ## _type
+      , …
+      , typename *argument name* ## **n** ## _type
+    >
+    ResultType
+        boost_param_dispatch_0boost\_ ## __LINE__ ## operator(
+            (ResultType(\ *)())
+          , Args const& args
+          , *argument name* ## **0** ## _type&& *argument name* ## **0**
+          , …
+          , *argument name* ## **n** ## _type&& *argument name* ## **n**
+        )
+    {
+        return this->boost_param_dispatch_0boost\_ ## __LINE__ ## operator(
+            static_cast<ResultType(\ *)()>(std::nullptr)
+          , (args, *keyword object of optional parameter* ## **n + 1** =
+                *default value of optional parameter* ## **n + 1**
+            )
+          , std::`forward`_<*argument name* ## **0** ## _type>(
+                *argument name* ## **0**
+            )
+          , …
+          , std::`forward`_<*argument name* ## **n** ## _type>(
+                *argument name* ## **n**
+            )
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of optional parameter* ## **n + 1**
+                >::type
+            >(*default value of optional parameter* ## **n + 1**)
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <
+        typename ResultType
+      , typename Args
+      , typename *argument name* ## **0** ## _type
+      , …
+      , typename *argument name* ## **m** ## _type
+    >
+    ResultType
+        boost_param_dispatch_0boost\_ ## __LINE__ ## operator(
+            (ResultType(\ *)())
+          , Args const& args
+          , *argument name* ## **0** ## _type&& *argument name* ## **0**
+          , …
+          , *argument name* ## **m** ## _type&& *argument name* ## **m**
+        )
+
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+
+``BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR(result, tag_ns, arguments)``
 ---------------------------------------------------------------------------
 
 :Defined in: `boost/parameter/preprocessor.hpp`__
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
-:Argument specifiers syntax:
-Same as ``BOOST_PARAMETER_FUNCTION``.
+:Example usage:
 
-:Generated names in enclosing scope:
-Same as ``BOOST_PARAMETER_FUNCTION``.
+The |preprocessor|_ and |preprocessor_eval_cat_8|_ test programs demonstrate
+proper usage of this macro.
+
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+.. |preprocessor| replace:: preprocessor.cpp
+.. _preprocessor: ../../test/preprocessor.cpp
+.. |preprocessor_eval_cat_8| replace:: preprocessor_eval_cat_8.cpp
+.. _preprocessor_eval_cat_8: ../../test/preprocessor_eval_cat_8.cpp
+
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function call operator.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+function call operator resides.
+\*. ``arguments`` is a `Boost.Preprocessor`_ `sequence`_ of
+*argument-specifiers*, as defined below.
+
+:Argument specifiers syntax:
+.. parsed-literal::
+
+    argument-specifiers ::= *specifier-group0* {*specifier-group0*\ }
+
+    specifier-group0 ::= *specifier-group1* |
+        (
+            '**(**' '**deduced**'
+                *specifier-group1* {*specifier-group1*\ }
+            '**)**'
+        )
+
+    specifier-group1 ::=
+        (
+            '**(**' '**optional**'
+                *optional-specifier* {*optional-specifier*\ }
+            '**)**'
+        ) | (
+            '**(**' '**required**'
+                *required-specifier* {*required-specifier*\ }
+            '**)**'
+        )
+
+    optional-specifier ::=
+        '**(**'
+            *argument-name* '**,**' *restriction* '**,**' *default-value*
+        ')'
+
+    required-specifier ::=
+        '**(**' *argument-name* '**,**' *restriction* ')'
+
+    restriction ::=
+        ( '**\***' '**(**' *mfc* '**)**' ) |
+        ( '**(**' *type-name* '**)**' ) |
+        '**\***'
+
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``default-value`` is any valid C++ expression; if necessary, user code can
+compute it in terms of ``previous-name ## _type``, where ``previous-name`` is
+the ``argument-name`` in a previous ``specifier-group0`` or
+``specifier-group1``.  *This expression will be invoked exactly once.*
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+Constant`_; however, user code *cannot* compute ``mfc`` in terms of
+``previous-name ## _type``.
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
+Metafunction Class`_ whose first argument will be the type of the
+corresponding ``argument-name``, whose second argument will be the entire
+|ArgumentPack|_, and whose return type is the **target type**.  If
+``restriction`` uses this form, then the type of the generated name
+``argument-name ## _type`` will be computed in terms of the **target type**,
+and the generated reference ``argument-name`` (but not its corresponding entry
+in ``args``) will be cast to that type.
+
+.. _`Boost.Preprocessor`: ../../../preprocessor/doc/index.html
+.. _`sequence`: ../../../preprocessor/doc/data/sequences.html
+.. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
 
 Approximate expansion:
-Same as ``BOOST_PARAMETER_FUNCTION``, except:
+**Where**:
 
-\*. ``name`` may be qualified by the ``static`` keyword to declare the member
-function and its helpers as not associated with any object of the enclosing
-type.
+* ``n`` denotes the *minimum* arity, as determined from ``arguments``.
+* ``m`` denotes the *maximum* arity, as determined from ``arguments``.
 
-\*. Expansion of this macro omits all forward declarations of the front-end
-implementation and dispatch functions.
+.. parsed-literal::
+
+    template <typename T>
+    struct boost_param_result_const\_ ## __LINE__ ## operator
+    {
+        typedef **result** type;
+    };
+
+    struct boost_param_params_const\_ ## __LINE__ ## operator
+      : boost::parameter::|parameters|_<
+            *list of parameter specifications, based on arguments*
+        >
+    {
+    };
+
+    typedef boost_param_params_const\_ ## __LINE__ ## operator
+        boost_param_parameters_const\_ ## __LINE__ ## operator;
+
+    template <typename A0, …, typename A ## **n**>
+    **result** operator()(
+        A0&& a0, …, A ## **n**\ && a ## **n**
+      , typename boost_param_parameters_const\_ ## __LINE__ ## operator
+        ::match<A0, …, A ## **n**>::type
+        = boost_param_parameters_const\_ ## __LINE__ ## operator()
+    ) const
+    {
+        return this->boost_param_impl_constoperator(
+            boost_param_parameters_const\_ ## __LINE__ ## operator()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **n**>(a ## **n**)
+            )
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <typename A0, …, typename A ## **m**>
+    **result** operator()(
+        A0&& a0, …, A ## **m**\ && a ## **m**
+      , typename boost_param_parameters_const\_ ## __LINE__ ## operator
+        ::match<A0, …, A ## **m**>::type
+        = boost_param_parameters_const\_ ## __LINE__ ## operator()
+    ) const
+    {
+        return this->boost_param_impl_constoperator(
+            boost_param_parameters_const\_ ## __LINE__ ## operator()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **m**>(a ## **m**)
+            )
+        );
+    }
+
+    template <typename Args>
+    typename boost_param_result_const\_ ## __LINE__ ## operator<Args>::type
+        boost_param_impl_constoperator(Args const& args) const
+    {
+        return this->
+        boost_param_dispatch_const_0boost\_ ## __LINE__ ## operator(
+            static_cast<
+                typename boost_param_result_const\_ ## __LINE__ ## operator<
+                    Args
+                >::type(\ *)()
+            >(std::nullptr)
+          , args
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of required parameter* ## **0**
+                >::type
+            >(args[ *keyword object of required parameter* ## **0**])
+          , …
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of required parameter* ## **n**
+                >::type
+            >(args[ *keyword object of required parameter* ## **n**])
+        );
+    }
+
+    template <
+        typename ResultType
+      , typename Args
+      , typename *argument name* ## **0** ## _type
+      , …
+      , typename *argument name* ## **n** ## _type
+    >
+    ResultType
+        boost_param_dispatch_const_0boost\_ ## __LINE__ ## operator(
+            (ResultType(\ *)())
+          , Args const& args
+          , *argument name* ## **0** ## _type&& *argument name* ## **0**
+          , …
+          , *argument name* ## **n** ## _type&& *argument name* ## **n**
+        ) const
+    {
+        return this->
+        boost_param_dispatch_const_0boost\_ ## __LINE__ ## operator(
+            static_cast<ResultType(\ *)()>(std::nullptr)
+          , (args, *keyword object of optional parameter* ## **n + 1** =
+                *default value of optional parameter* ## **n + 1**
+            )
+          , std::`forward`_<*argument name* ## **0** ## _type>(
+                *argument name* ## **0**
+            )
+          , …
+          , std::`forward`_<*argument name* ## **n** ## _type>(
+                *argument name* ## **n**
+            )
+          , std::`forward`_<
+                typename boost::parameter::value_type<
+                    Args
+                  , *keyword tag type of optional parameter* ## **n + 1**
+                >::type
+            >(*default value of optional parameter* ## **n + 1**)
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <
+        typename ResultType
+      , typename Args
+      , typename *argument name* ## **0** ## _type
+      , …
+      , typename *argument name* ## **m** ## _type
+    >
+    ResultType
+        boost_param_dispatch_const_0boost\_ ## __LINE__ ## operator(
+            (ResultType(\ *)())
+          , Args const& args
+          , *argument name* ## **0** ## _type&& *argument name* ## **0**
+          , …
+          , *argument name* ## **m** ## _type&& *argument name* ## **m**
+        ) const
+
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+
+``BOOST_PARAMETER_CONSTRUCTOR(cls, impl, tag_namespace, arguments)``
+--------------------------------------------------------------------
+
+:Defined in: `boost/parameter/preprocessor.hpp`__
+
+__ ../../../../boost/parameter/preprocessor.hpp
+
+:Example usage:
 
 The |preprocessor|_ and |preprocessor_eval_cat|_ test programs demonstrate
 proper usage of this macro.
@@ -1697,101 +2247,63 @@ proper usage of this macro.
 .. |preprocessor_eval_cat| replace:: preprocessor_eval_category.cpp
 .. _preprocessor_eval_cat: ../../test/preprocessor_eval_category.cpp
 
-``BOOST_PARAMETER_CONST_MEMBER_FUNCTION(result, name, tag_ns, arguments)``
---------------------------------------------------------------------------
-
-:Defined in: `boost/parameter/preprocessor.hpp`__
-
-__ ../../../../boost/parameter/preprocessor.hpp
-
-:Argument specifiers syntax:
-Same as ``BOOST_PARAMETER_FUNCTION``.
-
-:Generated names in enclosing scope:
-Same as ``BOOST_PARAMETER_FUNCTION``.
-
-Approximate expansion:
-Same as ``BOOST_PARAMETER_MEMBER_FUNCTION``, except that the overloaded
-forwarding member functions and their helper methods are
-``const``-qualified.
-
-The |preprocessor|_ test program demonstrates proper usage of this macro.
-
-.. |preprocessor| replace:: preprocessor.cpp
-.. _preprocessor: ../../test/preprocessor.cpp
-
-``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR(result, tag_namespace, arguments)``
-----------------------------------------------------------------------------
-
-:Defined in: `boost/parameter/preprocessor.hpp`__
-
-__ ../../../../boost/parameter/preprocessor.hpp
+:Macro parameters:
+\*. ``cls`` is the name of the enclosing class.
+\*. ``impl`` is the parenthesized implementation base class for ``cls``.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+constructor resides.
+\*. ``arguments`` is a list of *argument-specifiers*, as defined below.
 
 :Argument specifiers syntax:
-Same as ``BOOST_PARAMETER_FUNCTION``.
+.. parsed-literal::
 
-:Generated names in enclosing scope:
-* ``boost_param_result_ ## __LINE__ ## operator``
-* ``boost_param_params_ ## __LINE__ ## operator``
-* ``boost_param_parameters_ ## __LINE__ ## operator``
-* ``boost_param_impl ## operator``
-* ``boost_param_dispatch_0boost_ ## __LINE__ ## operator``
-* ``boost_param_dispatch_1boost_ ## __LINE__ ## operator``
+    argument-specifiers ::= *specifier-group0* {*specifier-group0*\ }
 
-Approximate expansion:
-Same as ``BOOST_PARAMETER_MEMBER_FUNCTION``, except that the name of the
-forwarding member function overloads is ``operator()``.
+    specifier-group0 ::= *specifier-group1* |
+        (
+            '**(**' '**deduced**'
+                *specifier-group1* {*specifier-group1*\ }
+            '**)**'
+        )
 
-The |preprocessor|_ test program demonstrates proper usage of this macro.
+    specifier-group1 ::=
+        (
+            '**(**' '**optional**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        ) | (
+            '**(**' '**required**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        )
 
-.. |preprocessor| replace:: preprocessor.cpp
-.. _preprocessor: ../../test/preprocessor.cpp
+    specifier ::=
+        '**(**' *argument-name* '**,**' *restriction* ')'
 
-``BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR(result, tag_ns, arguments)``
----------------------------------------------------------------------------
+    restriction ::=
+        ( '**\***' '**(**' *mfc* '**)**' ) |
+        ( '**(**' *type-name* '**)**' ) |
+        '**\***'
 
-:Defined in: `boost/parameter/preprocessor.hpp`__
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+Constant`_; however, user code *cannot* compute ``mfc`` in terms of
+``previous-name ## _type``.
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
+Metafunction Class`_ whose first argument will be the type of the
+corresponding ``argument-name``, whose second argument will be the entire
+|ArgumentPack|_, and whose return type is the **target type**.
 
-__ ../../../../boost/parameter/preprocessor.hpp
+Note that *specifier* does not include *default-value*.  It is up to the
+delegate constructor in ``impl`` to determine the default value of all
+optional arguments.
 
-:Argument specifiers syntax:
-Same as ``BOOST_PARAMETER_FUNCTION``.
-
-:Generated names in enclosing scope:
-Same as ``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR``.
-
-Approximate expansion:
-Same as ``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR``, except that the overloaded
-function call operators and their helper methods are ``const``-qualified.
-
-The |preprocessor|_ and |preprocessor_eval_cat_8|_ test programs demonstrate
-proper usage of this macro.
-
-.. |preprocessor| replace:: preprocessor.cpp
-.. _preprocessor: ../../test/preprocessor.cpp
-.. |preprocessor_eval_cat_8| replace:: preprocessor_eval_cat_8.cpp
-.. _preprocessor_eval_cat_8: ../../test/preprocessor_eval_cat_8.cpp
-
-``BOOST_PARAMETER_CONSTRUCTOR(cls, impl, tag_namespace, arguments)``
---------------------------------------------------------------------
-
-:Defined in: `boost/parameter/preprocessor.hpp`__
-
-__ ../../../../boost/parameter/preprocessor.hpp
-
-:Requires: ``cls`` is the name of the enclosing class.  ``impl`` is the
-parenthesized implementation base class for ``cls``.  ``tag_namespace`` is the
-namespace in which the keywords used by the function resides.  ``arguments``
-is a list of *argument-specifiers*, as defined below.
-
-:Argument specifiers syntax:
-Same as ``BOOST_PARAMETER_FUNCTION``, except that *optional-specifier* no
-longer includes *default-value*.  It is up to the delegate constructor in
-``impl`` to determine the default value of all optional arguments.
-
-:Generated names in enclosing scope:
-* ``boost_param_params_ ## __LINE__ ## ctor``
-* ``constructor_parameters ## __LINE__``
+.. _`Boost.Preprocessor`: ../../../preprocessor/doc/index.html
+.. _`sequence`: ../../../preprocessor/doc/data/sequences.html
+.. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
 
 Approximate expansion:
 **Where**:
@@ -1799,18 +2311,16 @@ Approximate expansion:
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
 
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, **then**
-
 .. parsed-literal::
 
     struct boost_param_params\_ ## __LINE__ ## ctor
-      : boost::parameter::parameters<
+      : boost::parameter::|parameters|_<
             *list of parameter specifications, based on arguments*
         >
     {
     };
 
-    typedef boost_param_params\_ ## __LINE__ ## **name**
+    typedef boost_param_params\_ ## __LINE__ ## ctor
         constructor_parameters ## __LINE__;
 
     template <typename A0, …, typename A ## **n**>
@@ -1839,61 +2349,7 @@ Approximate expansion:
     {
     }
 
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is **not** ``#defined``,
-**then**
-
-.. parsed-literal::
-
-    struct boost_param_params\_ ## __LINE__ ## ctor
-      : boost::parameter::parameters<
-            *list of parameter specifications, based on arguments*
-        >
-    {
-    };
-
-    typedef boost_param_params\_ ## __LINE__ ## **name**
-        constructor_parameters ## __LINE__;
-
-    template <typename A0, …, typename A ## **n**>
-    *cls*\ (A0 const& a0, …, A ## **n** const& a ## **n**)
-      : *impl*\ (constructor_parameters ## __LINE__(a0, …, a ## **n**))
-    {
-    }
-
-    *… exponential number of overloads …*
-    :vellipsis:`⋮`
-
-    template <typename A0, …, typename A ## **n**>
-    *cls*\ (A0& a0, …, A ## **n** & a ## **n**)
-      : *impl*\ (constructor_parameters ## __LINE__(a0, …, a ## **n**))
-    {
-    }
-
-    :vellipsis:`⋮`
-
-    template <typename A0, …, typename A ## **m**>
-    *cls*\ (A0 const& a0, …, A ## **m** const& a ## **m**)
-      : *impl*\ (constructor_parameters ## __LINE__(a0, …, a ## **m**))
-    {
-    }
-
-    *… exponential number of overloads …*
-    :vellipsis:`⋮`
-
-    template <typename A0, …, typename A ## **m**>
-    *cls*\ (A0& a0, …, A ## **m** & a ## **m**)
-      : *impl*\ (constructor_parameters ## __LINE__(a0, …, a ## **m**))
-    {
-    }
-
-The |preprocessor|_ and |preprocessor_eval_cat|_ test programs demonstrate
-proper usage of this macro.
-
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
-.. |preprocessor| replace:: preprocessor.cpp
-.. _preprocessor: ../../test/preprocessor.cpp
-.. |preprocessor_eval_cat| replace:: preprocessor_eval_category.cpp
-.. _preprocessor_eval_cat: ../../test/preprocessor_eval_category.cpp
 
 ``BOOST_PARAMETER_BASIC_FUNCTION(result, name, tag_namespace, arguments)``
 --------------------------------------------------------------------------
@@ -1902,28 +2358,144 @@ proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
-:Argument specifiers syntax:
-Same as ``BOOST_PARAMETER_FUNCTION``, except that *optional-specifier* no
-longer includes *default-value*.  It is up to the function body to determine
-the default value of all optional arguments.
-
-:Generated names in enclosing scope:
-Same as ``BOOST_PARAMETER_FUNCTION``, except that these names no longer
-include ``boost_param_dispatch_0boost_ ## __LINE__ ## name`` or
-``boost_param_dispatch_1boost_ ## __LINE__ ## name``.
-
-Approximate expansion:
-Same as ``BOOST_PARAMETER_FUNCTION``, except that this expansion omits all
-overloads of ``boost_param_dispatch_0boost_ ## __LINE__ ## name`` and
-``boost_param_dispatch_1boost_ ## __LINE__ ## name`` and stops at the header
-of ``boost_param_impl ## name``.  Therefore, only the |ArgumentPack|_ type
-``Args`` and its object instance ``args`` are available for use within the
-function body.
+:Example usage:
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
+
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function.
+\*. ``name`` is the base name of the function; it determines the name of the
+generated forwarding functions.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+function resides.
+\*. ``arguments`` is a `Boost.Preprocessor`_ `sequence`_ of
+*argument-specifiers*, as defined below.
+
+:Argument specifiers syntax:
+.. parsed-literal::
+
+    argument-specifiers ::= *specifier-group0* {*specifier-group0*\ }
+
+    specifier-group0 ::= *specifier-group1* |
+        (
+            '**(**' '**deduced**'
+                *specifier-group1* {*specifier-group1*\ }
+            '**)**'
+        )
+
+    specifier-group1 ::=
+        (
+            '**(**' '**optional**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        ) | (
+            '**(**' '**required**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        )
+
+    specifier ::=
+        '**(**' *argument-name* '**,**' *restriction* ')'
+
+    restriction ::=
+        ( '**\***' '**(**' *mfc* '**)**' ) |
+        ( '**(**' *type-name* '**)**' ) |
+        '**\***'
+
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+Constant`_; however, user code *cannot* compute ``mfc`` in terms of
+``previous-name ## _type``.
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
+Metafunction Class`_ whose first argument will be the type of the
+corresponding ``argument-name``, whose second argument will be the entire
+|ArgumentPack|_, and whose return type is the **target type**.
+
+Note that *specifier* does not include *default-value*.  It is up to the
+function body to determine the default value of all optional arguments.
+
+.. _`Boost.Preprocessor`: ../../../preprocessor/doc/index.html
+.. _`sequence`: ../../../preprocessor/doc/data/sequences.html
+.. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
+
+Approximate expansion:
+**Where**:
+
+* ``n`` denotes the *minimum* arity, as determined from ``arguments``.
+* ``m`` denotes the *maximum* arity, as determined from ``arguments``.
+
+.. parsed-literal::
+
+    template <typename T>
+    struct boost_param_result\_ ## __LINE__ ## **name**
+    {
+        typedef **result** type;
+    };
+
+    struct boost_param_params\_ ## __LINE__ ## **name**
+      : boost::parameter::|parameters|_<
+            *list of parameter specifications, based on arguments*
+        >
+    {
+    };
+
+    typedef boost_param_params\_ ## __LINE__ ## **name**
+        boost_param_parameters\_ ## __LINE__ ## **name**;
+
+    template <typename Args>
+    typename boost_param_result\_ ## __LINE__ ## **name**\ <Args>::type
+        boost_param_impl ## **name**\ (Args const&);
+
+    template <typename A0, …, typename A ## **n**>
+    **result** **name**\ (
+        A0&& a0, …, A ## **n**\ && a ## **n**
+      , typename boost_param_parameters\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **n**>::type
+        = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
+    )
+    {
+        return boost_param_impl ## **name**\ (
+            boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **n**>(a ## **n**)
+            )
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <typename A0, …, typename A ## **m**>
+    **result** **name**\ (
+        A0&& a0, …, A ## **m**\ && a ## **m**
+      , typename boost_param_parameters\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **m**>::type
+        = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
+    )
+    {
+        return boost_param_impl ## **name**\ (
+            boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **m**>(a ## **m**)
+            )
+        );
+    }
+
+    template <typename Args>
+    typename boost_param_result\_ ## __LINE__ ## **name**\ <Args>::type
+        boost_param_impl ## **name**\ (Args const& args)
+
+Only the |ArgumentPack|_ type ``Args`` and its object instance ``args`` are
+available for use within the function body.
+
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 
 ``BOOST_PARAMETER_BASIC_MEMBER_FUNCTION(result, name, tag_ns, arguments)``
 --------------------------------------------------------------------------
@@ -1932,23 +2504,143 @@ The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
-:Generated names in enclosing scope:
-Same as ``BOOST_PARAMETER_BASIC_FUNCTION``.
-
-Approximate expansion:
-Same as ``BOOST_PARAMETER_BASIC_FUNCTION``, except that:
-
-\*. ``name`` may be qualified by the ``static`` keyword to declare the member
-function and its helpers as not associated with any object of the enclosing
-type.
-
-\*. Expansion of this macro omits the forward declaration of the
-implementation function.
+:Example usage:
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
+
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function.
+\*. ``name`` is the base name of the function; it determines the name of the
+generated forwarding functions.  ``name`` may be qualified by the ``static``
+keyword to declare the member function and its helpers as not associated with
+any object of the enclosing type.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+function resides.
+\*. ``arguments`` is a `Boost.Preprocessor`_ `sequence`_ of
+*argument-specifiers*, as defined below.
+
+:Argument specifiers syntax:
+.. parsed-literal::
+
+    argument-specifiers ::= *specifier-group0* {*specifier-group0*\ }
+
+    specifier-group0 ::= *specifier-group1* |
+        (
+            '**(**' '**deduced**'
+                *specifier-group1* {*specifier-group1*\ }
+            '**)**'
+        )
+
+    specifier-group1 ::=
+        (
+            '**(**' '**optional**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        ) | (
+            '**(**' '**required**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        )
+
+    specifier ::=
+        '**(**' *argument-name* '**,**' *restriction* ')'
+
+    restriction ::=
+        ( '**\***' '**(**' *mfc* '**)**' ) |
+        ( '**(**' *type-name* '**)**' ) |
+        '**\***'
+
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+Constant`_; however, user code *cannot* compute ``mfc`` in terms of
+``previous-name ## _type``.
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
+Metafunction Class`_ whose first argument will be the type of the
+corresponding ``argument-name``, whose second argument will be the entire
+|ArgumentPack|_, and whose return type is the **target type**.
+
+Note that *specifier* does not include *default-value*.  It is up to the
+function body to determine the default value of all optional arguments.
+
+.. _`Boost.Preprocessor`: ../../../preprocessor/doc/index.html
+.. _`sequence`: ../../../preprocessor/doc/data/sequences.html
+.. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
+
+Approximate expansion:
+**Where**:
+
+* ``n`` denotes the *minimum* arity, as determined from ``arguments``.
+* ``m`` denotes the *maximum* arity, as determined from ``arguments``.
+
+.. parsed-literal::
+
+    template <typename T>
+    struct boost_param_result\_ ## __LINE__ ## **name**
+    {
+        typedef **result** type;
+    };
+
+    struct boost_param_params\_ ## __LINE__ ## **name**
+      : boost::parameter::|parameters|_<
+            *list of parameter specifications, based on arguments*
+        >
+    {
+    };
+
+    typedef boost_param_params\_ ## __LINE__ ## **name**
+        boost_param_parameters\_ ## __LINE__ ## **name**;
+
+    template <typename A0, …, typename A ## **n**>
+    **result** **name**\ (
+        A0&& a0, …, A ## **n**\ && a ## **n**
+      , typename boost_param_parameters\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **n**>::type
+        = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
+    )
+    {
+        return this->boost_param_impl ## **name**\ (
+            boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **n**>(a ## **n**)
+            )
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <typename A0, …, typename A ## **m**>
+    **result** **name**\ (
+        A0&& a0, …, A ## **m**\ && a ## **m**
+      , typename boost_param_parameters\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **m**>::type
+        = boost_param_parameters\_ ## __LINE__ ## **name**\ ()
+    )
+    {
+        return this->boost_param_impl ## **name**\ (
+            boost_param_parameters\_ ## __LINE__ ## **name**\ ()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **m**>(a ## **m**)
+            )
+        );
+    }
+
+    template <typename Args>
+    typename boost_param_result\_ ## __LINE__ ## **name**\ <Args>::type
+        boost_param_impl ## **name**\ (Args const& args)
+
+Only the |ArgumentPack|_ type ``Args`` and its object instance ``args`` are
+available for use within the function body.
+
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 
 ``BOOST_PARAMETER_BASIC_CONST_MEMBER_FUNCTION(result, name, tag_ns, args)``
 ---------------------------------------------------------------------------
@@ -1957,17 +2649,141 @@ The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
-:Generated names in enclosing scope:
-Same as ``BOOST_PARAMETER_BASIC_MEMBER_FUNCTION``.
-
-Approximate expansion:
-Same as ``BOOST_PARAMETER_BASIC_MEMBER_FUNCTION``, except that the overloaded
-forwarding member functions and their helper methods are ``const``-qualified.
+:Example usage:
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
+
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function.
+\*. ``name`` is the base name of the function; it determines the name of the
+generated forwarding functions.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+function resides.
+\*. ``arguments`` is a `Boost.Preprocessor`_ `sequence`_ of
+*argument-specifiers*, as defined below.
+
+:Argument specifiers syntax:
+.. parsed-literal::
+
+    argument-specifiers ::= *specifier-group0* {*specifier-group0*\ }
+
+    specifier-group0 ::= *specifier-group1* |
+        (
+            '**(**' '**deduced**'
+                *specifier-group1* {*specifier-group1*\ }
+            '**)**'
+        )
+
+    specifier-group1 ::=
+        (
+            '**(**' '**optional**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        ) | (
+            '**(**' '**required**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        )
+
+    specifier ::=
+        '**(**' *argument-name* '**,**' *restriction* ')'
+
+    restriction ::=
+        ( '**\***' '**(**' *mfc* '**)**' ) |
+        ( '**(**' *type-name* '**)**' ) |
+        '**\***'
+
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+Constant`_; however, user code *cannot* compute ``mfc`` in terms of
+``previous-name ## _type``.
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
+Metafunction Class`_ whose first argument will be the type of the
+corresponding ``argument-name``, whose second argument will be the entire
+|ArgumentPack|_, and whose return type is the **target type**.
+
+Note that *specifier* does not include *default-value*.  It is up to the
+function body to determine the default value of all optional arguments.
+
+.. _`Boost.Preprocessor`: ../../../preprocessor/doc/index.html
+.. _`sequence`: ../../../preprocessor/doc/data/sequences.html
+.. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
+
+Approximate expansion:
+**Where**:
+
+* ``n`` denotes the *minimum* arity, as determined from ``arguments``.
+* ``m`` denotes the *maximum* arity, as determined from ``arguments``.
+
+.. parsed-literal::
+
+    template <typename T>
+    struct boost_param_result_const\_ ## __LINE__ ## **name**
+    {
+        typedef **result** type;
+    };
+
+    struct boost_param_params_const\_ ## __LINE__ ## **name**
+      : boost::parameter::|parameters|_<
+            *list of parameter specifications, based on arguments*
+        >
+    {
+    };
+
+    typedef boost_param_params_const\_ ## __LINE__ ## **name**
+        boost_param_parameters_const\_ ## __LINE__ ## **name**;
+
+    template <typename A0, …, typename A ## **n**>
+    **result** **name**\ (
+        A0&& a0, …, A ## **n**\ && a ## **n**
+      , typename boost_param_parameters_const\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **n**>::type
+        = boost_param_parameters_const\_ ## __LINE__ ## **name**\ ()
+    ) const
+    {
+        return this->boost_param_impl_const ## **name**\ (
+            boost_param_parameters_const\_ ## __LINE__ ## **name**\ ()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **n**>(a ## **n**)
+            )
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <typename A0, …, typename A ## **m**>
+    **result** **name**\ (
+        A0&& a0, …, A ## **m**\ && a ## **m**
+      , typename boost_param_parameters_const\_ ## __LINE__ ## **name**
+        ::match<A0, …, A ## **m**>::type
+        = boost_param_parameters_const\_ ## __LINE__ ## **name**\ ()
+    ) const
+    {
+        return this->boost_param_impl_const ## **name**\ (
+            boost_param_parameters_const\_ ## __LINE__ ## **name**\ ()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **m**>(a ## **m**)
+            )
+        );
+    }
+
+    template <typename Args>
+    typename boost_param_result_const\_ ## __LINE__ ## **name**\ <Args>::type
+        boost_param_impl_const ## **name**\ (Args const& args) const
+
+Only the |ArgumentPack|_ type ``Args`` and its object instance ``args`` are
+available for use within the function body.
+
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 
 ``BOOST_PARAMETER_BASIC_FUNCTION_CALL_OPERATOR(result, tag_ns, arguments)``
 ---------------------------------------------------------------------------
@@ -1976,13 +2792,138 @@ The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
-Same as ``BOOST_PARAMETER_BASIC_MEMBER_FUNCTION``, except that the name of the
-forwarding member function overloads is ``operator()``.
+:Example usage:
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
+
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function call operator.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+function call operator resides.
+\*. ``arguments`` is a `Boost.Preprocessor`_ `sequence`_ of
+*argument-specifiers*, as defined below.
+
+:Argument specifiers syntax:
+.. parsed-literal::
+
+    argument-specifiers ::= *specifier-group0* {*specifier-group0*\ }
+
+    specifier-group0 ::= *specifier-group1* |
+        (
+            '**(**' '**deduced**'
+                *specifier-group1* {*specifier-group1*\ }
+            '**)**'
+        )
+
+    specifier-group1 ::=
+        (
+            '**(**' '**optional**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        ) | (
+            '**(**' '**required**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        )
+
+    specifier ::=
+        '**(**' *argument-name* '**,**' *restriction* ')'
+
+    restriction ::=
+        ( '**\***' '**(**' *mfc* '**)**' ) |
+        ( '**(**' *type-name* '**)**' ) |
+        '**\***'
+
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+Constant`_; however, user code *cannot* compute ``mfc`` in terms of
+``previous-name ## _type``.
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
+Metafunction Class`_ whose first argument will be the type of the
+corresponding ``argument-name``, whose second argument will be the entire
+|ArgumentPack|_, and whose return type is the **target type**.
+
+Note that *specifier* does not include *default-value*.  It is up to the
+function body to determine the default value of all optional arguments.
+
+.. _`Boost.Preprocessor`: ../../../preprocessor/doc/index.html
+.. _`sequence`: ../../../preprocessor/doc/data/sequences.html
+.. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
+
+Approximate expansion:
+**Where**:
+
+* ``n`` denotes the *minimum* arity, as determined from ``arguments``.
+* ``m`` denotes the *maximum* arity, as determined from ``arguments``.
+
+.. parsed-literal::
+
+    template <typename T>
+    struct boost_param_result\_ ## __LINE__ ## operator
+    {
+        typedef **result** type;
+    };
+
+    struct boost_param_params\_ ## __LINE__ ## operator
+      : boost::parameter::|parameters|_<
+            *list of parameter specifications, based on arguments*
+        >
+    {
+    };
+
+    typedef boost_param_params\_ ## __LINE__ ## operator
+        boost_param_parameters\_ ## __LINE__ ## operator;
+
+    template <typename A0, …, typename A ## **n**>
+    **result** operator()(
+        A0&& a0, …, A ## **n**\ && a ## **n**
+      , typename boost_param_parameters\_ ## __LINE__ ## operator::match<
+            A0, …, A ## **n**
+        >::type = boost_param_parameters\_ ## __LINE__ ## operator()
+    )
+    {
+        return this->boost_param_imploperator(
+            boost_param_parameters\_ ## __LINE__ ## operator()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **n**>(a ## **n**)
+            )
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <typename A0, …, typename A ## **m**>
+    **result** operator()(
+        A0&& a0, …, A ## **m**\ && a ## **m**
+      , typename boost_param_parameters\_ ## __LINE__ ## operator::match<
+            A0, …, A ## **m**
+        >::type = boost_param_parameters\_ ## __LINE__ ## operator()
+    )
+    {
+        return this->boost_param_imploperator(
+            boost_param_parameters\_ ## __LINE__ ## operator()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **m**>(a ## **m**)
+            )
+        );
+    }
+
+    template <typename Args>
+    typename boost_param_result\_ ## __LINE__ ## operator<Args>::type
+        boost_param_imploperator(Args const& args)
+
+Only the |ArgumentPack|_ type ``Args`` and its object instance ``args`` are
+available for use within the function call operator body.
+
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 
 ``BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR(result, tag_ns, args)``
 ----------------------------------------------------------------------------
@@ -1991,13 +2932,138 @@ The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
-Same as ``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR``, except that the overloaded
-function call operators and their helper methods are ``const``-qualified.
+:Example usage:
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
+
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function call operator.
+\*. ``tag_namespace`` is the namespace in which the keywords used by the
+function call operator resides.
+\*. ``arguments`` is a `Boost.Preprocessor`_ `sequence`_ of
+*argument-specifiers*, as defined below.
+
+:Argument specifiers syntax:
+.. parsed-literal::
+
+    argument-specifiers ::= *specifier-group0* {*specifier-group0*\ }
+
+    specifier-group0 ::= *specifier-group1* |
+        (
+            '**(**' '**deduced**'
+                *specifier-group1* {*specifier-group1*\ }
+            '**)**'
+        )
+
+    specifier-group1 ::=
+        (
+            '**(**' '**optional**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        ) | (
+            '**(**' '**required**'
+                *specifier* {*specifier*\ }
+            '**)**'
+        )
+
+    specifier ::=
+        '**(**' *argument-name* '**,**' *restriction* ')'
+
+    restriction ::=
+        ( '**\***' '**(**' *mfc* '**)**' ) |
+        ( '**(**' *type-name* '**)**' ) |
+        '**\***'
+
+\*. ``argument-name`` is any valid C++ identifier.
+\*. ``mfc`` is an `MPL Binary Metafunction Class`_ whose first argument will
+be the type of the corresponding ``argument-name``, whose second argument will
+be the entire |ArgumentPack|_, and whose return type is a `Boolean Integral
+Constant`_; however, user code *cannot* compute ``mfc`` in terms of
+``previous-name ## _type``.
+\*. ``type-name`` is either the name of a **target type** or an `MPL Binary
+Metafunction Class`_ whose first argument will be the type of the
+corresponding ``argument-name``, whose second argument will be the entire
+|ArgumentPack|_, and whose return type is the **target type**.
+
+Note that *specifier* does not include *default-value*.  It is up to the
+function body to determine the default value of all optional arguments.
+
+.. _`Boost.Preprocessor`: ../../../preprocessor/doc/index.html
+.. _`sequence`: ../../../preprocessor/doc/data/sequences.html
+.. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boolean Integral Constant`: ../../../mpl/doc/refmanual/integral-constant.html
+
+Approximate expansion:
+**Where**:
+
+* ``n`` denotes the *minimum* arity, as determined from ``arguments``.
+* ``m`` denotes the *maximum* arity, as determined from ``arguments``.
+
+.. parsed-literal::
+
+    template <typename T>
+    struct boost_param_result_const\_ ## __LINE__ ## operator
+    {
+        typedef **result** type;
+    };
+
+    struct boost_param_params_const\_ ## __LINE__ ## operator
+      : boost::parameter::|parameters|_<
+            *list of parameter specifications, based on arguments*
+        >
+    {
+    };
+
+    typedef boost_param_params_const\_ ## __LINE__ ## operator
+        boost_param_parameters_const\_ ## __LINE__ ## operator;
+
+    template <typename A0, …, typename A ## **n**>
+    **result** operator()(
+        A0&& a0, …, A ## **n**\ && a ## **n**
+      , typename boost_param_parameters_const\_ ## __LINE__ ## operator
+        ::match<A0, …, A ## **n**>::type
+        = boost_param_parameters_const\_ ## __LINE__ ## operator()
+    ) const
+    {
+        return this->boost_param_impl_constoperator(
+            boost_param_parameters_const\_ ## __LINE__ ## operator()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **n**>(a ## **n**)
+            )
+        );
+    }
+
+    :vellipsis:`⋮`
+
+    template <typename A0, …, typename A ## **m**>
+    **result** operator()(
+        A0&& a0, …, A ## **m**\ && a ## **m**
+      , typename boost_param_parameters_const\_ ## __LINE__ ## operator
+        ::match<A0, …, A ## **m**>::type
+        = boost_param_parameters_const\_ ## __LINE__ ## operator()
+    ) const
+    {
+        return this->boost_param_impl_constoperator(
+            boost_param_parameters_const\_ ## __LINE__ ## operator()(
+                std::`forward`_<A0>(a0)
+              , …
+              , std::`forward`_<A ## **m**>(a ## **m**)
+            )
+        );
+    }
+
+    template <typename Args>
+    typename boost_param_result_const\_ ## __LINE__ ## operator<Args>::type
+        boost_param_impl_constoperator(Args const& args) const
+
+Only the |ArgumentPack|_ type ``Args`` and its object instance ``args`` are
+available for use within the function call operator body.
+
+.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 
 ``BOOST_PARAMETER_NO_SPEC_FUNCTION(result, name)``
 --------------------------------------------------
@@ -2006,24 +3072,54 @@ The |preprocessor|_ test program demonstrates proper usage of this macro.
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
+:Example usage:
+
 The |preproc_eval_cat_no_spec|_ test program demonstrates proper usage of
 this macro.
 
 .. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
 .. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
 
-``BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(cls, impl)``
---------------------------------------------------
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function.
+\*. ``name`` is the base name of the function; it determines the name of the
+generated implementation function.
+
+:Argument specifiers syntax:
+None.
+
+Approximate expansion:
+.. parsed-literal::
+
+    template <typename TaggedArg0, typename ...TaggedArgs>
+    inline typename boost::lazy_enable_if<
+        boost::parameter::|are_tagged_arguments|_<TaggedArg0,TaggedArgs...>
+      , boost_param_no_spec_result_ ## __LINE__ ## *name*\ <
+            TaggedArg0
+          , TaggedArgs...
+        >
+    >::type
+        *name*\ (TaggedArg0 const& arg0, TaggedArgs const&... args)
+    {
+        return boost_param_no_spec_impl ## *name*\ (
+            static_cast<
+                typename boost_param_no_spec_result_ ## __LINE__ ## *name*\ <
+                    TaggedArg0
+                  , TaggedArgs...
+                >::type(\*)()
+            >(std::nullptr)
+          , boost::parameter::|parameters|_<>()(arg0, args...)
+        );
+    }
+
+``BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION(result, name)``
+---------------------------------------------------------
 
 :Defined in: `boost/parameter/preprocessor.hpp`__
 
 __ ../../../../boost/parameter/preprocessor.hpp
 
-:Requires: ``cls`` is the name of the enclosing class.  ``impl`` is the
-parenthesized implementation base class for ``cls``.
-
-Approximate expansion:
-
+:Example usage:
 
 The |parameterized_inheritance|_ and |preproc_eval_cat_no_spec|_ test programs
 demonstrate proper usage of this macro.
@@ -2032,6 +3128,42 @@ demonstrate proper usage of this macro.
 .. _parameterized_inheritance: ../../test/parameterized_inheritance.cpp
 .. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
 .. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
+
+:Macro parameters:
+\*. ``result`` is the parenthesized return type of the function.
+\*. ``name`` is the base name of the function; it determines the name of the
+generated implementation function.
+
+:Argument specifiers syntax:
+None.
+
+Approximate expansion:
+
+``BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(cls, impl)``
+--------------------------------------------------
+
+:Defined in: `boost/parameter/preprocessor.hpp`__
+
+__ ../../../../boost/parameter/preprocessor.hpp
+
+:Example usage:
+
+The |parameterized_inheritance|_ and |preproc_eval_cat_no_spec|_ test programs
+demonstrate proper usage of this macro.
+
+.. |parameterized_inheritance| replace:: parameterized_inheritance.cpp
+.. _parameterized_inheritance: ../../test/parameterized_inheritance.cpp
+.. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
+.. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
+
+:Macro parameters:
+\*. ``cls`` is the name of the enclosing class.
+\*. ``impl`` is the parenthesized implementation base class for ``cls``.
+
+:Argument specifiers syntax:
+None.
+
+Approximate expansion:
 
 ``BOOST_PARAMETER_NAME(name)``
 ------------------------------
@@ -2236,8 +3368,6 @@ __ ../../../../boost/parameter/macros.hpp
 :Requires: ``l`` and ``h`` are nonnegative integer tokens
 such that ``l`` < ``h``
 
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, **then**
-
 Expands to:
 
 .. parsed-literal::
@@ -2305,109 +3435,6 @@ Expands to:
               , std::`forward`_<A ## **h**>(a ## **h**)
             )
         );
-    }
-
-**If** |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is **not** ``#defined``,
-**then**
-
-Expands to:
-
-.. parsed-literal::
-
-    template <typename A1, typename A2, …, typename A ## **l**>
-    r
-        name(
-            A1 const& a1, A2 const& a2, …, A ## **l** const& a ## **l**
-          , typename **p**::match<A1, A2, …, A ## **l**>::type pk = **p**\ ()
-        )
-    {
-        return **name**\ _with_named_params(pk(a1, a2, …, a ## **l**));
-    }
-
-    *… exponential number of overloads …*
-    :vellipsis:`⋮`
-
-    template <typename A1, typename A2, …, typename A ## **l**>
-    r
-        name(
-            A1& a1, A2& a2, …, A ## **l** & a ## **l**
-          , typename **p**::match<A1, A2, …, A ## **l**>::type pk = **p**\ ()
-        )
-    {
-        return **name**\ _with_named_params(pk(a1, a2, …, a ## **l**));
-    }
-
-    template <
-        typename A1
-      , typename A2
-      , …
-      , typename A ## **l**
-      , typename A ## `BOOST_PP_INC`_\ (**l**)
-    >
-    r
-        name(
-            A1 const& a1, A2 const& a2, …, A ## **l** const& a ## **l**
-          , A ## `BOOST_PP_INC`_\ (**l**) const& a ## `BOOST_PP_INC`_\ (**l**)
-          , typename **p**::match<
-                A1 const, A2 const, …, A ## **l** const
-              , A ## `BOOST_PP_INC`_\ (**l**) const
-            >::type pk = **p**\ ()
-        )
-    {
-        return **name**\ _with_named_params(
-            pk(a1, a2, …, a ## **l**, a ## `BOOST_PP_INC`_\ (**l**))
-        );
-    }
-
-    *… exponential number of overloads …*
-    :vellipsis:`⋮`
-
-    template <
-        typename A1
-      , typename A2
-      , …
-      , typename A ## **l**
-      , typename A ## `BOOST_PP_INC`_\ (**l**)
-    >
-    r
-        name(
-            A1& a1, A2& a2, …, A ## **l** & a ## **l**
-          , A ## `BOOST_PP_INC`_\ (**l**) & a ## `BOOST_PP_INC`_\ (**l**)
-          , typename **p**::match<
-                A1, A2, …, A ## **l**, A ## `BOOST_PP_INC`_\ (**l**)
-            >::type pk = **p**\ ()
-        )
-    {
-        return **name**\ _with_named_params(
-            pk(a1, a2, …, a ## **l**, a ## `BOOST_PP_INC`_\ (**l**))
-        );
-    }
-
-    :vellipsis:`⋮`
-
-    template <typename A1, typename A2, …, typename A ## **h**>
-    r
-        name(
-            A1 const& a1, A2 const& a2, …, A ## **h** const& x ## **h**
-          , typename **p**::match<
-                A1 const, A2 const, …, A ## **h** const
-            >::type pk = **p**\ ()
-        )
-    {
-        return **name**\ _with_named_params(pk(a1, a2, …, a ## **h**));
-    }
-
-    *… exponential number of overloads …*
-    :vellipsis:`⋮`
-
-    template <typename A1, typename A2, …, typename A ## **h**>
-    r
-        name(
-            A1& a1, A2& a2, …, A ## **h** & x ## **h**
-          , typename **p**::match<A1, A2, …, A ## **h**>::type pk = **p**\ ()
-        )
-    {
-        return **name**\ _with_named_params(pk(a1, a2, …, a ## **h**));
     }
 
 The |macros_cpp|_ and |macros_eval_cat_cpp|_ test programs demonstrate proper
