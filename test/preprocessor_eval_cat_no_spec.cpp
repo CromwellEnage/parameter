@@ -269,15 +269,20 @@ namespace test {
 #endif
 
         BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(C, (B))
+    };
+
+    struct D
+    {
+        BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(D, D::_evaluate)
 
         BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION((bool), evaluate_m)
         {
-            return C::_evaluate(args);
+            return D::_evaluate(args);
         }
 
         BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR((bool))
         {
-            return C::_evaluate(args);
+            return D::_evaluate(args);
         }
 
      private:
@@ -458,14 +463,15 @@ int main()
       , test::_rrc0 = test::rvalue_const_float()
       , test::_lr0 = test::lvalue_char_ptr()
     );
-    cp0.evaluate_m(
+
+    test::D dp0(
         test::_lrc1 = test::lvalue_const_bitset<4>()
       , test::_lrc0 = test::lvalue_const_bitset<0>()
       , test::_lr0 = test::lvalue_bitset<1>()
       , test::_rrc0 = test::rvalue_const_bitset<2>()
       , test::_rr0 = test::rvalue_bitset<3>()
     );
-    cp0.evaluate_m(
+    test::D dp1(
         test::_lrc1 = test::lvalue_const_bitset<4>()
       , test::_lrc0 = test::lvalue_const_bitset<0>()
       , test::_rrc1 = test::rvalue_const_bitset<6>()
@@ -473,7 +479,16 @@ int main()
       , test::_rrc0 = test::rvalue_const_bitset<2>()
       , test::_rr0 = test::rvalue_bitset<3>()
     );
-    cp1.evaluate_m(
+
+    dp0.evaluate_m(
+        test::_lrc1 = test::lvalue_const_bitset<4>()
+      , test::_lrc0 = test::lvalue_const_bitset<0>()
+      , test::_rrc1 = test::rvalue_const_bitset<6>()
+      , test::_lr0 = test::lvalue_bitset<1>()
+      , test::_rrc0 = test::rvalue_const_bitset<2>()
+      , test::_rr0 = test::rvalue_bitset<3>()
+    );
+    dp1.evaluate_m(
         test::_lr0 = test::lvalue_bitset<1>()
       , test::_rrc0 = test::rvalue_const_bitset<2>()
       , test::_rr0 = test::rvalue_bitset<3>()
@@ -483,22 +498,14 @@ int main()
       , test::_rr1 = test::rvalue_bitset<7>()
       , test::_lrc0 = test::lvalue_const_bitset<0>()
     );
-    cp0(
+    dp0(
         test::_lrc1 = test::lvalue_const_bitset<4>()
       , test::_lrc0 = test::lvalue_const_bitset<0>()
       , test::_lr0 = test::lvalue_bitset<1>()
       , test::_rrc0 = test::rvalue_const_bitset<2>()
       , test::_rr0 = test::rvalue_bitset<3>()
     );
-    cp0(
-        test::_lrc1 = test::lvalue_const_bitset<4>()
-      , test::_lrc0 = test::lvalue_const_bitset<0>()
-      , test::_rrc1 = test::rvalue_const_bitset<6>()
-      , test::_lr0 = test::lvalue_bitset<1>()
-      , test::_rrc0 = test::rvalue_const_bitset<2>()
-      , test::_rr0 = test::rvalue_bitset<3>()
-    );
-    cp1(
+    dp1(
         test::_lr0 = test::lvalue_bitset<1>()
       , test::_rrc0 = test::rvalue_const_bitset<2>()
       , test::_rr0 = test::rvalue_bitset<3>()

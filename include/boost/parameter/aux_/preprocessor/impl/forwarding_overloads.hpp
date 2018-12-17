@@ -37,8 +37,10 @@
 #include <boost/parameter/are_tagged_arguments.hpp>
 #include <boost/core/enable_if.hpp>
 
-// Exapnds to a variadic constructor that is enabled if and only if
-// all its arguments are tagged arguments.
+// Exapnds to a variadic constructor that is enabled if and only if all its
+// arguments are tagged arguments.  The enclosing class must inherit from the
+// specified base class, which in turn must implement a constructor that takes
+// in the argument pack that this one passes on.
 #define BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(class_, base)                    \
     template <                                                               \
         typename TaggedArg0                                                  \
@@ -53,6 +55,24 @@
             ::boost::parameter::parameters<>()(arg0, args...)                \
         )                                                                    \
     {                                                                        \
+    }
+/**/
+
+// Exapnds to a variadic constructor that is enabled if and only if all its
+// arguments are tagged arguments.  The specified function must be able to
+// take in the argument pack that this constructor passes on.
+#define BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(class_, func)            \
+    template <                                                               \
+        typename TaggedArg0                                                  \
+      , typename ...TaggedArgs                                               \
+      , typename = typename ::boost::enable_if<                              \
+            ::boost::parameter                                               \
+            ::are_tagged_arguments<TaggedArg0,TaggedArgs...>                 \
+        >::type                                                              \
+    > inline explicit                                                        \
+    class_(TaggedArg0 const& arg0, TaggedArgs const&... args)                \
+    {                                                                        \
+        func(::boost::parameter::parameters<>()(arg0, args...));             \
     }
 /**/
 
@@ -330,7 +350,8 @@
 
 #if defined(BOOST_NO_SFINAE)
 
-// Exapnds to a tagged-argument constructor overload.
+// Exapnds to a tagged-argument constructor overload that passes the argument
+// pack to the base class delegate constructor.
 #define BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR_OVERLOAD_Z(z, n, data)           \
     template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename TaggedArg)>              \
     BOOST_PP_EXPR_IF(BOOST_PP_EQUAL(n, 1), explicit) inline                  \
@@ -342,6 +363,23 @@
             )                                                                \
         )                                                                    \
     {                                                                        \
+    }
+/**/
+
+// Exapnds to a tagged-argument constructor overload that passes the argument
+// pack to the delegate function.
+#define BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR_OVERLOAD_Z(z, n, data)   \
+    template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename TaggedArg)>              \
+    BOOST_PP_EXPR_IF(BOOST_PP_EQUAL(n, 1), explicit) inline                  \
+    BOOST_PP_TUPLE_ELEM(2, 0, data)(                                         \
+        BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, TaggedArg, const& arg)           \
+    )                                                                        \
+    {                                                                        \
+        BOOST_PP_TUPLE_ELEM(2, 1, data)(                                     \
+            ::boost::parameter::parameters<>()(                              \
+                BOOST_PP_ENUM_PARAMS_Z(z, n, arg)                            \
+            )                                                                \
+        )                                                                    \
     }
 /**/
 
@@ -384,8 +422,9 @@
 #include <boost/tti/detail/dnullptr.hpp>
 #include <boost/core/enable_if.hpp>
 
-// Exapnds to a constructor overload that is enabled if and only if
-// all its arguments are tagged arguments.
+// Exapnds to a tagged-argument constructor overload that passes the argument
+// pack to the base class delegate constructor.  This constructor is enabled
+// if and only if all its arguments are tagged arguments.
 #define BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR_OVERLOAD_Z(z, n, data)           \
     template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename TaggedArg)>              \
     BOOST_PP_EXPR_IF(BOOST_PP_EQUAL(n, 1), explicit) inline                  \
@@ -402,6 +441,29 @@
             )                                                                \
         )                                                                    \
     {                                                                        \
+    }
+/**/
+
+// Exapnds to a tagged-argument constructor overload that passes the argument
+// pack to the delegate function.  This constructor is enabled if and only if
+// all its arguments are tagged arguments.
+#define BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR_OVERLOAD_Z(z, n, data)   \
+    template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename TaggedArg)>              \
+    BOOST_PP_EXPR_IF(BOOST_PP_EQUAL(n, 1), explicit) inline                  \
+    BOOST_PP_TUPLE_ELEM(2, 0, data)(                                         \
+        BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, TaggedArg, const& arg)           \
+      , typename ::boost::enable_if<                                         \
+            ::boost::parameter::are_tagged_arguments<                        \
+                BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)                      \
+            >                                                                \
+        >::type* = BOOST_TTI_DETAIL_NULLPTR                                  \
+    )                                                                        \
+    {                                                                        \
+        BOOST_PP_TUPLE_ELEM(2, 1, data)(                                     \
+            ::boost::parameter::parameters<>()(                              \
+                BOOST_PP_ENUM_PARAMS_Z(z, n, arg)                            \
+            )                                                                \
+        )                                                                    \
     }
 /**/
 
@@ -445,8 +507,10 @@
 #include <boost/preprocessor/arithmetic/inc.hpp>
 #include <boost/preprocessor/repetition/repeat_from_to.hpp>
 
-// Exapnds to a variadic constructor that is enabled if and only if
-// all its arguments are tagged arguments.
+// Emulates a variadic constructor that is enabled if and only if all its
+// arguments are tagged arguments.  The enclosing class must inherit from the
+// specified base class, which in turn must implement a constructor that takes
+// in the argument pack that this one passes on.
 #define BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(class_, base)                    \
     BOOST_PP_REPEAT_FROM_TO(                                                 \
         1                                                                    \
@@ -456,7 +520,19 @@
     )
 /**/
 
-// Exapnds to a variadic function that is enabled if and only if
+// Emulates a variadic constructor that is enabled if and only if all its
+// arguments are tagged arguments.  The specified function must be able to
+// take in the argument pack that this constructor passes on.
+#define BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(class_, func)            \
+    BOOST_PP_REPEAT_FROM_TO(                                                 \
+        1                                                                    \
+      , BOOST_PP_INC(BOOST_PARAMETER_MAX_ARITY)                              \
+      , BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR_OVERLOAD_Z               \
+      , (class_, func)                                                       \
+    )
+/**/
+
+// Emulates a variadic function that is enabled if and only if
 // all its arguments are tagged arguments.
 #define BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD(name, impl, is_m, c)       \
     BOOST_PP_REPEAT_FROM_TO(                                                 \

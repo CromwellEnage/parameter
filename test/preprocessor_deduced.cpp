@@ -207,6 +207,60 @@ namespace test {
     {
         return 0;
     }
+
+    // Test support for two different Boost.Parameter-enabled
+    // function call operator overloads: one const, the other non-const.
+    class char_reader
+    {
+        int index;
+
+     public:
+        char_reader() : index(0)
+        {
+        }
+
+#if BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x580))
+        BOOST_PARAMETER_FUNCTION_CALL_OPERATOR((void), test::tag,
+            (deduced
+                (required
+                    (y, *(test::predicate_int))
+                )
+            )
+        )
+#else
+        BOOST_PARAMETER_FUNCTION_CALL_OPERATOR((void), test::tag,
+            (deduced
+                (required
+                    (y, *(test::predicate<int>))
+                )
+            )
+        )
+#endif
+        {
+            this->index = y;
+        }
+
+#if BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x580))
+        BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((char), test::tag,
+            (deduced
+                (required
+                    (y, *(test::predicate_string))
+                )
+            )
+        )
+#else
+        BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((char), test::tag,
+            (deduced
+                (required
+                    (y, *(test::predicate<std::string>))
+                )
+            )
+        )
+#endif
+        {
+            return y[this->index];
+        }
+    };
 #endif  // BOOST_NO_SFINAE
 } // namespace test
 
@@ -288,8 +342,14 @@ int main()
     );
 
 #if !defined(BOOST_NO_SFINAE)
-    BOOST_TEST(test::sfinae("foo") == 1);
-    BOOST_TEST(test::sfinae(0) == 0);
+    BOOST_TEST(1 == test::sfinae("foo"));
+    BOOST_TEST(0 == test::sfinae(0));
+    test::char_reader r;
+    BOOST_TEST('b' == r(std::string("bar")));
+    r(1);
+    BOOST_TEST('a' == r(std::string("bar")));
+    r(2);
+    BOOST_TEST('r' == r(std::string("bar")));
 #endif
 
     return boost::report_errors();
