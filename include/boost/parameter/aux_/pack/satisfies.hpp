@@ -10,10 +10,7 @@
 #include <boost/config.hpp>
 #include <boost/config/workaround.hpp>
 
-#if defined(__MINGW_32__) || ( \
-        BOOST_WORKAROUND(BOOST_GCC, >= 40900) && \
-        BOOST_WORKAROUND(BOOST_GCC, < 70000) \
-    ) || !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if BOOST_WORKAROUND(BOOST_MSVC, == 1310)
 #include <boost/parameter/aux_/arg_list.hpp>
 #include <boost/parameter/aux_/augment_predicate.hpp>
 #include <boost/parameter/aux_/void.hpp>
@@ -27,10 +24,7 @@
 
 namespace boost { namespace parameter { namespace aux {
 
-#if defined(__MINGW_32__) || ( \
-        BOOST_WORKAROUND(BOOST_GCC, >= 40900) && \
-        BOOST_WORKAROUND(BOOST_GCC, < 70000) \
-    ) || !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if BOOST_WORKAROUND(BOOST_MSVC, == 1310)
     template <typename ArgList, typename ParameterRequirements, typename Bound>
     struct satisfies_impl
       : ::boost::mpl::apply_wrap2<
@@ -51,11 +45,8 @@ namespace boost { namespace parameter { namespace aux {
     template <typename ArgList, typename ParameterRequirements>
     struct satisfies
     {
-#if defined(__MINGW_32__) || ( \
-        BOOST_WORKAROUND(BOOST_GCC, >= 40900) && \
-        BOOST_WORKAROUND(BOOST_GCC, < 70000) \
-    ) || !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-        // The compilers & modes detected above report ambiguous overloads,
+#if BOOST_WORKAROUND(BOOST_MSVC, == 1310)
+        // VC7.1 can't handle the sizeof() implementation below,
         // so we use this instead.
         typedef typename ::boost::mpl::apply_wrap3<
             typename ArgList::binding
@@ -80,7 +71,7 @@ namespace boost { namespace parameter { namespace aux {
                 >
             >
         >::type type;
-#else   // Use sizeof() trick.
+#else   // !BOOST_WORKAROUND(BOOST_MSVC, == 1310)
         BOOST_STATIC_CONSTANT(
             bool, value = (
                 sizeof(
@@ -97,7 +88,7 @@ namespace boost { namespace parameter { namespace aux {
         );
 
         typedef ::boost::mpl::bool_<satisfies::value> type;
-#endif  // Workarounds needed.
+#endif  // MSVC 7.1 workarounds needed.
     };
 }}} // namespace boost::parameter::aux
 
