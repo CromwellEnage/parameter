@@ -635,7 +635,9 @@ namespace boost { namespace parameter { namespace aux {
         static ::boost::parameter::aux::yes_tag has_key(key_type*);
         using Next::has_key;
 
+#if !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
      private:
+#endif
         typedef ::boost::mpl::bool_<
             sizeof(
                 Next::has_key(
@@ -649,7 +651,7 @@ namespace boost { namespace parameter { namespace aux {
           , duplicate_keyword
           , (key_type)
         );
-#endif
+#endif  // Borland workarounds not needed.
 
      public:
         //
