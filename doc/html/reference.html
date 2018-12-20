@@ -177,15 +177,15 @@ href="#boost-parameter-no-spec-member-function-result-name"
 id="id64">6.13&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION(result, name)</tt></a></li>
 <li><a class="reference internal"
-href="#boost-parameter-no-spec-const-mem-function-result-name"
+href="#boost-parameter-no-spec-c-mem-function-result-name"
 id="id65">6.14&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION(result, name)</tt></a></li>
 <li><a class="reference internal"
-href="#boost-parameter-no-spec-function-call-operator-result"
+href="#boost-parameter-no-spec-function-call-op-result"
 id="id66">6.15&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR(result)</tt></a></li>
 <li><a class="reference internal"
-href="#boost-parameter-no-spec-const-function-call-operator-result"
+href="#boost-parameter-no-spec-const-func-call-op-result"
 id="id67">6.16&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR(result)</tt></a></li>
 <li><a class="reference internal"
@@ -193,7 +193,7 @@ href="#boost-parameter-no-spec-constructor-cls-impl"
 id="id68">6.17&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(cls, impl)</tt></a></li>
 <li><a class="reference internal"
-href="#boost-parameter-no-spec-no-base-constructor-cls-func"
+href="#boost-parameter-no-spec-no-base-ctor-cls-func"
 id="id69">6.18&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(cls, func)</tt></a></li>
 <li><a class="reference internal" href="#boost-parameter-name-name"
@@ -1291,8 +1291,8 @@ struct parameters&lt;&gt;
     typename boost::<a class="reference external"
 href="../../../core/doc/html/core/enable_if.html"><tt
 class="docutils literal">enable_if</tt></a>&lt;
-        boost::parameter::<a class="reference internal"
-href="#are-tagged-arguments">are_tagged_arguments</a>&lt;Args...&gt;
+        <a class="reference internal" href="#are-tagged-arguments"
+>are_tagged_arguments</a>&lt;Args...&gt;
       , <a class="reference internal" href="#argumentpack"><span
 class="concept">ArgumentPack</span></a>
     &gt;::type
@@ -1686,8 +1686,11 @@ tag type</a> <tt class="docutils literal">K</tt>, if any.  If no such
 <a class="reference internal" href="#tagged-reference">tagged reference</a>
 exists, returns <tt class="docutils literal">D</tt>.  Equivalent to:</p>
 <pre class="literal-block">
-typename remove_reference&lt;
-    typename binding&lt;A, K, D&gt;::type
+typename boost::<a class="reference external"
+href="../../../type_traits/doc/html/boost_typetraits/remove_reference.html"
+><tt class="docutils literal">remove_reference</tt></a>&lt;
+    typename <a class="reference internal" href="#binding"
+>binding</a>&lt;A, K, D&gt;::type
 &gt;::type
 </pre>
 <p class="last">… when <tt class="docutils literal">D</tt> is not a reference
@@ -1756,7 +1759,9 @@ class frontend : public B
     };
 
  public:
-    BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(frontend, (B))
+    <a class="reference internal"
+href="#boost-parameter-no-spec-constructor-cls-impl"
+>BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR</a>(frontend, (B))
 
     template &lt;typename Iterator&gt;
     frontend(
@@ -1765,7 +1770,7 @@ class frontend : public B
       , typename boost::<a class="reference external"
 href="../../../core/doc/html/core/enable_if.html"><tt
 class="docutils literal">disable_if</tt></a>&lt;
-            boost::parameter::are_tagged_arguments&lt;Iterator&gt;
+            are_tagged_arguments&lt;Iterator&gt;
           , _enabler
         &gt;::type = _enabler()
     ) : B(itr, itr_end)
@@ -1826,7 +1831,8 @@ class="concept">ArgumentPack</span></a> and a templated conversion
 constructor, use this metafunction in conjunction with
 <tt class="docutils literal"><span class="pre">enable_if</span></tt>.</p>
 <pre class="first literal-block">
-BOOST_PARAMETER_NAME(a0)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(a0)
 
 template &lt;typename T&gt;
 class backend0
@@ -1842,9 +1848,8 @@ class backend0
     explicit backend0(
         ArgPack const&amp; args
       , typename boost::<a class="reference external"
-href="../../../core/doc/html/core/enable_if.html"><tt
-class="docutils literal">enable_if</tt></a>&lt;
-            boost::parameter::is_argument_pack&lt;ArgPack&gt;
+href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
+            is_argument_pack&lt;ArgPack&gt;
           , _enabler
         &gt;::type = _enabler()
     ) : a0(args[_a0])
@@ -1855,11 +1860,10 @@ class="docutils literal">enable_if</tt></a>&lt;
     backend0(
         backend0&lt;U&gt; const&amp; copy
       , typename boost::<a class="reference external"
-href="../../../core/doc/html/core/enable_if.html"><tt
-class="docutils literal">enable_if</tt></a>&lt;
+href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
             boost::<a class="reference external"
-href="../../../type_traits/doc/html/boost_typetraits/is_convertible.html"><tt
-class="docutils literal">is_convertible</tt></a>&lt;U,T&gt;
+href="../../../type_traits/doc/html/boost_typetraits/is_convertible.html"
+>is_convertible</a>&lt;U,T&gt;
           , _enabler
         &gt;::type = _enabler()
     ) : a0(copy.get_a0())
@@ -2043,8 +2047,7 @@ struct boost_param_result_ ## __LINE__ ## <strong>name</strong>
 };
 
 struct boost_param_params_ ## __LINE__ ## <strong>name</strong>
-  : boost::parameter::<a class="reference internal" href="#parameters"
->parameters</a>&lt;
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
         <em>list of parameter specifications, based on arguments</em>
     &gt;
 {
@@ -2421,8 +2424,7 @@ struct boost_param_result_ ## __LINE__ ## <strong>name</strong>
 };
 
 struct boost_param_params_ ## __LINE__ ## <strong>name</strong>
-  : boost::parameter::<a class="reference internal" href="#parameters"
->parameters</a>&lt;
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
         <em>list of parameter specifications, based on arguments</em>
     &gt;
 {
@@ -2749,8 +2751,7 @@ struct boost_param_result_const_ ## __LINE__ ## <strong>name</strong>
 };
 
 struct boost_param_params_const_ ## __LINE__ ## <strong>name</strong>
-  : boost::parameter::<a class="reference internal" href="#parameters"
->parameters</a>&lt;
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
         <em>list of parameter specifications, based on arguments</em>
     &gt;
 {
@@ -3080,8 +3081,7 @@ struct boost_param_result_ ## __LINE__ ## operator
 };
 
 struct boost_param_params_ ## __LINE__ ## operator
-  : boost::parameter::<a class="reference internal" href="#parameters"
->parameters</a>&lt;
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
         <em>list of parameter specifications, based on arguments</em>
     &gt;
 {
@@ -3095,9 +3095,9 @@ template &lt;typename A0, …, typename A ## <strong>n</strong>&gt;
     operator()(
         A0&amp;&amp; a0, …, A ## <strong>n</strong> &amp;&amp; a ## <strong
 >n</strong>
-      , typename boost_param_parameters_ ## __LINE__ ## operator::match&lt;
-            A0, …, A ## <strong>n</strong>
-        &gt;::type = boost_param_parameters_ ## __LINE__ ## operator()
+      , typename boost_param_parameters_ ## __LINE__ ## operator
+        ::match&lt;A0, …, A ## <strong>n</strong>&gt;::type
+        = boost_param_parameters_ ## __LINE__ ## operator()
     )
 {
     return this-&gt;boost_param_impl ## __LINE__ ## operator(
@@ -3121,9 +3121,9 @@ template &lt;typename A0, …, typename A ## <strong>m</strong>&gt;
     operator()(
         A0&amp;&amp; a0, …, A ## <strong>m</strong> &amp;&amp; a ## <strong
 >m</strong>
-      , typename boost_param_parameters_ ## __LINE__ ## operator::match&lt;
-            A0, …, A ## <strong>m</strong>
-        &gt;::type = boost_param_parameters_ ## __LINE__ ## operator()
+      , typename boost_param_parameters_ ## __LINE__ ## operator
+        ::match&lt;A0, …, A ## <strong>m</strong>&gt;::type
+        = boost_param_parameters_ ## __LINE__ ## operator()
     )
 {
     return this-&gt;boost_param_impl ## __LINE__ ## operator(
@@ -3404,8 +3404,7 @@ struct boost_param_result_const_ ## __LINE__ ## operator
 };
 
 struct boost_param_params_const_ ## __LINE__ ## operator
-  : boost::parameter::<a class="reference internal" href="#parameters"
->parameters</a>&lt;
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
         <em>list of parameter specifications, based on arguments</em>
     &gt;
 {
@@ -3419,9 +3418,9 @@ template &lt;typename A0, …, typename A ## <strong>n</strong>&gt;
     operator()(
         A0&amp;&amp; a0, …, A ## <strong>n</strong> &amp;&amp; a ## <strong
 >n</strong>
-      , typename boost_param_parameters_const_ ## __LINE__ ## operator::match&lt;
-            A0, …, A ## <strong>n</strong>
-        &gt;::type = boost_param_parameters_const_ ## __LINE__ ## operator()
+      , typename boost_param_parameters_const_ ## __LINE__ ## operator
+        ::match&lt;A0, …, A ## <strong>n</strong>&gt;::type
+        = boost_param_parameters_const_ ## __LINE__ ## operator()
     ) const
 {
     return this-&gt;boost_param_impl_const ## __LINE__ ## operator(
@@ -3445,9 +3444,9 @@ template &lt;typename A0, …, typename A ## <strong>m</strong>&gt;
     operator()(
         A0&amp;&amp; a0, …, A ## <strong>m</strong> &amp;&amp; a ## <strong
 >m</strong>
-      , typename boost_param_parameters_const_ ## __LINE__ ## operator::match&lt;
-            A0, …, A ## <strong>m</strong>
-        &gt;::type = boost_param_parameters_const_ ## __LINE__ ## operator()
+      , typename boost_param_parameters_const_ ## __LINE__ ## operator
+        ::match&lt;A0, …, A ## <strong>m</strong>&gt;::type
+        = boost_param_parameters_const_ ## __LINE__ ## operator()
     ) const
 {
     return this-&gt;boost_param_impl_const ## __LINE__ ## operator(
@@ -3709,8 +3708,7 @@ determined from <tt class="docutils literal">arguments</tt>.</li>
 </ul>
 <pre class="last literal-block">
 struct boost_param_params_ ## __LINE__ ## ctor
-  : boost::parameter::<a class="reference internal" href="#parameters"
->parameters</a>&lt;
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
         <em>list of parameter specifications, based on arguments</em>
     &gt;
 {
@@ -3720,9 +3718,9 @@ typedef boost_param_params_ ## __LINE__ ## ctor
     constructor_parameters ## __LINE__;
 
 template &lt;typename A0, …, typename A ## <strong>n</strong>&gt;
-<em>cls</em>(A0&amp;&amp; a0, …, A ## <strong
+<strong>cls</strong>(A0&amp;&amp; a0, …, A ## <strong
 >n</strong> &amp;&amp; a ## <strong>n</strong>)
-  : <em>impl</em>(
+  : <strong>impl</strong>(
         constructor_parameters ## __LINE__(
             std::<a class="reference external"
 href="http://en.cppreference.com/w/cpp/utility/forward"><tt
@@ -3740,9 +3738,9 @@ class="docutils literal">forward</tt></a>&lt;A ## <strong
 <span class="vellipsis">⋮</span>
 
 template &lt;typename A0, …, typename A ## <strong>m</strong>&gt;
-<em>cls</em>(A0&amp;&amp; a0, …, A ## <strong
+<strong>cls</strong>(A0&amp;&amp; a0, …, A ## <strong
 >m</strong>&amp;&amp; a ## <strong>m</strong>)
-  : <em>impl</em>(
+  : <strong>impl</strong>(
         constructor_parameters ## __LINE__(
             std::<a class="reference external"
 href="http://en.cppreference.com/w/cpp/utility/forward"><tt
@@ -3898,8 +3896,7 @@ struct boost_param_result_ ## __LINE__ ## <strong>name</strong>
 };
 
 struct boost_param_params_ ## __LINE__ ## <strong>name</strong>
-  : boost::parameter::<a class="reference internal" href="#parameters"
->parameters</a>&lt;
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
         <em>list of parameter specifications, based on arguments</em>
     &gt;
 {
@@ -4120,8 +4117,7 @@ struct boost_param_result_ ## __LINE__ ## <strong>name</strong>
 };
 
 struct boost_param_params_ ## __LINE__ ## <strong>name</strong>
-  : boost::parameter::<a class="reference internal" href="#parameters"
->parameters</a>&lt;
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
         <em>list of parameter specifications, based on arguments</em>
     &gt;
 {
@@ -4325,36 +4321,36 @@ determined from <tt class="docutils literal">arguments</tt>.</li>
 </ul>
 <pre class="last literal-block">
 template &lt;typename T&gt;
-struct boost_param_result_ ## __LINE__ ## <strong>name</strong>
+struct boost_param_result_const_ ## __LINE__ ## <strong>name</strong>
 {
     typedef <strong>result</strong> type;
 };
 
-struct boost_param_params_ ## __LINE__ ## <strong>name</strong>
-  : boost::parameter::<a class="reference internal" href="#parameters"
->parameters</a>&lt;
+struct boost_param_params_const_ ## __LINE__ ## <strong>name</strong>
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
         <em>list of parameter specifications, based on arguments</em>
     &gt;
 {
 };
 
-typedef boost_param_params_ ## __LINE__ ## <strong>name</strong>
-    boost_param_parameters_ ## __LINE__ ## <strong>name</strong>;
+typedef boost_param_params_const_ ## __LINE__ ## <strong>name</strong>
+    boost_param_parameters_const_ ## __LINE__ ## <strong>name</strong>;
 
 template &lt;typename A0, …, typename A ## <strong>n</strong>&gt;
 <em>result type</em>
     <strong>name</strong>(
         A0&amp;&amp; a0, …, A ## <strong>n</strong> &amp;&amp; a ## <strong
 >n</strong>
-      , typename boost_param_parameters_ ## __LINE__ ## <strong
+      , typename boost_param_parameters_const_ ## __LINE__ ## <strong
 >name</strong>::match&lt;
             A0, …, A ## <strong>n</strong>
-        &gt;::type = boost_param_parameters_ ## __LINE__ ## <strong
+        &gt;::type = boost_param_parameters_const_ ## __LINE__ ## <strong
 >name</strong>()
     ) const
 {
-    return this-&gt;boost_param_impl ## __LINE__ ## <strong>name</strong>(
-        boost_param_parameters_ ## __LINE__ ## <strong>name</strong>()(
+    return this-&gt;boost_param_impl_const ## __LINE__ ## <strong
+>name</strong>(
+        boost_param_parameters_const_ ## __LINE__ ## <strong>name</strong>()(
             std::<a class="reference external"
 href="http://en.cppreference.com/w/cpp/utility/forward"><tt
 class="docutils literal">forward</tt></a>&lt;A0&gt;(a0)
@@ -4374,15 +4370,16 @@ template &lt;typename A0, …, typename A ## <strong>m</strong>&gt;
     <strong>name</strong>(
         A0&amp;&amp; a0, …, A ## <strong>m</strong> &amp;&amp; a ## <strong
 >m</strong>
-      , typename boost_param_parameters_ ## __LINE__ ## <strong
+      , typename boost_param_parameters_const_ ## __LINE__ ## <strong
 >name</strong>::match&lt;
             A0, …, A ## <strong>m</strong>
-        &gt;::type = boost_param_parameters_ ## __LINE__ ## <strong
+        &gt;::type = boost_param_parameters_const_ ## __LINE__ ## <strong
 >name</strong>()
     ) const
 {
-    return this-&gt;boost_param_impl ## __LINE__ ## <strong>name</strong>(
-        boost_param_parameters_ ## __LINE__ ## <strong>name</strong>()(
+    return this-&gt;boost_param_impl_const ## __LINE__ ## <strong
+>name</strong>(
+        boost_param_parameters_const_ ## __LINE__ ## <strong>name</strong>()(
             std::<a class="reference external"
 href="http://en.cppreference.com/w/cpp/utility/forward"><tt
 class="docutils literal">forward</tt></a>&lt;A0&gt;(a0)
@@ -4396,9 +4393,10 @@ class="docutils literal">forward</tt></a>&lt;A ## <strong
 }
 
 template &lt;typename Args&gt;
-typename boost_param_result_ ## __LINE__ ## <strong
+typename boost_param_result_const_ ## __LINE__ ## <strong
 >name</strong>&lt;Args&gt;::type
-    boost_param_impl ## __LINE__ ## <strong>name</strong>(Args const& args) const
+    boost_param_impl_const ## __LINE__ ## <strong
+>name</strong>(Args const& args) const
 </pre>
 <p>Only the <a class="reference internal" href="#argumentpack"><span
 class="concept">ArgumentPack</span></a> type <tt class="docutils literal"
@@ -4440,6 +4438,9 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <p class="first"></p>
 <pre class="first literal-block">
 </pre>
+<p>The <a class="reference external" href="../../test/preprocessor.cpp"
+>test/preprocessor.cpp</a> test program demonstrates proper usage of this
+macro.</p>
 </td>
 </tr>
 <tr class="field">
@@ -4528,16 +4529,86 @@ arguments.</p>
 <dl class="docutils">
 <dt>Approximate expansion:</dt>
 <dd>
-<p>Same as <a class="reference internal"
-href="#boost-parameter-basic-member-function-result-name-tag-ns-arguments"
-><tt class="docutils literal">BOOST_PARAMETER_BASIC_MEMBER_FUNCTION</tt></a>,
-except that the name of the forwarding member function overloads is
-<tt class="docutils literal">operator()</tt>.</p>
+<p class="first"><strong>Where</strong>:</p>
+<ul class="simple">
+<li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as
+determined from <tt class="docutils literal">arguments</tt>.</li>
+<li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as
+determined from <tt class="docutils literal">arguments</tt>.</li>
+</ul>
+<pre class="last literal-block">
+template &lt;typename T&gt;
+struct boost_param_result_ ## __LINE__ ## operator
+{
+    typedef <strong>result</strong> type;
+};
+
+struct boost_param_params_ ## __LINE__ ## operator
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
+        <em>list of parameter specifications, based on arguments</em>
+    &gt;
+{
+};
+
+typedef boost_param_params_ ## __LINE__ ## operator
+    boost_param_parameters_ ## __LINE__ ## operator;
+
+template &lt;typename A0, …, typename A ## <strong>n</strong>&gt;
+<em>result type</em>
+    operator()(
+        A0&amp;&amp; a0, …, A ## <strong>n</strong> &amp;&amp; a ## <strong
+>n</strong>
+      , typename boost_param_parameters_ ## __LINE__ ## operator
+        ::match&lt;A0, …, A ## <strong>n</strong>&gt;::type
+        = boost_param_parameters_ ## __LINE__ ## operator()
+    )
+{
+    return this-&gt;boost_param_impl ## __LINE__ ## operator(
+        boost_param_parameters_ ## __LINE__ ## operator()(
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A0&gt;(a0)
+          , …
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>n</strong>&gt;(a ## <strong>n</strong>)
+        )
+    );
+}
+
+<span class="vellipsis">⋮</span>
+
+template &lt;typename A0, …, typename A ## <strong>m</strong>&gt;
+<em>result type</em>
+    operator()(
+        A0&amp;&amp; a0, …, A ## <strong>m</strong> &amp;&amp; a ## <strong
+>m</strong>
+      , typename boost_param_parameters_ ## __LINE__ ## operator
+        ::match&lt;A0, …, A ## <strong>m</strong>&gt;::type
+        = boost_param_parameters_ ## __LINE__ ## operator()
+    )
+{
+    return this-&gt;boost_param_impl ## __LINE__ ## operator(
+        boost_param_parameters_ ## __LINE__ ## operator()(
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A0&gt;(a0)
+          , …
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>m</strong>&gt;(a ## <strong>m</strong>)
+        )
+    );
+}
+
+template &lt;typename Args&gt;
+typename boost_param_result_ ## __LINE__ ## operator&lt;Args&gt;::type
+    boost_param_impl ## __LINE__ ## operator(Args const& args)
+</pre>
 </dd>
 </dl>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> test program demonstrates proper usage of this
-macro.</p>
 </div>
 <div class="section"
 id="boost-parameter-basic-const-function-call-op-result-tag-ns-args">
@@ -4661,17 +4732,89 @@ arguments.</p>
 <dl class="docutils">
 <dt>Approximate expansion:</dt>
 <dd>
-<p>Same as <a class="reference internal"
-href="#boost-parameter-basic-function-call-op-result-tag-namespace-arguments"
-><tt class="docutils literal"
->BOOST_PARAMETER_BASIC_FUNCTION_CALL_OPERATOR</tt></a>, except that the
-overloaded function call operators and their helper methods are <tt
-class="docutils literal">const</tt>-qualified.</p>
+<p class="first"><strong>Where</strong>:</p>
+<ul class="simple">
+<li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as
+determined from <tt class="docutils literal">arguments</tt>.</li>
+<li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as
+determined from <tt class="docutils literal">arguments</tt>.</li>
+</ul>
+<pre class="last literal-block">
+template &lt;typename T&gt;
+struct boost_param_result_const_ ## __LINE__ ## operator
+{
+    typedef <strong>result</strong> type;
+};
+
+struct boost_param_params_const_ ## __LINE__ ## operator
+  : <a class="reference internal" href="#parameters">parameters</a>&lt;
+        <em>list of parameter specifications, based on arguments</em>
+    &gt;
+{
+};
+
+typedef boost_param_params_const_ ## __LINE__ ## operator
+    boost_param_parameters_const_ ## __LINE__ ## operator;
+
+template &lt;typename A0, …, typename A ## <strong>n</strong>&gt;
+<em>result type</em>
+    operator()(
+        A0&amp;&amp; a0, …, A ## <strong>n</strong> &amp;&amp; a ## <strong
+>n</strong>
+      , typename boost_param_parameters_const_ ## __LINE__ ## operator
+        ::match&lt;A0, …, A ## <strong>n</strong>&gt;::type
+        = boost_param_parameters_const_ ## __LINE__ ## operator()
+    ) const
+{
+    return this-&gt;boost_param_impl_const ## __LINE__ ## operator(
+        boost_param_parameters_const_ ## __LINE__ ## operator()(
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A0&gt;(a0)
+          , …
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>n</strong>&gt;(a ## <strong>n</strong>)
+        )
+    );
+}
+
+<span class="vellipsis">⋮</span>
+
+template &lt;typename A0, …, typename A ## <strong>m</strong>&gt;
+<em>result type</em>
+    operator()(
+        A0&amp;&amp; a0, …, A ## <strong>m</strong> &amp;&amp; a ## <strong
+>m</strong>
+      , typename boost_param_parameters_const_ ## __LINE__ ## operator
+        ::match&lt;A0, …, A ## <strong>m</strong>&gt;::type
+        = boost_param_parameters_const_ ## __LINE__ ## operator()
+    ) const
+{
+    return this-&gt;boost_param_impl_const ## __LINE__ ## operator(
+        boost_param_parameters_const_ ## __LINE__ ## operator()(
+            std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A0&gt;(a0)
+          , …
+          , std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;A ## <strong
+>m</strong>&gt;(a ## <strong>m</strong>)
+        )
+    );
+}
+
+template &lt;typename Args&gt;
+typename boost_param_result_const_ ## __LINE__ ## operator&lt;Args&gt;::type
+    boost_param_impl_const ## __LINE__ ## operator(Args const& args) const
+</pre>
 </dd>
 </dl>
 </div>
 <div class="section" id="boost-parameter-no-spec-function-result-name">
-<h2><a class="toc-backref" href="#id63">6.13&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id63">6.12&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_NO_SPEC_FUNCTION(result,
 name)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4686,12 +4829,726 @@ href="../../../../boost/parameter/preprocessor.hpp"
 </tr>
 </tbody>
 </table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name" colspan="2">Example usage:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<p class="first"></p>
+<pre class="first literal-block">
+</pre>
 <p>The <a class="reference external"
 href="../../test/parameterized_inheritance.cpp"
 >test/parameterized_inheritance.cpp</a> and <a class="reference external"
 href="../../test/preprocessor_eval_cat_no_spec.cpp"
 >test/preprocessor_eval_cat_no_spec.cpp</a> test programs demonstrate proper
 usage of this macro.</p>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Macro parameters:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<ul class="last simple">
+<li><tt class="docutils literal">result</tt> is the parenthesized return type
+of the function.</li>
+<li><tt class="docutils literal">name</tt> is the base name of the function;
+it determines the name of the generated implementation function.</li>
+</ul>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Argument specifiers syntax:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">None.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Approximate expansion:</dt>
+<dd>
+<pre class="last literal-block">
+template &lt;typename TaggedArg0, typename ...TaggedArgs&gt;
+struct boost_param_no_spec_result_ ## __LINE__ ## <strong>name</strong>
+{
+    typedef <strong>result</strong> type;
+};
+
+template &lt;typename ResultType, typename Args&gt;
+ResultType
+    boost_param_no_spec_impl ## __LINE__ ## <strong>name</strong>(
+        (ResultType(*)())
+      , Args const& args
+    );
+
+template &lt;typename TaggedArg0, typename ...TaggedArgs&gt;
+inline typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html"><tt
+class="docutils literal">lazy_enable_if</tt></a>&lt;
+    <a class="reference internal" href="#are-tagged-arguments"
+>are_tagged_arguments</a>&lt;TaggedArg0,TaggedArgs...&gt;
+  , boost_param_no_spec_result_ ## __LINE__ ## <strong>name</strong>&lt;
+        TaggedArg0
+      , TaggedArgs...
+    &gt;
+&gt;::type
+    <strong>name</strong
+>(TaggedArg0 const&amp; arg0, TaggedArgs const&amp;... args)
+{
+    return boost_param_no_spec_impl ## __LINE__ ## <strong>name</strong>(
+        static_cast&lt;
+            typename
+            boost_param_no_spec_result_ ## __LINE__ ## <strong
+>name</strong>&lt;
+                TaggedArg0
+              , TaggedArgs...
+            &gt;::type(*)()
+        &gt;(std::nullptr)
+      , <a class="reference internal" href="#parameters"
+>parameters</a>&lt;&gt;()(arg0, args...)
+    );
+}
+
+template &lt;typename ResultType, typename Args&gt;
+ResultType
+    boost_param_no_spec_impl ## __LINE__ ## <strong>name</strong>(
+        (ResultType(*)())
+      , Args const& args
+    )
+</pre>
+<p>Only the <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a> type <tt class="docutils literal"
+>Args</tt> and its object instance <tt class="docutils literal">args</tt> are
+available for use within the function body.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="boost-parameter-no-spec-member-function-result-name">
+<h2><a class="toc-backref" href="#id64">6.13&nbsp;&nbsp;&nbsp;<tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION(result,
+name)</tt></a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name">Defined in:</th>
+<td class="field-body"><a class="reference external"
+href="../../../../boost/parameter/preprocessor.hpp"
+>boost/parameter/preprocessor.hpp</a></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name" colspan="2">Example usage:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<p class="first"></p>
+<pre class="first literal-block">
+</pre>
+<p>The <a class="reference external"
+href="../../test/parameterized_inheritance.cpp"
+>test/parameterized_inheritance.cpp</a> and <a class="reference external"
+href="../../test/preprocessor_eval_cat_no_spec.cpp"
+>test/preprocessor_eval_cat_no_spec.cpp</a> test programs demonstrate proper
+usage of this macro.</p>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Macro parameters:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<ul class="last simple">
+<li><tt class="docutils literal">result</tt> is the parenthesized return type
+of the function.</li>
+<li><tt class="docutils literal">name</tt> is the base name of the function;
+it determines the name of the generated implementation function.  <tt
+class="docutils literal">name</tt> may be qualified by the <tt
+class="docutils literal">static</tt> keyword to declare the member function
+and its helpers as not associated with any object of the enclosing type.</li>
+</ul>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Argument specifiers syntax:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">None.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Approximate expansion:</dt>
+<dd>
+<pre class="last literal-block">
+template &lt;typename TaggedArg0, typename ...TaggedArgs&gt;
+struct boost_param_no_spec_result_ ## __LINE__ ## <strong>name</strong>
+{
+    typedef <strong>result</strong> type;
+};
+
+template &lt;typename TaggedArg0, typename ...TaggedArgs&gt;
+inline typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html"><tt
+class="docutils literal">lazy_enable_if</tt></a>&lt;
+    <a class="reference internal" href="#are-tagged-arguments"
+>are_tagged_arguments</a>&lt;TaggedArg0,TaggedArgs...&gt;
+  , boost_param_no_spec_result_ ## __LINE__ ## <strong>name</strong>&lt;
+        TaggedArg0
+      , TaggedArgs...
+    &gt;
+&gt;::type
+    <strong>name</strong
+>(TaggedArg0 const&amp; arg0, TaggedArgs const&amp;... args)
+{
+    return this-&gt;boost_param_no_spec_impl ## __LINE__ ## <strong
+>name</strong>(
+        static_cast&lt;
+            typename
+            boost_param_no_spec_result_ ## __LINE__ ## <strong
+>name</strong>&lt;
+                TaggedArg0
+              , TaggedArgs...
+            &gt;::type(*)()
+        &gt;(std::nullptr)
+      , <a class="reference internal" href="#parameters"
+>parameters</a>&lt;&gt;()(arg0, args...)
+    );
+}
+
+template &lt;typename ResultType, typename Args&gt;
+ResultType
+    boost_param_no_spec_impl ## __LINE__ ## <strong>name</strong>(
+        (ResultType(*)())
+      , Args const& args
+    )
+</pre>
+<p>Only the <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a> type <tt class="docutils literal"
+>Args</tt> and its object instance <tt class="docutils literal">args</tt> are
+available for use within the function body.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="boost-parameter-no-spec-c-mem-function-result-name">
+<h2><a class="toc-backref" href="#id65">6.14&nbsp;&nbsp;&nbsp;<tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION(result,
+name)</tt></a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name">Defined in:</th>
+<td class="field-body"><a class="reference external"
+href="../../../../boost/parameter/preprocessor.hpp"
+>boost/parameter/preprocessor.hpp</a></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name" colspan="2">Example usage:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<p class="first"></p>
+<pre class="first literal-block">
+</pre>
+<p>The <a class="reference external"
+href="../../test/parameterized_inheritance.cpp"
+>test/parameterized_inheritance.cpp</a> and <a class="reference external"
+href="../../test/preprocessor_eval_cat_no_spec.cpp"
+>test/preprocessor_eval_cat_no_spec.cpp</a> test programs demonstrate proper
+usage of this macro.</p>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Macro parameters:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<ul class="last simple">
+<li><tt class="docutils literal">result</tt> is the parenthesized return type
+of the function.</li>
+<li><tt class="docutils literal">name</tt> is the base name of the function;
+it determines the name of the generated implementation function.</li>
+</ul>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Argument specifiers syntax:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">None.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Approximate expansion:</dt>
+<dd>
+<pre class="last literal-block">
+template &lt;typename TaggedArg0, typename ...TaggedArgs&gt;
+struct boost_param_no_spec_result_const_ ## __LINE__ ## <strong>name</strong>
+{
+    typedef <strong>result</strong> type;
+};
+
+template &lt;typename TaggedArg0, typename ...TaggedArgs&gt;
+inline typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html"><tt
+class="docutils literal">lazy_enable_if</tt></a>&lt;
+    <a class="reference internal" href="#are-tagged-arguments"
+>are_tagged_arguments</a>&lt;TaggedArg0,TaggedArgs...&gt;
+  , boost_param_no_spec_result_const_ ## __LINE__ ## <strong>name</strong>&lt;
+        TaggedArg0
+      , TaggedArgs...
+    &gt;
+&gt;::type
+    <strong>name</strong
+>(TaggedArg0 const&amp; arg0, TaggedArgs const&amp;... args) const
+{
+    return this-&gt;boost_param_no_spec_impl_const ## __LINE__ ## <strong
+>name</strong>(
+        static_cast&lt;
+            typename
+            boost_param_no_spec_result_const_ ## __LINE__ ## <strong
+>name</strong>&lt;
+                TaggedArg0
+              , TaggedArgs...
+            &gt;::type(*)()
+        &gt;(std::nullptr)
+      , <a class="reference internal" href="#parameters"
+>parameters</a>&lt;&gt;()(arg0, args...)
+    );
+}
+
+template &lt;typename ResultType, typename Args&gt;
+ResultType
+    boost_param_no_spec_impl_const ## __LINE__ ## <strong>name</strong>(
+        (ResultType(*)())
+      , Args const& args
+    ) const
+</pre>
+<p>Only the <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a> type <tt class="docutils literal"
+>Args</tt> and its object instance <tt class="docutils literal">args</tt> are
+available for use within the function body.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="boost-parameter-no-spec-function-call-op-result">
+<h2><a class="toc-backref" href="#id66">6.15&nbsp;&nbsp;&nbsp;<tt
+class="docutils literal"
+>BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR(result)</tt></a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name">Defined in:</th>
+<td class="field-body"><a class="reference external"
+href="../../../../boost/parameter/preprocessor.hpp"
+>boost/parameter/preprocessor.hpp</a></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name" colspan="2">Example usage:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<p class="first"></p>
+<pre class="first literal-block">
+</pre>
+<p>The <a class="reference external"
+href="../../test/parameterized_inheritance.cpp"
+>test/parameterized_inheritance.cpp</a> and <a class="reference external"
+href="../../test/preprocessor_eval_cat_no_spec.cpp"
+>test/preprocessor_eval_cat_no_spec.cpp</a> test programs demonstrate proper
+usage of this macro.</p>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Macro parameters:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<ul class="last simple">
+<li><tt class="docutils literal">result</tt> is the parenthesized return type
+of the function call operator.</li>
+</ul>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Argument specifiers syntax:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">None.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Approximate expansion:</dt>
+<dd>
+<pre class="last literal-block">
+template &lt;typename TaggedArg0, typename ...TaggedArgs&gt;
+struct boost_param_no_spec_result_ ## __LINE__ ## operator
+{
+    typedef <strong>result</strong> type;
+};
+
+template &lt;typename TaggedArg0, typename ...TaggedArgs&gt;
+inline typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html"><tt
+class="docutils literal">lazy_enable_if</tt></a>&lt;
+    <a class="reference internal" href="#are-tagged-arguments"
+>are_tagged_arguments</a>&lt;TaggedArg0,TaggedArgs...&gt;
+  , boost_param_no_spec_result_ ## __LINE__ ## operator&lt;
+        TaggedArg0
+      , TaggedArgs...
+    &gt;
+&gt;::type
+    operator()(TaggedArg0 const&amp; arg0, TaggedArgs const&amp;... args)
+{
+    return this-&gt;boost_param_no_spec_impl ## __LINE__ ## operator(
+        static_cast&lt;
+            typename
+            boost_param_no_spec_result_ ## __LINE__ ## operator&lt;
+                TaggedArg0
+              , TaggedArgs...
+            &gt;::type(*)()
+        &gt;(std::nullptr)
+      , <a class="reference internal" href="#parameters"
+>parameters</a>&lt;&gt;()(arg0, args...)
+    );
+}
+
+template &lt;typename ResultType, typename Args&gt;
+ResultType
+    boost_param_no_spec_impl ## __LINE__ ## operator(
+        (ResultType(*)())
+      , Args const& args
+    )
+</pre>
+<p>Only the <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a> type <tt class="docutils literal"
+>Args</tt> and its object instance <tt class="docutils literal">args</tt> are
+available for use within the function body.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="boost-parameter-no-spec-const-func-call-op-result">
+<h2><a class="toc-backref" href="#id67">6.16&nbsp;&nbsp;&nbsp;<tt
+class="docutils literal"
+>BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR(result)</tt></a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name">Defined in:</th>
+<td class="field-body"><a class="reference external"
+href="../../../../boost/parameter/preprocessor.hpp"
+>boost/parameter/preprocessor.hpp</a></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name" colspan="2">Example usage:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<p class="first"></p>
+<pre class="first literal-block">
+</pre>
+<p>The <a class="reference external"
+href="../../test/parameterized_inheritance.cpp"
+>test/parameterized_inheritance.cpp</a> and <a class="reference external"
+href="../../test/preprocessor_eval_cat_no_spec.cpp"
+>test/preprocessor_eval_cat_no_spec.cpp</a> test programs demonstrate proper
+usage of this macro.</p>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Macro parameters:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<ul class="last simple">
+<li><tt class="docutils literal">result</tt> is the parenthesized return type
+of the function call operator.</li>
+</ul>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Argument specifiers syntax:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">None.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Approximate expansion:</dt>
+<dd>
+<pre class="last literal-block">
+template &lt;typename TaggedArg0, typename ...TaggedArgs&gt;
+struct boost_param_no_spec_result_const_ ## __LINE__ ## operator
+{
+    typedef <strong>result</strong> type;
+};
+
+template &lt;typename TaggedArg0, typename ...TaggedArgs&gt;
+inline typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html"><tt
+class="docutils literal">lazy_enable_if</tt></a>&lt;
+    <a class="reference internal" href="#are-tagged-arguments"
+>are_tagged_arguments</a>&lt;TaggedArg0,TaggedArgs...&gt;
+  , boost_param_no_spec_result_const_ ## __LINE__ ## operator&lt;
+        TaggedArg0
+      , TaggedArgs...
+    &gt;
+&gt;::type
+    operator()(
+        TaggedArg0 const&amp; arg0
+      , TaggedArgs const&amp;... args
+    ) const
+{
+    return this-&gt;boost_param_no_spec_impl_const ## __LINE__ ## operator(
+        static_cast&lt;
+            typename
+            boost_param_no_spec_result_const_ ## __LINE__ ## operator&lt;
+                TaggedArg0
+              , TaggedArgs...
+            &gt;::type(*)()
+        &gt;(std::nullptr)
+      , <a class="reference internal" href="#parameters"
+>parameters</a>&lt;&gt;()(arg0, args...)
+    );
+}
+
+template &lt;typename ResultType, typename Args&gt;
+ResultType
+    boost_param_no_spec_impl_const ## __LINE__ ## operator(
+        (ResultType(*)())
+      , Args const& args
+    ) const
+</pre>
+<p>Only the <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a> type <tt class="docutils literal"
+>Args</tt> and its object instance <tt class="docutils literal">args</tt> are
+available for use within the function body.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="boost-parameter-no-spec-constructor-cls-impl">
+<h2><a class="toc-backref" href="#id68">6.17&nbsp;&nbsp;&nbsp;<tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(cls,
+impl)</tt></a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name">Defined in:</th>
+<td class="field-body"><a class="reference external"
+href="../../../../boost/parameter/preprocessor.hpp"
+>boost/parameter/preprocessor.hpp</a></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name" colspan="2">Example usage:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<p class="first"></p>
+<pre class="first literal-block">
+</pre>
+<p>The <a class="reference external"
+href="../../test/parameterized_inheritance.cpp"
+>test/parameterized_inheritance.cpp</a> and <a class="reference external"
+href="../../test/preprocessor_eval_cat_no_spec.cpp"
+>test/preprocessor_eval_cat_no_spec.cpp</a> test programs demonstrate proper
+usage of this macro.</p>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Macro parameters:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<ul class="last simple">
+<li><tt class="docutils literal">cls</tt> is the name of the enclosing
+class.</li>
+<li><tt class="docutils literal">impl</tt> is the parenthesized implementation
+base class for <tt class="docutils literal">cls</tt>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Argument specifiers syntax:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">None.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Approximate expansion:</dt>
+<dd>
+<pre class="last literal-block">
+template &lt;
+    template <
+        typename TaggedArg0
+      , typename ...TaggedArgs
+      , typename = typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
+            <a class="reference internal" href="#are-tagged-arguments"
+>are_tagged_arguments</a>&lt;TaggedArg0,TaggedArgs...&gt;
+        &gt;::type
+&gt;
+inline explicit <strong>cls</strong>(
+    TaggedArg0 const&amp; arg0
+  , TaggedArgs const&amp;... args
+) : <strong>impl</strong>(<a class="reference internal" href="#parameters"
+>parameters</a>&lt;&gt;()(arg0, args...))
+{
+}
+</pre>
+</dd>
+</dl>
+</div>
+<div class="section" id="boost-parameter-no-spec-no-base-ctor-cls-func">
+<h2><a class="toc-backref" href="#id69">6.18&nbsp;&nbsp;&nbsp;<tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(cls,
+func)</tt></a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name">Defined in:</th>
+<td class="field-body"><a class="reference external"
+href="../../../../boost/parameter/preprocessor.hpp"
+>boost/parameter/preprocessor.hpp</a></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name" colspan="2">Example usage:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<p class="first"></p>
+<pre class="first literal-block">
+</pre>
+<p>The <a class="reference external"
+href="../../test/preprocessor_eval_cat_no_spec.cpp"
+>test/preprocessor_eval_cat_no_spec.cpp</a> test program demonstrates proper
+usage of this macro.</p>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Macro parameters:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<ul class="last simple">
+<li><tt class="docutils literal">cls</tt> is the name of the enclosing
+class.</li>
+<li><tt class="docutils literal">func</tt> is a function that takes in the
+<a class="reference internal" href="#argumentpack"><span class="concept"
+>ArgumentPack</span></a> that the generated constructor passes on.</li>
+</ul>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Argument specifiers syntax:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">None.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Approximate expansion:</dt>
+<dd>
+<pre class="last literal-block">
+template &lt;
+    template <
+        typename TaggedArg0
+      , typename ...TaggedArgs
+      , typename = typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
+            <a class="reference internal" href="#are-tagged-arguments"
+>are_tagged_arguments</a>&lt;TaggedArg0,TaggedArgs...&gt;
+        &gt;::type
+&gt;
+inline explicit <strong>cls</strong>(
+    TaggedArg0 const&amp; arg0
+  , TaggedArgs const&amp;... args
+)
+{
+    <strong>func</strong>(<a class="reference internal" href="#parameters"
+>parameters</a>&lt;&gt;()(arg0, args...));
+}
+</pre>
+</dd>
+</dl>
 </div>
 <div class="section" id="boost-parameter-name-name">
 <h2><a class="toc-backref" href="#id70">6.19&nbsp;&nbsp;&nbsp;<tt

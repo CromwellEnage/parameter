@@ -13,18 +13,18 @@
 
 namespace test {
 
-    BOOST_PARAMETER_NAME((_lrc0, kw) in(lrc0))
-    BOOST_PARAMETER_NAME((_lr0, kw) in_out(lr0))
-    BOOST_PARAMETER_NAME((_rrc0, kw) in(rrc0))
+    BOOST_PARAMETER_NAME((_lrc0, kw0) in(lrc0))
+    BOOST_PARAMETER_NAME((_lr0, kw1) in_out(lr0))
+    BOOST_PARAMETER_NAME((_rrc0, kw2) in(rrc0))
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-    BOOST_PARAMETER_NAME((_rr0, kw) consume(rr0))
+    BOOST_PARAMETER_NAME((_rr0, kw3) consume(rr0))
 #else
-    BOOST_PARAMETER_NAME((_rr0, kw) rr0)
+    BOOST_PARAMETER_NAME((_rr0, kw3) rr0)
 #endif
-    BOOST_PARAMETER_NAME((_lrc1, kw) in(lrc1))
-    BOOST_PARAMETER_NAME((_lr1, kw) out(lr1))
-    BOOST_PARAMETER_NAME((_rrc1, kw) in(rrc1))
-    BOOST_PARAMETER_NAME((_rr1, kw) rr1)
+    BOOST_PARAMETER_NAME((_lrc1, kw4) in(lrc1))
+    BOOST_PARAMETER_NAME((_lr1, kw5) out(lr1))
+    BOOST_PARAMETER_NAME((_rrc1, kw6) in(rrc1))
+    BOOST_PARAMETER_NAME((_rr1, kw7) rr1)
 } // namespace test
 
 #include <boost/parameter/preprocessor.hpp>
@@ -43,7 +43,7 @@ namespace test {
                 typename boost::remove_const<
                     typename boost::parameter::value_type<
                         Args
-                      , test::kw::lrc0
+                      , test::kw0::lrc0
                     >::type
                 >::type
             >::evaluate_category(args[test::_lrc0])
@@ -53,7 +53,7 @@ namespace test {
                 typename boost::remove_const<
                     typename boost::parameter::value_type<
                         Args
-                      , test::kw::lr0
+                      , test::kw1::lr0
                     >::type
                 >::type
             >::evaluate_category(args[test::_lr0])
@@ -65,7 +65,7 @@ namespace test {
                 typename boost::remove_const<
                     typename boost::parameter::value_type<
                         Args
-                      , test::kw::rrc0
+                      , test::kw2::rrc0
                     >::type
                 >::type
             >::value
@@ -76,7 +76,7 @@ namespace test {
                     typename boost::remove_const<
                         typename boost::parameter::value_type<
                             Args
-                          , test::kw::rrc0
+                          , test::kw2::rrc0
                         >::type
                     >::type
                 >::evaluate_category(args[test::_rrc0])
@@ -86,7 +86,7 @@ namespace test {
                     typename boost::remove_const<
                         typename boost::parameter::value_type<
                             Args
-                          , test::kw::rr0
+                          , test::kw3::rr0
                         >::type
                     >::type
                 >::evaluate_category(args[test::_rr0])
@@ -99,7 +99,7 @@ namespace test {
                     typename boost::remove_const<
                         typename boost::parameter::value_type<
                             Args
-                          , test::kw::rrc0
+                          , test::kw2::rrc0
                         >::type
                     >::type
                 >::evaluate_category(args[test::_rrc0])
@@ -109,7 +109,7 @@ namespace test {
                     typename boost::remove_const<
                         typename boost::parameter::value_type<
                             Args
-                          , test::kw::rr0
+                          , test::kw3::rr0
                         >::type
                     >::type
                 >::evaluate_category(args[test::_rr0])
@@ -121,7 +121,7 @@ namespace test {
                 typename boost::remove_const<
                     typename boost::parameter::value_type<
                         Args
-                      , test::kw::rrc0
+                      , test::kw2::rrc0
                     >::type
                 >::type
             >::evaluate_category(args[test::_rrc0])
@@ -131,7 +131,7 @@ namespace test {
                 typename boost::remove_const<
                     typename boost::parameter::value_type<
                         Args
-                      , test::kw::rr0
+                      , test::kw3::rr0
                     >::type
                 >::type
             >::evaluate_category(args[test::_rr0])
@@ -193,7 +193,7 @@ namespace test {
                     typename boost::remove_const<
                         typename boost::parameter::value_type<
                             Args
-                          , test::kw::lrc0
+                          , test::kw0::lrc0
                         >::type
                     >::type
                 >::evaluate_category(args[test::_lrc0])
@@ -203,7 +203,7 @@ namespace test {
                     typename boost::remove_const<
                         typename boost::parameter::value_type<
                             Args
-                          , test::kw::lr0
+                          , test::kw1::lr0
                           , char const*
                         >::type
                     >::type
@@ -214,7 +214,7 @@ namespace test {
                     typename boost::remove_const<
                         typename boost::parameter::value_type<
                             Args
-                          , test::kw::rrc0
+                          , test::kw2::rrc0
                           , float
                         >::type
                     >::type
@@ -227,7 +227,7 @@ namespace test {
                     typename boost::remove_const<
                         typename boost::parameter::value_type<
                             Args
-                          , test::kw::rr0
+                          , test::kw3::rr0
                           , std::string
                         >::type
                     >::type
@@ -243,7 +243,7 @@ namespace test {
                     typename boost::remove_const<
                         typename boost::parameter::value_type<
                             Args
-                          , test::kw::rr0
+                          , test::kw3::rr0
                           , std::string
                         >::type
                     >::type
