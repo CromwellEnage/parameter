@@ -10,6 +10,7 @@
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/type_traits/is_convertible.hpp>
+#include <map>
 #include <string>
 #include "basics.hpp"
 
@@ -209,56 +210,42 @@ namespace test {
     }
 
     // Test support for two different Boost.Parameter-enabled
-    // function call operator overloads: one const, the other non-const.
+    // function call operator overloads.
     class char_reader
     {
         int index;
+        char const* key;
 
      public:
-        char_reader() : index(0)
+        explicit char_reader(char const* k) : index(0), key(k)
         {
         }
 
-#if BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x580))
         BOOST_PARAMETER_FUNCTION_CALL_OPERATOR((void), test::tag,
             (deduced
                 (required
-                    (y, *(test::predicate_int))
+                    (y, (int))
+                    (z, (char const*))
                 )
             )
         )
-#else
-        BOOST_PARAMETER_FUNCTION_CALL_OPERATOR((void), test::tag,
-            (deduced
-                (required
-                    (y, *(test::predicate<int>))
-                )
-            )
-        )
-#endif
         {
             this->index = y;
+            this->key = z;
         }
 
-#if BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x580))
         BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((char), test::tag,
             (deduced
                 (required
-                    (y, *(test::predicate_string))
+                    (y, (bool))
+                    (z, (std::map<char const*,std::string>))
                 )
             )
         )
-#else
-        BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((char), test::tag,
-            (deduced
-                (required
-                    (y, *(test::predicate<std::string>))
-                )
-            )
-        )
-#endif
         {
-            return y[this->index];
+            return y ? (
+                (z.find(this->key)->second)[this->index]
+            ) : this->key[this->index];
         }
     };
 #endif  // BOOST_NO_SFINAE
@@ -342,15 +329,23 @@ int main()
     );
 
 #if !defined(BOOST_NO_SFINAE)
-    BOOST_TEST(1 == test::sfinae("foo"));
-    BOOST_TEST(0 == test::sfinae(0));
-    test::char_reader r;
-    BOOST_TEST('b' == r(std::string("bar")));
-    r(1);
-    BOOST_TEST('a' == r(std::string("bar")));
-    r(2);
-    BOOST_TEST('r' == r(std::string("bar")));
-#endif
+    char const* keys[] = {"foo", "bar", "baz"};
+    BOOST_TEST_EQ(1, test::sfinae(keys[0]));
+    BOOST_TEST_EQ(0, test::sfinae(0));
+    std::map<char const*,std::string> k2s;
+    k2s[keys[0]] = std::string("qux");
+    k2s[keys[1]] = std::string("wmb");
+    k2s[keys[2]] = std::string("zxc");
+    test::char_reader r(keys[0]);
+    BOOST_TEST_EQ('q', (r(k2s, true)));
+    BOOST_TEST_EQ('f', (r(k2s, false)));
+    r(keys[1], 1);
+    BOOST_TEST_EQ('m', (r(k2s, true)));
+    BOOST_TEST_EQ('a', (r(k2s, false)));
+    r(keys[2], 2);
+    BOOST_TEST_EQ('c', (r(k2s, true)));
+    BOOST_TEST_EQ('z', (r(k2s, false)));
+#endif  // BOOST_NO_SFINAE
 
     return boost::report_errors();
 }

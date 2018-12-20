@@ -153,6 +153,7 @@ namespace boost { namespace parameter { namespace aux {
     template <
         typename TaggedArg
       , typename Next = ::boost::parameter::aux::empty_arg_list
+      , typename EmitErrors = ::boost::mpl::true_
     >
     struct arg_list : Next
     {
@@ -277,11 +278,13 @@ namespace boost { namespace parameter { namespace aux {
         using Next::has_key;
 
         BOOST_MPL_ASSERT_MSG(
-            sizeof(
-                Next::has_key(
-                    static_cast<key_type*>(BOOST_TTI_DETAIL_NULLPTR)
-                )
-            ) == sizeof(::boost::parameter::aux::no_tag)
+            !(EmitErrors::value) || (
+                sizeof(
+                    Next::has_key(
+                        static_cast<key_type*>(BOOST_TTI_DETAIL_NULLPTR)
+                    )
+                ) == sizeof(::boost::parameter::aux::no_tag)
+            )
           , duplicate_keyword
           , (key_type)
         );
@@ -535,6 +538,7 @@ namespace boost { namespace parameter { namespace aux {
     template <
         typename TaggedArg
       , typename Next = ::boost::parameter::aux::empty_arg_list
+      , typename EmitErrors = ::boost::mpl::true_
     >
     struct arg_list : Next
     {
@@ -614,11 +618,13 @@ namespace boost { namespace parameter { namespace aux {
         using Next::has_key;
 
         BOOST_MPL_ASSERT_MSG(
-            sizeof(
-                Next::has_key(
-                    static_cast<key_type*>(BOOST_TTI_DETAIL_NULLPTR)
-                )
-            ) == sizeof(::boost::parameter::aux::no_tag)
+            !(EmitErrors::value) || (
+                sizeof(
+                    Next::has_key(
+                        static_cast<key_type*>(BOOST_TTI_DETAIL_NULLPTR)
+                    )
+                ) == sizeof(::boost::parameter::aux::no_tag)
+            )
           , duplicate_keyword
           , (key_type)
         );
