@@ -202,6 +202,8 @@ alias parameter_standard_tests
     ]
     [ compile-fail deduced_unmatched_arg.cpp
         :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
             deduced_unmatched_arg_fail
     ]
@@ -235,6 +237,8 @@ alias parameter_standard_tests
     ]
     [ compile-fail deduced.cpp
         :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
         :
             deduced_fail

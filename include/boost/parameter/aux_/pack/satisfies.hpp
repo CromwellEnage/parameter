@@ -10,7 +10,8 @@
 #include <boost/config.hpp>
 #include <boost/config/workaround.hpp>
 
-#if BOOST_WORKAROUND(BOOST_MSVC, == 1310)
+#if defined(BOOST_MSVC) || defined(__MINGW_32__) || \
+    !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <boost/parameter/aux_/arg_list.hpp>
 #include <boost/parameter/aux_/augment_predicate.hpp>
 #include <boost/parameter/aux_/void.hpp>
@@ -24,7 +25,8 @@
 
 namespace boost { namespace parameter { namespace aux {
 
-#if BOOST_WORKAROUND(BOOST_MSVC, == 1310)
+#if defined(BOOST_MSVC) || defined(__MINGW_32__) || \
+    !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
     template <typename ArgList, typename ParameterRequirements, typename Bound>
     struct satisfies_impl
       : ::boost::mpl::apply_wrap2<
@@ -45,8 +47,9 @@ namespace boost { namespace parameter { namespace aux {
     template <typename ArgList, typename ParameterRequirements>
     struct satisfies
     {
-#if BOOST_WORKAROUND(BOOST_MSVC, == 1310)
-        // VC7.1 can't handle the sizeof() implementation below,
+#if defined(BOOST_MSVC) || defined(__MINGW_32__) || \
+    !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+        // The compilers & modes detected above report ambiguous overloads,
         // so we use this instead.
         typedef typename ::boost::mpl::apply_wrap3<
             typename ArgList::binding
@@ -71,7 +74,7 @@ namespace boost { namespace parameter { namespace aux {
                 >
             >
         >::type type;
-#else   // !BOOST_WORKAROUND(BOOST_MSVC, == 1310)
+#else   // Use sizeof() trick.
         BOOST_STATIC_CONSTANT(
             bool, value = (
                 sizeof(
@@ -88,7 +91,7 @@ namespace boost { namespace parameter { namespace aux {
         );
 
         typedef ::boost::mpl::bool_<satisfies::value> type;
-#endif  // MSVC 7.1 workarounds needed.
+#endif  // Workarounds needed.
     };
 }}} // namespace boost::parameter::aux
 
