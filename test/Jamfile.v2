@@ -197,6 +197,8 @@ alias parameter_standard_tests
     [ compile function_type_tpl_param.cpp ]
     [ compile-fail duplicates.cpp
         :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
             duplicates_fail
     ]
