@@ -209,6 +209,8 @@ namespace test {
         return 0;
     }
 
+#if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) || \
+    !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     // Test support for two different Boost.Parameter-enabled
     // function call operator overloads.
     class char_reader
@@ -248,6 +250,7 @@ namespace test {
             ) : this->key[this->index];
         }
     };
+#endif  // MSVC-11.0-
 #endif  // BOOST_NO_SFINAE
 } // namespace test
 
@@ -332,6 +335,8 @@ int main()
     char const* keys[] = {"foo", "bar", "baz"};
     BOOST_TEST_EQ(1, test::sfinae(keys[0]));
     BOOST_TEST_EQ(0, test::sfinae(0));
+#if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) || \
+    !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     std::map<char const*,std::string> k2s;
     k2s[keys[0]] = std::string("qux");
     k2s[keys[1]] = std::string("wmb");
@@ -345,6 +350,7 @@ int main()
     r(keys[2], 2);
     BOOST_TEST_EQ('c', (r(k2s, true)));
     BOOST_TEST_EQ('z', (r(k2s, false)));
+#endif  // MSVC-11.0-
 #endif  // BOOST_NO_SFINAE
 
     return boost::report_errors();

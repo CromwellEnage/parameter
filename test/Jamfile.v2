@@ -770,11 +770,56 @@ alias parameter_msvc_fail_tests ;
 
 alias parameter_msvc_fail_tests
     :
+    [ compile-fail preprocessor_deduced.cpp
+        :
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
+        :
+            preproc_deduced_msvc08_fail
+    ]
+    :
+        <toolset>msvc
+        <toolset-msvc:version>8.0
+    ;
+
+alias parameter_msvc_fail_tests
+    :
+    [ compile-fail preprocessor_deduced.cpp
+        :
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
+        :
+            preproc_deduced_msvc09_fail
+    ]
+    :
+        <toolset>msvc
+        <toolset-msvc:version>9.0
+    ;
+
+alias parameter_msvc_fail_tests
+    :
+    [ compile-fail preprocessor_deduced.cpp
+        :
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
+        :
+            preproc_deduced_msvc10_fail
+    ]
+    :
+        <toolset>msvc
+        <toolset-msvc:version>10.0
+    ;
+
+alias parameter_msvc_fail_tests
+    :
     [ compile-fail compose.cpp
         :
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
         :
-            compose_msvc11_fail_11
+            compose_msvc11_fail
+    ]
+    [ compile-fail preprocessor_deduced.cpp
+        :
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC
+        :
+            preproc_deduced_msvc11_fail
     ]
     :
         <toolset>msvc

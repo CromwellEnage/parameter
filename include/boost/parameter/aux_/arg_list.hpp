@@ -540,7 +540,7 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
 #include <boost/preprocessor/repetition/enum_shifted_params.hpp>
 
-#if !defined(BOOST_NO_SFINAE)
+#if !defined(BOOST_NO_SFINAE) && !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
 #include <boost/core/enable_if.hpp>
 #endif
 
@@ -635,9 +635,7 @@ namespace boost { namespace parameter { namespace aux {
         static ::boost::parameter::aux::yes_tag has_key(key_type*);
         using Next::has_key;
 
-#if !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
      private:
-#endif
         typedef ::boost::mpl::bool_<
             sizeof(
                 Next::has_key(
@@ -817,7 +815,7 @@ namespace boost { namespace parameter { namespace aux {
         // and never really called, so a declaration is enough.
         template <typename HasDefault, typename Predicate, typename ArgPack>
         static typename
-#if !defined(BOOST_NO_SFINAE)
+#if !defined(BOOST_NO_SFINAE) && !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
         ::boost::lazy_enable_if<
             typename ::boost::mpl::if_<
                 EmitErrors
@@ -830,8 +828,8 @@ namespace boost { namespace parameter { namespace aux {
                 ::augment_predicate<Predicate,reference,key_type>
               , value_type
               , ArgPack
-#if !defined(BOOST_NO_SFINAE)
-            >
+#if !defined(BOOST_NO_SFINAE) && !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+           >
 #endif
         >::type
             satisfies(
