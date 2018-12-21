@@ -150,7 +150,11 @@ namespace boost { namespace parameter { namespace aux {
         typedef typename ::boost::mpl::if_<
             ::boost::is_same<tagged,::boost::parameter::void_>
           , ArgumentPack
+#if defined(BOOST_NO_SFINAE) || BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+          , ::boost::parameter::aux::arg_list<tagged,ArgumentPack>
+#else
           , ::boost::parameter::aux::arg_list<tagged,ArgumentPack,EmitErrors>
+#endif
         >::type argument_pack;
 
         typedef typename ::boost::parameter::aux::make_arg_list_aux<

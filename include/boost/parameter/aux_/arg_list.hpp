@@ -635,6 +635,17 @@ namespace boost { namespace parameter { namespace aux {
         static ::boost::parameter::aux::yes_tag has_key(key_type*);
         using Next::has_key;
 
+#if defined(BOOST_NO_SFINAE) || BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+        BOOST_MPL_ASSERT_MSG(
+            sizeof(
+                Next::has_key(
+                    static_cast<key_type*>(BOOST_TTI_DETAIL_NULLPTR)
+                )
+            ) == sizeof(::boost::parameter::aux::no_tag)
+          , duplicate_keyword
+          , (key_type)
+        );
+#else
      private:
         typedef ::boost::mpl::bool_<
             sizeof(
@@ -649,6 +660,7 @@ namespace boost { namespace parameter { namespace aux {
           , duplicate_keyword
           , (key_type)
         );
+#endif
 #endif  // Borland workarounds not needed.
 
      public:
