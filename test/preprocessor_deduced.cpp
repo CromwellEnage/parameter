@@ -213,13 +213,15 @@ namespace test {
     !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     // Test support for two different Boost.Parameter-enabled
     // function call operator overloads.
-    class char_reader
+    class char_read_base
     {
         int index;
         char const* key;
 
      public:
-        explicit char_reader(char const* k) : index(0), key(k)
+        template <typename Args>
+        explicit char_read_base(Args const& args)
+          : index(args[test::_y]), key(args[test::_z])
         {
         }
 
@@ -249,6 +251,18 @@ namespace test {
                 (z.find(this->key)->second)[this->index]
             ) : this->key[this->index];
         }
+    };
+
+    struct char_reader : public char_read_base
+    {
+        BOOST_PARAMETER_CONSTRUCTOR(char_reader, (char_read_base), test::tag,
+            (deduced
+                (required
+                    (y, (int))
+                    (z, (char const*))
+                )
+            )
+        )
     };
 #endif  // MSVC-11.0-
 #endif  // BOOST_NO_SFINAE
@@ -341,7 +355,7 @@ int main()
     k2s[keys[0]] = std::string("qux");
     k2s[keys[1]] = std::string("wmb");
     k2s[keys[2]] = std::string("zxc");
-    test::char_reader r(keys[0]);
+    test::char_reader r(keys[0], 0);
     BOOST_TEST_EQ('q', (r(k2s, true)));
     BOOST_TEST_EQ('f', (r(k2s, false)));
     r(keys[1], 1);

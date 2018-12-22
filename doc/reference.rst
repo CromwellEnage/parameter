@@ -1049,7 +1049,7 @@ using the Parameter library by eliminating repetitive boilerplate.
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
-The return type of each of the following functon templates falls under a
+The return type of each of the following function templates falls under a
 different value category.
 
 .. parsed-literal::
@@ -1137,10 +1137,13 @@ is bound, as will be shown later.
     |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
 
 Use the macro as a substitute for a normal function header.  Enclose the
-return type ``bool`` in parentheses.  Just as with a normal function, the
-order in which you specify the parameters determines their position, and
-optional parameters have default values, whereas required parameters do
-not.  Within the function body, either simply use the parameter name or
+return type ``bool`` in parentheses.  For each parameter, also enclose the
+expected value type in parentheses.  Since the value types are mutually
+exclusive, you can wrap the parameters in a ``(deduced …)``
+clause.  Otherwise, just as with a normal function, the order in which you
+specify the parameters determines their position.  Also, just as with a normal
+function, optional parameters have default values, whereas required parameters
+do not.  Within the function body, either simply use the parameter name or
 pass the matching identifier with the leading underscore to the bracket
 operator of ``args`` to extract the corresponding argument.  Note that the
 second method doesn't require ``std::forward`` to preserve value categories.
@@ -1148,13 +1151,15 @@ second method doesn't require ``std::forward`` to preserve value categories.
 .. parsed-literal::
 
     BOOST_PARAMETER_FUNCTION((bool), evaluate, kw,
-        (required
-            (lrc, \*)
-            (lr, \*)
-        )
-        (optional
-            (rrc, \*, rvalue_const_bitset<2>())
-            (rr, \*, rvalue_bitset<3>())
+        (deduced
+            (required
+                (lrc, (std::bitset<1>))
+                (lr, (std::bitset<2>))
+            )
+            (optional
+                (rrc, (std::bitset<3>), rvalue_const_bitset<2>())
+                (rr, (std::bitset<4>), rvalue_bitset<3>())
+            )
         )
     )
     {
@@ -1172,7 +1177,7 @@ second method doesn't require ``std::forward`` to preserve value categories.
         );
         BOOST_TEST_EQ(
             passed_by_rvalue_reference
-          , U::evaluate_category<3>(args[_rr0]))
+          , U::evaluate_category<3>(args[_rr0])
         );
 
         return true;
@@ -1207,6 +1212,22 @@ The following function calls are legal.
     evaluate(  // named arguments
         _lr0 = lvalue_bitset<1>()
       , _lrc0 = lvalue_const_bitset<0>()
+    );
+
+Because the parameters were wrapped in a ``(deduced …)`` clause, the following
+function calls are also legal.
+
+.. parsed-literal::
+
+    evaluate(  // deduced arguments
+        rvalue_bitset<3>()
+      , lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+    );
+    evaluate(  // deduced arguments
+        lvalue_bitset<1>()
+      , lvalue_const_bitset<0>()
     );
 
 The |preprocessor|_, |preprocessor_deduced|_, and |preprocessor_eval_cat|_
@@ -1478,6 +1499,189 @@ Approximate expansion:
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
+The return type of each of the following function templates falls under a
+different value category.
+
+.. parsed-literal::
+
+    template <std::size_t N>
+    std::bitset<N + 1> rvalue_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const rvalue_const_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1>& lvalue_bitset()
+    {
+        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        return lset;
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const& lvalue_const_bitset()
+    {
+        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        return clset;
+    }
+
+The ``U::evaluate_category`` static member function template has a simple job:
+to return the correct value category when passed in an object returned by one
+of the functions defined above.  Assume that
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is defined.
+
+.. parsed-literal::
+
+    enum invoked
+    {
+        passed_by_lvalue_reference_to_const
+      , passed_by_lvalue_reference
+      , passed_by_rvalue_reference_to_const
+      , passed_by_rvalue_reference
+    };
+
+    struct U
+    {
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&)
+        {
+            return passed_by_lvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&)
+        {
+            return passed_by_lvalue_reference;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        {
+            return passed_by_rvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&&)
+        {
+            return passed_by_rvalue_reference;
+        }
+    };
+
+Define the named parameters that will comprise the argument specification that
+this macro will use.  Ensure that all their tag types are in the same
+namespace, which is ``kw`` in this case.  The identifiers with leading
+underscores can be passed to the bracket operator of ``args`` to extract the
+same argument to which the corresponding named parameter (without underscores)
+is bound, as will be shown later.
+
+.. parsed-literal::
+
+    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+
+Use the macro as a substitute for a normal ``static`` member function
+header.  Enclose the return type ``bool`` in parentheses.  For each parameter,
+also enclose the expected value type in parentheses.  Since the value types
+are mutually exclusive, you can wrap the parameters in a ``(deduced …)``
+clause.  Otherwise, just as with a normal function, the order in which you
+specify the parameters determines their position.  Also, just as with a normal
+function, optional parameters have default values, whereas required parameters
+do not.  Within the function body, either simply use the parameter name or
+pass the matching identifier with the leading underscore to the bracket
+operator of ``args`` to extract the corresponding argument.  Note that the
+second method doesn't require ``std::forward`` to preserve value categories.
+
+.. parsed-literal::
+
+    struct B
+    {
+        BOOST_PARAMETER_MEMBER_FUNCTION((bool), static evaluate, kw,
+            (deduced
+                (required
+                    (lrc, (std::bitset<1>))
+                    (lr, (std::bitset<2>))
+                )
+                (optional
+                    (rrc, (std::bitset<3>), rvalue_const_bitset<2>())
+                    (rr, (std::bitset<4>), rvalue_bitset<3>())
+                )
+            )
+        )
+        {
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference_to_const
+              , U::evaluate_category<0>(lrc)
+            );
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference
+              , U::evaluate_category<1>(lr)
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference_to_const
+              , U::evaluate_category<2>(std::`forward`_<rrc0_type>(rrc0))
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference
+              , U::evaluate_category<3>(args[_rr0])
+            );
+
+            return true;
+        }
+    };
+
+The following function calls are legal.
+
+.. parsed-literal::
+
+    B::evaluate(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+      , rvalue_bitset<3>()
+    );
+    B::evaluate(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+    );
+    B::evaluate((  // composed arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    ));
+    B::evaluate(  // named arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    );
+    B::evaluate(  // named arguments
+        _lr0 = lvalue_bitset<1>()
+      , _lrc0 = lvalue_const_bitset<0>()
+    );
+
+Because the parameters were wrapped in a ``(deduced …)`` clause, the following
+function calls are also legal.
+
+.. parsed-literal::
+
+    B::evaluate(  // deduced arguments
+        rvalue_bitset<3>()
+      , lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+    );
+    B::evaluate(  // deduced arguments
+        lvalue_bitset<1>()
+      , lvalue_const_bitset<0>()
+    );
 
 The |preprocessor|_ and |preprocessor_eval_cat|_ test programs demonstrate
 proper usage of this macro.
@@ -1710,6 +1914,194 @@ Approximate expansion:
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
+The return type of each of the following function templates falls under a
+different value category.
+
+.. parsed-literal::
+
+    template <std::size_t N>
+    std::bitset<N + 1> rvalue_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const rvalue_const_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1>& lvalue_bitset()
+    {
+        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        return lset;
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const& lvalue_const_bitset()
+    {
+        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        return clset;
+    }
+
+The ``U::evaluate_category`` static member function template has a simple job:
+to return the correct value category when passed in an object returned by one
+of the functions defined above.  Assume that
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is defined.
+
+.. parsed-literal::
+
+    enum invoked
+    {
+        passed_by_lvalue_reference_to_const
+      , passed_by_lvalue_reference
+      , passed_by_rvalue_reference_to_const
+      , passed_by_rvalue_reference
+    };
+
+    struct U
+    {
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&)
+        {
+            return passed_by_lvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&)
+        {
+            return passed_by_lvalue_reference;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        {
+            return passed_by_rvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&&)
+        {
+            return passed_by_rvalue_reference;
+        }
+    };
+
+Define the named parameters that will comprise the argument specification that
+this macro will use.  Ensure that all their tag types are in the same
+namespace, which is ``kw`` in this case.  The identifiers with leading
+underscores can be passed to the bracket operator of ``args`` to extract the
+same argument to which the corresponding named parameter (without underscores)
+is bound, as will be shown later.
+
+.. parsed-literal::
+
+    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+
+Use the macro as a substitute for a normal ``const`` member function
+header.  Enclose the return type ``bool`` in parentheses.  For each parameter,
+also enclose the expected value type in parentheses.  Since the value types
+are mutually exclusive, you can wrap the parameters in a ``(deduced …)``
+clause.  Otherwise, just as with a normal function, the order in which you
+specify the parameters determines their position.  Also, just as with a normal
+function, optional parameters have default values, whereas required parameters
+do not.  Within the function body, either simply use the parameter name or
+pass the matching identifier with the leading underscore to the bracket
+operator of ``args`` to extract the corresponding argument.  Note that the
+second method doesn't require ``std::forward`` to preserve value categories.
+
+.. parsed-literal::
+
+    struct B
+    {
+        B()
+        {
+        }
+
+        BOOST_PARAMETER_CONST_MEMBER_FUNCTION((bool), evaluate, kw,
+            (deduced
+                (required
+                    (lrc, (std::bitset<1>))
+                    (lr, (std::bitset<2>))
+                )
+                (optional
+                    (rrc, (std::bitset<3>), rvalue_const_bitset<2>())
+                    (rr, (std::bitset<4>), rvalue_bitset<3>())
+                )
+            )
+        )
+        {
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference_to_const
+              , U::evaluate_category<0>(lrc)
+            );
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference
+              , U::evaluate_category<1>(lr)
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference_to_const
+              , U::evaluate_category<2>(std::`forward`_<rrc0_type>(rrc0))
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference
+              , U::evaluate_category<3>(args[_rr0])
+            );
+
+            return true;
+        }
+    };
+
+The following function calls are legal.
+
+.. parsed-literal::
+
+    B const b = B();
+    b.evaluate(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+      , rvalue_bitset<3>()
+    );
+    b.evaluate(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+    );
+    b.evaluate((  // composed arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    ));
+    b.evaluate(  // named arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    );
+    b.evaluate(  // named arguments
+        _lr0 = lvalue_bitset<1>()
+      , _lrc0 = lvalue_const_bitset<0>()
+    );
+
+Because the parameters were wrapped in a ``(deduced …)`` clause, the following
+function calls are also legal.
+
+.. parsed-literal::
+
+    b.evaluate(  // deduced arguments
+        rvalue_bitset<3>()
+      , lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+    );
+    b.evaluate(  // deduced arguments
+        lvalue_bitset<1>()
+      , lvalue_const_bitset<0>()
+    );
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
@@ -1939,12 +2331,97 @@ Approximate expansion:
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
+Define the named parameters that will comprise the argument specification that
+this macro will use.  Ensure that all their tag types are in the same
+namespace, which is ``tag`` by default.
 
-The |preprocessor|_ test program demonstrates proper usage of this macro.
+.. parsed-literal::
 
-.. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+    |BOOST_PARAMETER_NAME|_(y)
+    |BOOST_PARAMETER_NAME|_(z)
+
+Use the macro as a substitute for a normal function call operator
+header.  Enclose the return type in parentheses.  For each parameter, also
+enclose the expected value type in parentheses.  Since the value types are
+mutually exclusive, you can wrap the parameters in a ``(deduced …)``
+clause.  This is especially useful when implementing multiple
+Boost.Parameter-enabled function call operator overloads.
+
+.. parsed-literal::
+
+    class char_reader
+    {
+        int index;
+        char const* key;
+
+     public:
+        explicit char_reader(char const* k) : index(0), key(k)
+        {
+        }
+
+        BOOST_PARAMETER_FUNCTION_CALL_OPERATOR((void), tag,
+            (deduced
+                (required
+                    (y, (int))
+                    (z, (char const*))
+                )
+            )
+        )
+        {
+            this->index = y;
+            this->key = z;
+        }
+
+        |BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR|_((char), tag,
+            (deduced
+                (required
+                    (y, (bool))
+                    (z, (std::`map`_<char const*,std::`string`_>))
+                )
+            )
+        )
+        {
+            return y ? (
+                (z.find(this->key)->second)[this->index]
+            ) : this->key[this->index];
+        }
+    };
+
+As with regular argument-dependent lookup, the value types of the arguments
+passed in determine which function call operator overload gets invoked.
+
+.. parsed-literal::
+
+    char const* keys[] = {"foo", "bar", "baz"};
+    std::`map`_<char const*,std::`string`_> k2s;
+    k2s[keys[0]] = std::`string`_("qux");
+    k2s[keys[1]] = std::`string`_("wmb");
+    k2s[keys[2]] = std::`string`_("zxc");
+    char_reader r(keys[0]);
+
+    // positional arguments
+    BOOST_TEST_EQ('q', (r(true, k2s)));
+    BOOST_TEST_EQ('f', (r(false, k2s)));
+
+    // named arguments
+    r(_z = keys[1], _y = 1);
+    BOOST_TEST_EQ('m', (r(_z = k2s, _y = true)));
+    BOOST_TEST_EQ('a', (r(_z = k2s, _y = false)));
+
+    // deduced arguments
+    r(keys[2], 2);
+    BOOST_TEST_EQ('c', (r(k2s, true)));
+    BOOST_TEST_EQ('z', (r(k2s, false)));
+
+The |preprocessor|_ and |preprocessor_deduced|_ test programs demonstrate
+proper usage of this macro.
+
+.. _`map`: http\://en.cppreference.com/w/cpp/container/map
+.. _`string`: http\://en.cppreference.com/w/cpp/string/basic_string
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
+.. |preprocessor_deduced| replace:: preprocessor_deduced.cpp
+.. _preprocessor_deduced: ../../test/preprocessor_deduced.cpp
 
 :Macro parameters:
 \*. ``result`` is the parenthesized return type of the function call operator.
@@ -2165,13 +2642,203 @@ Approximate expansion:
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
+The return type of each of the following function templates falls under a
+different value category.
 
-The |preprocessor|_ and |preprocessor_eval_cat_8|_ test programs demonstrate
-proper usage of this macro.
+.. parsed-literal::
+
+    template <std::size_t N>
+    std::bitset<N + 1> rvalue_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const rvalue_const_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1>& lvalue_bitset()
+    {
+        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        return lset;
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const& lvalue_const_bitset()
+    {
+        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        return clset;
+    }
+
+The ``U::evaluate_category`` static member function template has a simple job:
+to return the correct value category when passed in an object returned by one
+of the functions defined above.  Assume that
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is defined.
+
+.. parsed-literal::
+
+    enum invoked
+    {
+        passed_by_lvalue_reference_to_const
+      , passed_by_lvalue_reference
+      , passed_by_rvalue_reference_to_const
+      , passed_by_rvalue_reference
+    };
+
+    struct U
+    {
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&)
+        {
+            return passed_by_lvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&)
+        {
+            return passed_by_lvalue_reference;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        {
+            return passed_by_rvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&&)
+        {
+            return passed_by_rvalue_reference;
+        }
+    };
+
+Define the named parameters that will comprise the argument specification that
+this macro will use.  Ensure that all their tag types are in the same
+namespace, which is ``kw`` in this case.  The identifiers with leading
+underscores can be passed to the bracket operator of ``args`` to extract the
+same argument to which the corresponding named parameter (without underscores)
+is bound, as will be shown later.
+
+.. parsed-literal::
+
+    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+
+Use the macro as a substitute for a normal ``const`` function call operator
+header.  Enclose the return type ``bool`` in parentheses.  For each parameter,
+also enclose the expected value type in parentheses.  Since the value types
+are mutually exclusive, you can wrap the parameters in a ``(deduced …)``
+clause.  Otherwise, just as with a normal function, the order in which you
+specify the parameters determines their position.  Also, just as with a normal
+function, optional parameters have default values, whereas required parameters
+do not.  Within the function body, either simply use the parameter name or
+pass the matching identifier with the leading underscore to the bracket
+operator of ``args`` to extract the corresponding argument.  Note that the
+second method doesn't require ``std::forward`` to preserve value categories.
+
+.. parsed-literal::
+
+    struct B
+    {
+        B()
+        {
+        }
+
+        BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
+            (deduced
+                (required
+                    (lrc, (std::bitset<1>))
+                    (lr, (std::bitset<2>))
+                )
+                (optional
+                    (rrc, (std::bitset<3>), rvalue_const_bitset<2>())
+                    (rr, (std::bitset<4>), rvalue_bitset<3>())
+                )
+            )
+        )
+        {
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference_to_const
+              , U::evaluate_category<0>(lrc)
+            );
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference
+              , U::evaluate_category<1>(lr)
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference_to_const
+              , U::evaluate_category<2>(std::`forward`_<rrc0_type>(rrc0))
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference
+              , U::evaluate_category<3>(args[_rr0])
+            );
+
+            return true;
+        }
+    };
+
+The following function calls are legal.
+
+.. parsed-literal::
+
+    B const b = B();
+    b(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+      , rvalue_bitset<3>()
+    );
+    b(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+    );
+    b((  // composed arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    ));
+    b(  // named arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    );
+    b(  // named arguments
+        _lr0 = lvalue_bitset<1>()
+      , _lrc0 = lvalue_const_bitset<0>()
+    );
+
+Because the parameters were wrapped in a ``(deduced …)`` clause, the following
+function calls are also legal.
+
+.. parsed-literal::
+
+    b(  // deduced arguments
+        rvalue_bitset<3>()
+      , lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+    );
+    b(  // deduced arguments
+        lvalue_bitset<1>()
+      , lvalue_const_bitset<0>()
+    );
+
+The |preprocessor|_, |preprocessor_deduced|_, and |preprocessor_eval_cat_8|_
+test programs demonstrate proper usage of this macro.
 
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
+.. |preprocessor_deduced| replace:: preprocessor_deduced.cpp
+.. _preprocessor_deduced: ../../test/preprocessor_deduced.cpp
 .. |preprocessor_eval_cat_8| replace:: preprocessor_eval_cat_8.cpp
 .. _preprocessor_eval_cat_8: ../../test/preprocessor_eval_cat_8.cpp
 
@@ -2396,12 +3063,102 @@ Approximate expansion:
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
+Define the named parameters that will comprise the argument specification that
+this macro will use.  Ensure that all their tag types are in the same
+namespace, which is ``tag`` by default.
 
-The |preprocessor|_ and |preprocessor_eval_cat|_ test programs demonstrate
+.. parsed-literal::
+
+    |BOOST_PARAMETER_NAME|_(y)
+    |BOOST_PARAMETER_NAME|_(z)
+
+In the base class, implement a delegate constructor template that takes in an
+|ArgumentPack|_.  You must pass the identifiers with leading underscores to
+``args`` in order to extract the corresponding arguments.
+
+.. parsed-literal::
+
+    class char_read_base
+    {
+        int index;
+        char const* key;
+
+     public:
+        template <typename Args>
+        explicit char_read_base(Args const& args)
+          : index(args[_y]), key(args[_z])
+        {
+        }
+
+        |BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR|_((char), tag,
+            (deduced
+                (required
+                    (y, (bool))
+                    (z, (std::`map`_<char const*,std::`string`_>))
+                )
+            )
+        )
+        {
+            return y ? (
+                (z.find(this->key)->second)[this->index]
+            ) : this->key[this->index];
+        }
+    };
+
+Use the macro as a substitute for a normal constructor definition.  Note the
+lack of an explicit body.  Enclose the base type in parentheses.  For each
+parameter, also enclose the expected value type in parentheses.  Since the
+value types are mutually exclusive, you can wrap the parameters in a
+``(deduced …)`` clause.
+
+.. parsed-literal::
+
+    struct char_reader : public char_read_base
+    {
+        BOOST_PARAMETER_CONSTRUCTOR(char_reader, (char_read_base), tag,
+            (deduced
+                (required
+                    (y, (int))
+                    (z, (char const*))
+                )
+            )
+        )
+    };
+
+The following ``char_reader`` constructor calls are legal.
+
+.. parsed-literal::
+
+    char const* keys[] = {"foo", "bar", "baz"};
+    std::`map`_<char const*,std::`string`_> k2s;
+    k2s[keys[0]] = std::`string`_("qux");
+    k2s[keys[1]] = std::`string`_("wmb");
+    k2s[keys[2]] = std::`string`_("zxc");
+
+    // positional arguments
+    char_reader r0(0, keys[0]);
+    BOOST_TEST_EQ('q', (r0(true, k2s)));
+    BOOST_TEST_EQ('f', (r0(false, k2s)));
+
+    // named arguments
+    char_reader r1(_z = keys[1], _y = 1);
+    BOOST_TEST_EQ('m', (r1(_z = k2s, _y = true)));
+    BOOST_TEST_EQ('a', (r1(_z = k2s, _y = false)));
+
+    // deduced arguments
+    char_reader r2(keys[2], 2);
+    BOOST_TEST_EQ('c', (r2(k2s, true)));
+    BOOST_TEST_EQ('z', (r2(k2s, false)));
+
+The |preprocessor|_ and |preprocessor_deduced|_ test programs demonstrate
 proper usage of this macro.
 
+.. _`map`: http\://en.cppreference.com/w/cpp/container/map
+.. _`string`: http\://en.cppreference.com/w/cpp/string/basic_string
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
+.. |preprocessor_deduced| replace:: preprocessor_deduced.cpp
+.. _preprocessor_deduced: ../../test/preprocessor_deduced.cpp
 .. |preprocessor_eval_cat| replace:: preprocessor_eval_category.cpp
 .. _preprocessor_eval_cat: ../../test/preprocessor_eval_category.cpp
 
@@ -2517,6 +3274,188 @@ Approximate expansion:
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
+The return type of each of the following function templates falls under a
+different value category.
+
+.. parsed-literal::
+
+    template <std::size_t N>
+    std::bitset<N + 1> rvalue_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const rvalue_const_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1>& lvalue_bitset()
+    {
+        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        return lset;
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const& lvalue_const_bitset()
+    {
+        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        return clset;
+    }
+
+The ``U::evaluate_category`` static member function template has a simple job:
+to return the correct value category when passed in an object returned by one
+of the functions defined above.  Assume that
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is defined.
+
+.. parsed-literal::
+
+    enum invoked
+    {
+        passed_by_lvalue_reference_to_const
+      , passed_by_lvalue_reference
+      , passed_by_rvalue_reference_to_const
+      , passed_by_rvalue_reference
+    };
+
+    struct U
+    {
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&)
+        {
+            return passed_by_lvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&)
+        {
+            return passed_by_lvalue_reference;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        {
+            return passed_by_rvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&&)
+        {
+            return passed_by_rvalue_reference;
+        }
+    };
+
+Define the named parameters that will comprise the argument specification that
+this macro will use.  Ensure that all their tag types are in the same
+namespace, which is ``kw`` in this case.  The identifiers with leading
+underscores can be passed to the bracket operator of ``args`` to extract the
+same argument to which the corresponding named parameter (without underscores)
+is bound, as will be shown later.
+
+.. parsed-literal::
+
+    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+
+Use the macro as a substitute for a normal function header.  Enclose the
+return type ``bool`` in parentheses.  For each parameter, also enclose the
+expected value type in parentheses.  Since the value types are mutually
+exclusive, you can wrap the parameters in a ``(deduced …)``
+clause.  Otherwise, just as with a normal function, the order in which you
+specify the parameters determines their position.  However, unlike a normal
+function, default values must be specified within the function body.  Also
+within the function body, you must pass the matching identifier with the
+leading underscore to the bracket operator of ``args`` to extract the
+corresponding argument, but at least this doesn't require ``std::forward`` to
+preserve value categories.
+
+.. parsed-literal::
+
+    BOOST_PARAMETER_BASIC_FUNCTION((bool), evaluate, kw,
+        (deduced
+            (required
+                (lrc, (std::bitset<1>))
+                (lr, (std::bitset<2>))
+            )
+            (optional
+                (rrc, (std::bitset<3>))
+                (rr, (std::bitset<4>))
+            )
+        )
+    )
+    {
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference_to_const
+          , U::evaluate_category<0>(args[_lrc])
+        );
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference
+          , U::evaluate_category<1>(args[_lr])
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference_to_const
+          , U::evaluate_category<2>(
+                args[_rrc0 | rvalue_const_bitset<2>()]
+            )
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference
+          , U::evaluate_category<3>(args[_rr0 | rvalue_bitset<3>()])
+        );
+
+        return true;
+    }
+
+The following function calls are legal.
+
+.. parsed-literal::
+
+    evaluate(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+      , rvalue_bitset<3>()
+    );
+    evaluate(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+    );
+    evaluate((  // composed arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    ));
+    evaluate(  // named arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    );
+    evaluate(  // named arguments
+        _lr0 = lvalue_bitset<1>()
+      , _lrc0 = lvalue_const_bitset<0>()
+    );
+
+Because the parameters were wrapped in a ``(deduced …)`` clause, the following
+function calls are also legal.
+
+.. parsed-literal::
+
+    evaluate(  // deduced arguments
+        rvalue_bitset<3>()
+      , lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+    );
+    evaluate(  // deduced arguments
+        lvalue_bitset<1>()
+      , lvalue_const_bitset<0>()
+    );
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
@@ -2663,6 +3602,193 @@ available for use within the function body.
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
+The return type of each of the following function templates falls under a
+different value category.
+
+.. parsed-literal::
+
+    template <std::size_t N>
+    std::bitset<N + 1> rvalue_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const rvalue_const_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1>& lvalue_bitset()
+    {
+        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        return lset;
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const& lvalue_const_bitset()
+    {
+        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        return clset;
+    }
+
+The ``U::evaluate_category`` static member function template has a simple job:
+to return the correct value category when passed in an object returned by one
+of the functions defined above.  Assume that
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is defined.
+
+.. parsed-literal::
+
+    enum invoked
+    {
+        passed_by_lvalue_reference_to_const
+      , passed_by_lvalue_reference
+      , passed_by_rvalue_reference_to_const
+      , passed_by_rvalue_reference
+    };
+
+    struct U
+    {
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&)
+        {
+            return passed_by_lvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&)
+        {
+            return passed_by_lvalue_reference;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        {
+            return passed_by_rvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&&)
+        {
+            return passed_by_rvalue_reference;
+        }
+    };
+
+Define the named parameters that will comprise the argument specification that
+this macro will use.  Ensure that all their tag types are in the same
+namespace, which is ``kw`` in this case.  The identifiers with leading
+underscores can be passed to the bracket operator of ``args`` to extract the
+same argument to which the corresponding named parameter (without underscores)
+is bound, as will be shown later.
+
+.. parsed-literal::
+
+    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+
+Use the macro as a substitute for a normal ``static`` member function
+header.  Enclose the return type ``bool`` in parentheses.  For each parameter,
+also enclose the expected value type in parentheses.  Since the value types
+are mutually exclusive, you can wrap the parameters in a ``(deduced …)``
+clause.  Otherwise, just as with a normal function, the order in which you
+specify the parameters determines their position.  However, unlike a normal
+function, default values must be specified within the function body.  Also
+within the function body, you must pass the matching identifier with the
+leading underscore to the bracket operator of ``args`` to extract the
+corresponding argument, but at least this doesn't require ``std::forward`` to
+preserve value categories.
+
+.. parsed-literal::
+
+    struct B
+    {
+        BOOST_PARAMETER_BASIC_MEMBER_FUNCTION((bool), static evaluate, kw,
+            (deduced
+                (required
+                    (lrc, (std::bitset<1>))
+                    (lr, (std::bitset<2>))
+                )
+                (optional
+                    (rrc, (std::bitset<3>))
+                    (rr, (std::bitset<4>))
+                )
+            )
+        )
+        {
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference_to_const
+              , U::evaluate_category<0>(args[_lrc])
+            );
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference
+              , U::evaluate_category<1>(args[_lr])
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference_to_const
+              , U::evaluate_category<2>(
+                    args[_rrc0 | rvalue_const_bitset<2>()]
+                )
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference
+              , U::evaluate_category<3>(
+                    args[_rr0 | rvalue_bitset<3>()]
+                )
+            );
+
+            return true;
+        }
+    };
+
+The following function calls are legal.
+
+.. parsed-literal::
+
+    B::evaluate(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+      , rvalue_bitset<3>()
+    );
+    B::evaluate(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+    );
+    B::evaluate((  // composed arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    ));
+    B::evaluate(  // named arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    );
+    B::evaluate(  // named arguments
+        _lr0 = lvalue_bitset<1>()
+      , _lrc0 = lvalue_const_bitset<0>()
+    );
+
+Because the parameters were wrapped in a ``(deduced …)`` clause, the following
+function calls are also legal.
+
+.. parsed-literal::
+
+    B::evaluate(  // deduced arguments
+        rvalue_bitset<3>()
+      , lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+    );
+    B::evaluate(  // deduced arguments
+        lvalue_bitset<1>()
+      , lvalue_const_bitset<0>()
+    );
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
@@ -2808,6 +3934,198 @@ available for use within the function body.
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
+The return type of each of the following function templates falls under a
+different value category.
+
+.. parsed-literal::
+
+    template <std::size_t N>
+    std::bitset<N + 1> rvalue_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const rvalue_const_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1>& lvalue_bitset()
+    {
+        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        return lset;
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const& lvalue_const_bitset()
+    {
+        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        return clset;
+    }
+
+The ``U::evaluate_category`` static member function template has a simple job:
+to return the correct value category when passed in an object returned by one
+of the functions defined above.  Assume that
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is defined.
+
+.. parsed-literal::
+
+    enum invoked
+    {
+        passed_by_lvalue_reference_to_const
+      , passed_by_lvalue_reference
+      , passed_by_rvalue_reference_to_const
+      , passed_by_rvalue_reference
+    };
+
+    struct U
+    {
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&)
+        {
+            return passed_by_lvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&)
+        {
+            return passed_by_lvalue_reference;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        {
+            return passed_by_rvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&&)
+        {
+            return passed_by_rvalue_reference;
+        }
+    };
+
+Define the named parameters that will comprise the argument specification that
+this macro will use.  Ensure that all their tag types are in the same
+namespace, which is ``kw`` in this case.  The identifiers with leading
+underscores can be passed to the bracket operator of ``args`` to extract the
+same argument to which the corresponding named parameter (without underscores)
+is bound, as will be shown later.
+
+.. parsed-literal::
+
+    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+
+Use the macro as a substitute for a normal ``const`` member function
+header.  Enclose the return type ``bool`` in parentheses.  For each parameter,
+also enclose the expected value type in parentheses.  Since the value types
+are mutually exclusive, you can wrap the parameters in a ``(deduced …)``
+clause.  Otherwise, just as with a normal function, the order in which you
+specify the parameters determines their position.  However, unlike a normal
+function, default values must be specified within the function body.  Also
+within the function body, you must pass the matching identifier with the
+leading underscore to the bracket operator of ``args`` to extract the
+corresponding argument, but at least this doesn't require ``std::forward`` to
+preserve value categories.
+
+.. parsed-literal::
+
+    struct B
+    {
+        B()
+        {
+        }
+
+        BOOST_PARAMETER_BASIC_CONST_MEMBER_FUNCTION((bool), evaluate, kw,
+            (deduced
+                (required
+                    (lrc, (std::bitset<1>))
+                    (lr, (std::bitset<2>))
+                )
+                (optional
+                    (rrc, (std::bitset<3>))
+                    (rr, (std::bitset<4>))
+                )
+            )
+        )
+        {
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference_to_const
+              , U::evaluate_category<0>(args[_lrc])
+            );
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference
+              , U::evaluate_category<1>(args[_lr])
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference_to_const
+              , U::evaluate_category<2>(
+                    args[_rrc0 | rvalue_const_bitset<2>()]
+                )
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference
+              , U::evaluate_category<3>(
+                    args[_rr0 | rvalue_bitset<3>()]
+                )
+            );
+
+            return true;
+        }
+    };
+
+The following function calls are legal.
+
+.. parsed-literal::
+
+    B const b = B();
+    b.evaluate(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+      , rvalue_bitset<3>()
+    );
+    b.evaluate(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+    );
+    b.evaluate((  // composed arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    ));
+    b.evaluate(  // named arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    );
+    b.evaluate(  // named arguments
+        _lr0 = lvalue_bitset<1>()
+      , _lrc0 = lvalue_const_bitset<0>()
+    );
+
+Because the parameters were wrapped in a ``(deduced …)`` clause, the following
+function calls are also legal.
+
+.. parsed-literal::
+
+    b.evaluate(  // deduced arguments
+        rvalue_bitset<3>()
+      , lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+    );
+    b.evaluate(  // deduced arguments
+        lvalue_bitset<1>()
+      , lvalue_const_bitset<0>()
+    );
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
@@ -2951,9 +4269,92 @@ available for use within the function body.
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
+Define the named parameters that will comprise the argument specification that
+this macro will use.  Ensure that all their tag types are in the same
+namespace, which is ``tag`` by default.
+
+.. parsed-literal::
+
+    |BOOST_PARAMETER_NAME|_(y)
+    |BOOST_PARAMETER_NAME|_(z)
+
+Use the macro as a substitute for a normal function call operator
+header.  Enclose the return type in parentheses.  For each parameter, also
+enclose the expected value type in parentheses.  Since the value types are
+mutually exclusive, you can wrap the parameters in a ``(deduced …)``
+clause.  This is especially useful when implementing multiple
+Boost.Parameter-enabled function call operator overloads.
+
+.. parsed-literal::
+
+    class char_reader
+    {
+        int index;
+        char const* key;
+
+     public:
+        explicit char_reader(char const* k) : index(0), key(k)
+        {
+        }
+
+        BOOST_PARAMETER_BASIC_FUNCTION_CALL_OPERATOR((void), tag,
+            (deduced
+                (required
+                    (y, (int))
+                    (z, (char const*))
+                )
+            )
+        )
+        {
+            this->index = args[_y];
+            this->key = args[_z];
+        }
+
+        |BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR|_((char), tag,
+            (deduced
+                (required
+                    (y, (bool))
+                    (z, (std::`map`_<char const*,std::`string`_>))
+                )
+            )
+        )
+        {
+            return args[_y] ? (
+                (args[_z].find(this->key)->second)[this->index]
+            ) : this->key[this->index];
+        }
+    };
+
+As with regular argument-dependent lookup, the value types of the arguments
+passed in determine which function call operator overload gets invoked.
+
+.. parsed-literal::
+
+    char const* keys[] = {"foo", "bar", "baz"};
+    std::`map`_<char const*,std::`string`_> k2s;
+    k2s[keys[0]] = std::`string`_("qux");
+    k2s[keys[1]] = std::`string`_("wmb");
+    k2s[keys[2]] = std::`string`_("zxc");
+    char_reader r(keys[0]);
+
+    // positional arguments
+    BOOST_TEST_EQ('q', (r(true, k2s)));
+    BOOST_TEST_EQ('f', (r(false, k2s)));
+
+    // named arguments
+    r(_z = keys[1], _y = 1);
+    BOOST_TEST_EQ('m', (r(_z = k2s, _y = true)));
+    BOOST_TEST_EQ('a', (r(_z = k2s, _y = false)));
+
+    // deduced arguments
+    r(keys[2], 2);
+    BOOST_TEST_EQ('c', (r(k2s, true)));
+    BOOST_TEST_EQ('z', (r(k2s, false)));
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
+.. _`map`: http\://en.cppreference.com/w/cpp/container/map
+.. _`string`: http\://en.cppreference.com/w/cpp/string/basic_string
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
 
@@ -3091,6 +4492,198 @@ available for use within the function call operator body.
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
+The return type of each of the following function templates falls under a
+different value category.
+
+.. parsed-literal::
+
+    template <std::size_t N>
+    std::bitset<N + 1> rvalue_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const rvalue_const_bitset()
+    {
+        return std::bitset<N + 1>();
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1>& lvalue_bitset()
+    {
+        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        return lset;
+    }
+
+    template <std::size_t N>
+    std::bitset<N + 1> const& lvalue_const_bitset()
+    {
+        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        return clset;
+    }
+
+The ``U::evaluate_category`` static member function template has a simple job:
+to return the correct value category when passed in an object returned by one
+of the functions defined above.  Assume that
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is defined.
+
+.. parsed-literal::
+
+    enum invoked
+    {
+        passed_by_lvalue_reference_to_const
+      , passed_by_lvalue_reference
+      , passed_by_rvalue_reference_to_const
+      , passed_by_rvalue_reference
+    };
+
+    struct U
+    {
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&)
+        {
+            return passed_by_lvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&)
+        {
+            return passed_by_lvalue_reference;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        {
+            return passed_by_rvalue_reference_to_const;
+        }
+
+        template <std::size_t N>
+        static invoked evaluate_category(std::bitset<N + 1>&&)
+        {
+            return passed_by_rvalue_reference;
+        }
+    };
+
+Define the named parameters that will comprise the argument specification that
+this macro will use.  Ensure that all their tag types are in the same
+namespace, which is ``kw`` in this case.  The identifiers with leading
+underscores can be passed to the bracket operator of ``args`` to extract the
+same argument to which the corresponding named parameter (without underscores)
+is bound, as will be shown later.
+
+.. parsed-literal::
+
+    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+
+Use the macro as a substitute for a normal ``const`` function call operator
+header.  Enclose the return type ``bool`` in parentheses.  For each parameter,
+also enclose the expected value type in parentheses.  Since the value types
+are mutually exclusive, you can wrap the parameters in a ``(deduced …)``
+clause.  Otherwise, just as with a normal function, the order in which you
+specify the parameters determines their position.  However, unlike a normal
+function, default values must be specified within the function body.  Also
+within the function body, you must pass the matching identifier with the
+leading underscore to the bracket operator of ``args`` to extract the
+corresponding argument, but at least this doesn't require ``std::forward`` to
+preserve value categories.
+
+.. parsed-literal::
+
+    struct B
+    {
+        B()
+        {
+        }
+
+        BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
+            (deduced
+                (required
+                    (lrc, (std::bitset<1>))
+                    (lr, (std::bitset<2>))
+                )
+                (optional
+                    (rrc, (std::bitset<3>))
+                    (rr, (std::bitset<4>))
+                )
+            )
+        )
+        {
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference_to_const
+              , U::evaluate_category<0>(args[_lrc])
+            );
+            BOOST_TEST_EQ(
+                passed_by_lvalue_reference
+              , U::evaluate_category<1>(args[_lr])
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference_to_const
+              , U::evaluate_category<2>(
+                    args[_rrc0 | rvalue_const_bitset<2>()]
+                )
+            );
+            BOOST_TEST_EQ(
+                passed_by_rvalue_reference
+              , U::evaluate_category<3>(
+                    args[_rr0 | rvalue_bitset<3>()]
+                )
+            );
+
+            return true;
+        }
+    };
+
+The following function calls are legal.
+
+.. parsed-literal::
+
+    B const b = B();
+    b(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+      , rvalue_bitset<3>()
+    );
+    b(  // positional arguments
+        lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+    );
+    b((  // composed arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    ));
+    b(  // named arguments
+        _rr0 = rvalue_bitset<3>()
+      , _lrc0 = lvalue_const_bitset<0>()
+      , _lr0 = lvalue_bitset<1>()
+      , _rrc0 = rvalue_const_bitset<2>()
+    );
+    b(  // named arguments
+        _lr0 = lvalue_bitset<1>()
+      , _lrc0 = lvalue_const_bitset<0>()
+    );
+
+Because the parameters were wrapped in a ``(deduced …)`` clause, the following
+function calls are also legal.
+
+.. parsed-literal::
+
+    b(  // deduced arguments
+        rvalue_bitset<3>()
+      , lvalue_const_bitset<0>()
+      , lvalue_bitset<1>()
+      , rvalue_const_bitset<2>()
+    );
+    b(  // deduced arguments
+        lvalue_bitset<1>()
+      , lvalue_const_bitset<0>()
+    );
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
@@ -3231,7 +4824,7 @@ available for use within the function call operator body.
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
-The return type of each of the following functon templates falls under a
+The return type of each of the following function templates falls under a
 different value category.
 
 .. parsed-literal::
@@ -3304,16 +4897,17 @@ of the functions defined above.  Assume that
         }
     };
 
-Named parameters are required when invoking the function.
+Named parameters are required when invoking the function; however, none of
+their tags need to be in the same namespace.
 
 .. parsed-literal::
 
-    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
-    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
-    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
-    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+    |BOOST_PARAMETER_NAME|_((_lrc, kw0) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw1) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw2) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw3) consume(rr))
 
-Use the macro as a substitute for a normal function header.  Enclose the
+Use the macro as a substitute for a variadic function header.  Enclose the
 return type ``bool`` in parentheses.
 
 .. parsed-literal::
@@ -3336,9 +4930,7 @@ return type ``bool`` in parentheses.
         );
         BOOST_TEST_EQ(
             passed_by_rvalue_reference
-          , U::evaluate_category<3>(
-                args[_rr | rvalue_bitset<3>()]
-            )
+          , U::evaluate_category<3>(args[_rr | rvalue_bitset<3>()])
         );
 
         return true;
@@ -3451,7 +5043,8 @@ back-end classes can enforce their own specifications.
         }
     };
 
-Named parameters are required when invoking the member function.
+Named parameters are required when invoking the member function; however, none
+of their tags need to be in the same namespace.
 
 .. parsed-literal::
 
@@ -3624,7 +5217,7 @@ available for use within the function body.
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
-The return type of each of the following functon templates falls under a
+The return type of each of the following function templates falls under a
 different value category.
 
 .. parsed-literal::
@@ -3697,16 +5290,17 @@ of the functions defined above.  Assume that
         }
     };
 
-Named parameters are required when invoking the member function.
+Named parameters are required when invoking the member function; however, none
+of their tags need to be in the same namespace.
 
 .. parsed-literal::
 
-    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
-    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
-    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
-    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+    |BOOST_PARAMETER_NAME|_((_lrc, kw0) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw1) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw2) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw3) consume(rr))
 
-Use the macro as a substitute for a normal function header.  Enclose the
+Use the macro as a substitute for a variadic function header.  Enclose the
 return type ``bool`` in parentheses.  The macro will qualify the function with
 the ``const`` keyword.
 
@@ -3749,7 +5343,7 @@ To invoke the member function, bind all its arguments to named parameters.
 
 .. parsed-literal::
 
-    D d;
+    D const d = D();
     d.evaluate_m(
         _rr0 = rvalue_bitset<3>()
       , _lrc0 = lvalue_const_bitset<0>()
@@ -3761,11 +5355,9 @@ To invoke the member function, bind all its arguments to named parameters.
       , _lrc0 = lvalue_const_bitset<0>()
     );
 
-The |parameterized_inheritance|_ and |preproc_eval_cat_no_spec|_ test programs
-demonstrate proper usage of this macro.
+The |preproc_eval_cat_no_spec|_ test program demonstrates proper usage of this
+macro.
 
-.. |parameterized_inheritance| replace:: parameterized_inheritance.cpp
-.. _parameterized_inheritance: ../../test/parameterized_inheritance.cpp
 .. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
 .. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
 
@@ -3848,7 +5440,8 @@ of the back-end classes can enforce their own specifications.
         }
     };
 
-Named parameters are required when invoking the function call operator.
+Named parameters are required when invoking the function call operator;
+however, none of their tags need to be in the same namespace.
 
 .. parsed-literal::
 
@@ -4017,7 +5610,7 @@ available for use within the function body.
 __ ../../../../boost/parameter/preprocessor.hpp
 
 :Example usage:
-The return type of each of the following functon templates falls under a
+The return type of each of the following function templates falls under a
 different value category.
 
 .. parsed-literal::
@@ -4090,16 +5683,17 @@ of the functions defined above.  Assume that
         }
     };
 
-Named parameters are required when invoking the function call operator.
+Named parameters are required when invoking the function call operator;
+however, none of their tags need to be in the same namespace.
 
 .. parsed-literal::
 
-    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
-    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
-    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
-    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+    |BOOST_PARAMETER_NAME|_((_lrc, kw0) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw1) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw2) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw3) consume(rr))
 
-Use the macro as a substitute for a normal function call operator
+Use the macro as a substitute for a variadic function call operator
 header.  Enclose the return type ``bool`` in parentheses.  The macro will
 qualify the function with the ``const`` keyword.
 
@@ -4143,7 +5737,7 @@ parameters.
 
 .. parsed-literal::
 
-    D d;
+    D const d = D();
     d(
         _rr0 = rvalue_bitset<3>()
       , _lrc0 = lvalue_const_bitset<0>()
@@ -4155,11 +5749,9 @@ parameters.
       , _lrc0 = lvalue_const_bitset<0>()
     );
 
-The |parameterized_inheritance|_ and |preproc_eval_cat_no_spec|_ test programs
-demonstrate proper usage of this macro.
+The |preproc_eval_cat_no_spec|_ test program demonstrates proper usage of this
+macro.
 
-.. |parameterized_inheritance| replace:: parameterized_inheritance.cpp
-.. _parameterized_inheritance: ../../test/parameterized_inheritance.cpp
 .. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
 .. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
 
@@ -4236,7 +5828,8 @@ back-end classes can enforce their own specifications.
         BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(frontend, (B))
     };
 
-Named parameters are required when invoking the constructor.
+Named parameters are required when invoking the constructor; however, none of
+their tags need to be in the same namespace.
 
 .. parsed-literal::
 
@@ -4453,14 +6046,15 @@ of the functions defined above.  Assume that
         }
     };
 
-Named parameters are required when invoking the constructor.
+Named parameters are required when invoking the constructor; however, none of
+their tags need to be in the same namespace.
 
 .. parsed-literal::
 
-    |BOOST_PARAMETER_NAME|_((_lrc, kw) in(lrc))
-    |BOOST_PARAMETER_NAME|_((_lr, kw) in_out(lr))
-    |BOOST_PARAMETER_NAME|_((_rrc, kw) in(rrc))
-    |BOOST_PARAMETER_NAME|_((_rr, kw) consume(rr))
+    |BOOST_PARAMETER_NAME|_((_lrc, kw0) in(lrc))
+    |BOOST_PARAMETER_NAME|_((_lr, kw1) in_out(lr))
+    |BOOST_PARAMETER_NAME|_((_rrc, kw2) in(rrc))
+    |BOOST_PARAMETER_NAME|_((_rr, kw3) consume(rr))
 
 Unlike |BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR|, this macro doesn't require a
 base class, only a delegate function to which the generated constructor can

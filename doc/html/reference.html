@@ -1915,13 +1915,191 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a>, <a class="reference external"
-href="../../test/preprocessor_deduced.cpp">test/preprocessor_deduced.cpp</a>,
-and <a class="reference external"
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">kw</tt> in this
+case.  The identifiers with leading underscores can be passed to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the same
+argument to which the corresponding named parameter (without underscores) is
+bound, as will be shown later.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a normal function
+header.  Enclose the return type <tt class="docutils literal">bool</tt> in
+parentheses.  For each parameter, also enclose the expected value type in
+parentheses.  Since the value types are mutually exclusive, you can wrap the
+parameters in a <tt class="docutils literal">(deduced …)</tt>
+clause.  Otherwise, just as with a normal function, the order in which you
+specify the parameters determines their position.  Also, just as with a normal
+function, optional parameters have default values, whereas required parameters
+do not.  Within the function body, either simply use the parameter name or
+pass the matching identifier with the leading underscore to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the
+corresponding argument.  Note that the second method doesn't require <tt
+class="docutils literal">std::forward</tt> to preserve value categories.</p>
+<pre class="first literal-block">
+BOOST_PARAMETER_FUNCTION((bool), evaluate, kw,
+    (deduced
+        (required
+            (lrc, (std::bitset&lt;1&gt;))
+            (lr, (std::bitset&lt;2&gt;))
+        )
+        (optional
+            (rrc, (std::bitset&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
+            (rr, (std::bitset&lt;4&gt;), rvalue_bitset&lt;3&gt;())
+        )
+    )
+)
+{
+    BOOST_TEST_EQ(
+        passed_by_lvalue_reference_to_const
+      , U::evaluate_category&lt;0&gt;(lrc)
+    );
+    BOOST_TEST_EQ(
+        passed_by_lvalue_reference
+      , U::evaluate_category&lt;1&gt;(lr)
+    );
+    BOOST_TEST_EQ(
+        passed_by_rvalue_reference_to_const
+      , U::evaluate_category&lt;2&gt;(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;rrc0_type&gt;(rrc0))
+    );
+    BOOST_TEST_EQ(
+        passed_by_rvalue_reference
+      , U::evaluate_category&lt;3&gt;(args[_rr0])
+    );
+
+    return true;
+}
+</pre>
+<p class="first">The following function calls are legal.</p>
+<pre class="first literal-block">
+evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+  , rvalue_bitset&lt;3&gt;()
+);
+evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+);
+evaluate((  // composed arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+));
+evaluate(  // named arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+evaluate(  // named arguments
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="first">Because the parameters were wrapped in a <tt
+class="docutils literal">(deduced …)</tt> clause, the following function calls
+are also legal.</p>
+<pre class="first literal-block">
+evaluate(  // deduced arguments
+    rvalue_bitset&lt;3&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+);
+evaluate(  // deduced arguments
+    lvalue_bitset&lt;1&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a>, <a
+class="reference external" href="../../test/preprocessor_deduced.cpp"
+>test/preprocessor_deduced.cpp</a>, and <a class="reference external"
 href="../../test/preprocessor_eval_category.cpp"
 >test/preprocessor_eval_category.cpp</a> test programs demonstrate proper
 usage of this macro.</p>
@@ -2291,12 +2469,194 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> and <a class="reference external"
-href="../../test/preprocessor_eval_category.cpp"
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">kw</tt> in this
+case.  The identifiers with leading underscores can be passed to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the same
+argument to which the corresponding named parameter (without underscores) is
+bound, as will be shown later.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a normal <tt
+class="docutils literal">static</tt> member function header.  Enclose the
+return type <tt class="docutils literal">bool</tt> in parentheses.  For each
+parameter, also enclose the expected value type in parentheses.  Since the
+value types are mutually exclusive, you can wrap the parameters in a <tt
+class="docutils literal">(deduced …)</tt> clause.  Otherwise, just as with a
+normal function, the order in which you specify the parameters determines
+their position.  Also, just as with a normal function, optional parameters
+have default values, whereas required parameters do not.  Within the function
+body, either simply use the parameter name or pass the matching identifier
+with the leading underscore to the bracket operator of <tt
+class="docutils literal">args</tt> to extract the corresponding
+argument.  Note that the second method doesn't require <tt
+class="docutils literal">std::forward</tt> to preserve value categories.</p>
+<pre class="first literal-block">
+struct B
+{
+    BOOST_PARAMETER_MEMBER_FUNCTION((bool), static evaluate, kw,
+        (deduced
+            (required
+                (lrc, (std::bitset&lt;1&gt;))
+                (lr, (std::bitset&lt;2&gt;))
+            )
+            (optional
+                (rrc, (std::bitset&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
+                (rr, (std::bitset&lt;4&gt;), rvalue_bitset&lt;3&gt;())
+            )
+        )
+    )
+    {
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference_to_const
+          , U::evaluate_category&lt;0&gt;(lrc)
+        );
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference
+          , U::evaluate_category&lt;1&gt;(lr)
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference_to_const
+          , U::evaluate_category&lt;2&gt;(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;rrc0_type&gt;(rrc0))
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference
+          , U::evaluate_category&lt;3&gt;(args[_rr0])
+        );
+
+        return true;
+    }
+};
+</pre>
+<p class="first">The following function calls are legal.</p>
+<pre class="first literal-block">
+B::evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+  , rvalue_bitset&lt;3&gt;()
+);
+B::evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+);
+B::evaluate((  // composed arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+));
+B::evaluate(  // named arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+B::evaluate(  // named arguments
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="first">Because the parameters were wrapped in a <tt
+class="docutils literal">(deduced …)</tt> clause, the following function calls
+are also legal.</p>
+<pre class="first literal-block">
+B::evaluate(  // deduced arguments
+    rvalue_bitset&lt;3&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+);
+B::evaluate(  // deduced arguments
+    lvalue_bitset&lt;1&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a> and <a
+class="reference external" href="../../test/preprocessor_eval_category.cpp"
 >test/preprocessor_eval_category.cpp</a> test programs demonstrate proper
 usage of this macro.</p>
 </td>
@@ -2623,12 +2983,199 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> test program demonstrates proper usage of this
-macro.</p>
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">kw</tt> in this
+case.  The identifiers with leading underscores can be passed to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the same
+argument to which the corresponding named parameter (without underscores) is
+bound, as will be shown later.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a normal <tt
+class="docutils literal">const</tt> member function header.  Enclose the
+return type <tt class="docutils literal">bool</tt> in parentheses.  For each
+parameter, also enclose the expected value type in parentheses.  Since the
+value types are mutually exclusive, you can wrap the parameters in a <tt
+class="docutils literal">(deduced …)</tt> clause.  Otherwise, just as with a
+normal function, the order in which you specify the parameters determines
+their position.  Also, just as with a normal function, optional parameters
+have default values, whereas required parameters do not.  Within the function
+body, either simply use the parameter name or pass the matching identifier
+with the leading underscore to the bracket operator of <tt
+class="docutils literal">args</tt> to extract the corresponding
+argument.  Note that the second method doesn't require <tt
+class="docutils literal">std::forward</tt> to preserve value categories.</p>
+<pre class="first literal-block">
+struct B
+{
+    B()
+    {
+    }
+
+    BOOST_PARAMETER_CONST_MEMBER_FUNCTION((bool), evaluate, kw,
+        (deduced
+            (required
+                (lrc, (std::bitset&lt;1&gt;))
+                (lr, (std::bitset&lt;2&gt;))
+            )
+            (optional
+                (rrc, (std::bitset&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
+                (rr, (std::bitset&lt;4&gt;), rvalue_bitset&lt;3&gt;())
+            )
+        )
+    )
+    {
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference_to_const
+          , U::evaluate_category&lt;0&gt;(lrc)
+        );
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference
+          , U::evaluate_category&lt;1&gt;(lr)
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference_to_const
+          , U::evaluate_category&lt;2&gt;(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;rrc0_type&gt;(rrc0))
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference
+          , U::evaluate_category&lt;3&gt;(args[_rr0])
+        );
+
+        return true;
+    }
+};
+</pre>
+<p class="first">The following function calls are legal.</p>
+<pre class="first literal-block">
+B const b = B();
+b.evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+  , rvalue_bitset&lt;3&gt;()
+);
+b.evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+);
+b.evaluate((  // composed arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+));
+b.evaluate(  // named arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+b.evaluate(  // named arguments
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="first">Because the parameters were wrapped in a <tt
+class="docutils literal">(deduced …)</tt> clause, the following function calls
+are also legal.</p>
+<pre class="first literal-block">
+b.evaluate(  // deduced arguments
+    rvalue_bitset&lt;3&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+);
+b.evaluate(  // deduced arguments
+    lvalue_bitset&lt;1&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a> test program
+demonstrates proper usage of this macro.</p>
 </td>
 </tr>
 <tr class="field">
@@ -2955,12 +3502,110 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">tag</tt> by
+default.</p>
 <pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(y)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(z)
 </pre>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> test program demonstrates proper usage of this
-macro.</p>
+<p class="first">Use the macro as a substitute for a normal function call
+operator header.  Enclose the return type in parentheses.  For each parameter,
+also enclose the expected value type in parentheses.  Since the value types
+are mutually exclusive, you can wrap the parameters in a <tt
+class="docutils literal">(deduced …)</tt> clause.  This is especially useful
+when implementing multiple Boost.Parameter-enabled function call operator
+overloads.</p>
+<pre class="first literal-block">
+class char_reader
+{
+    int index;
+    char const* key;
+
+ public:
+    explicit char_reader(char const* k) : index(0), key(k)
+    {
+    }
+
+    BOOST_PARAMETER_FUNCTION_CALL_OPERATOR((void), tag,
+        (deduced
+            (required
+                (y, (int))
+                (z, (char const*))
+            )
+        )
+    )
+    {
+        this->index = y;
+        this->key = z;
+    }
+
+    <a class="reference internal"
+href="#boost-parameter-const-function-call-op-result-tag-namespace-arguments"
+>BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR</a>((char), tag,
+        (deduced
+            (required
+                (y, (bool))
+                (z, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/container/map"><tt
+class="docutils literal">map</tt></a>&lt;char const*,std::<a
+class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;))
+            )
+        )
+    )
+    {
+        return y ? (
+            (z.find(this->key)->second)[this->index]
+        ) : this->key[this->index];
+    }
+};
+</pre>
+<p class="first">As with regular argument-dependent lookup, the value types of
+the arguments passed in determine which function call operator overload gets
+invoked.</p>
+<pre class="first literal-block">
+char const* keys[] = {"foo", "bar", "baz"};
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/container/map"><tt
+class="docutils literal">map</tt></a>&lt;char const*,std::<a
+class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt; k2s;
+k2s[keys[0]] = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;("qux");
+k2s[keys[1]] = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;("wmb");
+k2s[keys[2]] = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;("zxc");
+char_reader r(keys[0]);
+
+// positional arguments
+BOOST_TEST_EQ('q', (r(true, k2s)));
+BOOST_TEST_EQ('f', (r(false, k2s)));
+
+// named arguments
+r(_z = keys[1], _y = 1);
+BOOST_TEST_EQ('m', (r(_z = k2s, _y = true)));
+BOOST_TEST_EQ('a', (r(_z = k2s, _y = false)));
+
+// deduced arguments
+r(keys[2], 2);
+BOOST_TEST_EQ('c', (r(k2s, true)));
+BOOST_TEST_EQ('z', (r(k2s, false)));
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a> and <a
+class="reference external" href="../../test/preprocessor_deduced.cpp"
+>test/preprocessor_deduced.cpp</a> test programs demonstrate proper usage of
+this macro.</p>
 </td>
 </tr>
 <tr class="field">
@@ -3276,11 +3921,200 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> and <a class="reference external"
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">kw</tt> in this
+case.  The identifiers with leading underscores can be passed to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the same
+argument to which the corresponding named parameter (without underscores) is
+bound, as will be shown later.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a normal <tt
+class="docutils literal">const</tt> function call operator header.  Enclose
+the return type <tt class="docutils literal">bool</tt> in parentheses.  For
+each parameter, also enclose the expected value type in parentheses.  Since
+the value types are mutually exclusive, you can wrap the parameters in a <tt
+class="docutils literal">(deduced …)</tt> clause.  Otherwise, just as with a
+normal function, the order in which you specify the parameters determines
+their position.  Also, just as with a normal function, optional parameters
+have default values, whereas required parameters do not.  Within the function
+body, either simply use the parameter name or pass the matching identifier
+with the leading underscore to the bracket operator of <tt
+class="docutils literal">args</tt> to extract the corresponding
+argument.  Note that the second method doesn't require <tt
+class="docutils literal">std::forward</tt> to preserve value categories.</p>
+<pre class="first literal-block">
+struct B
+{
+    B()
+    {
+    }
+
+    BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
+        (deduced
+            (required
+                (lrc, (std::bitset&lt;1&gt;))
+                (lr, (std::bitset&lt;2&gt;))
+            )
+            (optional
+                (rrc, (std::bitset&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
+                (rr, (std::bitset&lt;4&gt;), rvalue_bitset&lt;3&gt;())
+            )
+        )
+    )
+    {
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference_to_const
+          , U::evaluate_category&lt;0&gt;(lrc)
+        );
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference
+          , U::evaluate_category&lt;1&gt;(lr)
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference_to_const
+          , U::evaluate_category&lt;2&gt;(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/forward"><tt
+class="docutils literal">forward</tt></a>&lt;rrc0_type&gt;(rrc0))
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference
+          , U::evaluate_category&lt;3&gt;(args[_rr0])
+        );
+
+        return true;
+    }
+};
+</pre>
+<p class="first">The following function calls are legal.</p>
+<pre class="first literal-block">
+B const b = B();
+b(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+  , rvalue_bitset&lt;3&gt;()
+);
+b(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+);
+b((  // composed arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+));
+b(  // named arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+b(  // named arguments
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="first">Because the parameters were wrapped in a <tt
+class="docutils literal">(deduced …)</tt> clause, the following function calls
+are also legal.</p>
+<pre class="first literal-block">
+b(  // deduced arguments
+    rvalue_bitset&lt;3&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+);
+b(  // deduced arguments
+    lvalue_bitset&lt;1&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a>, <a
+class="reference external" href="../../test/preprocessor_deduced.cpp"
+>test/preprocessor_deduced.cpp</a>, and <a class="reference external"
 href="../../test/preprocessor_eval_cat_8.cpp"
 >test/preprocessor_eval_cat_8.cpp</a> test programs demonstrate proper usage
 of this macro.</p>
@@ -3601,12 +4435,125 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">tag</tt> by
+default.</p>
 <pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(y)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(z)
 </pre>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> and <a class="reference external"
-href="../../test/preprocessor_eval_category.cpp"
+<p class="first">In the base class, implement a delegate constructor template
+that takes in an <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a>.  You must pass the identifiers with
+leading underscores to <tt class="docutils literal">args</tt> in order to
+extract the corresponding arguments.</p>
+<pre class="first literal-block">
+class char_read_base
+{
+    int index;
+    char const* key;
+
+ public:
+    template &lt;typename Args&gt;
+    explicit char_read_base(Args const& args)
+      : index(args[_y]), key(args[_z])
+    {
+    }
+
+    BOOST_PARAMETER_FUNCTION_CALL_OPERATOR((void), tag,
+        (deduced
+            (required
+                (y, (int))
+                (z, (char const*))
+            )
+        )
+    )
+    {
+        this-&gt;index = y;
+        this-&gt;key = z;
+    }
+
+    <a class="reference internal"
+href="#boost-parameter-const-function-call-op-result-tag-namespace-arguments"
+>BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR</a>((char), tag,
+        (deduced
+            (required
+                (y, (bool))
+                (z, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/container/map"><tt
+class="docutils literal">map</tt></a>&lt;char const*,std::<a
+class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;))
+            )
+        )
+    )
+    {
+        return y ? (
+            (z.find(this-&gt;key)-&gt;second)[this-&gt;index]
+        ) : this-&gt;key[this-&gt;index];
+    }
+};
+</pre>
+<p class="first">Use the macro as a substitute for a normal constructor
+definition.  Note the lack of an explicit body.  Enclose the base type in
+parentheses.  For each parameter, also enclose the expected value type in
+parentheses.  Since the value types are mutually exclusive, you can wrap the
+parameters in a <tt class="docutils literal">(deduced …)</tt> clause.</p>
+<pre class="first literal-block">
+struct char_reader : public char_read_base
+{
+    BOOST_PARAMETER_CONSTRUCTOR(char_reader, (char_read_base), tag,
+        (deduced
+            (required
+                (y, (int))
+                (z, (char const*))
+            )
+        )
+    )
+};
+</pre>
+<p class="first">The following <tt class="docutils literal">char_reader</tt>
+constructor calls are legal.</p>
+<pre class="first literal-block">
+char const* keys[] = {"foo", "bar", "baz"};
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/container/map"><tt
+class="docutils literal">map</tt></a>&lt;char const*,std::<a
+class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt; k2s;
+k2s[keys[0]] = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;("qux");
+k2s[keys[1]] = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;("wmb");
+k2s[keys[2]] = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;("zxc");
+
+// positional arguments
+char_reader r0(0, keys[0]);
+BOOST_TEST_EQ('q', (r0(true, k2s)));
+BOOST_TEST_EQ('f', (r0(false, k2s)));
+
+// named arguments
+char_reader r1(_z = keys[1], _y = 1);
+BOOST_TEST_EQ('m', (r1(_z = k2s, _y = true)));
+BOOST_TEST_EQ('a', (r1(_z = k2s, _y = false)));
+
+// deduced arguments
+char_reader r2(keys[2], 2);
+BOOST_TEST_EQ('c', (r2(k2s, true)));
+BOOST_TEST_EQ('z', (r2(k2s, false)));
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a> and <a
+class="reference external" href="../../test/preprocessor_eval_category.cpp"
 >test/preprocessor_eval_category.cpp</a> test programs demonstrate proper
 usage of this macro.</p>
 </td>
@@ -3785,12 +4732,190 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> test program demonstrates proper usage of this
-macro.</p>
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">kw</tt> in this
+case.  The identifiers with leading underscores can be passed to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the same
+argument to which the corresponding named parameter (without underscores) is
+bound, as will be shown later.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a normal function
+header.  Enclose the return type <tt class="docutils literal">bool</tt> in
+parentheses.  For each parameter, also enclose the expected value type in
+parentheses.  Since the value types are mutually exclusive, you can wrap the
+parameters in a <tt class="docutils literal">(deduced …)</tt>
+clause.  Otherwise, just as with a normal function, the order in which you
+specify the parameters determines their position.  However, unlike a normal
+function, default values must be specified within the function body.  Also
+within the function body, you must pass the matching identifier with the
+leading underscore to the bracket operator of <tt class="docutils literal"
+>args</tt> to extract the corresponding argument, but at least this doesn't
+require <tt class="docutils literal">std::forward</tt> to preserve value
+categories.</p>
+<pre class="first literal-block">
+BOOST_PARAMETER_BASIC_FUNCTION((bool), evaluate, kw,
+    (deduced
+        (required
+            (lrc, (std::bitset&lt;1&gt;))
+            (lr, (std::bitset&lt;2&gt;))
+        )
+        (optional
+            (rrc, (std::bitset&lt;3&gt;))
+            (rr, (std::bitset&lt;4&gt;))
+        )
+    )
+)
+{
+    BOOST_TEST_EQ(
+        passed_by_lvalue_reference_to_const
+      , U::evaluate_category&lt;0&gt;(args[_lrc])
+    );
+    BOOST_TEST_EQ(
+        passed_by_lvalue_reference
+      , U::evaluate_category&lt;1&gt;(args[_lr])
+    );
+    BOOST_TEST_EQ(
+        passed_by_rvalue_reference_to_const
+      , U::evaluate_category&lt;2&gt;(
+            args[_rrc0 | rvalue_const_bitset&lt;2&gt;()]
+        )
+    );
+    BOOST_TEST_EQ(
+        passed_by_rvalue_reference
+      , U::evaluate_category&lt;3&gt;(args[_rr0 | rvalue_bitset&lt;3&gt;()])
+    );
+
+    return true;
+}
+</pre>
+<p class="first">The following function calls are legal.</p>
+<pre class="first literal-block">
+evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+  , rvalue_bitset&lt;3&gt;()
+);
+evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+);
+evaluate((  // composed arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+));
+evaluate(  // named arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+evaluate(  // named arguments
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="first">Because the parameters were wrapped in a <tt
+class="docutils literal">(deduced …)</tt> clause, the following function calls
+are also legal.</p>
+<pre class="first literal-block">
+evaluate(  // deduced arguments
+    rvalue_bitset&lt;3&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+);
+evaluate(  // deduced arguments
+    lvalue_bitset&lt;1&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a> test program
+demonstrates proper usage of this macro.</p>
 </td>
 </tr>
 <tr class="field">
@@ -4003,12 +5128,195 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> test program demonstrates proper usage of this
-macro.</p>
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">kw</tt> in this
+case.  The identifiers with leading underscores can be passed to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the same
+argument to which the corresponding named parameter (without underscores) is
+bound, as will be shown later.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a normal <tt
+class="docutils literal">static</tt> member function header.  Enclose the
+return type <tt class="docutils literal">bool</tt> in parentheses.  For each
+parameter, also enclose the expected value type in parentheses.  Since the
+value types are mutually exclusive, you can wrap the parameters in a <tt
+class="docutils literal">(deduced …)</tt> clause.  Otherwise, just as with a
+normal function, the order in which you specify the parameters determines
+their position.  However, unlike a normal function, default values must be
+specified within the function body.  Also within the function body, you must
+pass the matching identifier with the leading underscore to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the
+corresponding argument, but at least this doesn't require <tt
+class="docutils literal">std::forward</tt> to preserve value categories.</p>
+<pre class="first literal-block">
+struct B
+{
+    BOOST_PARAMETER_BASIC_MEMBER_FUNCTION((bool), static evaluate, kw,
+        (deduced
+            (required
+                (lrc, (std::bitset&lt;1&gt;))
+                (lr, (std::bitset&lt;2&gt;))
+            )
+            (optional
+                (rrc, (std::bitset&lt;3&gt;))
+                (rr, (std::bitset&lt;4&gt;))
+            )
+        )
+    )
+    {
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference_to_const
+          , U::evaluate_category&lt;0&gt;(args[_lrc])
+        );
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference
+          , U::evaluate_category&lt;1&gt;(args[_lr])
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference_to_const
+          , U::evaluate_category&lt;2&gt;(
+                args[_rrc0 | rvalue_const_bitset&lt;2&gt;()]
+            )
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference
+          , U::evaluate_category&lt;3&gt;(
+                args[_rr0 | rvalue_bitset&lt;3&gt;()]
+            )
+        );
+
+        return true;
+    }
+};
+</pre>
+<p class="first">The following function calls are legal.</p>
+<pre class="first literal-block">
+B::evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+  , rvalue_bitset&lt;3&gt;()
+);
+B::evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+);
+B::evaluate((  // composed arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+));
+B::evaluate(  // named arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+B::evaluate(  // named arguments
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="first">Because the parameters were wrapped in a <tt
+class="docutils literal">(deduced …)</tt> clause, the following function calls
+are also legal.</p>
+<pre class="first literal-block">
+B::evaluate(  // deduced arguments
+    rvalue_bitset&lt;3&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+);
+B::evaluate(  // deduced arguments
+    lvalue_bitset&lt;1&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a> test program
+demonstrates proper usage of this macro.</p>
 </td>
 </tr>
 <tr class="field">
@@ -4219,9 +5527,200 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">kw</tt> in this
+case.  The identifiers with leading underscores can be passed to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the same
+argument to which the corresponding named parameter (without underscores) is
+bound, as will be shown later.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a normal <tt
+class="docutils literal">const</tt> member function header.  Enclose the
+return type <tt class="docutils literal">bool</tt> in parentheses.  For each
+parameter, also enclose the expected value type in parentheses.  Since the
+value types are mutually exclusive, you can wrap the parameters in a <tt
+class="docutils literal">(deduced …)</tt> clause.  Otherwise, just as with a
+normal function, the order in which you specify the parameters determines
+their position.  However, unlike a normal function, default values must be
+specified within the function body.  Also within the function body, you must
+pass the matching identifier with the leading underscore to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the
+corresponding argument, but at least this doesn't require <tt
+class="docutils literal">std::forward</tt> to preserve value categories.</p>
+<pre class="first literal-block">
+struct B
+{
+    B()
+    {
+    }
+
+    BOOST_PARAMETER_BASIC_CONST_MEMBER_FUNCTION((bool), evaluate, kw,
+        (deduced
+            (required
+                (lrc, (std::bitset&lt;1&gt;))
+                (lr, (std::bitset&lt;2&gt;))
+            )
+            (optional
+                (rrc, (std::bitset&lt;3&gt;))
+                (rr, (std::bitset&lt;4&gt;))
+            )
+        )
+    )
+    {
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference_to_const
+          , U::evaluate_category&lt;0&gt;(args[_lrc])
+        );
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference
+          , U::evaluate_category&lt;1&gt;(args[_lr])
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference_to_const
+          , U::evaluate_category&lt;2&gt;(
+                args[_rrc0 | rvalue_const_bitset&lt;2&gt;()]
+            )
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference
+          , U::evaluate_category&lt;3&gt;(
+                args[_rr0 | rvalue_bitset&lt;3&gt;()]
+            )
+        );
+
+        return true;
+    }
+};
+</pre>
+<p class="first">The following function calls are legal.</p>
+<pre class="first literal-block">
+B const b = B();
+b.evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+  , rvalue_bitset&lt;3&gt;()
+);
+b.evaluate(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+);
+b.evaluate((  // composed arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+));
+b.evaluate(  // named arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+b.evaluate(  // named arguments
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="first">Because the parameters were wrapped in a <tt
+class="docutils literal">(deduced …)</tt> clause, the following function calls
+are also legal.</p>
+<pre class="first literal-block">
+b.evaluate(  // deduced arguments
+    rvalue_bitset&lt;3&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+);
+b.evaluate(  // deduced arguments
+    lvalue_bitset&lt;1&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a> test program
+demonstrates proper usage of this macro.</p>
 </td>
 </tr>
 <tr class="field">
@@ -4404,9 +5903,6 @@ class="concept">ArgumentPack</span></a> type <tt class="docutils literal"
 available for use within the function body.</p>
 </dd>
 </dl>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> test program demonstrates proper usage of this
-macro.</p>
 </div>
 <div class="section"
 id="boost-parameter-basic-function-call-op-result-tag-namespace-arguments">
@@ -4435,12 +5931,108 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">tag</tt> by
+default.</p>
 <pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(y)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(z)
 </pre>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> test program demonstrates proper usage of this
-macro.</p>
+<p class="first">Use the macro as a substitute for a normal function call
+operator header.  Enclose the return type in parentheses.  For each parameter,
+also enclose the expected value type in parentheses.  Since the value types
+are mutually exclusive, you can wrap the parameters in a <tt
+class="docutils literal">(deduced …)</tt> clause.  This is especially useful
+when implementing multiple Boost.Parameter-enabled function call operator
+overloads.</p>
+<pre class="first literal-block">
+class char_reader
+{
+    int index;
+    char const* key;
+
+ public:
+    explicit char_reader(char const* k) : index(0), key(k)
+    {
+    }
+
+    BOOST_PARAMETER_BASIC_FUNCTION_CALL_OPERATOR((void), tag,
+        (deduced
+            (required
+                (y, (int))
+                (z, (char const*))
+            )
+        )
+    )
+    {
+        this-&gt;index = args[_y];
+        this-&gt;key = args[_z];
+    }
+
+    <a class="reference internal"
+href="#boost-parameter-basic-const-function-call-op-result-tag-ns-args"
+>BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR</a>((char), tag,
+        (deduced
+            (required
+                (y, (bool))
+                (z, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/container/map"><tt
+class="docutils literal">map</tt></a>&lt;char const*,std::<a
+class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;))
+            )
+        )
+    )
+    {
+        return args[_y] ? (
+            (args[_z].find(this-&gt;key)-&gt;second)[this-&gt;index]
+        ) : this-&gt;key[this-&gt;index];
+    }
+};
+</pre>
+<p class="first">As with regular argument-dependent lookup, the value types of
+the arguments passed in determine which function call operator overload gets
+invoked.</p>
+<pre class="first literal-block">
+char const* keys[] = {"foo", "bar", "baz"};
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/container/map"><tt
+class="docutils literal">map</tt></a>&lt;char const*,std::<a
+class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt; k2s;
+k2s[keys[0]] = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;("qux");
+k2s[keys[1]] = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;("wmb");
+k2s[keys[2]] = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/string/basic_string"><tt
+class="docutils literal">string</tt></a>&gt;("zxc");
+char_reader r(keys[0]);
+
+// positional arguments
+BOOST_TEST_EQ('q', (r(true, k2s)));
+BOOST_TEST_EQ('f', (r(false, k2s)));
+
+// named arguments
+r(_z = keys[1], _y = 1);
+BOOST_TEST_EQ('m', (r(_z = k2s, _y = true)));
+BOOST_TEST_EQ('a', (r(_z = k2s, _y = false)));
+
+// deduced arguments
+r(keys[2], 2);
+BOOST_TEST_EQ('c', (r(k2s, true)));
+BOOST_TEST_EQ('z', (r(k2s, false)));
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a> test program
+demonstrates proper usage of this macro.</p>
 </td>
 </tr>
 <tr class="field">
@@ -4638,12 +6230,200 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external" href="../../test/preprocessor.cpp"
->test/preprocessor.cpp</a> test program demonstrates proper usage of this
-macro.</p>
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Define the named parameters that will comprise the argument
+specification that this macro will use.  Ensure that all their tag types are
+in the same namespace, which is <tt class="docutils literal">kw</tt> in this
+case.  The identifiers with leading underscores can be passed to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the same
+argument to which the corresponding named parameter (without underscores) is
+bound, as will be shown later.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a normal <tt
+class="docutils literal">const</tt> function call operator header.  Enclose
+the return type <tt class="docutils literal">bool</tt> in parentheses.  For
+each parameter, also enclose the expected value type in parentheses.  Since
+the value types are mutually exclusive, you can wrap the parameters in a <tt
+class="docutils literal">(deduced …)</tt> clause.  Otherwise, just as with a
+normal function, the order in which you specify the parameters determines
+their position.  However, unlike a normal function, default values must be
+specified within the function body.  Also within the function body, you must
+pass the matching identifier with the leading underscore to the bracket
+operator of <tt class="docutils literal">args</tt> to extract the
+corresponding argument, but at least this doesn't require <tt
+class="docutils literal">std::forward</tt> to preserve value categories.</p>
+<pre class="first literal-block">
+struct B
+{
+    B()
+    {
+    }
+
+    BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
+        (deduced
+            (required
+                (lrc, (std::bitset&lt;1&gt;))
+                (lr, (std::bitset&lt;2&gt;))
+            )
+            (optional
+                (rrc, (std::bitset&lt;3&gt;))
+                (rr, (std::bitset&lt;4&gt;))
+            )
+        )
+    )
+    {
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference_to_const
+          , U::evaluate_category&lt;0&gt;(args[_lrc])
+        );
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference
+          , U::evaluate_category&lt;1&gt;(args[_lr])
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference_to_const
+          , U::evaluate_category&lt;2&gt;(
+                args[_rrc0 | rvalue_const_bitset&lt;2&gt;()]
+            )
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference
+          , U::evaluate_category&lt;3&gt;(
+                args[_rr0 | rvalue_bitset&lt;3&gt;()]
+            )
+        );
+
+        return true;
+    }
+};
+</pre>
+<p class="first">The following function calls are legal.</p>
+<pre class="first literal-block">
+B const b = B();
+b(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+  , rvalue_bitset&lt;3&gt;()
+);
+b(  // positional arguments
+    lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+);
+b((  // composed arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+));
+b(  // named arguments
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+b(  // named arguments
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="first">Because the parameters were wrapped in a <tt
+class="docutils literal">(deduced …)</tt> clause, the following function calls
+are also legal.</p>
+<pre class="first literal-block">
+b(  // deduced arguments
+    rvalue_bitset&lt;3&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+  , lvalue_bitset&lt;1&gt;()
+  , rvalue_const_bitset&lt;2&gt;()
+);
+b(  // deduced arguments
+    lvalue_bitset&lt;1&gt;()
+  , lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
+href="../../test/preprocessor.cpp">test/preprocessor.cpp</a> test program
+demonstrates proper usage of this macro.</p>
 </td>
 </tr>
 <tr class="field">
@@ -4839,14 +6619,134 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external"
-href="../../test/parameterized_inheritance.cpp"
->test/parameterized_inheritance.cpp</a> and <a class="reference external"
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Named parameters are required when invoking the function;
+however, none of their tags need to be in the same namespace.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw0) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw1) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw2) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw3) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a variadic function
+header.  Enclose the return type <tt class="docutils literal">bool</tt> in
+parentheses.</p>
+<pre class="first literal-block">
+BOOST_PARAMETER_NO_SPEC_FUNCTION((bool), evaluate)
+{
+    BOOST_TEST_EQ(
+        passed_by_lvalue_reference_to_const
+      , U::evaluate_category&lt;0&gt;(args[_lrc])
+    );
+    BOOST_TEST_EQ(
+        passed_by_lvalue_reference
+      , U::evaluate_category&lt;1&gt;(args[_lr])
+    );
+    BOOST_TEST_EQ(
+        passed_by_rvalue_reference_to_const
+      , U::evaluate_category&lt;2&gt;(
+            args[_rrc0 | rvalue_const_bitset&lt;2&gt;()]
+        )
+    );
+    BOOST_TEST_EQ(
+        passed_by_rvalue_reference
+      , U::evaluate_category&lt;3&gt;(args[_rr0 | rvalue_bitset&lt;3&gt;()])
+    );
+
+    return true;
+}
+</pre>
+<p class="first">To invoke the function, bind all its arguments to named
+parameters.</p>
+<pre class="first literal-block">
+evaluate(
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+evaluate(
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
 href="../../test/preprocessor_eval_cat_no_spec.cpp"
->test/preprocessor_eval_cat_no_spec.cpp</a> test programs demonstrate proper
+>test/preprocessor_eval_cat_no_spec.cpp</a> test program demonstrates proper
 usage of this macro.</p>
 </td>
 </tr>
@@ -4958,10 +6858,128 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">When designing a front-end class template whose back-end is
+configurable via parameterized inheritance, it can be useful to omit argument
+specifiers from a named-parameter member function so that the delegate member
+functions of the back-end classes can enforce their own specifications.</p>
 <pre class="first literal-block">
+template &lt;typename B&gt;
+struct frontend : B
+{
+    frontend() : B()
+    {
+    }
+
+    BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION((void), initialize)
+    {
+        this-&gt;initialize_impl(args);
+    }
+};
 </pre>
-<p>The <a class="reference external"
+<p class="first">Named parameters are required when invoking the member
+function; however, none of their tags need to be in the same namespace.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(a0)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(a1)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(a2)
+</pre>
+<p class="first">For this example, each of the back-end class templates
+requires its own parameter to be present in the argument pack.  In practice,
+such parameters should be optional, with default values.</p>
+<pre class="first literal-block">
+template &lt;typename T&gt;
+class backend0
+{
+    T a0;
+
+ public:
+    backend0() : a0()
+    {
+    }
+
+    T const&amp; get_a0() const
+    {
+        return this-&gt;a0;
+    }
+
+ protected:
+    template &lt;typename ArgPack&gt;
+    void initialize_impl(ArgPack const&amp; args)
+    {
+        this-&gt;a0 = args[_a0];
+    }
+};
+
+template &lt;typename B, typename T&gt;
+class backend1 : public B
+{
+    T a1;
+
+ public:
+    backend1() : B(), a1()
+    {
+    }
+
+    T const&amp; get_a1() const
+    {
+        return this-&gt;a1;
+    }
+
+ protected:
+    template &lt;typename ArgPack&gt;
+    void initialize_impl(ArgPack const&amp; args)
+    {
+        B::initialize_impl(args);
+        this-&gt;a1 = args[_a1];
+    }
+};
+
+template &lt;typename B, typename T&gt;
+class backend2 : public B
+{
+    T a2;
+
+ public:
+    backend2() : B(), a2()
+    {
+    }
+
+    T const&amp; get_a2() const
+    {
+        return this-&gt;a2;
+    }
+
+ protected:
+    template &lt;typename ArgPack&gt;
+    void initialize_impl(ArgPack const&amp; args)
+    {
+        B::initialize_impl(args);
+        this-&gt;a2 = args[_a2];
+    }
+};
+</pre>
+<p class="first">This example shows that while <tt class="docutils literal"
+>backend0</tt> must always be the root base class template and that <tt
+class="docutils literal">frontend</tt> must always be the most derived class
+template, the other back-ends can be chained together in different orders.</p>
+<pre class="first literal-block">
+char const* p = "foo";
+frontend&lt;
+    backend2&lt;backend1&lt;backend0&lt;char const*&gt;, char&gt;, int&gt;
+&gt; composed_obj0;
+frontend&lt;
+    backend1&lt;backend2&lt;backend0&lt;char const*&gt;, int&gt;, char&gt;
+&gt; composed_obj1;
+composed_obj0.initialize(_a2 = 4, _a1 = ' ', _a0 = p);
+composed_obj1.initialize(_a0 = p, _a1 = ' ', _a2 = 4);
+BOOST_TEST_EQ(composed_obj0.get_a0(), composed_obj1.get_a0());
+BOOST_TEST_EQ(composed_obj0.get_a1(), composed_obj1.get_a1());
+BOOST_TEST_EQ(composed_obj0.get_a2(), composed_obj1.get_a2());
+</pre>
+<p class="last">The <a class="reference external"
 href="../../test/parameterized_inheritance.cpp"
 >test/parameterized_inheritance.cpp</a> and <a class="reference external"
 href="../../test/preprocessor_eval_cat_no_spec.cpp"
@@ -5074,14 +7092,145 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external"
-href="../../test/parameterized_inheritance.cpp"
->test/parameterized_inheritance.cpp</a> and <a class="reference external"
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Named parameters are required when invoking the member
+function; however, none of their tags need to be in the same namespace.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw0) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw1) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw2) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw3) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a variadic function
+header.  Enclose the return type <tt class="docutils literal">bool</tt> in
+parentheses.  The macro will qualify the function with the <tt
+class="docutils literal">const</tt> keyword.</p>
+<pre class="first literal-block">
+struct D
+{
+    D()
+    {
+    }
+
+    BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION((bool), evaluate_m)
+    {
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference_to_const
+          , U::evaluate_category&lt;0&gt;(args[_lrc])
+        );
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference
+          , U::evaluate_category&lt;1&gt;(args[_lr])
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference_to_const
+          , U::evaluate_category&lt;2&gt;(
+                args[_rrc0 | rvalue_const_bitset&lt;2&gt;()]
+            )
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference
+          , U::evaluate_category&lt;3&gt;(
+                args[_rr0 | rvalue_bitset&lt;3&gt;()]
+            )
+        );
+
+        return true;
+    }
+};
+</pre>
+<p class="first">To invoke the member function, bind all its arguments to
+named parameters.</p>
+<pre class="first literal-block">
+D const d = D();
+d.evaluate_m(
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+d.evaluate_m(
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
 href="../../test/preprocessor_eval_cat_no_spec.cpp"
->test/preprocessor_eval_cat_no_spec.cpp</a> test programs demonstrate proper
+>test/preprocessor_eval_cat_no_spec.cpp</a> test program demonstrates proper
 usage of this macro.</p>
 </td>
 </tr>
@@ -5187,10 +7336,129 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">When designing a front-end class template whose back-end is
+configurable via parameterized inheritance, it can be useful to omit argument
+specifiers from a named-parameter function call operator so that the delegate
+member functions of the back-end classes can enforce their own
+specifications.</p>
 <pre class="first literal-block">
+template &lt;typename B&gt;
+struct frontend : B
+{
+    frontend() : B()
+    {
+    }
+
+    BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR((void))
+    {
+        this-&gt;initialize_impl(args);
+    }
+};
 </pre>
-<p>The <a class="reference external"
+<p class="first">Named parameters are required when invoking the function call
+operator; however, none of their tags need to be in the same namespace.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(a0)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(a1)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(a2)
+</pre>
+<p class="first">For this example, each of the back-end class templates
+requires its own parameter to be present in the argument pack.  In practice,
+such parameters should be optional, with default values.</p>
+<pre class="first literal-block">
+template &lt;typename T&gt;
+class backend0
+{
+    T a0;
+
+ public:
+    backend0() : a0()
+    {
+    }
+
+    T const&amp; get_a0() const
+    {
+        return this-&gt;a0;
+    }
+
+ protected:
+    template &lt;typename ArgPack&gt;
+    void initialize_impl(ArgPack const&amp; args)
+    {
+        this-&gt;a0 = args[_a0];
+    }
+};
+
+template &lt;typename B, typename T&gt;
+class backend1 : public B
+{
+    T a1;
+
+ public:
+    backend1() : B(), a1()
+    {
+    }
+
+    T const&amp; get_a1() const
+    {
+        return this-&gt;a1;
+    }
+
+ protected:
+    template &lt;typename ArgPack&gt;
+    void initialize_impl(ArgPack const&amp; args)
+    {
+        B::initialize_impl(args);
+        this-&gt;a1 = args[_a1];
+    }
+};
+
+template &lt;typename B, typename T&gt;
+class backend2 : public B
+{
+    T a2;
+
+ public:
+    backend2() : B(), a2()
+    {
+    }
+
+    T const&amp; get_a2() const
+    {
+        return this-&gt;a2;
+    }
+
+ protected:
+    template &lt;typename ArgPack&gt;
+    void initialize_impl(ArgPack const&amp; args)
+    {
+        B::initialize_impl(args);
+        this-&gt;a2 = args[_a2];
+    }
+};
+</pre>
+<p class="first">This example shows that while <tt class="docutils literal"
+>backend0</tt> must always be the root base class template and that <tt
+class="docutils literal">frontend</tt> must always be the most derived class
+template, the other back-ends can be chained together in different orders.</p>
+<pre class="first literal-block">
+char const* p = "foo";
+frontend&lt;
+    backend2&lt;backend1&lt;backend0&lt;char const*&gt;, char&gt;, int&gt;
+&gt; composed_obj0;
+frontend&lt;
+    backend1&lt;backend2&lt;backend0&lt;char const*&gt;, int&gt;, char&gt;
+&gt; composed_obj1;
+composed_obj0(_a2 = 4, _a1 = ' ', _a0 = p);
+composed_obj1(_a0 = p, _a1 = ' ', _a2 = 4);
+BOOST_TEST_EQ(composed_obj0.get_a0(), composed_obj1.get_a0());
+BOOST_TEST_EQ(composed_obj0.get_a1(), composed_obj1.get_a1());
+BOOST_TEST_EQ(composed_obj0.get_a2(), composed_obj1.get_a2());
+</pre>
+<p class="last">The <a class="reference external"
 href="../../test/parameterized_inheritance.cpp"
 >test/parameterized_inheritance.cpp</a> and <a class="reference external"
 href="../../test/preprocessor_eval_cat_no_spec.cpp"
@@ -5295,14 +7563,145 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following function templates
+falls under a different value category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external"
-href="../../test/parameterized_inheritance.cpp"
->test/parameterized_inheritance.cpp</a> and <a class="reference external"
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+value category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Named parameters are required when invoking the function call
+operator; however, none of their tags need to be in the same namespace.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw0) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw1) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw2) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw3) consume(rr))
+</pre>
+<p class="first">Use the macro as a substitute for a variadic function call
+operator header.  Enclose the return type <tt class="docutils literal"
+>bool</tt> in parentheses.  The macro will qualify the function with the <tt
+class="docutils literal">const</tt> keyword.</p>
+<pre class="first literal-block">
+struct D
+{
+    D()
+    {
+    }
+
+    BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR((bool))
+    {
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference_to_const
+          , U::evaluate_category&lt;0&gt;(args[_lrc])
+        );
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference
+          , U::evaluate_category&lt;1&gt;(args[_lr])
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference_to_const
+          , U::evaluate_category&lt;2&gt;(
+                args[_rrc0 | rvalue_const_bitset&lt;2&gt;()]
+            )
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference
+          , U::evaluate_category&lt;3&gt;(
+                args[_rr0 | rvalue_bitset&lt;3&gt;()]
+            )
+        );
+
+        return true;
+    }
+};
+</pre>
+<p class="first">To invoke the function call operator, bind all its arguments
+to named parameters.</p>
+<pre class="first literal-block">
+D const d = D();
+d(
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+d(
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
 href="../../test/preprocessor_eval_cat_no_spec.cpp"
->test/preprocessor_eval_cat_no_spec.cpp</a> test programs demonstrate proper
+>test/preprocessor_eval_cat_no_spec.cpp</a> test program demonstrates proper
 usage of this macro.</p>
 </td>
 </tr>
@@ -5406,10 +7805,127 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">When designing a front-end class template whose back-end is
+configurable via parameterized inheritance, it can be useful to omit argument
+specifiers from a named-parameter constructor so that the delegate
+constructors of the back-end classes can enforce their own specifications.</p>
 <pre class="first literal-block">
+template &lt;typename B&gt;
+struct frontend : B
+{
+    BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(frontend, (B))
+};
 </pre>
-<p>The <a class="reference external"
+<p class="first">Named parameters are required when invoking the constructor;
+however, none of their tags need to be in the same namespace.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(a0)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(a1)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(a2)
+</pre>
+<p class="first">For this example, each of the back-end class templates
+requires its own parameter to be present in the argument pack.  In practice,
+such parameters should be optional, with default values.</p>
+<pre class="first literal-block">
+struct _enabler
+{
+};
+
+template &lt;typename T&gt;
+class backend0
+{
+    T a0;
+
+ public:
+    template &lt;typename ArgPack&gt;
+    explicit backend0(
+        ArgPack const&amp; args
+      , typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
+            <a class="reference internal" href="#is-argument-pack"
+>is_argument_pack</a>&lt;ArgPack&gt;
+          , _enabler
+        &gt;::type = _enabler()
+    ) : a0(args[_a0])
+    {
+    }
+
+    T const&amp; get_a0() const
+    {
+        return this-&gt;a0;
+    }
+};
+
+template &lt;typename B, typename T&gt;
+class backend1 : public B
+{
+    T a1;
+
+ public:
+    template &lt;typename ArgPack&gt;
+    explicit backend1(
+        ArgPack const&amp; args
+      , typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
+            <a class="reference internal" href="#is-argument-pack"
+>is_argument_pack</a>&lt;ArgPack&gt;
+          , _enabler
+        &gt;::type = _enabler()
+    ) : B(args), a1(args[_a1])
+    {
+    }
+
+    T const&amp; get_a1() const
+    {
+        return this-&gt;a1;
+    }
+};
+
+template &lt;typename B, typename T&gt;
+class backend2 : public B
+{
+    T a2;
+
+ public:
+    template &lt;typename ArgPack&gt;
+    explicit backend2(
+        ArgPack const&amp; args
+      , typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
+            <a class="reference internal" href="#is-argument-pack"
+>is_argument_pack</a>&lt;ArgPack&gt;
+          , _enabler
+        &gt;::type = _enabler()
+    ) : B(args), a2(args[_a2])
+    {
+    }
+
+    T const&amp; get_a2() const
+    {
+        return this-&gt;a2;
+    }
+};
+</pre>
+<p class="first">This example shows that while <tt class="docutils literal"
+>backend0</tt> must always be the root base class template and that <tt
+class="docutils literal">frontend</tt> must always be the most derived class
+template, the other back-ends can be chained together in different orders.</p>
+<pre class="first literal-block">
+char const* p = "foo";
+frontend&lt;
+    backend2&lt;backend1&lt;backend0&lt;char const*&gt;, char&gt;, int&gt;
+&gt; composed_obj0(_a2 = 4, _a1 = ' ', _a0 = p);
+frontend&lt;
+    backend1&lt;backend2&lt;backend0&lt;char const*&gt;, int&gt;, char&gt;
+&gt; composed_obj1(_a0 = p, _a1 = ' ', _a2 = 4);
+BOOST_TEST_EQ(composed_obj0.get_a0(), composed_obj1.get_a0());
+BOOST_TEST_EQ(composed_obj0.get_a1(), composed_obj1.get_a1());
+BOOST_TEST_EQ(composed_obj0.get_a2(), composed_obj1.get_a2());
+</pre>
+<p class="last">The <a class="reference external"
 href="../../test/parameterized_inheritance.cpp"
 >test/parameterized_inheritance.cpp</a> and <a class="reference external"
 href="../../test/preprocessor_eval_cat_no_spec.cpp"
@@ -5491,10 +8007,146 @@ href="../../../../boost/parameter/preprocessor.hpp"
 <tr>
 <td>&nbsp;</td>
 <td class="field-body">
-<p class="first"></p>
+<p class="first">The return type of each of the following functon templates
+falls under a different reference category.</p>
 <pre class="first literal-block">
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; rvalue_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+{
+    return std::bitset&lt;N + 1&gt;();
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+{
+    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    return lset;
+}
+
+template &lt;std::size_t N&gt;
+std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+{
+    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    return clset;
+}
 </pre>
-<p>The <a class="reference external"
+<p class="first">The <tt class="docutils literal">U::evaluate_category</tt>
+static member function template has a simple job: to return the correct
+reference category when passed in an object returned by one of the functions
+defined above.  Assume that <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is defined.</p>
+<pre class="first literal-block">
+enum invoked
+{
+    passed_by_lvalue_reference_to_const
+  , passed_by_lvalue_reference
+  , passed_by_rvalue_reference_to_const
+  , passed_by_rvalue_reference
+};
+
+struct U
+{
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    {
+        return passed_by_lvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    {
+        return passed_by_lvalue_reference;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    {
+        return passed_by_rvalue_reference_to_const;
+    }
+
+    template &lt;std::size_t N&gt;
+    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    {
+        return passed_by_rvalue_reference;
+    }
+};
+</pre>
+<p class="first">Named parameters are required when invoking the constructor;
+however, none of their tags need to be in the same namespace.</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lrc, kw0) in(lrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_lr, kw1) in_out(lr))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rrc, kw2) in(rrc))
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>((_rr, kw3) consume(rr))
+</pre>
+<p class="first">Unlike <a class="reference internal"
+href="#boost-parameter-no-spec-constructor-cls-impl"><tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR</tt></a>, this
+macro doesn't require a base class, only a delegate function to which the
+generated constructor can pass its <a class="reference internal"
+href="#argumentpack"><span class="concept">ArgumentPack</span></a>.</p>
+<pre class="first literal-block">
+struct D
+{
+    BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(D, D::_evaluate)
+    {
+    }
+
+ private:
+    template &lt;typename Args&gt;
+    static bool _evaluate(Args const&amp; args)
+    {
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference_to_const
+          , U::evaluate_category&lt;0&gt;(args[_lrc])
+        );
+        BOOST_TEST_EQ(
+            passed_by_lvalue_reference
+          , U::evaluate_category&lt;1&gt;(args[_lr])
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference_to_const
+          , U::evaluate_category&lt;2&gt;(
+                args[_rrc0 | rvalue_const_bitset&lt;2&gt;()]
+            )
+        );
+        BOOST_TEST_EQ(
+            passed_by_rvalue_reference
+          , U::evaluate_category&lt;3&gt;(
+                args[_rr0 | rvalue_bitset&lt;3&gt;()]
+            )
+        );
+
+        return true;
+    }
+};
+</pre>
+<p class="first">To invoke the constructor, bind all its arguments to named
+parameters.</p>
+<pre class="first literal-block">
+D dp0(
+    _rr0 = rvalue_bitset&lt;3&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+  , _lr0 = lvalue_bitset&lt;1&gt;()
+  , _rrc0 = rvalue_const_bitset&lt;2&gt;()
+);
+D dp1(
+    _lr0 = lvalue_bitset&lt;1&gt;()
+  , _lrc0 = lvalue_const_bitset&lt;0&gt;()
+);
+</pre>
+<p class="last">The <a class="reference external"
 href="../../test/preprocessor_eval_cat_no_spec.cpp"
 >test/preprocessor_eval_cat_no_spec.cpp</a> test program demonstrates proper
 usage of this macro.</p>
