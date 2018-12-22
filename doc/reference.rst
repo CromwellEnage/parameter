@@ -6598,7 +6598,8 @@ equal to ``BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY``.
 
 __ ../../../../boost/parameter/config.hpp
 
-:Default Value: |BOOST_MPL_LIMIT_VECTOR_SIZE|_ (defined by `Boost.MPL`_) if perfect forwarding is supported, ``8`` otherwise.
+:Default Value: |BOOST_MPL_LIMIT_VECTOR_SIZE|_ (defined by `Boost.MPL`_) if
+perfect forwarding is supported, ``20`` otherwise.
 :Minimum Value: ``2``
 
 .. |BOOST_MPL_LIMIT_VECTOR_SIZE| replace:: ``BOOST_MPL_LIMIT_VECTOR_SIZE``
