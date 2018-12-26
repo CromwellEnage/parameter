@@ -81,16 +81,6 @@ alias parameter_standard_tests
         :
             <preserve-target-tests>off
     ]
-    [ run preprocessor_eval_cat_8.cpp
-        :
-        :
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=8
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
-        :
-        :
-            <preserve-target-tests>off
-    ]
     [ run preprocessor_eval_cat_no_spec.cpp
         :
         :
@@ -692,6 +682,37 @@ alias parameter_evaluate_category_10
     ]
     ;
 
+alias parameter_preprocessor_eval_cat_8
+    :
+    [ run preprocessor_eval_cat_8.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    :
+        <target-os>windows
+        <toolset>gcc
+    ;
+
+alias parameter_preprocessor_eval_cat_8
+    :
+    [ run preprocessor_eval_cat_8.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
+        :
+        :
+            <preserve-target-tests>off
+    ]
+    ;
+
 alias parameter_preprocessor_eval_cat_fail
     :
     :
@@ -876,6 +897,7 @@ test-suite "parameter"
     :
         parameter_macros_eval_category
         parameter_evaluate_category_10
+        parameter_preprocessor_eval_cat_8
         parameter_preprocessor_eval_cat_fail
         parameter_standard_tests
         parameter_literate_tests
