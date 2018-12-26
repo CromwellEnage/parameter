@@ -149,7 +149,7 @@ namespace test {
 } // namespace test
 
 #if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-    (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
+    !(10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
 #include <boost/parameter/aux_/as_lvalue.hpp>
 #include <boost/core/ref.hpp>
 #endif
