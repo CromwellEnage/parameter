@@ -611,6 +611,17 @@ alias parameter_macros_eval_category
 
 alias parameter_evaluate_category_10
     :
+    [ run evaluate_category_10.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=10
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
+        :
+            evaluate_category_10_gcc_4_8_linux
+        :
+            <preserve-target-tests>off
+    ]
     :
         <target-os>linux
         <toolset>gcc
@@ -619,16 +630,17 @@ alias parameter_evaluate_category_10
 
 alias parameter_evaluate_category_10
     :
-    :
-        # This test fails for xcode 7.3.0 on osx
-        # so we turn off this test for this compiler for now
-        <target-os>darwin
-        <cxxstd>03
-        # TODO: Differentiate by xcode version or by clang version
-    ;
-
-alias parameter_evaluate_category_10
-    :
+    [ run evaluate_category_10.cpp
+        :
+        :
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=10
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
+        :
+            evaluate_category_10_mingw
+        :
+            <preserve-target-tests>off
+    ]
     :
         <target-os>windows
         <toolset>gcc
@@ -691,6 +703,7 @@ alias parameter_preprocessor_eval_cat_8
             <define>BOOST_PARAMETER_MAX_ARITY=8
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
         :
+            preproc_eval_cat_8_mingw
         :
             <preserve-target-tests>off
     ]

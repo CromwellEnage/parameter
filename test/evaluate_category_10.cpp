@@ -30,13 +30,27 @@ namespace test {
 } // namespace test
 
 #include <boost/parameter/parameters.hpp>
+
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
+    (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) || ( \
+        !defined(__APPLE_CC__) && !( \
+            defined(linux) && BOOST_WORKAROUND(BOOST_GCC, == 40800) \
+        ) \
+    )
 #include <boost/parameter/required.hpp>
 #include <boost/parameter/optional.hpp>
+#endif
 
 namespace test {
 
     struct g_parameters
       : boost::parameter::parameters<
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
+    (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) || ( \
+        !defined(__APPLE_CC__) && !( \
+            defined(linux) && BOOST_WORKAROUND(BOOST_GCC, == 40800) \
+        ) \
+    )
             boost::parameter::required<test::keywords::lrc0>
           , boost::parameter::required<test::keywords::lr0>
           , boost::parameter::required<test::keywords::rrc0>
@@ -47,6 +61,7 @@ namespace test {
           , boost::parameter::optional<test::keywords::lrc2>
           , boost::parameter::optional<test::keywords::lr2>
           , boost::parameter::optional<test::keywords::rr2>
+#endif
         >
     {
     };
@@ -133,7 +148,8 @@ namespace test {
     };
 } // namespace test
 
-#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
+    (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
 #include <boost/parameter/aux_/as_lvalue.hpp>
 #include <boost/core/ref.hpp>
 #endif
@@ -167,7 +183,9 @@ int main()
           , test::rvalue_bitset<2>()
         )
     );
-#else   // no perfect forwarding support and no exponential overloads
+#elif !defined(__APPLE_CC__) && !( \
+        defined(linux) && BOOST_WORKAROUND(BOOST_GCC, == 40800) \
+    )
     test::C::evaluate(
         test::g_parameters()(
             test::lvalue_const_bitset<0>()
@@ -193,7 +211,39 @@ int main()
           , boost::parameter::aux::as_lvalue(test::rvalue_bitset<2>())
         )
     );
-#endif  // perfect forwarding support, or exponential overloads
+#else   // All parameters must be named.
+    test::C::evaluate(
+        test::g_parameters()(
+            test::_lrc0 = test::lvalue_const_bitset<0>()
+          , test::_lr0 = boost::ref(test::lvalue_bitset<0>())
+          , test::_rrc0 = test::rvalue_const_bitset<0>()
+          , test::_rr0 = boost::parameter::aux::as_lvalue(
+                test::rvalue_bitset<0>()
+            )
+          , test::_lrc1 = test::lvalue_const_bitset<1>()
+          , test::_lr1 = boost::ref(test::lvalue_bitset<1>())
+          , test::_rrc1 = test::rvalue_const_bitset<1>()
+        )
+    );
+    test::C::evaluate(
+        test::g_parameters()(
+            test::_lrc0 = test::lvalue_const_bitset<0>()
+          , test::_lr0 = boost::ref(test::lvalue_bitset<0>())
+          , test::_rrc0 = test::rvalue_const_bitset<0>()
+          , test::_rr0 = boost::parameter::aux::as_lvalue(
+                test::rvalue_bitset<0>()
+            )
+          , test::_lrc1 = test::lvalue_const_bitset<1>()
+          , test::_lr1 = boost::ref(test::lvalue_bitset<1>())
+          , test::_rrc1 = test::rvalue_const_bitset<1>()
+          , test::_lrc2 = test::lvalue_const_bitset<2>()
+          , test::_lr2 = boost::ref(test::lvalue_bitset<2>())
+          , test::_rr2 = boost::parameter::aux::as_lvalue(
+                test::rvalue_bitset<2>()
+            )
+        )
+    );
+#endif
     return boost::report_errors();
 }
 
