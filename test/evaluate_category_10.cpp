@@ -215,25 +215,25 @@ int main()
     test::C::evaluate(
         test::g_parameters()(
             test::lvalue_const_bitset<0>()
-          , boost::ref(test::lvalue_bitset<0>())
+          , test::lvalue_bitset<0>()
           , test::rvalue_const_bitset<0>()
           , boost::parameter::aux::as_lvalue(test::rvalue_bitset<0>())
           , test::lvalue_const_bitset<1>()
-          , boost::ref(test::lvalue_bitset<1>())
+          , test::lvalue_bitset<1>()
           , test::rvalue_const_bitset<1>()
         )
     );
     test::C::evaluate(
         test::g_parameters()(
             test::lvalue_const_bitset<0>()
-          , boost::ref(test::lvalue_bitset<0>())
+          , test::lvalue_bitset<0>()
           , test::rvalue_const_bitset<0>()
           , boost::parameter::aux::as_lvalue(test::rvalue_bitset<0>())
           , test::lvalue_const_bitset<1>()
-          , boost::ref(test::lvalue_bitset<1>())
+          , test::lvalue_bitset<1>()
           , test::rvalue_const_bitset<1>()
           , test::lvalue_const_bitset<2>()
-          , boost::ref(test::lvalue_bitset<2>())
+          , test::lvalue_bitset<2>()
           , boost::parameter::aux::as_lvalue(test::rvalue_bitset<2>())
         )
     );
