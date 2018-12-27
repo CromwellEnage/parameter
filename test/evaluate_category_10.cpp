@@ -16,7 +16,7 @@ namespace test {
     BOOST_PARAMETER_NAME((_lrc0, keywords) in(lrc0))
     BOOST_PARAMETER_NAME((_lr0, keywords) in_out(lr0))
     BOOST_PARAMETER_NAME((_rrc0, keywords) in(rrc0))
-#if !defined(__MINGW32__) && defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
     BOOST_PARAMETER_NAME((_rr0, keywords) consume(rr0))
 #else
     BOOST_PARAMETER_NAME((_rr0, keywords) rr0)
@@ -32,14 +32,11 @@ namespace test {
 #include <boost/parameter/parameters.hpp>
 
 #if ( \
-        !defined(__MINGW32__) && ( \
-            defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-            (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
-        ) \
+        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
+        !defined(__MINGW32__) \
     ) || ( \
-        !(defined(__MACH__) && __MACH__) && !( \
-            defined(linux) && BOOST_WORKAROUND(BOOST_GCC, == 40800) \
-        ) \
+        !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
+        (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
     )
 #include <boost/parameter/required.hpp>
 #include <boost/parameter/optional.hpp>
@@ -50,14 +47,11 @@ namespace test {
     struct g_parameters
       : boost::parameter::parameters<
 #if ( \
-        !defined(__MINGW32__) && ( \
-            defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-            (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
-        ) \
+        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
+        !defined(__MINGW32__) \
     ) || ( \
-        !(defined(__MACH__) && __MACH__) && !( \
-            defined(linux) && BOOST_WORKAROUND(BOOST_GCC, == 40800) \
-        ) \
+        !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
+        (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
     )
             boost::parameter::required<test::keywords::lrc0>
           , boost::parameter::required<test::keywords::lr0>
@@ -113,7 +107,7 @@ namespace test {
                     args[test::_lr2 || test::lvalue_bitset_function<2>()]
                 )
             );
-#if !defined(__MINGW32__) && defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
             BOOST_TEST_EQ(
                 test::passed_by_rvalue_reference_to_const
               , test::U::evaluate_category<0>(args[test::_rrc0])
@@ -132,7 +126,7 @@ namespace test {
                     args[test::_rr2 || test::rvalue_bitset_function<2>()]
                 )
             );
-#else   // mingw, or no perfect forwarding support
+#else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
             BOOST_TEST_EQ(
                 test::passed_by_lvalue_reference_to_const
               , test::U::evaluate_category<0>(args[test::_rrc0])
@@ -151,12 +145,15 @@ namespace test {
                     args[test::_rr2 || test::rvalue_bitset_function<2>()]
                 )
             );
-#endif  // perfect forwarding support, and not mingw
+#endif  // perfect forwarding support
         }
     };
 } // namespace test
 
-#if defined(__MINGW32__) || ( \
+#if ( \
+        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
+        defined(__MINGW32__) \
+    ) || ( \
         !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
         !(10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
     )
@@ -166,10 +163,8 @@ namespace test {
 
 int main()
 {
-#if !defined(__MINGW32__) && ( \
-        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-        (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
-    )
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if defined(__MINGW32__)
     test::C::evaluate(
         test::g_parameters()(
             test::lvalue_const_bitset<0>()
@@ -195,9 +190,35 @@ int main()
           , test::rvalue_bitset<2>()
         )
     );
-#elif !(defined(__MACH__) && __MACH__) && !( \
-        defined(linux) && BOOST_WORKAROUND(BOOST_GCC, == 40800) \
-    )
+#else   // !defined(__MINGW32__)
+    test::C::evaluate(
+        test::g_parameters()(
+            test::_rrc1 = test::rvalue_const_bitset<1>()
+          , test::_lrc0 = test::lvalue_const_bitset<0>()
+          , test::_lr0 = test::lvalue_bitset<0>()
+          , test::_rrc0 = test::rvalue_const_bitset<0>()
+          , test::_rr0 = test::rvalue_bitset<0>()
+          , test::_lrc1 = test::lvalue_const_bitset<1>()
+          , test::_lr1 = test::lvalue_bitset<1>()
+        )
+    );
+    test::C::evaluate(
+        test::g_parameters()(
+            test::_lr0 = test::lvalue_bitset<0>()
+          , test::_rrc0 = test::rvalue_const_bitset<0>()
+          , test::_rr0 = test::rvalue_bitset<0>()
+          , test::_lrc1 = test::lvalue_const_bitset<1>()
+          , test::_lr1 = test::lvalue_bitset<1>()
+          , test::_rrc1 = test::rvalue_const_bitset<1>()
+          , test::_lrc2 = test::lvalue_const_bitset<2>()
+          , test::_lr2 = test::lvalue_bitset<2>()
+          , test::_rr2 = test::rvalue_bitset<2>()
+          , test::_lrc0 = test::lvalue_const_bitset<0>()
+        )
+    );
+#endif  // __MINGW32__
+#else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
     test::C::evaluate(
         test::g_parameters()(
             test::lvalue_const_bitset<0>()
@@ -223,7 +244,7 @@ int main()
           , boost::parameter::aux::as_lvalue(test::rvalue_bitset<2>())
         )
     );
-#else   // All parameters must be named.
+#else   // !(10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
     test::C::evaluate(
         test::g_parameters()(
             test::_lrc0 = test::lvalue_const_bitset<0>()
@@ -255,7 +276,8 @@ int main()
             )
         )
     );
-#endif
+#endif  // (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
     return boost::report_errors();
 }
 
