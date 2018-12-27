@@ -150,13 +150,7 @@ namespace test {
     };
 } // namespace test
 
-#if ( \
-        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-        defined(__MINGW32__) \
-    ) || ( \
-        !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-        !(10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
-    )
+#if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <boost/parameter/aux_/as_lvalue.hpp>
 #include <boost/core/ref.hpp>
 #endif
@@ -165,32 +159,6 @@ int main()
 {
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #if defined(__MINGW32__)
-    test::C::evaluate(
-        test::g_parameters()(
-            test::lvalue_const_bitset<0>()
-          , test::lvalue_bitset<0>()
-          , test::rvalue_const_bitset<0>()
-          , test::rvalue_bitset<0>()
-          , test::lvalue_const_bitset<1>()
-          , test::lvalue_bitset<1>()
-          , test::rvalue_const_bitset<1>()
-        )
-    );
-    test::C::evaluate(
-        test::g_parameters()(
-            test::lvalue_const_bitset<0>()
-          , test::lvalue_bitset<0>()
-          , test::rvalue_const_bitset<0>()
-          , test::rvalue_bitset<0>()
-          , test::lvalue_const_bitset<1>()
-          , test::lvalue_bitset<1>()
-          , test::rvalue_const_bitset<1>()
-          , test::lvalue_const_bitset<2>()
-          , test::lvalue_bitset<2>()
-          , test::rvalue_bitset<2>()
-        )
-    );
-#else   // !defined(__MINGW32__)
     test::C::evaluate(
         test::g_parameters()(
             test::_rrc1 = test::rvalue_const_bitset<1>()
@@ -214,6 +182,32 @@ int main()
           , test::_lr2 = test::lvalue_bitset<2>()
           , test::_rr2 = test::rvalue_bitset<2>()
           , test::_lrc0 = test::lvalue_const_bitset<0>()
+        )
+    );
+#else   // !defined(__MINGW32__)
+    test::C::evaluate(
+        test::g_parameters()(
+            test::lvalue_const_bitset<0>()
+          , test::lvalue_bitset<0>()
+          , test::rvalue_const_bitset<0>()
+          , test::rvalue_bitset<0>()
+          , test::lvalue_const_bitset<1>()
+          , test::lvalue_bitset<1>()
+          , test::rvalue_const_bitset<1>()
+        )
+    );
+    test::C::evaluate(
+        test::g_parameters()(
+            test::lvalue_const_bitset<0>()
+          , test::lvalue_bitset<0>()
+          , test::rvalue_const_bitset<0>()
+          , test::rvalue_bitset<0>()
+          , test::lvalue_const_bitset<1>()
+          , test::lvalue_bitset<1>()
+          , test::rvalue_const_bitset<1>()
+          , test::lvalue_const_bitset<2>()
+          , test::lvalue_bitset<2>()
+          , test::rvalue_bitset<2>()
         )
     );
 #endif  // __MINGW32__
