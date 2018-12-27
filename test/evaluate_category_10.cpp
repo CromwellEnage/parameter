@@ -152,7 +152,6 @@ namespace test {
 
 #if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <boost/parameter/aux_/as_lvalue.hpp>
-#include <boost/core/ref.hpp>
 #endif
 
 int main()
@@ -242,29 +241,29 @@ int main()
     test::C::evaluate(
         test::g_parameters()(
             test::_lrc0 = test::lvalue_const_bitset<0>()
-          , test::_lr0 = boost::ref(test::lvalue_bitset<0>())
+          , test::_lr0 = test::lvalue_bitset<0>()
           , test::_rrc0 = test::rvalue_const_bitset<0>()
           , test::_rr0 = boost::parameter::aux::as_lvalue(
                 test::rvalue_bitset<0>()
             )
           , test::_lrc1 = test::lvalue_const_bitset<1>()
-          , test::_lr1 = boost::ref(test::lvalue_bitset<1>())
+          , test::_lr1 = test::lvalue_bitset<1>()
           , test::_rrc1 = test::rvalue_const_bitset<1>()
         )
     );
     test::C::evaluate(
         test::g_parameters()(
             test::_lrc0 = test::lvalue_const_bitset<0>()
-          , test::_lr0 = boost::ref(test::lvalue_bitset<0>())
+          , test::_lr0 = test::lvalue_bitset<0>()
           , test::_rrc0 = test::rvalue_const_bitset<0>()
           , test::_rr0 = boost::parameter::aux::as_lvalue(
                 test::rvalue_bitset<0>()
             )
           , test::_lrc1 = test::lvalue_const_bitset<1>()
-          , test::_lr1 = boost::ref(test::lvalue_bitset<1>())
+          , test::_lr1 = test::lvalue_bitset<1>()
           , test::_rrc1 = test::rvalue_const_bitset<1>()
           , test::_lrc2 = test::lvalue_const_bitset<2>()
-          , test::_lr2 = boost::ref(test::lvalue_bitset<2>())
+          , test::_lr2 = test::lvalue_bitset<2>()
           , test::_rr2 = boost::parameter::aux::as_lvalue(
                 test::rvalue_bitset<2>()
             )
