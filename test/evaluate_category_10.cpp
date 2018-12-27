@@ -145,7 +145,7 @@ namespace test {
                     args[test::_rr2 || test::rvalue_bitset_function<2>()]
                 )
             );
-#endif  // perfect forwarding support
+#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
         }
     };
 } // namespace test
