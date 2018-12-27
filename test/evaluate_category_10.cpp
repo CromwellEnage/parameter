@@ -37,7 +37,7 @@ namespace test {
             (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
         ) \
     ) || ( \
-        !defined(__APPLE_CC__) && !( \
+        !(defined(__MACH__) && __MACH__) && !( \
             defined(linux) && BOOST_WORKAROUND(BOOST_GCC, == 40800) \
         ) \
     )
@@ -55,7 +55,7 @@ namespace test {
             (10 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY) \
         ) \
     ) || ( \
-        !defined(__APPLE_CC__) && !( \
+        !(defined(__MACH__) && __MACH__) && !( \
             defined(linux) && BOOST_WORKAROUND(BOOST_GCC, == 40800) \
         ) \
     )
@@ -113,7 +113,7 @@ namespace test {
                     args[test::_lr2 || test::lvalue_bitset_function<2>()]
                 )
             );
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if !defined(__MINGW32__) && defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
             BOOST_TEST_EQ(
                 test::passed_by_rvalue_reference_to_const
               , test::U::evaluate_category<0>(args[test::_rrc0])
@@ -132,7 +132,7 @@ namespace test {
                     args[test::_rr2 || test::rvalue_bitset_function<2>()]
                 )
             );
-#else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#else   // mingw, or no perfect forwarding support
             BOOST_TEST_EQ(
                 test::passed_by_lvalue_reference_to_const
               , test::U::evaluate_category<0>(args[test::_rrc0])
@@ -151,7 +151,7 @@ namespace test {
                     args[test::_rr2 || test::rvalue_bitset_function<2>()]
                 )
             );
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
+#endif  // perfect forwarding support, and not mingw
         }
     };
 } // namespace test
@@ -195,7 +195,7 @@ int main()
           , test::rvalue_bitset<2>()
         )
     );
-#elif !defined(__APPLE_CC__) && !( \
+#elif !(defined(__MACH__) && __MACH__) && !( \
         defined(linux) && BOOST_WORKAROUND(BOOST_GCC, == 40800) \
     )
     test::C::evaluate(

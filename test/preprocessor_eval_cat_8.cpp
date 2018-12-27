@@ -16,7 +16,7 @@ namespace test {
     BOOST_PARAMETER_NAME((_lrc0, kw) in(lrc0))
     BOOST_PARAMETER_NAME((_lr0, kw) in_out(lr0))
     BOOST_PARAMETER_NAME((_rrc0, kw) in(rrc0))
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if !defined(__MINGW32__) && defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
     BOOST_PARAMETER_NAME((_rr0, kw) consume(rr0))
 #else
     BOOST_PARAMETER_NAME((_rr0, kw) rr0)
@@ -35,7 +35,7 @@ namespace test {
 #include <boost/type_traits/is_convertible.hpp>
 #include "evaluate_category.hpp"
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && !defined(__MINGW32__)
+#if !defined(__MINGW32__) && defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 #include <utility>
 #endif
 
@@ -44,8 +44,8 @@ namespace test {
     struct C
     {
 #if ( \
-        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-        !defined(__MINGW32__) \
+        !defined(__MINGW32__) && \
+        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) \
     ) || defined(BOOST_MSVC)
         typedef boost::mpl::if_<
             boost::is_convertible<boost::mpl::_,std::bitset<1> >
@@ -109,8 +109,8 @@ namespace test {
 #endif  // msvc, or perfect forwarding support and not mingw
         {
 #if ( \
-        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-        !defined(__MINGW32__) \
+        !defined(__MINGW32__) && \
+        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) \
     ) || defined(BOOST_MSVC)
             BOOST_TEST_EQ(
                 test::passed_by_lvalue_reference_to_const
@@ -148,7 +148,7 @@ namespace test {
                 )
             );
 #endif  // msvc, or perfect forwarding support and not mingw
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && !defined(__MINGW32__)
+#if !defined(__MINGW32__) && defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
             BOOST_TEST_EQ(
                 test::passed_by_rvalue_reference_to_const
               , test::U::evaluate_category<2>(std::forward<rrc0_type>(rrc0))
@@ -216,8 +216,8 @@ int main()
     test::C cp1;
 
 #if ( \
-        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-        !defined(__MINGW32__) \
+        !defined(__MINGW32__) && \
+        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) \
     ) || defined(BOOST_MSVC)
     cp0(
         test::lvalue_const_bitset<4>()
