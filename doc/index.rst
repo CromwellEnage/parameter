@@ -765,7 +765,7 @@ that prints the arguments:
     #include <boost/graph/depth_first_search.hpp>  // for dfs_visitor
 
     BOOST_PARAMETER_FUNCTION(
-        (void), depth_first_search, tag
+        (bool), depth_first_search, tag
         *…signature goes here…*
     )
     {
@@ -779,15 +779,17 @@ that prints the arguments:
         std::cout << std::endl;
         std::cout << "color_map=" << color_map;
         std::cout << std::endl;
+        return true;
     }
 
     #include <boost/core/lightweight_test.hpp>
 
     int main()
     {
+        char const\* g = "1";
         depth_first_search(1, 2, 3, 4, 5);
         depth_first_search(
-            "1", '2', _color_map = '5',
+            g, '2', _color_map = '5',
             _index_map = "4", _root_vertex = "3"
         );
         return boost::report_errors();
@@ -1225,10 +1227,14 @@ follows:
 
 .. parsed-literal::
 
-    namespace mpl = boost::mpl;
+    char const*& blank_char_ptr()
+    {
+        static char const* larr = "";
+        return larr;
+    }
 
     BOOST_PARAMETER_FUNCTION(
-        (void), def, tag,
+        (bool), def, tag,
 
         (required (name, (char const\*)) (func,\*) )  // nondeduced
 
@@ -1238,18 +1244,23 @@ follows:
 
                 (keywords
                     // see [#is_keyword_expression]_
-                  , \*(is_keyword_expression<mpl::_>)
+                  , \*(is_keyword_expression<boost::mpl::_>)
                   , no_keywords()
                 )
 
                 (policies
-                  , \*(mpl::not_<
-                        mpl::or_<
-                            boost::is_convertible<mpl::_, char const\*>
-                            // see [#is_keyword_expression]_
-                          , is_keyword_expression<mpl::_>
+                  , \*(
+                        boost::mpl::eval_if<
+                            boost::is_convertible<boost::mpl::_,char const\*>
+                          , boost::mpl::false_
+                          , boost::mpl::if_<
+                                // see [#is_keyword_expression]_
+                                is_keyword_expression<boost::mpl::_>
+                              , boost::mpl::false_
+                              , boost::mpl::true_
+                            >
                         >
-                    >)
+                    )
                   , default_call_policies()
                 )
             )
@@ -1259,7 +1270,7 @@ follows:
         *…*
     }
 
-.. @example.replace_emphasis('')
+.. @example.replace_emphasis('return true;')
 
 .. @example.prepend('''
     #include <boost/parameter.hpp>
@@ -1300,6 +1311,11 @@ follows:
     {
     }
 
+    #include <boost/mpl/placeholders.hpp>
+    #include <boost/mpl/if.hpp>
+    #include <boost/mpl/eval_if.hpp>
+    #include <boost/type_traits/is_convertible.hpp>
+
 ''')
 
 .. Admonition:: Syntax Note
@@ -1312,8 +1328,19 @@ With the declaration above, the following two calls are equivalent:
 
 .. parsed-literal::
 
-    def("f", &f, **some_policies**, **"Documentation for f"**);
-    def("f", &f, **"Documentation for f"**, **some_policies**);
+    char const\* f_name = "f";
+    def(
+        f_name
+      , &f
+      , **some_policies**
+      , **"Documentation for f"**
+    );
+    def(
+        f_name
+      , &f
+      , **"Documentation for f"**
+      , **some_policies**
+    );
 
 .. @example.prepend('''
     int main()
@@ -1327,8 +1354,10 @@ name explicitly, as follows:
 .. parsed-literal::
 
     def(
-        "f", &f
-      , **_policies = some_policies**, "Documentation for f"
+        f_name
+      , &f
+      , **_policies = some_policies**
+      , "Documentation for f"
     );
 
 .. @example.append('}')

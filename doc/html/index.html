@@ -849,7 +849,7 @@ prints the arguments:</p>
 #include &lt;boost/graph/depth_first_search.hpp&gt;  // for dfs_visitor
 
 BOOST_PARAMETER_FUNCTION(
-    (void), depth_first_search, tag
+    (bool), depth_first_search, tag
     <em>…signature goes here…</em>
 )
 {
@@ -863,15 +863,17 @@ BOOST_PARAMETER_FUNCTION(
     std::cout &lt;&lt; std::endl;
     std::cout &lt;&lt; &quot;color_map=&quot; &lt;&lt; color_map;
     std::cout &lt;&lt; std::endl;
+    return true;
 }
 
 #include &lt;boost/core/lightweight_test.hpp&gt;
 
 int main()
 {
+    char const* g = &quot;1&quot;;
     depth_first_search(1, 2, 3, 4, 5);
     depth_first_search(
-        &quot;1&quot;, '2', _color_map = '5',
+        g, '2', _color_map = '5',
         _index_map = &quot;4&quot;, _root_vertex = &quot;3&quot;
     );
     return boost::report_errors();
@@ -1295,33 +1297,42 @@ specify parameter names for those arguments.  To generate this interface using
 enclose the deduced parameters in a
 <tt class="docutils literal">(deduced …)</tt> clause, as follows:</p>
 <pre class="literal-block">
-namespace mpl = boost::mpl;
+char const*&amp; blank_char_ptr()
+{
+    static char const* larr = &quot;&quot;;
+    return larr;
+}
 
 BOOST_PARAMETER_FUNCTION(
-    (void), def, tag,
+    (bool), def, tag,
 
     (required (name, (char const*)) (func,*) )  // nondeduced
 
     <strong>(deduced</strong>
         (optional
-            (docstring, (char const*), &quot;&quot;)
+            (docstring, (char const*), blank_char_ptr())
 
             (keywords
                 // see <a class="footnote-reference"
 href="#is-keyword-expression" id="id13"><sup>5</sup></a>
-              , *(is_keyword_expression&lt;mpl::_&gt;)
+              , *(is_keyword_expression&lt;boost::mpl::_&gt;)
               , no_keywords()
             )
 
             (policies
-              , *(mpl::not_&lt;
-                    mpl::or_&lt;
-                        boost::is_convertible&lt;mpl::_, char const*&gt;
-                        // see <a class="footnote-reference"
+              , *(
+                    boost::mpl::eval_if&lt;
+                        boost::is_convertible&lt;boost::mpl::_,char const*&gt;
+                      , boost::mpl::false_
+                      , boost::mpl::if_&lt;
+                            // see <a class="footnote-reference"
 href="#is-keyword-expression" id="id14"><sup>5</sup></a>
-                      , is_keyword_expression&lt;mpl::_&gt;
-                    &gt;
-                &gt;)
+                            is_keyword_expression&lt;boost::mpl::_&gt;
+                          , boost::mpl::false_
+                          , boost::mpl::true_
+                        >
+                    >
+                )
               , default_call_policies()
             )
         )
@@ -1331,7 +1342,7 @@ href="#is-keyword-expression" id="id14"><sup>5</sup></a>
     <em>…</em>
 }
 </pre>
-<!-- @example.replace_emphasis('') -->
+<!-- @example.replace_emphasis('return false;') -->
 <!-- @example.prepend('''
 #include <boost/parameter.hpp>
 
@@ -1370,6 +1381,11 @@ default_call_policies some_policies;
 void f()
 {
 }
+
+#include <boost/mpl/placeholders.hpp>
+#include <boost/mpl/if.hpp>
+#include <boost/mpl/eval_if.hpp>
+#include <boost/type_traits/is_convertible.hpp>
 ''') -->
 <div class="admonition-syntax-note admonition">
 <p class="first admonition-title">Syntax Note</p>
@@ -1382,13 +1398,16 @@ parameters at the outer level.</p>
 </div>
 <p>With the declaration above, the following two calls are equivalent:</p>
 <pre class="literal-block">
+char const* f_name = &quot;f&quot;;
 def(
-    &quot;f&quot;, &amp;f
+    f_name
+  , &amp;f
   , <strong>some_policies</strong>
   , <strong>&quot;Documentation for f&quot;</strong>
 );
 def(
-    &quot;f&quot;, &amp;f
+    f_name
+  , &amp;f
   , <strong>&quot;Documentation for f&quot;</strong>
   , <strong>some_policies</strong>
 );
@@ -1403,7 +1422,8 @@ argument that was also, for some reason, convertible to
 parameter name explicitly, as follows:</p>
 <pre class="literal-block">
 def(
-    &quot;f&quot;, &amp;f
+    f_name
+  , &amp;f
   , <strong>_policies = some_policies</strong>
   , &quot;Documentation for f&quot;
 );

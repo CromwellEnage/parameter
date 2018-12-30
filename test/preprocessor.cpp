@@ -598,16 +598,20 @@ int main()
 
 #if !defined(BOOST_NO_SFINAE) && \
     !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x592))
-    BOOST_TEST(test::sfinae("foo") == 1);
+    // GCC 3- tries to bind string literals
+    // to non-const references to char const*.
+    // BOOST_TEST(test::sfinae("foo") == 1);
+    char const* foo_str = "foo";
+    BOOST_TEST(test::sfinae(foo_str) == 1);
     BOOST_TEST(test::sfinae(1) == 0);
 
 #if !BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x580))
     // Sun actually eliminates the desired overload for some reason.
     // Disabling this part of the test because SFINAE abilities are
     // not the point of this test.
-    BOOST_TEST(test::sfinae1("foo") == 1);
+    BOOST_TEST(test::sfinae1(foo_str) == 1);
 #endif
-    
+
     BOOST_TEST(test::sfinae1(1) == 0);
 #endif
 

@@ -110,7 +110,9 @@ namespace test {
             >::type
         ));
         x.noop();
+#if !BOOST_WORKAROUND(BOOST_GCC, < 40000)
         BOOST_TEST_LT(0, test::count_instances::count);
+#endif
         return 0;
     }
 
@@ -128,7 +130,9 @@ namespace test {
             >::type
         ));
         x.noop();
+#if !BOOST_WORKAROUND(BOOST_GCC, < 40000)
         BOOST_TEST_EQ(1, test::count_instances::count);
+#endif
         return 0;
     }
 } // namespace test
