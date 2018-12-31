@@ -379,7 +379,7 @@ namespace test {
 
 int main()
 {
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     // MSVC 11.0 on AppVeyor fails without this workaround.
@@ -408,7 +408,7 @@ int main()
     BOOST_TEST_EQ(13, b0.j);
     BOOST_TEST_EQ(4.0f, b0.k());
     BOOST_TEST_EQ(2.5, b0.l());
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1700) && \
     BOOST_WORKAROUND(BOOST_MSVC, < 1800)
     // MSVC 11.0 on AppVeyor fails without this workaround.

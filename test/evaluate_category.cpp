@@ -243,7 +243,7 @@ int main()
     char baz_arr[4] = "qux";
     typedef char char_arr[4];
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_MSVC) && \
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) && \
     BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
     // MSVC-12+ treats static_cast<char_arr&&>(baz_arr) as an lvalue.
 #else
