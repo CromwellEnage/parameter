@@ -77,5 +77,21 @@ namespace boost { namespace parameter { namespace aux {
 }}} // namespace boost::parameter::aux
 
 #endif  // perfect forwarding support, or exponential overloads
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <type_traits>
+
+namespace boost { namespace parameter { namespace aux {
+
+    template <typename T>
+    using is_tagged_argument_mp11 = ::std::is_base_of<
+        ::boost::parameter::aux::tagged_argument_base
+      , typename ::std::remove_const<
+            typename ::std::remove_reference<T>::type
+        >::type
+    >;
+}}} // namespace boost::parameter::aux
+
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
 #endif  // include guard
 

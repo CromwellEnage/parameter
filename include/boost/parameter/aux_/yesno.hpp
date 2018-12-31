@@ -30,7 +30,7 @@ namespace boost { namespace parameter { namespace aux {
 namespace boost { namespace parameter { namespace aux {
 
     yes_tag to_yesno(::boost::mp11::mp_true);
-    no_tag to_yesno(::boost::mp11::mpl_false);
+    no_tag to_yesno(::boost::mp11::mp_false);
 }}} // namespace boost::parameter::aux
 
 #endif  // BOOST_PARAMETER_CAN_USE_MP11
