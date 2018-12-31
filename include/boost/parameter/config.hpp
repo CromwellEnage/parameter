@@ -41,6 +41,17 @@
 #endif
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if !defined(BOOST_PARAMETER_CAN_USE_MP11) && \
+    !defined(BOOST_PARAMETER_DISABLE_MP11_USAGE) && \
+    !defined(BOOST_NO_CXX11_CONSTEXPR) && \
+    !defined(BOOST_NO_CXX11_DECLTYPE_N3276) && \
+    !defined(BOOST_NO_CXX11_AUTO_DECLARATIONS) && \
+    !defined(BOOST_NO_CXX11_TEMPLATE_ALIASES) && \
+    !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS) && \
+    !defined(BOOST_NO_CXX11_HDR_TUPLE)
+// Boost.MP11 requires C++11. -- Cromwell D. Enage
+#define BOOST_PARAMETER_CAN_USE_MP11
+#endif
 #if !defined(BOOST_PARAMETER_MAX_ARITY)
 // Unlike the variadic MPL sequences provided by Boost.Fusion,
 // boost::mpl::vector has a size limit. -- Cromwell D. Enage
