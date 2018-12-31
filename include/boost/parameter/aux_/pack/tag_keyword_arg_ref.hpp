@@ -8,6 +8,7 @@
 
 #include <boost/parameter/aux_/unwrap_cv_reference.hpp>
 #include <boost/parameter/aux_/tagged_argument.hpp>
+#include <boost/parameter/config.hpp>
 
 namespace boost { namespace parameter { namespace aux { 
 

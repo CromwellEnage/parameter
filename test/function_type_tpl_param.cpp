@@ -68,7 +68,7 @@ namespace test {
             test::keywords::tag::function_type
           , test::keywords::function_type<T>
         >::type
-    >
+    >;
 } // namespace test
 
 #endif  // BOOST_PARAMETER_CAN_USE_MP11

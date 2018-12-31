@@ -10,9 +10,48 @@
 #include <boost/parameter/aux_/unwrap_cv_reference.hpp>
 #include <boost/parameter/aux_/tagged_argument.hpp>
 #include <boost/parameter/config.hpp>
-#include <boost/mpl/bool.hpp>
 
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/integral.hpp>
+#include <boost/mp11/utility.hpp>
+#include <type_traits>
+
+namespace boost { namespace parameter { namespace aux { 
+
+    template <typename Keyword, typename Arg>
+    using tag_if_ref = ::boost::mp11::mp_identity<
+        ::boost::parameter::aux::tagged_argument<
+            Keyword
+          , typename ::boost::parameter::aux::unwrap_cv_reference<Arg>::type
+        >
+    >;
+
+    template <typename Keyword, typename Arg>
+    struct tag_if_not_ref
+    {
+        typedef typename ::std::add_const<Arg>::type ConstArg;
+        typedef typename ::std::remove_const<Arg>::type MutArg;
+        using type = ::boost::mp11::mp_if<
+            ::std::is_scalar<MutArg>
+          , ::boost::parameter::aux::tagged_argument<Keyword,ConstArg>
+          , ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+        >;
+    };
+
+    template <typename Keyword, typename Arg>
+    using tag = ::boost::mp11::mp_if<
+        ::boost::mp11::mp_if<
+            ::std::is_lvalue_reference<Arg>
+          , ::boost::mp11::mp_true
+          , ::boost::parameter::aux::is_cv_reference_wrapper<Arg>
+        >
+      , ::boost::parameter::aux::tag_if_ref<Keyword,Arg>
+      , ::boost::parameter::aux::tag_if_not_ref<Keyword,Arg>
+    >;
+}}} // namespace boost::parameter::aux_
+
+#elif defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/identity.hpp>
@@ -71,6 +110,7 @@ namespace boost { namespace parameter { namespace aux {
 }}} // namespace boost::parameter::aux_
 
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#include <boost/mpl/bool.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 
 namespace boost { namespace parameter { namespace aux { 

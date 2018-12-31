@@ -34,5 +34,5 @@ namespace boost { namespace parameter { namespace aux {
 }}} // namespace boost::parameter::aux
 
 #endif  // BOOST_PARAMETER_CAN_USE_MP11
-#endif // YESNO_050328_HPP
+#endif  // include guard
 

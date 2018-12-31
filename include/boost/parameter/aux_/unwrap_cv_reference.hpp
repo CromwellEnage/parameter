@@ -48,18 +48,53 @@ namespace boost { namespace parameter { namespace aux {
 }}} // namespace boost::parameter::aux
 #endif
 
-#include <boost/mpl/bool.hpp>
 #include <boost/tti/detail/dnullptr.hpp>
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/integral.hpp>
+#include <boost/mp11/utility.hpp>
+#include <type_traits>
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mpl/bool.hpp>
+#include <boost/type_traits/remove_reference.hpp>
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) && \
-    !BOOST_WORKAROUND(BOOST_GCC, < 40000)
+      !BOOST_WORKAROUND(BOOST_GCC, < 40000)
 #include <boost/mpl/eval_if.hpp>
 #endif
-
-#include <boost/type_traits/remove_reference.hpp>
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
 
 namespace boost { namespace parameter { namespace aux {
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+    // This metafunction returns mp11::mp_true if T is of type
+    // reference_wrapper<U> cv.
+    template <typename T>
+    using is_cv_reference_wrapper = ::boost::mp11::mp_bool<
+        sizeof(
+            ::boost::parameter::aux::is_cv_reference_wrapper_check(
+                static_cast<
+                    typename ::std::remove_reference<T>::type*
+                >(BOOST_TTI_DETAIL_NULLPTR)
+            )
+        ) == sizeof(::boost::parameter::aux::yes_tag)
+    >;
+
+    // Needed for unwrap_cv_reference below.  T might be const, so
+    // mp_eval_if<> might fail because of deriving from T const on EDG.
+    template <typename T>
+    using unwrap_cv_reference_impl = ::std::remove_reference<T>::type;
+
+    // Produces the unwrapped type to hold a reference to in
+    // tagged_argument<>.  Can't use boost::unwrap_reference<> here
+    // because it doesn't handle the case where T = reference_wrapper<U> cv.
+    template <typename T>
+    using unwrap_cv_reference = ::boost::mp11::mp_eval_if<
+        ::boost::parameter::aux::is_cv_reference_wrapper<T>
+      , ::boost::parameter::aux::unwrap_cv_reference_impl<T>
+      , ::std::remove_reference
+      , T
+    >;
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
     // This metafunction returns mpl::true_ if T is of type
     // reference_wrapper<U> cv.
     template <typename T>
@@ -77,15 +112,35 @@ namespace boost { namespace parameter { namespace aux {
             )
         );
 
-        typedef boost::mpl::bool_<
+        typedef ::boost::mpl::bool_<
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
             is_cv_reference_wrapper::
 #endif 
         value> type;
     };
 
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) || \
-    BOOST_WORKAROUND(BOOST_GCC, < 40000)
+#if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) && \
+    !BOOST_WORKAROUND(BOOST_GCC, < 40000)
+    // Needed for unwrap_cv_reference below.  T might be const, so
+    // eval_if<> might fail because of deriving from T const on EDG.
+    template <typename T>
+    struct unwrap_cv_reference_impl : ::boost::remove_reference<T>::type
+    {
+    };
+
+    // Produces the unwrapped type to hold a reference to in
+    // tagged_argument<>.  Can't use boost::unwrap_reference<> here
+    // because it doesn't handle the case where T = reference_wrapper<U> cv.
+    template <typename T>
+    struct unwrap_cv_reference
+      : ::boost::mpl::eval_if<
+            ::boost::parameter::aux::is_cv_reference_wrapper<T>
+          , ::boost::parameter::aux::unwrap_cv_reference_impl<T>
+          , ::boost::remove_reference<T>
+        >
+    {
+    };
+#else   // Borland/GCC 3- workarounds needed
     template <
         typename T
       , typename = typename ::boost::parameter::aux
@@ -105,27 +160,8 @@ namespace boost { namespace parameter { namespace aux {
     struct unwrap_cv_reference<T,::boost::mpl::true_> : T
     {
     };
-#else   // no Borland or GCC 3- workarounds needed
-    // Needed for unwrap_cv_reference below. T might be const, so
-    // eval_if<> might fail because of deriving from T const on EDG.
-    template <typename T>
-    struct get_type : ::boost::remove_reference<T>::type
-    {
-    };
-
-    // Produces the unwrapped type to hold a reference to in
-    // tagged_argument<>.  Can't use boost::unwrap_reference<> here
-    // because it doesn't handle the case where T = reference_wrapper<U> cv.
-    template <typename T>
-    struct unwrap_cv_reference
-      : ::boost::mpl::eval_if<
-            ::boost::parameter::aux::is_cv_reference_wrapper<T>
-          , ::boost::parameter::aux::get_type<T>
-          , ::boost::remove_reference<T>
-        >
-    {
-    };
-#endif  // Borland or GCC 3- workarounds needed
+#endif  // Borland/GCC 3- workarounds not needed
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
 }}} // namespace boost::parameter::aux
 
 #endif  // include guard
