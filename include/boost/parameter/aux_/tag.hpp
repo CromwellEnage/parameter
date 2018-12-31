@@ -11,7 +11,7 @@
 #include <boost/parameter/aux_/tagged_argument.hpp>
 #include <boost/parameter/config.hpp>
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11) && !defined(BOOST_MSVC)
 #include <boost/mp11/integral.hpp>
 #include <boost/mp11/utility.hpp>
 #include <type_traits>
@@ -30,9 +30,8 @@ namespace boost { namespace parameter { namespace aux {
     struct tag_if_not_ref
     {
         typedef typename ::std::add_const<Arg>::type ConstArg;
-        typedef typename ::std::remove_const<Arg>::type MutArg;
         using type = ::boost::mp11::mp_if<
-            ::std::is_scalar<MutArg>
+            ::std::is_scalar<typename ::std::remove_const<Arg>::type>
           , ::boost::parameter::aux::tagged_argument<Keyword,ConstArg>
           , ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
         >;
@@ -126,6 +125,6 @@ namespace boost { namespace parameter { namespace aux {
 }}} // namespace boost::parameter::aux_
 
 #endif  // Borland workarounds needed.
-#endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
+#endif  // MP11 or perfect forwarding support
 #endif  // include guard
 

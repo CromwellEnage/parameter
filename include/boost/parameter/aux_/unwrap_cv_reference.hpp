@@ -50,22 +50,22 @@ namespace boost { namespace parameter { namespace aux {
 
 #include <boost/tti/detail/dnullptr.hpp>
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11) && !defined(BOOST_MSVC)
 #include <boost/mp11/integral.hpp>
 #include <boost/mp11/utility.hpp>
 #include <type_traits>
-#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11) || defined(BOOST_MSVC)
 #include <boost/mpl/bool.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) && \
       !BOOST_WORKAROUND(BOOST_GCC, < 40000)
 #include <boost/mpl/eval_if.hpp>
 #endif
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
+#endif  // BOOST_PARAMETER_CAN_USE_MP11, BOOST_MSVC
 
 namespace boost { namespace parameter { namespace aux {
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11) && !defined(BOOST_MSVC)
     // This metafunction returns mp11::mp_true if T is of type
     // reference_wrapper<U> cv.
     template <typename T>
@@ -95,7 +95,7 @@ namespace boost { namespace parameter { namespace aux {
       , ::std::remove_reference
       , T
     >;
-#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11) || defined(BOOST_MSVC)
     // This metafunction returns mpl::true_ if T is of type
     // reference_wrapper<U> cv.
     template <typename T>
@@ -162,7 +162,7 @@ namespace boost { namespace parameter { namespace aux {
     {
     };
 #endif  // Borland/GCC 3- workarounds not needed
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
+#endif  // BOOST_PARAMETER_CAN_USE_MP11, BOOST_MSVC
 }}} // namespace boost::parameter::aux
 
 #endif  // include guard
