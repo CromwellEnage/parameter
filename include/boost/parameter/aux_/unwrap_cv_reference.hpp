@@ -82,7 +82,8 @@ namespace boost { namespace parameter { namespace aux {
     // Needed for unwrap_cv_reference below.  T might be const, so
     // mp_eval_if<> might fail because of deriving from T const on EDG.
     template <typename T>
-    using unwrap_cv_reference_impl = ::std::remove_reference<T>::type;
+    using unwrap_cv_reference_impl
+    = typename ::std::remove_reference<T>::type;
 
     // Produces the unwrapped type to hold a reference to in
     // tagged_argument<>.  Can't use boost::unwrap_reference<> here
