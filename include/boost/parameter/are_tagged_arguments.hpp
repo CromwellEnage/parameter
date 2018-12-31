@@ -154,12 +154,17 @@ namespace boost { namespace parameter { namespace aux {
 
 namespace boost { namespace parameter { namespace aux {
 
-    template <typename TaggedArg0, typename ...TaggedArgs>
-    struct are_tagged_arguments_mp11_impl
+    template <
+        typename TaggedArg0
+      , typename TaggedArg1
+      , typename ...TaggedArgs
+    >
+    struct are_tagged_arguments_mp11_impl<TaggedArg0,TaggedArg1,TaggedArgs...>
     {
         using type = ::boost::mp11::mp_if<
             ::boost::parameter::aux::is_tagged_argument<TaggedArg0>
-          , ::boost::parameter::are_tagged_arguments_mp11<TaggedArgs...>
+          , ::boost::parameter
+            ::are_tagged_arguments_mp11<TaggedArg1,TaggedArgs...>
           , ::boost::mp11::mp_false
         >;
     };
