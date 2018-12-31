@@ -47,6 +47,7 @@
     !defined(BOOST_NO_CXX11_DECLTYPE_N3276) && \
     !defined(BOOST_NO_CXX11_AUTO_DECLARATIONS) && \
     !defined(BOOST_NO_CXX11_TEMPLATE_ALIASES) && \
+    !defined(BOOST_NO_CXX11_STATIC_ASSERT) && \
     !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS) && \
     !defined(BOOST_NO_CXX11_HDR_TUPLE)
 // Boost.MP11 requires C++11. -- Cromwell D. Enage
