@@ -5,15 +5,18 @@
 
 #include <boost/parameter/config.hpp>
 
+#if ( \
+        !defined(__MINGW32__) && \
+        defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) \
+    ) || defined(BOOST_MSVC)
 #if (BOOST_PARAMETER_MAX_ARITY < 8)
 #error Define BOOST_PARAMETER_MAX_ARITY as 8 or greater.
 #endif
-#if ( \
-        defined(__MINGW32__) || \
-        !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) \
-    ) && !defined(BOOST_MSVC) && (BOOST_PARAMETER_NO_SPEC_MAX_ARITY < 8)
+#else   // mingw, or no perfect forwarding support and not msvc
+#if (BOOST_PARAMETER_NO_SPEC_MAX_ARITY < 8)
 #error Define BOOST_PARAMETER_NO_SPEC_MAX_ARITY as 8 or greater.
 #endif
+#endif  // msvc, or perfect forwarding support and not mingw
 
 #include <boost/parameter/name.hpp>
 
@@ -33,7 +36,6 @@ namespace test {
     BOOST_PARAMETER_NAME((_rr1, kw) rr1)
 } // namespace test
 
-#include <boost/parameter/preprocessor.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/if.hpp>
@@ -42,7 +44,12 @@ namespace test {
 #include "evaluate_category.hpp"
 
 #if !defined(__MINGW32__) && defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#include <boost/parameter/preprocessor.hpp>
 #include <utility>
+#elif defined(BOOST_MSVC)
+#include <boost/parameter/preprocessor.hpp>
+#else
+#include <boost/parameter/preprocessor_no_spec.hpp>
 #endif
 
 namespace test {

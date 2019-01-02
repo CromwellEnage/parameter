@@ -8,15 +8,9 @@
 
 #include <boost/parameter/aux_/use_default_tag.hpp>
 #include <boost/parameter/config.hpp>
-#include <boost/utility/result_of.hpp>
-
-#if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
-#include <boost/mp11/utility.hpp>
-#include <type_traits>
-#else
 #include <boost/mpl/if.hpp>
+#include <boost/utility/result_of.hpp>
 #include <boost/type_traits/is_void.hpp>
-#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -32,13 +26,8 @@ namespace boost { namespace parameter { namespace aux {
 #endif
 
      public:
-#if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
-        typedef typename ::boost::mp11::mp_if<
-            ::std::is_void<result_of_F>
-#else
         typedef typename ::boost::mpl::if_<
             ::boost::is_void<result_of_F>
-#endif
           , ::boost::parameter::aux::use_default_tag
           , result_of_F
         >::type type;

@@ -176,7 +176,7 @@ namespace test {
     };
 }
 
-#include <boost/parameter/preprocessor.hpp>
+#include <boost/parameter/preprocessor_no_spec.hpp>
 
 #if !defined(BOOST_NO_SFINAE)
 #include <boost/parameter/are_tagged_arguments.hpp>

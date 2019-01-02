@@ -7,6 +7,17 @@
 #ifndef BOOST_PARAMETER_PREPROCESSOR_060206_HPP
 #define BOOST_PARAMETER_PREPROCESSOR_060206_HPP
 
+#include <boost/parameter/aux_/preprocessor/impl/forwarding_overloads.hpp>
+#include <boost/parameter/aux_/preprocessor/impl/specification.hpp>
+#include <boost/preprocessor/cat.hpp>
+
+// Helper macro for BOOST_PARAMETER_CONSTRUCTOR.
+#define BOOST_PARAMETER_CONSTRUCTOR_AUX(class_, base, tag_namespace, args)   \
+    BOOST_PARAMETER_SPECIFICATION(tag_namespace, ctor, args, 0)              \
+        BOOST_PP_CAT(constructor_parameters, __LINE__);                      \
+    BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS(class_, base, args)
+/**/
+
 #include <boost/parameter/aux_/preprocessor/impl/function_name.hpp>
 
 // Defines the implementation function header.
@@ -17,79 +28,6 @@
     >::type BOOST_PARAMETER_FUNCTION_IMPL_NAME(name, is_const)(              \
         Args const& args                                                     \
     )
-/**/
-
-#include <boost/parameter/aux_/preprocessor/impl/forwarding_overloads.hpp>
-
-// Exapnds to a variadic function header that is enabled if and only if all
-// its arguments are tagged arguments.  All arguments are accessible via args
-// and keywords only.
-#define BOOST_PARAMETER_NO_SPEC_FUNCTION(result, name)                       \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, name, 0)                   \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(name, 0);                     \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD(name, name, 0, 0)              \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(name, 0)
-/**/
-
-#include <boost/preprocessor/control/expr_if.hpp>
-#include <boost/preprocessor/control/if.hpp>
-
-// Helper macro for BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION,
-// BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION,
-// BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR, and
-// and BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR.
-#define BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION_AUX(result, name, impl, c)   \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_HEAD(result, impl, c)                   \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD(                               \
-        name                                                                 \
-      , impl                                                                 \
-      , BOOST_PP_IF(BOOST_PARAMETER_MEMBER_FUNCTION_IS_STATIC(impl), 0, 1)   \
-      , c                                                                    \
-    )                                                                        \
-    BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_HEAD(impl, c)                      \
-    BOOST_PP_EXPR_IF(c, const)
-/**/
-
-// Exapnds to a variadic member function header that is enabled if and only if
-// all its arguments are tagged arguments.  All arguments are accessible via
-// args and keywords only.
-#define BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION(result, name)                \
-    BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION_AUX(result, name, name, 0)
-/**/
-
-// Exapnds to a const-qualified variadic member function header that is
-// enabled if and only if all its arguments are tagged arguments.  All
-// arguments are accessible via args and keywords only.
-#define BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION(result, name)          \
-    BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION_AUX(result, name, name, 1)
-/**/
-
-// Exapnds to a variadic function call operator header that is enabled if and
-// only if all its arguments are tagged arguments.  All arguments are
-// accessible via args and keywords only.
-#define BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR(result)               \
-    BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION_AUX(                             \
-        result, operator(), operator, 0                                      \
-    )
-/**/
-
-// Exapnds to a const-qualified variadic function call operator header that is
-// enabled if and only if all its arguments are tagged arguments.  All
-// arguments are accessible via args and keywords only.
-#define BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR(result)         \
-    BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION_AUX(                             \
-        result, operator(), operator, 1                                      \
-    )
-/**/
-
-#include <boost/parameter/aux_/preprocessor/impl/specification.hpp>
-#include <boost/preprocessor/cat.hpp>
-
-// Helper macro for BOOST_PARAMETER_CONSTRUCTOR.
-#define BOOST_PARAMETER_CONSTRUCTOR_AUX(class_, base, tag_namespace, args)   \
-    BOOST_PARAMETER_SPECIFICATION(tag_namespace, ctor, args, 0)              \
-        BOOST_PP_CAT(constructor_parameters, __LINE__);                      \
-    BOOST_PARAMETER_CONSTRUCTOR_OVERLOADS(class_, base, args)
 /**/
 
 #include <boost/parameter/aux_/preprocessor/impl/parenthesized_type.hpp>
@@ -112,6 +50,8 @@
     BOOST_PARAMETER_FUNCTION_FORWARD_OVERLOADS(name, name, args, 0, 0)       \
     BOOST_PARAMETER_FUNCTION_IMPL_HEAD(name, 0)
 /**/
+
+#include <boost/preprocessor/control/expr_if.hpp>
 
 // Helper macro for BOOST_PARAMETER_BASIC_MEMBER_FUNCTION,
 // BOOST_PARAMETER_BASIC_CONST_MEMBER_FUNCTION,
@@ -199,6 +139,8 @@
       , BOOST_PARAMETER_AUX_PP_FLATTEN(3, 2, 3, args)                        \
     )
 /**/
+
+#include <boost/preprocessor/control/if.hpp>
 
 // Helper macro for BOOST_PARAMETER_MEMBER_FUNCTION
 // BOOST_PARAMETER_CONST_MEMBER_FUNCTION,

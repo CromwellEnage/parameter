@@ -132,10 +132,6 @@ namespace test {
 #include <boost/mpl/assert.hpp>
 #include <boost/mpl/aux_/test.hpp>
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#include <type_traits>
-#endif
-
 MPL_TEST_CASE()
 {
     BOOST_MPL_ASSERT((
@@ -231,79 +227,8 @@ MPL_TEST_CASE()
           , boost::mpl::false_
         >::type
     ));
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-    static_assert(
-        std::is_same<
-            test::with_ntp<>::type
-          , void(*)(void*, void*, void*, void*)
-        >::value
-      , "should be void(*)(void*, void*, void*, void*)"
-    );
-    static_assert(
-        std::is_same<
-            test::with_ntp<test::a2_is<int> >::type
-          , void(*)(void*, void*, int, void*)
-        >::value
-      , "should be void(*)(void*, void*, int, void*)"
-    );
-    static_assert(
-        std::is_same<
-            test::with_ntp<test::a1_is<int> >::type
-          , void(*)(void*, int, void*, void*)
-        >::value
-      , "should be void(*)(void*, int, void*, void*)"
-    );
-    static_assert(
-        std::is_same<
-            test::with_ntp<
-                test::a2_is<int const>
-              , test::a1_is<float>
-            >::type
-          , void(*)(void*, float, int const, void*)
-        >::value
-      , "should be void(*)(void*, float, int const, void*)"
-    );
-    static_assert(
-        std::is_same<
-            test::with_ntp<int const>::type
-          , void(*)(int const, void*, void*, void*)
-        >::value
-      , "should be void(*)(int const, void*, void*, void*)"
-    );
-    static_assert(
-        std::is_same<
-            test::with_ntp<int,float>::type
-          , void(*)(int, float, void*, void*)
-        >::value
-      , "should be void(*)(int, float, void*, void*)"
-    );
-    static_assert(
-        std::is_same<
-            test::with_ntp<int,float,char>::type
-          , void(*)(int, float, char, void*)
-        >::value
-      , "should be void(*)(int, float, char, void*)"
-    );
-    static_assert(
-        std::is_same<
-            test::with_ntp<test::a0_is<int>,test::Y>::type
-          , void(*)(int, void*, void*, test::Y)
-        >::value
-      , "should be void(*)(int, void*, void*, test::Y)"
-    );
-    static_assert(
-        std::is_same<
-            test::with_ntp<int&,test::a2_is<char>,test::Y>::type
-          , void(*)(int&, void*, char, test::Y)
-        >::value
-      , "should be void(*)(int&, void*, char, test::Y)"
-    );
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
-
     typedef int test_array[1];
     typedef void(*test_function)();
-
     BOOST_MPL_ASSERT((
         boost::mpl::if_<
             boost::is_same<
@@ -314,15 +239,5 @@ MPL_TEST_CASE()
           , boost::mpl::false_
         >::type
     ));
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-    static_assert(
-        std::is_same<
-            test::with_ntp<test_array,test_function>::type
-          , void(*)(test_array&, test_function, void*, void*)
-        >::value
-      , "should be void(*)(test_array&, test_function, void*, void*)"
-    );
-#endif
 }
 

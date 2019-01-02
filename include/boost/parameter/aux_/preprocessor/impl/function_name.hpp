@@ -148,24 +148,5 @@
     )
 /**/
 
-#include <boost/parameter/aux_/preprocessor/impl/function_dispatch_tuple.hpp>
-
-// Produces a name for the dispatch functions.
-#define BOOST_PARAMETER_FUNCTION_DISPATCH_NAME(x, n)                         \
-    BOOST_PP_CAT(                                                            \
-        BOOST_PP_CAT(                                                        \
-            BOOST_PP_IF(                                                     \
-                BOOST_PARAMETER_FUNCTION_DISPATCH_IS_CONST(x)                \
-              , boost_param_dispatch_const_                                  \
-              , boost_param_dispatch_                                        \
-            )                                                                \
-          , BOOST_PP_CAT(BOOST_PP_CAT(n, boost_), __LINE__)                  \
-        )                                                                    \
-      , BOOST_PARAMETER_MEMBER_FUNCTION_NAME(                                \
-            BOOST_PARAMETER_FUNCTION_DISPATCH_BASE_NAME(x)                   \
-        )                                                                    \
-    )
-/**/
-
 #endif  // include guard
 

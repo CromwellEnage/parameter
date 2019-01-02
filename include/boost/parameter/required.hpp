@@ -47,19 +47,5 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux
 
-#include <boost/parameter/config.hpp>
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#include <boost/mp11/integral.hpp>
-
-namespace boost { namespace parameter { namespace aux {
-
-    template <typename T>
-    using is_required_mp11 = ::boost::mp11::mp_bool<
-        ::boost::parameter::aux::is_required<T>::value
-    >;
-}}} // namespace boost::parameter::aux
-
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
 #endif  // include guard
 

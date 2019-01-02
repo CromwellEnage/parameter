@@ -28,7 +28,7 @@ namespace test {
     BOOST_PARAMETER_NAME((_rr1, kw7) rr1)
 } // namespace test
 
-#include <boost/parameter/preprocessor.hpp>
+#include <boost/parameter/preprocessor_no_spec.hpp>
 #include <boost/parameter/value_type.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <boost/type_traits/is_scalar.hpp>

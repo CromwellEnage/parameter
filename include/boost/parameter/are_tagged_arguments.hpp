@@ -121,55 +121,5 @@ namespace boost { namespace parameter {
 #undef BOOST_PARAMETER_ARE_TAGGED_ARGUMENTS_END_Z
 
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-
-namespace boost { namespace parameter { namespace aux {
-
-    template <typename TaggedArg0, typename ...TaggedArgs>
-    struct are_tagged_arguments_mp11_impl;
-}}} // namespace boost::parameter::aux
-
-namespace boost { namespace parameter {
-
-    template <typename TaggedArg0, typename ...TaggedArgs>
-    using are_tagged_arguments_mp11 = typename ::boost::parameter::aux
-    ::are_tagged_arguments_mp11_impl<TaggedArg0,TaggedArgs...>::type;
-}} // namespace boost::parameter
-
-#include <boost/parameter/aux_/is_tagged_argument.hpp>
-
-namespace boost { namespace parameter { namespace aux {
-
-    template <typename TaggedArg0>
-    struct are_tagged_arguments_mp11_impl<TaggedArg0>
-    {
-        using type = ::boost::parameter::aux
-        ::is_tagged_argument_mp11<TaggedArg0>;
-    };
-}}} // namespace boost::parameter::aux
-
-#include <boost/mp11/integral.hpp>
-#include <boost/mp11/utility.hpp>
-
-namespace boost { namespace parameter { namespace aux {
-
-    template <
-        typename TaggedArg0
-      , typename TaggedArg1
-      , typename ...TaggedArgs
-    >
-    struct are_tagged_arguments_mp11_impl<TaggedArg0,TaggedArg1,TaggedArgs...>
-    {
-        using type = ::boost::mp11::mp_if<
-            ::boost::parameter::aux::is_tagged_argument<TaggedArg0>
-          , ::boost::parameter
-            ::are_tagged_arguments_mp11<TaggedArg1,TaggedArgs...>
-          , ::boost::mp11::mp_false
-        >;
-    };
-}}} // namespace boost::parameter::aux
-
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
 #endif  // include guard
 
