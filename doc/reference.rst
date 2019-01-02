@@ -6671,7 +6671,7 @@ operator of the no-argument |parameters| specialization and by the
 __ ../../../../boost/parameter/config.hpp
 
 :Default Value: ``20``
-:Minimum Value: ``2``
+:Minimum Value: ``1``
 
 ``BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY``
 --------------------------------------------------------

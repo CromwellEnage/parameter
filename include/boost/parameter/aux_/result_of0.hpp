@@ -8,13 +8,13 @@
 
 #include <boost/parameter/aux_/use_default_tag.hpp>
 #include <boost/parameter/config.hpp>
+#include <boost/utility/result_of.hpp>
 
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mp11/utility.hpp>
 #include <type_traits>
 #else
 #include <boost/mpl/if.hpp>
-#include <boost/utility/result_of.hpp>
 #include <boost/type_traits/is_void.hpp>
 #endif
 
