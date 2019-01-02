@@ -6653,6 +6653,26 @@ perfect forwarding is supported, ``8`` otherwise.
 .. _BOOST_MPL_LIMIT_VECTOR_SIZE: ../../../mpl/doc/refmanual/limit-vector-size.html
 .. _`Boost.MPL`: ../../../mpl/doc/index.html
 
+``BOOST_PARAMETER_NO_SPEC_MAX_ARITY``
+-------------------------------------
+
+If |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is **not** ``#defined``, then
+determines the maximum number of arguments supported by the function call
+operator of the no-argument |parameters| specialization and by the
+|BOOST_PARAMETER_NO_SPEC_FUNCTION|, |BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION|,
+|BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION|,
+|BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR|,
+|BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR|,
+|BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR|, and
+|BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR| code generation macros.
+
+:Defined in: `boost/parameter/config.hpp`__
+
+__ ../../../../boost/parameter/config.hpp
+
+:Default Value: ``20``
+:Minimum Value: ``2``
+
 ``BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY``
 --------------------------------------------------------
 

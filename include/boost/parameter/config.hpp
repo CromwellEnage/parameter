@@ -67,6 +67,9 @@
 #if !defined(BOOST_PARAMETER_MAX_ARITY)
 #define BOOST_PARAMETER_MAX_ARITY 8
 #endif
+#if !defined(BOOST_PARAMETER_NO_SPEC_MAX_ARITY)
+#define BOOST_PARAMETER_NO_SPEC_MAX_ARITY 8
+#endif
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 #endif  // include guard
 
