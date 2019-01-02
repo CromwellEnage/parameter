@@ -89,11 +89,10 @@ namespace boost { namespace parameter { namespace aux {
     // tagged_argument<>.  Can't use boost::unwrap_reference<> here
     // because it doesn't handle the case where T = reference_wrapper<U> cv.
     template <typename T>
-    using unwrap_cv_reference = ::boost::mp11::mp_eval_if<
+    using unwrap_cv_reference = ::boost::mp11::mp_if<
         ::boost::parameter::aux::is_cv_reference_wrapper<T>
       , ::boost::parameter::aux::unwrap_cv_reference_impl<T>
-      , ::std::remove_reference
-      , T
+      , ::std::remove_reference<T>
     >;
 #else   // !defined(BOOST_PARAMETER_CAN_USE_MP11) || defined(BOOST_MSVC)
     // This metafunction returns mpl::true_ if T is of type
