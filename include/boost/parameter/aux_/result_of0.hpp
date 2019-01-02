@@ -10,7 +10,7 @@
 #include <boost/parameter/config.hpp>
 #include <boost/utility/result_of.hpp>
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mp11/utility.hpp>
 #include <type_traits>
 #else
@@ -32,7 +32,7 @@ namespace boost { namespace parameter { namespace aux {
 #endif
 
      public:
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
         typedef typename ::boost::mp11::mp_if<
             ::std::is_void<result_of_F>
 #else
