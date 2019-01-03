@@ -31,7 +31,8 @@ namespace boost { namespace parameter { namespace aux {
     struct arg_list_factory<ArgList>
     {
         template <typename ...ReversedArgs>
-        static inline ArgList reverse(ReversedArgs&&... reversed_args)
+        static inline BOOST_CONSTEXPR ArgList
+            reverse(ReversedArgs&&... reversed_args)
         {
             return ArgList(
                 typename ::boost::mpl::if_<
@@ -51,7 +52,7 @@ namespace boost { namespace parameter { namespace aux {
     struct arg_list_factory<ArgList,A0,Args...>
     {
         template <typename ...ReversedArgs>
-        static inline ArgList
+        static inline BOOST_CONSTEXPR ArgList
             reverse(A0&& a0, Args&&... args, ReversedArgs&&... reversed_args)
         {
             return ::boost::parameter::aux
@@ -167,16 +168,21 @@ namespace boost { namespace parameter {
         {
         };
 
+        inline BOOST_CONSTEXPR parameters()
+        {
+        }
+
         // The function call operator is used to build an arg_list that
         // labels the positional parameters and maintains whatever other
         // tags may have been specified by the caller.
-        inline ::boost::parameter::aux::empty_arg_list operator()() const
+        inline BOOST_CONSTEXPR ::boost::parameter::aux::empty_arg_list
+            operator()() const
         {
             return ::boost::parameter::aux::empty_arg_list();
         }
 
         template <typename A0, typename ...Args>
-        inline typename ::boost::mpl::first<
+        inline BOOST_CXX14_CONSTEXPR typename ::boost::mpl::first<
             typename ::boost::parameter::aux::make_arg_list<
                 typename ::boost::parameter::aux::make_parameter_spec_items<
                     parameter_spec
@@ -187,7 +193,7 @@ namespace boost { namespace parameter {
               , ::boost::parameter::aux::tag_keyword_arg
             >::type
         >::type
-        operator()(A0&& a0, Args&& ...args) const
+            operator()(A0&& a0, Args&& ...args) const
         {
             typedef typename ::boost::parameter::aux::make_arg_list<
                 typename ::boost::parameter::aux::make_parameter_spec_items<
@@ -408,6 +414,10 @@ namespace boost { namespace parameter {
           , (PS)(parameter_spec)
         )
 
+        inline BOOST_CONSTEXPR parameters()
+        {
+        }
+
         // The function call operator is used to build an arg_list that
         // labels the positional parameters and maintains whatever other
         // tags may have been specified by the caller.
@@ -416,7 +426,8 @@ namespace boost { namespace parameter {
         //
         // The make_arg_list<> metafunction produces a reversed arg_list,
         // so pass the arguments to the arg_list constructor reversed in turn.
-        inline ::boost::parameter::aux::empty_arg_list operator()() const
+        inline BOOST_CONSTEXPR ::boost::parameter::aux::empty_arg_list
+            operator()() const
         {
             return ::boost::parameter::aux::empty_arg_list();
         }
@@ -444,7 +455,7 @@ namespace boost { namespace parameter {
 #endif
 #else   // (0 == BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
         template <typename A0>
-        typename ::boost::mpl::first<
+        inline BOOST_CXX14_CONSTEXPR typename ::boost::mpl::first<
             typename ::boost::parameter::aux::make_arg_list<
                 ::boost::parameter::aux::item<
                     PS0,A0
@@ -453,7 +464,7 @@ namespace boost { namespace parameter {
               , ::boost::parameter::aux::tag_keyword_arg_ref
             >::type
         >::type
-        operator()(A0& a0) const
+            operator()(A0& a0) const
         {
             typedef typename ::boost::parameter::aux::make_arg_list<
                 ::boost::parameter::aux::item<
@@ -478,7 +489,7 @@ namespace boost { namespace parameter {
         }
 
         template <typename A0, typename A1>
-        typename ::boost::mpl::first<
+        inline BOOST_CXX14_CONSTEXPR typename ::boost::mpl::first<
             typename ::boost::parameter::aux::make_arg_list<
                 ::boost::parameter::aux::item<
                     PS0,A0
@@ -490,7 +501,7 @@ namespace boost { namespace parameter {
               , ::boost::parameter::aux::tag_keyword_arg_ref
             >::type
         >::type
-        operator()(A0& a0, A1& a1) const
+            operator()(A0& a0, A1& a1) const
         {
             typedef typename ::boost::parameter::aux::make_arg_list<
                 ::boost::parameter::aux::item<
