@@ -488,7 +488,7 @@ namespace boost { namespace parameter {
                 a0
                 // , void_(), void_(), void_() ...
                 BOOST_PP_ENUM_TRAILING_PARAMS(
-                    BOOST_PP_SUB(BOOST_PARAMETER_SPECIFICATION_MAX_ARITY, 1)
+                    BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, 1)
                   , ::boost::parameter::aux::void_reference() BOOST_PP_INTERCEPT
                 )
             );
@@ -529,7 +529,7 @@ namespace boost { namespace parameter {
               , a0
                 // , void_(), void_() ...
                 BOOST_PP_ENUM_TRAILING_PARAMS(
-                    BOOST_PP_SUB(BOOST_PARAMETER_SPECIFICATION_MAX_ARITY, 2)
+                    BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, 2)
                   , ::boost::parameter::aux::void_reference() BOOST_PP_INTERCEPT
                 )
             );
