@@ -518,7 +518,7 @@ namespace boost { namespace parameter {
             );
         }
 
-#if (2 < BOOST_PARAMETER_SPECIFICATION_MAX_ARITY)
+#if (2 < BOOST_PARAMETER_MAX_ARITY)
         // Higher arities are handled by the preprocessor
 #define BOOST_PP_ITERATION_PARAMS_1 \
     (3,( \
