@@ -13,8 +13,8 @@
 #error Define BOOST_PARAMETER_MAX_ARITY as 8 or greater.
 #endif
 #else   // mingw, or no perfect forwarding support and not msvc
-#if (BOOST_PARAMETER_NO_SPEC_MAX_ARITY < 8)
-#error Define BOOST_PARAMETER_NO_SPEC_MAX_ARITY as 8 or greater.
+#if (BOOST_PARAMETER_COMPOSE_MAX_ARITY < 8)
+#error Define BOOST_PARAMETER_COMPOSE_MAX_ARITY as 8 or greater.
 #endif
 #endif  // msvc, or perfect forwarding support and not mingw
 

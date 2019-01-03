@@ -22,6 +22,7 @@
 #include <boost/parameter/macros.hpp>
 #include <boost/parameter/match.hpp>
 #include <boost/parameter/name.hpp>
+#include <boost/parameter/compose.hpp>
 #include <boost/parameter/preprocessor.hpp>
 #include <boost/parameter/preprocessor_no_spec.hpp>
 

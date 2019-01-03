@@ -32,6 +32,7 @@
     };
 /**/
 
+#include <boost/parameter/compose.hpp>
 #include <boost/parameter/are_tagged_arguments.hpp>
 #include <boost/core/enable_if.hpp>
 
@@ -49,7 +50,9 @@
         >::type                                                              \
     > inline explicit                                                        \
     class_(TaggedArg0 const& arg0, TaggedArgs const&... args)                \
-      : BOOST_PARAMETER_PARENTHESIZED_TYPE(base)((arg0, args...))            \
+      : BOOST_PARAMETER_PARENTHESIZED_TYPE(base)(                            \
+            ::boost::parameter::compose(arg0, args...)                       \
+        )                                                                    \
     {                                                                        \
     }
 /**/
@@ -68,7 +71,7 @@
     > inline explicit                                                        \
     class_(TaggedArg0 const& arg0, TaggedArgs const&... args)                \
     {                                                                        \
-        func((arg0, args...));                                               \
+        func(::boost::parameter::compose(arg0, args...));                    \
     }
 /**/
 
@@ -97,7 +100,7 @@
                     impl, c                                                  \
                 )<TaggedArg0,TaggedArgs...>::type(*)()                       \
             >(BOOST_TTI_DETAIL_NULLPTR)                                      \
-          , (arg0, args...)                                                  \
+          , ::boost::parameter::compose(arg0, args...)                       \
         );                                                                   \
     }
 /**/
@@ -124,6 +127,7 @@
     };
 /**/
 
+#include <boost/parameter/compose.hpp>
 #include <boost/preprocessor/comparison/equal.hpp>
 #include <boost/preprocessor/control/expr_if.hpp>
 #include <boost/preprocessor/repetition/enum_params.hpp>
@@ -139,7 +143,7 @@
     BOOST_PP_TUPLE_ELEM(2, 0, data)(                                         \
         BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, TaggedArg, const& arg)           \
     ) : BOOST_PARAMETER_PARENTHESIZED_TYPE(BOOST_PP_TUPLE_ELEM(2, 1, data))( \
-            (BOOST_PP_ENUM_PARAMS_Z(z, n, arg))                              \
+            ::boost::parameter::compose(BOOST_PP_ENUM_PARAMS_Z(z, n, arg))   \
         )                                                                    \
     {                                                                        \
     }
@@ -154,7 +158,9 @@
         BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, TaggedArg, const& a)             \
     )                                                                        \
     {                                                                        \
-        BOOST_PP_TUPLE_ELEM(2, 1, data)((BOOST_PP_ENUM_PARAMS_Z(z, n, a)));  \
+        BOOST_PP_TUPLE_ELEM(2, 1, data)(                                     \
+            ::boost::parameter::compose(BOOST_PP_ENUM_PARAMS_Z(z, n, a))     \
+        );                                                                   \
     }
 /**/
 
@@ -184,7 +190,7 @@
                   , BOOST_PP_TUPLE_ELEM(4, 3, data)                          \
                 )<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>::type(*)()        \
             >(BOOST_TTI_DETAIL_NULLPTR)                                      \
-          , (BOOST_PP_ENUM_PARAMS_Z(z, n, arg))                              \
+          , ::boost::parameter::compose(BOOST_PP_ENUM_PARAMS_Z(z, n, arg))   \
         );                                                                   \
     }
 /**/
@@ -209,7 +215,7 @@
             >                                                                \
         >::type* = BOOST_TTI_DETAIL_NULLPTR                                  \
     ) : BOOST_PARAMETER_PARENTHESIZED_TYPE(BOOST_PP_TUPLE_ELEM(2, 1, data))( \
-            (BOOST_PP_ENUM_PARAMS_Z(z, n, arg))                              \
+            ::boost::parameter::compose(BOOST_PP_ENUM_PARAMS_Z(z, n, arg))   \
         )                                                                    \
     {                                                                        \
     }
@@ -230,7 +236,9 @@
         >::type* = BOOST_TTI_DETAIL_NULLPTR                                  \
     )                                                                        \
     {                                                                        \
-        BOOST_PP_TUPLE_ELEM(2, 1, data)((BOOST_PP_ENUM_PARAMS_Z(z, n, a)));  \
+        BOOST_PP_TUPLE_ELEM(2, 1, data)(                                     \
+            ::boost::parameter::compose(BOOST_PP_ENUM_PARAMS_Z(z, n, a))     \
+        );                                                                   \
     }
 /**/
 
@@ -262,7 +270,7 @@
                   , BOOST_PP_TUPLE_ELEM(4, 3, data)                          \
                 )<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>::type(*)()        \
             >(BOOST_TTI_DETAIL_NULLPTR)                                      \
-          , (BOOST_PP_ENUM_PARAMS_Z(z, n, arg))                              \
+          , ::boost::parameter::compose(BOOST_PP_ENUM_PARAMS_Z(z, n, arg))   \
         );                                                                   \
     }
 /**/
@@ -279,7 +287,7 @@
 #define BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(class_, base)                    \
     BOOST_PP_REPEAT_FROM_TO(                                                 \
         1                                                                    \
-      , BOOST_PP_INC(BOOST_PARAMETER_NO_SPEC_MAX_ARITY)                      \
+      , BOOST_PP_INC(BOOST_PARAMETER_COMPOSE_MAX_ARITY)                      \
       , BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR_OVERLOAD_Z                       \
       , (class_, base)                                                       \
     )
@@ -291,7 +299,7 @@
 #define BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(class_, func)            \
     BOOST_PP_REPEAT_FROM_TO(                                                 \
         1                                                                    \
-      , BOOST_PP_INC(BOOST_PARAMETER_NO_SPEC_MAX_ARITY)                      \
+      , BOOST_PP_INC(BOOST_PARAMETER_COMPOSE_MAX_ARITY)                      \
       , BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR_OVERLOAD_Z               \
       , (class_, func)                                                       \
     )
@@ -302,7 +310,7 @@
 #define BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD(name, impl, is_m, c)       \
     BOOST_PP_REPEAT_FROM_TO(                                                 \
         1                                                                    \
-      , BOOST_PP_INC(BOOST_PARAMETER_NO_SPEC_MAX_ARITY)                      \
+      , BOOST_PP_INC(BOOST_PARAMETER_COMPOSE_MAX_ARITY)                      \
       , BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD_Z                          \
       , (name, impl, is_m, c)                                                \
     )
