@@ -66,6 +66,8 @@ namespace boost { namespace parameter {
 
 #else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 
+#define BOOST_PARAMETER_compose_arg_list_type_suffix(z, n, suffix) suffix
+
 #include <boost/preprocessor/cat.hpp>
 
 #define BOOST_PARAMETER_compose_arg_list_type_prefix(z, n, prefix)           \
@@ -74,16 +76,19 @@ namespace boost { namespace parameter {
 
 #include <boost/preprocessor/facilities/intercept.hpp>
 #include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
+#include <boost/preprocessor/repetition/repeat.hpp>
 
 #define BOOST_PARAMETER_compose_arg_list_type(z, n, prefix)                  \
     BOOST_PP_CAT(BOOST_PP_ENUM_, z)(                                         \
         n, BOOST_PARAMETER_compose_arg_list_type_prefix, prefix              \
-    ) BOOST_PP_ENUM_PARAMS_Z(z, n, > BOOST_PP_INTERCEPT)
+    ) BOOST_PP_CAT(BOOST_PP_REPEAT_, z)(                                     \
+        n, BOOST_PARAMETER_compose_arg_list_type_suffix, >                   \
+    )
 /**/
 
 #include <boost/parameter/aux_/void.hpp>
 #include <boost/preprocessor/arithmetic/sub.hpp>
+#include <boost/preprocessor/repetition/enum_params.hpp>
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
 #include <boost/preprocessor/repetition/enum_trailing_params.hpp>
 
@@ -144,6 +149,7 @@ namespace boost { namespace parameter {
 #undef BOOST_PARAMETER_compose_arg_list_function_overload
 #undef BOOST_PARAMETER_compose_arg_list_type
 #undef BOOST_PARAMETER_compose_arg_list_type_prefix
+#undef BOOST_PARAMETER_compose_arg_list_type_suffix
 
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 #endif  // include guard
