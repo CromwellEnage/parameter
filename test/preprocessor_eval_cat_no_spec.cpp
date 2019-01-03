@@ -6,8 +6,8 @@
 #include <boost/parameter/config.hpp>
 
 #if !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) && \
-    (BOOST_PARAMETER_MAX_ARITY < 8)
-#error Define BOOST_PARAMETER_MAX_ARITY as 8 or greater.
+    (BOOST_PARAMETER_COMPOSE_MAX_ARITY < 8)
+#error Define BOOST_PARAMETER_COMPOSE_MAX_ARITY as 8 or greater.
 #endif
 
 #include <boost/parameter/name.hpp>

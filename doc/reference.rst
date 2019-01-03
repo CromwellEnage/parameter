@@ -664,9 +664,7 @@ The |ntp_cpp|_ test program demonstrates proper usage of this class template.
 
 Provides an interface for assembling the actual arguments to a `forwarding
 function` into an |ArgumentPack|, in which any |positional| arguments will be
-tagged according to the corresponding template argument to ``parameters``.  If
-no template arguments are passed into ``parameters``, then the interface
-cannot assemble any |positional| arguments, only |tagged reference| arguments.
+tagged according to the corresponding template argument to ``parameters``.
 
 .. _forwarding function: `forwarding functions`_
 
@@ -687,17 +685,6 @@ __ ../../../../boost/parameter/parameters.hpp
 
         template <typename ...Args>
         |ArgumentPack|_ `operator()`_\(Args&&... args) const;
-    };
-
-    template <>
-    struct parameters<>
-    {
-        template <typename ...Args>
-        typename boost::`enable_if`_<
-            |are_tagged_arguments|_<Args...>
-          , |ArgumentPack|_
-        >::type
-            `operator()`_\(Args const&... args) const;
     };
 
 :Requires: Each element in the ``PSpec`` parameter pack must be a model of
@@ -1032,6 +1019,29 @@ in conjunction with ``enable_if``.
     };
 
 .. _is_convertible: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
+
+//////////////////////////////////////////////////////////////////////////////
+
+Function Templates
+==================
+
+``compose``
+-----------
+
+:Defined in: `boost/parameter/is_argument_pack.hpp`__
+
+__ ../../../../boost/parameter/is_argument_pack.hpp
+
+.. parsed-literal::
+
+    template <typename T0, typename ...Pack>
+    typename boost::`enable_if`_<
+        boost::`is_convertible`_<U,T>
+      , |ArgumentPack|_
+    >::type
+        compose(T0 const& t0, Pack const&... args)
+    {
+    }
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -4852,9 +4862,9 @@ available for use within the function call operator body.
 ``BOOST_PARAMETER_NO_SPEC_FUNCTION(result, name)``
 --------------------------------------------------
 
-:Defined in: `boost/parameter/preprocessor.hpp`__
+:Defined in: `boost/parameter/preprocessor_no_spec.hpp`__
 
-__ ../../../../boost/parameter/preprocessor.hpp
+__ ../../../../boost/parameter/preprocessor_no_spec.hpp
 
 Generates a function that can take in named arguments.
 
@@ -5034,7 +5044,7 @@ Approximate expansion:
                   , TaggedArgs...
                 >::type(\*)()
             >(std::nullptr)
-          , |parameters|_<>()(arg0, args...)
+          , (arg0, args...)
         );
     }
 
@@ -5053,9 +5063,9 @@ available for use within the function body.
 ``BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION(result, name)``
 ---------------------------------------------------------
 
-:Defined in: `boost/parameter/preprocessor.hpp`__
+:Defined in: `boost/parameter/preprocessor_no_spec.hpp`__
 
-__ ../../../../boost/parameter/preprocessor.hpp
+__ ../../../../boost/parameter/preprocessor_no_spec.hpp
 
 Generates a member function that can take in named arguments.
 
@@ -5230,7 +5240,7 @@ Approximate expansion:
                   , TaggedArgs...
                 >::type(\*)()
             >(std::nullptr)
-          , |parameters|_<>()(arg0, args...)
+          , (arg0, args...)
         );
     }
 
@@ -5249,9 +5259,9 @@ available for use within the function body.
 ``BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION(result, name)``
 ---------------------------------------------------------------
 
-:Defined in: `boost/parameter/preprocessor.hpp`__
+:Defined in: `boost/parameter/preprocessor_no_spec.hpp`__
 
-__ ../../../../boost/parameter/preprocessor.hpp
+__ ../../../../boost/parameter/preprocessor_no_spec.hpp
 
 Generates a member function that can take in named arguments.
 
@@ -5435,7 +5445,7 @@ Approximate expansion:
                   , TaggedArgs...
                 >::type(\*)()
             >(std::nullptr)
-          , |parameters|_<>()(arg0, args...)
+          , (arg0, args...)
         );
     }
 
@@ -5454,9 +5464,9 @@ available for use within the function body.
 ``BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR(result)``
 ----------------------------------------------------------
 
-:Defined in: `boost/parameter/preprocessor.hpp`__
+:Defined in: `boost/parameter/preprocessor_no_spec.hpp`__
 
-__ ../../../../boost/parameter/preprocessor.hpp
+__ ../../../../boost/parameter/preprocessor_no_spec.hpp
 
 Generates a function call operator that can take in named arguments.
 
@@ -5627,7 +5637,7 @@ Approximate expansion:
                   , TaggedArgs...
                 >::type(\*)()
             >(std::nullptr)
-          , |parameters|_<>()(arg0, args...)
+          , (arg0, args...)
         );
     }
 
@@ -5646,9 +5656,9 @@ available for use within the function body.
 ``BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR(result)``
 ----------------------------------------------------------------
 
-:Defined in: `boost/parameter/preprocessor.hpp`__
+:Defined in: `boost/parameter/preprocessor_no_spec.hpp`__
 
-__ ../../../../boost/parameter/preprocessor.hpp
+__ ../../../../boost/parameter/preprocessor_no_spec.hpp
 
 Generates a function call operator that can take in named arguments.
 
@@ -5834,7 +5844,7 @@ Approximate expansion:
                   , TaggedArgs...
                 >::type(\*)()
             >(std::nullptr)
-          , |parameters|_<>()(arg0, args...)
+          , (arg0, args...)
         );
     }
 
@@ -5853,9 +5863,9 @@ available for use within the function body.
 ``BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(cls, impl)``
 --------------------------------------------------
 
-:Defined in: `boost/parameter/preprocessor.hpp`__
+:Defined in: `boost/parameter/preprocessor_no_spec.hpp`__
 
-__ ../../../../boost/parameter/preprocessor.hpp
+__ ../../../../boost/parameter/preprocessor_no_spec.hpp
 
 Generates a constructor that can take in named arguments.
 
@@ -6006,16 +6016,16 @@ Approximate expansion:
     inline explicit **cls**\ (
         TaggedArg0 const& arg0
       , TaggedArgs const&... args
-    ) : **impl**\ (|parameters|_<>()(arg0, args...))
+    ) : **impl**\ ((arg0, args...))
     {
     }
 
 ``BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(cls, impl)``
 ----------------------------------------------------------
 
-:Defined in: `boost/parameter/preprocessor.hpp`__
+:Defined in: `boost/parameter/preprocessor_no_spec.hpp`__
 
-__ ../../../../boost/parameter/preprocessor.hpp
+__ ../../../../boost/parameter/preprocessor_no_spec.hpp
 
 Generates a constructor that can take in named arguments.
 
@@ -6186,7 +6196,7 @@ Approximate expansion:
       , TaggedArgs const&... args
     )
     {
-        **func**\ (|parameters|_<>()(arg0, args...));
+        **func**\ ((arg0, args...));
     }
 
 ``BOOST_PARAMETER_NAME(name)``
@@ -6539,9 +6549,10 @@ Determines whether or not the library supports perfect forwarding, or the
 preservation of parameter value categories.  Users can manually disable this
 macro by ``#defining`` the |BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING|
 macro.  Otherwise, the library will ``#define`` this macro if and only if it
-and the configuration macros |BOOST_NO_FUNCTION_TEMPLATE_ORDERING|_,
-|BOOST_NO_SFINAE|_, |BOOST_NO_CXX11_RVALUE_REFERENCES|_, and
-|BOOST_NO_CXX11_VARIADIC_TEMPLATES|_ are not already defined by
+is not already defined, and if the configuration macros
+|BOOST_NO_FUNCTION_TEMPLATE_ORDERING|_, |BOOST_NO_SFINAE|_,
+|BOOST_NO_CXX11_RVALUE_REFERENCES|_, |BOOST_NO_CXX11_VARIADIC_TEMPLATES|_, and
+|BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS|_ are not already defined by
 `Boost.Config`_.
 
 .. |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| replace:: ``BOOST_PARAMETER_HAS_PERFECT_FORWARDING``
@@ -6554,6 +6565,8 @@ and the configuration macros |BOOST_NO_FUNCTION_TEMPLATE_ORDERING|_,
 .. _BOOST_NO_CXX11_RVALUE_REFERENCES: ../../../config/doc/html/boost_config/boost_macro_reference.html
 .. |BOOST_NO_CXX11_VARIADIC_TEMPLATES| replace:: ``BOOST_NO_CXX11_VARIADIC_TEMPLATES``
 .. _BOOST_NO_CXX11_VARIADIC_TEMPLATES: ../../../config/doc/html/boost_config/boost_macro_reference.html
+.. |BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS| replace:: ``BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS``
+.. _BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS: ../../../config/doc/html/boost_config/boost_macro_reference.html
 .. _`Boost.Config`: ../../../config/doc/html/index.html
 
 :Defined in: `boost/parameter/config.hpp`__
@@ -6566,7 +6579,64 @@ __ ../../../../boost/parameter/config.hpp
 It may be necessary to test user code in case perfect forwarding support is
 unavailable.  Users can ``#define`` this macro either in their project
 settings or before including any library header files.  Doing so will leave
-|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| undefined.
+both |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| and
+|BOOST_PARAMETER_CAN_USE_MP11| undefined.
+
+.. |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| replace:: ``BOOST_PARAMETER_HAS_PERFECT_FORWARDING``
+.. |BOOST_PARAMETER_CAN_USE_MP11| replace:: ``BOOST_PARAMETER_CAN_USE_MP11``
+
+``BOOST_PARAMETER_CAN_USE_MP11``
+--------------------------------
+
+Determines whether or not the library can use `Boost.MP11`_, a C++11
+metaprogramming library.  Users can manually disable this macro by
+``#defining`` the |BOOST_PARAMETER_DISABLE_MP11_USAGE| macro or the
+|BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING| macro.  Otherwise, the library
+will ``#define`` this macro if and only if it is not already defined, if
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is defined, and if the configuration
+macros |BOOST_NO_CXX11_CONSTEXPR|_, |BOOST_NO_CXX11_DECLTYPE_N3276|_,
+|BOOST_NO_CXX11_AUTO_DECLARATIONS|_, |BOOST_NO_CXX11_TEMPLATE_ALIASES|_,
+|BOOST_NO_CXX11_STATIC_ASSERT|_, |BOOST_NO_CXX11_HDR_TYPE_TRAITS|_,
+|BOOST_NO_CXX11_HDR_INITIALIZER_LIST|_, and |BOOST_NO_CXX11_HDR_TUPLE|_
+are not already defined by `Boost.Config`_.
+
+.. |BOOST_PARAMETER_CAN_USE_MP11| replace:: ``BOOST_PARAMETER_CAN_USE_MP11``
+.. |BOOST_PARAMETER_DISABLE_MP11_USAGE| replace:: ``BOOST_PARAMETER_DISABLE_MP11_USAGE``
+.. |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| replace:: ``BOOST_PARAMETER_HAS_PERFECT_FORWARDING``
+.. |BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING| replace:: ``BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING``
+.. |BOOST_NO_CXX11_CONSTEXPR| replace:: ``BOOST_NO_CXX11_CONSTEXPR``
+.. _BOOST_NO_CXX11_CONSTEXPR: ../../../config/doc/html/boost_config/boost_macro_reference.html
+.. |BOOST_NO_CXX11_DECLTYPE_N3276| replace:: ``BOOST_NO_CXX11_DECLTYPE_N3276``
+.. _BOOST_NO_CXX11_DECLTYPE_N3276: ../../../config/doc/html/boost_config/boost_macro_reference.html
+.. |BOOST_NO_CXX11_AUTO_DECLARATIONS| replace:: ``BOOST_NO_CXX11_AUTO_DECLARATIONS``
+.. _BOOST_NO_CXX11_AUTO_DECLARATIONS: ../../../config/doc/html/boost_config/boost_macro_reference.html
+.. |BOOST_NO_CXX11_AUTO_DECLARATIONS| replace:: ``BOOST_NO_CXX11_AUTO_DECLARATIONS``
+.. _BOOST_NO_CXX11_AUTO_DECLARATIONS: ../../../config/doc/html/boost_config/boost_macro_reference.html
+.. |BOOST_NO_CXX11_STATIC_ASSERT| replace:: ``BOOST_NO_CXX11_STATIC_ASSERT``
+.. _BOOST_NO_CXX11_STATIC_ASSERT: ../../../config/doc/html/boost_config/boost_macro_reference.html
+.. |BOOST_NO_CXX11_HDR_TYPE_TRAITS| replace:: ``BOOST_NO_CXX11_HDR_TYPE_TRAITS``
+.. _BOOST_NO_CXX11_HDR_TYPE_TRAITS: ../../../config/doc/html/boost_config/boost_macro_reference.html
+.. |BOOST_NO_CXX11_HDR_INITIALIZER_LIST| replace:: ``BOOST_NO_CXX11_HDR_INITIALIZER_LIST``
+.. _BOOST_NO_CXX11_HDR_INITIALIZER_LIST: ../../../config/doc/html/boost_config/boost_macro_reference.html
+.. |BOOST_NO_CXX11_HDR_TUPLE| replace:: ``BOOST_NO_CXX11_HDR_TUPLE``
+.. _BOOST_NO_CXX11_HDR_TUPLE: ../../../config/doc/html/boost_config/boost_macro_reference.html
+.. _`Boost.MP11`: ../../../mp11/doc/html/mp11.html
+.. _`Boost.Config`: ../../../config/doc/html/index.html
+
+:Defined in: `boost/parameter/config.hpp`__
+
+__ ../../../../boost/parameter/config.hpp
+
+``BOOST_PARAMETER_DISABLE_MP11_USAGE``
+--------------------------------------
+
+It may be necessary to disable usage of `Boost.MP11`_ for compilers that
+cannot support it.  Users can ``#define`` this macro either in their project
+settings or before including any library header files.  Doing so will leave
+|BOOST_PARAMETER_CAN_USE_MP11| undefined.
+
+.. |BOOST_PARAMETER_CAN_USE_MP11| replace:: ``BOOST_PARAMETER_CAN_USE_MP11``
+.. _`Boost.MP11`: ../../../mp11/doc/html/mp11.html
 
 ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
 -----------------------------------------
@@ -6574,7 +6644,8 @@ settings or before including any library header files.  Doing so will leave
 If |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, then determines
 the `MPL Variadic Sequence`_ underlying the nested ``parameter_spec`` type of
 |parameters|.  If the user does not manually ``#define`` this macro, then the
-library will ``#define`` it as |boost_fusion_list|_ if
+library will ``#define`` it as |boost_mp11_list|_ if
+|BOOST_PARAMETER_CAN_USE_MP11| is defined, |boost_fusion_list|_ if
 |BOOST_FUSION_HAS_VARIADIC_LIST|_ is defined (by `Boost.Fusion`_),
 |boost_fusion_deque|_ if |BOOST_FUSION_HAS_VARIADIC_DEQUE|_ is defined
 (by `Boost.Fusion`_), or |boost_mpl_vector|_ otherwise.
@@ -6586,9 +6657,12 @@ library will ``#define`` it as |boost_fusion_list|_ if
 #define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE |boost_fusion_vector|_
 
 .. |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| replace:: ``BOOST_PARAMETER_HAS_PERFECT_FORWARDING``
+.. |BOOST_PARAMETER_CAN_USE_MP11| replace:: ``BOOST_PARAMETER_CAN_USE_MP11``
 .. |BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE| replace:: ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
 .. _`MPL Variadic Sequence`: ../../../mpl/doc/refmanual/variadic-sequence.html
 .. _`Boost.Fusion`: ../../../fusion/doc/html/index.html
+.. |boost_mp11_list| replace:: ``boost\:\:mp11\:\:mp_list``
+.. _boost_mp11_list: ../../../mp11/doc/html/mp11.html
 .. |BOOST_FUSION_HAS_VARIADIC_LIST| replace:: ``BOOST_FUSION_HAS_VARIADIC_LIST``
 .. _BOOST_FUSION_HAS_VARIADIC_LIST: ../../../../boost/fusion/container/list/list_fwd.hpp
 .. |boost_fusion_list| replace:: ``boost\:\:fusion\:\:list``
@@ -6609,13 +6683,11 @@ __ ../../../../boost/parameter/parameters.hpp
 ``BOOST_PARAMETER_MAX_ARITY``
 -----------------------------
 
-Determines the maximum number of arguments supported by the library.
-
 If |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is ``#defined``, then:
 
 \*. If the `MPL Variadic Sequence`_ underlying the nested ``parameter_spec``
 type of |parameters| does not have a size limit--which is the case with
-|boost_fusion_list|_ and |boost_fusion_deque|_, but not
+|boost_mp11_list|_, |boost_fusion_list|_, and |boost_fusion_deque|_, but not
 |boost_mpl_vector|_--then this macro can be safely ignored.  User code that
 manually defines |BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE| should also manually
 define this macro to the size limit of the sequence if it has one.
@@ -6630,6 +6702,8 @@ equal to ``BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY``.
 .. |BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE| replace:: ``BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE``
 .. |BOOST_PARAMETER_MAX_ARITY| replace:: ``BOOST_PARAMETER_MAX_ARITY``
 .. _`MPL Variadic Sequence`: ../../../mpl/doc/refmanual/variadic-sequence.html
+.. |boost_mp11_list| replace:: ``boost\:\:mp11\:\:mp_list``
+.. _boost_mp11_list: ../../../mp11/doc/html/mp11.html
 .. |boost_fusion_list| replace:: ``boost\:\:fusion\:\:list``
 .. _boost_fusion_list: ../../../fusion/doc/html/fusion/container/list.html
 .. |boost_fusion_deque| replace:: ``boost\:\:fusion\:\:deque``
@@ -6653,12 +6727,13 @@ perfect forwarding is supported, ``8`` otherwise.
 .. _BOOST_MPL_LIMIT_VECTOR_SIZE: ../../../mpl/doc/refmanual/limit-vector-size.html
 .. _`Boost.MPL`: ../../../mpl/doc/index.html
 
-``BOOST_PARAMETER_NO_SPEC_MAX_ARITY``
+``BOOST_PARAMETER_COMPOSE_MAX_ARITY``
 -------------------------------------
 
+Determines the maximum number of arguments supported by the library.
+
 If |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is **not** ``#defined``, then
-determines the maximum number of arguments supported by the function call
-operator of the no-argument |parameters| specialization and by the
+determines the maximum number of arguments supported by the
 |BOOST_PARAMETER_NO_SPEC_FUNCTION|, |BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION|,
 |BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION|,
 |BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR|,
@@ -6670,7 +6745,7 @@ operator of the no-argument |parameters| specialization and by the
 
 __ ../../../../boost/parameter/config.hpp
 
-:Default Value: ``20``
+:Default Value: ``64``
 :Minimum Value: ``1``
 
 ``BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY``

@@ -111,143 +111,158 @@ src="../../../../boost.png" /></a></p>
 >is_argument_pack</tt></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#code-generation-macros" id="id51"
->6&nbsp;&nbsp;&nbsp;Code Generation Macros</a><ul class="auto-toc">
+<li><a class="reference internal" href="#function-templates" id="id51"
+>6&nbsp;&nbsp;&nbsp;Function Templates</a>
+<ul class="auto-toc">
+<li><a class="reference internal" href="#compose" id="id52"
+>6.1&nbsp;&nbsp;&nbsp;<tt class="docutils literal">compose</tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#code-generation-macros" id="id53"
+>7&nbsp;&nbsp;&nbsp;Code Generation Macros</a><ul class="auto-toc">
 <li><a class="reference internal"
 href="#boost-parameter-function-result-name-tag-namespace-arguments"
-id="id52">6.1&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id54">7.1&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_FUNCTION(result, name, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-member-function-result-name-tag-namespace-arguments"
-id="id53">6.2&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id55">7.2&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_MEMBER_FUNCTION(result, name, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-c-mem-function-result-name-tag-namespace-arguments"
-id="id54">6.3&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id56">7.3&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_CONST_MEMBER_FUNCTION(result, name, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-function-call-op-result-tag-namespace-arguments"
-id="id55">6.4&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id57">7.4&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_FUNCTION_CALL_OPERATOR(result, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-const-function-call-op-result-tag-namespace-arguments"
-id="id56">6.5&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id58">7.5&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR(result, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-constructor-cls-impl-tag-namespace-arguments"
-id="id57">6.6&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id59">7.6&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_CONSTRUCTOR(cls, impl, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-basic-function-result-name-tag-namespace-arguments"
-id="id58">6.7&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id60">7.7&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_BASIC_FUNCTION(result, name, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-basic-member-function-result-name-tag-ns-arguments"
-id="id59">6.8&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id61">7.8&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_BASIC_MEMBER_FUNCTION(result, name, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-basic-c-mem-function-result-name-tag-ns-arguments"
-id="id60">6.9&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id62">7.9&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_BASIC_CONST_MEMBER_FUNCTION(result, name, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-basic-function-call-op-result-tag-namespace-arguments"
-id="id61">6.10&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id63">7.10&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_BASIC_FUNCTION_CALL_OPERATOR(result, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-basic-const-function-call-op-result-tag-ns-args"
-id="id62">6.11&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id64">7.11&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR(result, tag_namespace,
 arguments)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-no-spec-function-result-name"
-id="id63">6.12&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id65">7.12&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_FUNCTION(result, name)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-no-spec-member-function-result-name"
-id="id64">6.13&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id66">7.13&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION(result, name)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-no-spec-c-mem-function-result-name"
-id="id65">6.14&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id67">7.14&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION(result, name)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-no-spec-function-call-op-result"
-id="id66">6.15&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id68">7.15&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR(result)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-no-spec-const-func-call-op-result"
-id="id67">6.16&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id69">7.16&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR(result)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-no-spec-constructor-cls-impl"
-id="id68">6.17&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id70">7.17&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(cls, impl)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-no-spec-no-base-ctor-cls-func"
-id="id69">6.18&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id71">7.18&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(cls, func)</tt></a></li>
 <li><a class="reference internal" href="#boost-parameter-name-name"
-id="id70">6.19&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id72">7.19&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NAME(name)</tt></a></li>
 <li><a class="reference internal" href="#boost-parameter-nested-keyword-t-n-a"
-id="id71">6.20&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id73">7.20&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_NESTED_KEYWORD(tag_namespace, name, alias)</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-template-keyword-name"
-id="id72">6.21&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id74">7.21&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_TEMPLATE_KEYWORD(name)</tt></a></li>
 <li><a class="reference internal" href="#boost-parameter-fun-r-n-l-h-p"
-id="id73">6.22&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id75">7.22&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_FUN(r,n,l,h,p)</tt></a></li>
 <li><a class="reference internal" href="#boost-parameter-keyword-n-k"
-id="id74">6.23&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id76">7.23&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_KEYWORD(n,k)</tt></a></li>
 <li><a class="reference internal" href="#boost-parameter-match-p-a-x"
-id="id75">6.24&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id77">7.24&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_MATCH(p,a,x)</tt></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#configuration-macros"
-id="id76">7&nbsp;&nbsp;&nbsp;Configuration Macros</a>
+id="id78">8&nbsp;&nbsp;&nbsp;Configuration Macros</a>
 <ul class="auto-toc">
 <li><a class="reference internal"
 href="#boost-parameter-has-perfect-forwarding"
-id="id77">7.1&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id79">8.1&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-disable-perfect-forwarding"
-id="id78">7.2&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id80">8.2&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING</tt></a></li>
 <li><a class="reference internal"
+href="#boost-parameter-can-use-mp11"
+id="id81">8.3&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+>BOOST_PARAMETER_CAN_USE_MP11</tt></a></li>
+<li><a class="reference internal"
+href="#boost-parameter-disable-mp11-usage"
+id="id82">8.4&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+>BOOST_PARAMETER_DISABLE_MP11_USAGE</tt></a></li>
+<li><a class="reference internal"
 href="#boost-parameter-variadic-mpl-sequence"
-id="id79">7.3&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id83">8.5&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE</tt></a></li>
 <li><a class="reference internal" href="#boost-parameter-max-arity"
-id="id80">7.4&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id84">8.6&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_MAX_ARITY</tt></a></li>
-<li><a class="reference internal" href="#boost-parameter-no-spec-max-arity"
-id="id81">7.5&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
->BOOST_PARAMETER_NO_SPEC_MAX_ARITY</tt></a></li>
+<li><a class="reference internal" href="#boost-parameter-compose-max-arity"
+id="id85">8.7&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+>BOOST_PARAMETER_COMPOSE_MAX_ARITY</tt></a></li>
 <li><a class="reference internal"
 href="#boost-parameter-exponential-overload-threshold-arity"
-id="id82">7.6&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
+id="id86">8.8&nbsp;&nbsp;&nbsp;<tt class="docutils literal"
 >BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY</tt></a></li>
 <li><a class="reference internal" href="#outside-of-this-library"
-id="id83">7.7&nbsp;&nbsp;&nbsp;...Outside Of This Library</a></li>
+id="id87">8.9&nbsp;&nbsp;&nbsp;...Outside Of This Library</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#tutorial"
-id="id84">8&nbsp;&nbsp;&nbsp;Tutorial</a></li>
+id="id88">9&nbsp;&nbsp;&nbsp;Tutorial</a></li>
 </ul>
 </div>
 <hr class="docutils" />
@@ -1181,11 +1196,7 @@ class="docutils literal">parameters</tt></a></h2>
 >ArgumentPack</span>, in which any <a class="reference internal"
 href="#positional">positional</a> arguments will be tagged according to the
 corresponding template argument to <tt class="docutils literal"
->parameters</tt>.  If no template arguments are passed into <tt
-class="docutils literal">parameters</tt>, then the interface cannot assemble
-any <a class="reference internal" href="#positional">positional</a> arguments,
-only <a class="reference internal" href="#tagged-reference">tagged
-reference</a> arguments.</p>
+>parameters</tt>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1212,22 +1223,6 @@ struct parameters
     <a class="reference internal" href="#argumentpack"><span
 class="concept">ArgumentPack</span></a> <a class="reference internal"
 href="#id13">operator()</a>(Args&amp;&amp;... args) const;
-};
-
-template &lt;&gt;
-struct parameters&lt;&gt;
-{
-    template &lt;typename ...Args&gt;
-    typename boost::<a class="reference external"
-href="../../../core/doc/html/core/enable_if.html"><tt
-class="docutils literal">enable_if</tt></a>&lt;
-        <a class="reference internal" href="#are-tagged-arguments"
->are_tagged_arguments</a>&lt;Args...&gt;
-      , <a class="reference internal" href="#argumentpack"><span
-class="concept">ArgumentPack</span></a>
-    &gt;::type
-        <a class="reference internal"
-href="#id13">operator()</a>(Args const&amp;... args) const;
 };
 </pre>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1810,14 +1805,23 @@ href="../../../type_traits/doc/html/boost_typetraits/is_convertible.html"
 </div>
 </div>
 <hr class="docutils" />
+<div class="section" id="function-templates">
+<h1><a class="toc-backref" href="#id51">6&nbsp;&nbsp;&nbsp;Function
+Templates</a></h1>
+<div class="section" id="compose">
+<h2><a class="toc-backref" href="#id52">6.1&nbsp;&nbsp;&nbsp;<tt
+class="docutils literal">compose(...)</tt></a></h2>
+</div>
+</div>
+<hr class="docutils" />
 <div class="section" id="code-generation-macros">
-<h1><a class="toc-backref" href="#id51">6&nbsp;&nbsp;&nbsp;Code Generation
+<h1><a class="toc-backref" href="#id53">7&nbsp;&nbsp;&nbsp;Code Generation
 Macros</a></h1>
 <p>Macros in this section can be used to ease the writing of code using the
 Parameter libray by eliminating repetitive boilerplate.</p>
 <div class="section"
 id="boost-parameter-function-result-name-tag-namespace-arguments">
-<h2><a class="toc-backref" href="#id52">6.1&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id54">7.1&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_FUNCTION(result, name, tag_namespace,
 arguments)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2365,7 +2369,7 @@ ResultType
 </div>
 <div class="section"
 id="boost-parameter-member-function-result-name-tag-namespace-arguments">
-<h2><a class="toc-backref" href="#id53">6.2&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id55">7.2&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_MEMBER_FUNCTION(result, name,
 tag_namespace, arguments)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2874,7 +2878,7 @@ ResultType
 </div>
 <div class="section"
 id="boost-parameter-c-mem-function-result-name-tag-namespace-arguments">
-<h2><a class="toc-backref" href="#id54">6.3&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id56">7.3&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_CONST_MEMBER_FUNCTION(result, name,
 tag_namespace, arguments)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3387,7 +3391,7 @@ ResultType
 </div>
 <div class="section"
 id="boost-parameter-function-call-op-result-tag-namespace-arguments">
-<h2><a class="toc-backref" href="#id55">6.4&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id57">7.4&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_FUNCTION_CALL_OPERATOR(result,
 tag_ns, arguments)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3795,7 +3799,7 @@ ResultType
 </div>
 <div class="section"
 id="boost-parameter-const-function-call-op-result-tag-namespace-arguments">
-<h2><a class="toc-backref" href="#id56">6.5&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id58">7.5&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR(result,
 tag_ns, arguments)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4303,7 +4307,7 @@ ResultType
 </div>
 <div class="section"
 id="boost-parameter-constructor-cls-impl-tag-namespace-arguments">
-<h2><a class="toc-backref" href="#id57">6.6&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id59">7.6&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_CONSTRUCTOR(cls, impl, tag_namespace,
 arguments)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4597,7 +4601,7 @@ href="http://en.cppreference.com/w/cpp/utility/forward"
 </div>
 <div class="section"
 id="boost-parameter-basic-function-result-name-tag-namespace-arguments">
-<h2><a class="toc-backref" href="#id58">6.7&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id60">7.7&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_BASIC_FUNCTION(result, name,
 tag_namespace, arguments)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4992,7 +4996,7 @@ available for use within the function body.</p>
 </div>
 <div class="section"
 id="boost-parameter-basic-member-function-result-name-tag-ns-arguments">
-<h2><a class="toc-backref" href="#id59">6.8&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id61">7.8&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_BASIC_MEMBER_FUNCTION(result, name,
 tag_namespace, arguments)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -5391,7 +5395,7 @@ available for use within the function body.</p>
 </div>
 <div class="section"
 id="boost-parameter-basic-c-mem-function-result-name-tag-ns-arguments">
-<h2><a class="toc-backref" href="#id60">6.9&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id62">7.9&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_BASIC_CONST_MEMBER_FUNCTION(result,
 name, tag_namespace, arguments)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -5794,7 +5798,7 @@ available for use within the function body.</p>
 </div>
 <div class="section"
 id="boost-parameter-basic-function-call-op-result-tag-namespace-arguments">
-<h2><a class="toc-backref" href="#id61">6.10&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id63">7.10&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_BASIC_FUNCTION_CALL_OPERATOR(result,
 tag_ns, arguments)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -6087,7 +6091,7 @@ typename boost_param_result_ ## __LINE__ ## operator&lt;Args&gt;::type
 </div>
 <div class="section"
 id="boost-parameter-basic-const-function-call-op-result-tag-ns-args">
-<h2><a class="toc-backref" href="#id62">6.11&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id64">7.11&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal"
 >BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR(result, tag_ns,
 args)</tt></a></h2>
@@ -6476,7 +6480,7 @@ typename boost_param_result_const_ ## __LINE__ ## operator&lt;Args&gt;::type
 </dl>
 </div>
 <div class="section" id="boost-parameter-no-spec-function-result-name">
-<h2><a class="toc-backref" href="#id63">6.12&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id65">7.12&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_NO_SPEC_FUNCTION(result,
 name)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -6486,8 +6490,8 @@ name)</tt></a></h2>
 <tr class="field">
 <th class="field-name">Defined in:</th>
 <td class="field-body"><a class="reference external"
-href="../../../../boost/parameter/preprocessor.hpp"
->boost/parameter/preprocessor.hpp</a></td>
+href="../../../../boost/parameter/preprocessor_no_spec.hpp"
+>boost/parameter/preprocessor_no_spec.hpp</a></td>
 </tr>
 </tbody>
 </table>
@@ -6693,8 +6697,7 @@ href="../../../core/doc/html/core/enable_if.html">lazy_enable_if</a>&lt;
               , TaggedArgs...
             &gt;::type(*)()
         &gt;(std::nullptr)
-      , <a class="reference internal" href="#parameters"
->parameters</a>&lt;&gt;()(arg0, args...)
+      , (arg0, args...)
     );
 }
 
@@ -6713,7 +6716,7 @@ available for use within the function body.</p>
 </dl>
 </div>
 <div class="section" id="boost-parameter-no-spec-member-function-result-name">
-<h2><a class="toc-backref" href="#id64">6.13&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id66">7.13&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION(result,
 name)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -6723,8 +6726,8 @@ name)</tt></a></h2>
 <tr class="field">
 <th class="field-name">Defined in:</th>
 <td class="field-body"><a class="reference external"
-href="../../../../boost/parameter/preprocessor.hpp"
->boost/parameter/preprocessor.hpp</a></td>
+href="../../../../boost/parameter/preprocessor_no_spec.hpp"
+>boost/parameter/preprocessor_no_spec.hpp</a></td>
 </tr>
 </tbody>
 </table>
@@ -6927,8 +6930,7 @@ href="../../../core/doc/html/core/enable_if.html">lazy_enable_if</a>&lt;
               , TaggedArgs...
             &gt;::type(*)()
         &gt;(std::nullptr)
-      , <a class="reference internal" href="#parameters"
->parameters</a>&lt;&gt;()(arg0, args...)
+      , (arg0, args...)
     );
 }
 
@@ -6947,7 +6949,7 @@ available for use within the function body.</p>
 </dl>
 </div>
 <div class="section" id="boost-parameter-no-spec-c-mem-function-result-name">
-<h2><a class="toc-backref" href="#id65">6.14&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id67">7.14&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION(result,
 name)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -6957,8 +6959,8 @@ name)</tt></a></h2>
 <tr class="field">
 <th class="field-name">Defined in:</th>
 <td class="field-body"><a class="reference external"
-href="../../../../boost/parameter/preprocessor.hpp"
->boost/parameter/preprocessor.hpp</a></td>
+href="../../../../boost/parameter/preprocessor_no_spec.hpp"
+>boost/parameter/preprocessor_no_spec.hpp</a></td>
 </tr>
 </tbody>
 </table>
@@ -7172,8 +7174,7 @@ class="docutils literal">lazy_enable_if</tt></a>&lt;
               , TaggedArgs...
             &gt;::type(*)()
         &gt;(std::nullptr)
-      , <a class="reference internal" href="#parameters"
->parameters</a>&lt;&gt;()(arg0, args...)
+      , (arg0, args...)
     );
 }
 
@@ -7192,7 +7193,7 @@ available for use within the function body.</p>
 </dl>
 </div>
 <div class="section" id="boost-parameter-no-spec-function-call-op-result">
-<h2><a class="toc-backref" href="#id66">6.15&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id68">7.15&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR(result)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -7202,8 +7203,8 @@ class="docutils literal"
 <tr class="field">
 <th class="field-name">Defined in:</th>
 <td class="field-body"><a class="reference external"
-href="../../../../boost/parameter/preprocessor.hpp"
->boost/parameter/preprocessor.hpp</a></td>
+href="../../../../boost/parameter/preprocessor_no_spec.hpp"
+>boost/parameter/preprocessor_no_spec.hpp</a></td>
 </tr>
 </tbody>
 </table>
@@ -7398,8 +7399,7 @@ href="../../../core/doc/html/core/enable_if.html">lazy_enable_if</a>&lt;
               , TaggedArgs...
             &gt;::type(*)()
         &gt;(std::nullptr)
-      , <a class="reference internal" href="#parameters"
->parameters</a>&lt;&gt;()(arg0, args...)
+      , (arg0, args...)
     );
 }
 
@@ -7418,7 +7418,7 @@ available for use within the function body.</p>
 </dl>
 </div>
 <div class="section" id="boost-parameter-no-spec-const-func-call-op-result">
-<h2><a class="toc-backref" href="#id67">6.16&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id69">7.16&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal"
 >BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR(result)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -7428,8 +7428,8 @@ class="docutils literal"
 <tr class="field">
 <th class="field-name">Defined in:</th>
 <td class="field-body"><a class="reference external"
-href="../../../../boost/parameter/preprocessor.hpp"
->boost/parameter/preprocessor.hpp</a></td>
+href="../../../../boost/parameter/preprocessor_no_spec.hpp"
+>boost/parameter/preprocessor_no_spec.hpp</a></td>
 </tr>
 </tbody>
 </table>
@@ -7640,8 +7640,7 @@ href="../../../core/doc/html/core/enable_if.html">lazy_enable_if</a>&lt;
               , TaggedArgs...
             &gt;::type(*)()
         &gt;(std::nullptr)
-      , <a class="reference internal" href="#parameters"
->parameters</a>&lt;&gt;()(arg0, args...)
+      , (arg0, args...)
     );
 }
 
@@ -7660,7 +7659,7 @@ available for use within the function body.</p>
 </dl>
 </div>
 <div class="section" id="boost-parameter-no-spec-constructor-cls-impl">
-<h2><a class="toc-backref" href="#id68">6.17&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id70">7.17&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(cls,
 impl)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -7670,8 +7669,8 @@ impl)</tt></a></h2>
 <tr class="field">
 <th class="field-name">Defined in:</th>
 <td class="field-body"><a class="reference external"
-href="../../../../boost/parameter/preprocessor.hpp"
->boost/parameter/preprocessor.hpp</a></td>
+href="../../../../boost/parameter/preprocessor_no_spec.hpp"
+>boost/parameter/preprocessor_no_spec.hpp</a></td>
 </tr>
 </tbody>
 </table>
@@ -7854,8 +7853,7 @@ href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
 inline explicit <strong>cls</strong>(
     TaggedArg0 const&amp; arg0
   , TaggedArgs const&amp;... args
-) : <strong>impl</strong>(<a class="reference internal" href="#parameters"
->parameters</a>&lt;&gt;()(arg0, args...))
+) : <strong>impl</strong>((arg0, args...))
 {
 }
 </pre>
@@ -7863,7 +7861,7 @@ inline explicit <strong>cls</strong>(
 </dl>
 </div>
 <div class="section" id="boost-parameter-no-spec-no-base-ctor-cls-func">
-<h2><a class="toc-backref" href="#id69">6.18&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id71">7.18&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(cls,
 func)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -7873,8 +7871,8 @@ func)</tt></a></h2>
 <tr class="field">
 <th class="field-name">Defined in:</th>
 <td class="field-body"><a class="reference external"
-href="../../../../boost/parameter/preprocessor.hpp"
->boost/parameter/preprocessor.hpp</a></td>
+href="../../../../boost/parameter/preprocessor_no_spec.hpp"
+>boost/parameter/preprocessor_no_spec.hpp</a></td>
 </tr>
 </tbody>
 </table>
@@ -8074,15 +8072,14 @@ inline explicit <strong>cls</strong>(
   , TaggedArgs const&amp;... args
 )
 {
-    <strong>func</strong>(<a class="reference internal" href="#parameters"
->parameters</a>&lt;&gt;()(arg0, args...));
+    <strong>func</strong>((arg0, args...));
 }
 </pre>
 </dd>
 </dl>
 </div>
 <div class="section" id="boost-parameter-name-name">
-<h2><a class="toc-backref" href="#id70">6.19&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id72">7.19&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_NAME(name)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -8199,7 +8196,7 @@ forward(<em>tag-name</em>)
 </pre>
 </div>
 <div class="section" id="boost-parameter-nested-keyword-t-n-a">
-<h2><a class="toc-backref" href="#id71">6.20&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id73">7.20&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_NESTED_KEYWORD(tag_namespace, name,
 alias)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
@@ -8271,7 +8268,7 @@ forward(<em>tag-name</em>)
 </pre>
 </div>
 <div class="section" id="boost-parameter-template-keyword-name">
-<h2><a class="toc-backref" href="#id72">6.21&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id74">7.21&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_TEMPLATE_KEYWORD(name)</tt></a></h2>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -8309,7 +8306,7 @@ href="../../test/function_type_tpl_param.cpp"
 of this macro.</p>
 </div>
 <div class="section" id="boost-parameter-fun-r-n-l-h-p">
-<h2><a class="toc-backref" href="#id73">6.22&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id75">7.22&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_FUN(r, n, l, h, p)</tt></a></h2>
 <div class="admonition-deprecated admonition">
 <p class="first admonition-title">Deprecated</p>
@@ -8459,7 +8456,7 @@ href="../../test/macros_eval_category.cpp">test/macros_eval_category.cpp</a>
 test programs demonstrate proper usage of this macro.</p>
 </div>
 <div class="section" id="boost-parameter-keyword-n-k">
-<h2><a class="toc-backref" href="#id74">6.23&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id76">7.23&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_KEYWORD(n, k)</tt></a></h2>
 <div class="admonition-deprecated admonition">
 <p class="first admonition-title">Deprecated</p>
@@ -8508,7 +8505,7 @@ namespace {
 </dl>
 </div>
 <div class="section" id="boost-parameter-match-p-a-x">
-<h2><a class="toc-backref" href="#id75">6.24&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id77">7.24&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_MATCH(p, a, x)</tt></a></h2>
 <p>Generates a defaulted parameter declaration for a
 <a class="reference external"
@@ -8555,10 +8552,10 @@ href="../../../../boost/parameter/match.hpp"
 </div>
 </div>
 <div class="section" id="configuration-macros">
-<h1><a class="toc-backref" href="#id76">7&nbsp;&nbsp;&nbsp;Configuration
+<h1><a class="toc-backref" href="#id78">8&nbsp;&nbsp;&nbsp;Configuration
 Macros</a></h1>
 <div class="section" id="boost-parameter-has-perfect-forwarding">
-<h2><a class="toc-backref" href="#id77">7.1&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id79">8.1&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a></h2>
 <p>Determines whether or not the library supports perfect forwarding, or the
 preservation of parameter value categories.  Users can manually disable this
@@ -8566,8 +8563,8 @@ macro by <tt class="docutils literal">#defining</tt> the <a
 class="reference internal" href="#boost-parameter-disable-perfect-forwarding"
 ><tt class="docutils literal">BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING</tt
 ></a> macro.  Otherwise, the library will <tt class="docutils literal"
->#define</tt> this macro if and only if it and the configuration macros
-<a class="reference external"
+>#define</tt> this macro if and only if it is not already defined, and if the
+configuration macros <a class="reference external"
 href="../../../config/doc/html/boost_config/boost_macro_reference.html"
 ><tt class="docutils literal">BOOST_NO_FUNCTION_TEMPLATE_ORDERING</tt></a>,
 <a class="reference external"
@@ -8595,18 +8592,85 @@ href="../../../../boost/parameter/config.hpp"
 </table>
 </div>
 <div class="section" id="boost-parameter-disable-perfect-forwarding">
-<h2><a class="toc-backref" href="#id78">7.2&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id80">8.2&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING</tt></a
 ></h2>
 <p>It may be necessary to test user code in case perfect forwarding support is
 unavailable.  Users can <tt class="docutils literal">#define</tt> this macro
 either in their project settings or before including any library header
-files.  Doing so will leave <a class="reference internal"
+files.  Doing so will leave both <a class="reference internal"
 href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
->BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> undefined.</p>
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> and <a
+class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> undefined.</p>
+</div>
+<div class="section" id="boost-parameter-can-use-mp11">
+<h2><a class="toc-backref" href="#id81">8.3&nbsp;&nbsp;&nbsp;<tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a></h2>
+<p>Determines whether or not the library can use <a class="reference external"
+href="../../../mp11/doc/html/mp11.html">Boost.MP11</a>, a C++11
+metaprogramming library.  Users can manually disable this macro by <tt
+class="docutils literal">#defining</tt> the <a class="reference internal"
+href="#boost-parameter-disable-mp11-usage"><tt class="docutils literal"
+>BOOST_PARAMETER_DISABLE_MP11_USAGE</tt></a> macro or the <a
+class="reference internal" href="#boost-parameter-disable-perfect-forwarding"
+><tt class="docutils literal">BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING</tt
+></a> macro.  Otherwise, the library will <tt class="docutils literal"
+>#define</tt> this macro if and only if it is not already defined, if <a
+class="reference internal" href="#boost-parameter-has-perfect-forwarding"><tt
+class="docutils literal">BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is
+defined, and if the configuration macros <a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"
+><tt class="docutils literal">BOOST_NO_CXX11_CONSTEXPR</tt></a>,
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"
+><tt class="docutils literal">BOOST_NO_CXX11_DECLTYPE_N3276</tt></a>,
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"
+><tt class="docutils literal">BOOST_NO_CXX11_AUTO_DECLARATIONS</tt></a>,
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"
+><tt class="docutils literal">BOOST_NO_CXX11_TEMPLATE_ALIASES</tt></a>,
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"
+><tt class="docutils literal">BOOST_NO_CXX11_STATIC_ASSERT</tt></a>,
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"
+><tt class="docutils literal">BOOST_NO_CXX11_HDR_TYPE_TRAITS</tt></a>,
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"
+><tt class="docutils literal">BOOST_NO_CXX11_HDR_INITIALIZER_LIST</tt></a>,
+and <a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"
+><tt class="docutils literal">BOOST_NO_CXX11_HDR_TUPLE</tt></a> are not
+already defined by <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name">Defined in:</th>
+<td class="field-body"><a class="reference external"
+href="../../../../boost/parameter/config.hpp"
+>boost/parameter/config.hpp</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="boost-parameter-disable-mp11-usage">
+<h2><a class="toc-backref" href="#id82">8.4&nbsp;&nbsp;&nbsp;<tt
+class="docutils literal">BOOST_PARAMETER_DISABLE_MP11_USAGE</tt></a></h2>
+<p>It may be necessary to disable usage of <a class="reference external"
+href="../../../mp11/doc/html/mp11.html">Boost.MP11</a> for compilers that
+cannot support it.  Users can <tt class="docutils literal">#define</tt> this
+macro either in their project settings or before including any library header
+files.  Doing so will leave <a class="reference internal"
+href="#boost-parameter-can-use-mp11"><tt class="docutils literal"
+>BOOST_PARAMETER_CAN_USE_MP11</tt></a> undefined.</p>
 </div>
 <div class="section" id="boost-parameter-variadic-mpl-sequence">
-<h2><a class="toc-backref" href="#id79">7.3&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id83">8.5&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE</tt></a></h2>
 <p>If <a class="reference internal"
 href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
@@ -8619,6 +8683,10 @@ Sequence</a> underlying the nested <tt class="docutils literal"
 ><tt class="docutils literal">parameters</tt></a>.  If the user does not
 manually <tt class="docutils literal">#define</tt> this macro, then the
 library will <tt class="docutils literal">#define</tt> it as
+<a class="reference external" href="../../../mp11/doc/html/mp11.html"
+><tt class="docutils literal">::boost::mp11::mp_list</tt></a> if
+<a class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> is defined,
 <a class="reference external"
 href="../../../fusion/doc/html/fusion/container/list.html"
 ><tt class="docutils literal">::boost::fusion::list</tt></a> if
@@ -8661,7 +8729,7 @@ href="../../../../boost/parameter/parameters.hpp"
 </table>
 </div>
 <div class="section" id="boost-parameter-max-arity">
-<h2><a class="toc-backref" href="#id80">7.4&nbsp;&nbsp;&nbsp;<tt
+<h2><a class="toc-backref" href="#id84">8.6&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_MAX_ARITY</tt></a></h2>
 <p>Determines the maximum number of arguments supported by the library.</p>
 <p>If <a class="reference internal"
@@ -8675,11 +8743,13 @@ Sequence</a> underlying the nested <tt class="docutils literal"
 >parameter_spec</tt> type of <a class="reference internal" href="#parameters"
 ><tt class="docutils literal">parameters</tt></a> does not have a size
 limit--which is the case with <a class="reference external"
+href="../../../mp11/doc/html/mp11.html"><tt class="docutils literal"
+>::boost::mp11::mp_list</tt></a>, <a class="reference external"
 href="../../../fusion/doc/html/fusion/container/list.html"
-><tt class="docutils literal">::boost::fusion::list</tt></a> and
+><tt class="docutils literal">::boost::fusion::list</tt></a>, and
 <a class="reference external"
 href="../../../fusion/doc/html/fusion/container/deque.html"
-><tt class="docutils literal">::boost::fusion::deque</tt></a> but not
+><tt class="docutils literal">::boost::fusion::deque</tt></a>, but not
 <a class="reference external"
 href="../../../mpl/doc/refmanual/vector.html"
 ><tt class="docutils literal">::boost::mpl::vector</tt></a>--then this macro
@@ -8738,16 +8808,14 @@ href="../../../mpl/doc/refmanual/limit-vector-size.html"
 </tbody>
 </table>
 </div>
-<div class="section" id="boost-parameter-no-spec-max-arity">
-<h2><a class="toc-backref" href="#id81">7.5&nbsp;&nbsp;&nbsp;<tt
-class="docutils literal">BOOST_PARAMETER_NO_SPEC_MAX_ARITY</tt></a></h2>
+<div class="section" id="boost-parameter-compose-max-arity">
+<h2><a class="toc-backref" href="#id85">8.7&nbsp;&nbsp;&nbsp;<tt
+class="docutils literal">BOOST_PARAMETER_COMPOSE_MAX_ARITY</tt></a></h2>
 <p>If <a class="reference internal"
 href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
 >BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is <strong>not</strong>
 <tt class="docutils literal">#defined</tt>, then determines the maximum number
-of arguments supported by the function call operator of the no-argument <a
-class="reference internal" href="#parameters"><tt class="docutils literal"
->parameters</tt></a> specialization and by the <a class="reference internal"
+of arguments supported by the <a class="reference internal"
 href="#boost-parameter-no-spec-function-result-name"><tt
 class="docutils literal">BOOST_PARAMETER_NO_SPEC_FUNCTION</tt></a>, <a
 class="reference internal"
@@ -8798,7 +8866,7 @@ href="../../../../boost/parameter/config.hpp"
 </table>
 </div>
 <div class="section" id="boost-parameter-exponential-overload-threshold-arity"
-><h2><a class="toc-backref" href="#id82">7.6&nbsp;&nbsp;&nbsp;<tt
+><h2><a class="toc-backref" href="#id86">8.8&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal"
 >BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY</tt></a></h2>
 <p>If this library does <strong>not</strong> support perfect forwarding,
@@ -8840,7 +8908,7 @@ href="../../../../boost/parameter/config.hpp"
 </table>
 </div>
 <div class="section" id="outside-of-this-library"
-><h2><a class="toc-backref" href="#id83">7.7&nbsp;&nbsp;&nbsp;...Outside Of
+><h2><a class="toc-backref" href="#id87">8.9&nbsp;&nbsp;&nbsp;...Outside Of
 This Library</a></h2>
 <ol>
 <li>If <a class="reference external"
@@ -8941,7 +9009,7 @@ href="#boost-parameter-max-arity"><tt class="docutils literal"
 </div>
 </div>
 <div class="section" id="tutorial">
-<h1><a class="toc-backref" href="#id84">8&nbsp;&nbsp;&nbsp;Tutorial</a></h1>
+<h1><a class="toc-backref" href="#id88">9&nbsp;&nbsp;&nbsp;Tutorial</a></h1>
 <p>Follow <a class="reference external" href="index.html#tutorial">this
 link</a> to the Boost.Parameter tutorial documentation.</p>
 <hr class="docutils" />

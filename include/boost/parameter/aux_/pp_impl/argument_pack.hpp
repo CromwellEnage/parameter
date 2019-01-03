@@ -47,7 +47,7 @@ namespace boost { namespace parameter { namespace aux {
     template <
         typename Parameters
         BOOST_PP_ENUM_TRAILING_BINARY_PARAMS(
-            BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
+            BOOST_PARAMETER_MAX_ARITY
           , typename A
           , = ::boost::parameter::void_ BOOST_PP_INTERCEPT
         )
@@ -56,7 +56,7 @@ namespace boost { namespace parameter { namespace aux {
     {
         typedef typename ::boost::parameter::aux::make_arg_list<
             typename BOOST_PARAMETER_build_arg_list(
-                BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
+                BOOST_PARAMETER_MAX_ARITY
               , ::boost::parameter::aux::make_items
               , typename Parameters::parameter_spec
               , A

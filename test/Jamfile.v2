@@ -25,7 +25,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=3
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=3
         :
         :
             <preserve-target-tests>off
@@ -34,7 +34,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -53,7 +53,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -63,7 +63,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=16
+            <define>BOOST_PARAMETER_MAX_ARITY=16
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
         :
         :
@@ -73,7 +73,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=3
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=3
         :
         :
             <preserve-target-tests>off
@@ -82,7 +82,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=8
         :
         :
             <preserve-target-tests>off
@@ -91,7 +91,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=2
         :
         :
@@ -101,7 +101,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -111,7 +111,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -121,7 +121,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -131,7 +131,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -141,7 +141,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -151,7 +151,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -161,7 +161,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -171,7 +171,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -181,7 +181,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -191,7 +191,7 @@ alias parameter_standard_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -200,27 +200,27 @@ alias parameter_standard_tests
     [ compile unwrap_cv_reference.cpp ]
     [ compile ntp.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
     ]
     [ compile function_type_tpl_param.cpp ]
     [ compile-fail duplicates.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
             duplicates_fail
     ]
     [ compile-fail deduced_unmatched_arg.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
             deduced_unmatched_arg_fail
     ]
     [ compile-fail basics.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
         :
@@ -228,21 +228,21 @@ alias parameter_standard_tests
     ]
     [ compile-fail compose.cpp
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=3
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=3
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_0
         :
             compose_fail_0
     ]
     [ compile-fail compose.cpp
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=3
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=3
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_1
         :
             compose_fail_1
     ]
     [ compile-fail evaluate_category.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
         :
@@ -250,7 +250,7 @@ alias parameter_standard_tests
     ]
     [ compile-fail deduced.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
         :
@@ -264,7 +264,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -274,7 +274,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=5
+            <define>BOOST_PARAMETER_MAX_ARITY=5
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
         :
         :
@@ -284,7 +284,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
         :
         :
@@ -294,7 +294,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=5
+            <define>BOOST_PARAMETER_MAX_ARITY=5
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
         :
         :
@@ -320,7 +320,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -346,7 +346,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -356,7 +356,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -366,7 +366,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -376,7 +376,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -386,7 +386,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -396,7 +396,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -406,7 +406,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -416,7 +416,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=5
+            <define>BOOST_PARAMETER_MAX_ARITY=5
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
         :
         :
@@ -426,7 +426,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
         :
         :
@@ -436,7 +436,7 @@ alias parameter_literate_tests
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=3
+            <define>BOOST_PARAMETER_MAX_ARITY=3
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=4
         :
         :
@@ -444,42 +444,42 @@ alias parameter_literate_tests
     ]
     [ compile literate/class-template-skeleton0.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
     ]
     [ compile literate/defining-the-keywords0.cpp ]
     [ compile literate/defining-the-keywords1.cpp ]
     [ compile literate/exercising-the-code-so-far0.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
     ]
     [ compile literate/handling-out-parameters0.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=5
+            <define>BOOST_PARAMETER_MAX_ARITY=5
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
     ]
     [ compile literate/headers-and-namespaces0.cpp ]
     [ compile literate/optional-parameters0.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=5
+            <define>BOOST_PARAMETER_MAX_ARITY=5
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
     ]
     [ compile literate/parameter-enabled-member-functions1.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
     ]
     [ compile literate/required-parameters0.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=2
+            <define>BOOST_PARAMETER_MAX_ARITY=2
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=3
     ]
     [ compile literate/template-keywords0.cpp ]
     [ compile literate/template-keywords1.cpp ]
     [ compile literate/writing-the-function0.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=5
+            <define>BOOST_PARAMETER_MAX_ARITY=5
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=6
     ]
     ;
@@ -578,7 +578,7 @@ alias parameter_macros_eval_category
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=10
+            <define>BOOST_PARAMETER_MAX_ARITY=10
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
         :
             macros_eval_category_cxx98
@@ -595,7 +595,7 @@ alias parameter_macros_eval_category
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=10
+            <define>BOOST_PARAMETER_MAX_ARITY=10
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
         :
             macros_eval_category_cxx03
@@ -612,7 +612,7 @@ alias parameter_macros_eval_category
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=10
+            <define>BOOST_PARAMETER_MAX_ARITY=10
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=11
         :
         :
@@ -692,7 +692,7 @@ alias parameter_evaluate_category_10
         :
         :
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=10
+            <define>BOOST_PARAMETER_MAX_ARITY=10
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=11
         :
         :
@@ -706,7 +706,7 @@ alias parameter_preprocessor_eval_cat_8
         :
         :
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=8
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
         :
             preproc_eval_cat_8_mingw
@@ -724,8 +724,8 @@ alias parameter_preprocessor_eval_cat_8
         :
         :
         :
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=8
             <define>BOOST_PARAMETER_MAX_ARITY=8
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=8
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
         :
         :
@@ -754,7 +754,7 @@ alias parameter_preprocessor_eval_cat_fail
     :
     [ compile-fail preprocessor_eval_category.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=8
+            <define>BOOST_PARAMETER_MAX_ARITY=8
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE
         :
@@ -768,7 +768,7 @@ alias parameter_vendor_specific_fail_tests
     :
     [ compile-fail preprocessor_eval_category.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=8
+            <define>BOOST_PARAMETER_MAX_ARITY=8
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -776,7 +776,7 @@ alias parameter_vendor_specific_fail_tests
     ]
     [ compile-fail preprocessor_eval_cat_no_spec.cpp
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=8
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
             preproc_eval_cat_no_spec_fail_gcc3_4
@@ -790,7 +790,7 @@ alias parameter_vendor_specific_fail_tests
     :
     [ compile-fail preprocessor_deduced.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -805,7 +805,7 @@ alias parameter_vendor_specific_fail_tests
     :
     [ compile-fail preprocessor_deduced.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -820,7 +820,7 @@ alias parameter_vendor_specific_fail_tests
     :
     [ compile-fail preprocessor_deduced.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -835,14 +835,14 @@ alias parameter_vendor_specific_fail_tests
     :
     [ compile-fail compose.cpp
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=3
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=3
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
             compose_fail_msvc11
     ]
     [ compile-fail preprocessor_deduced.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -857,7 +857,7 @@ alias parameter_vendor_specific_fail_tests
     :
     [ compile-fail evaluate_category.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -865,7 +865,7 @@ alias parameter_vendor_specific_fail_tests
     ]
     [ compile-fail preprocessor_eval_category.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=8
+            <define>BOOST_PARAMETER_MAX_ARITY=8
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -873,7 +873,7 @@ alias parameter_vendor_specific_fail_tests
     ]
     [ compile-fail preprocessor_eval_cat_no_spec.cpp
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=8
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
             preproc_eval_cat_no_spec_fail_msvc12
@@ -887,7 +887,7 @@ alias parameter_vendor_specific_fail_tests
     :
     [ compile-fail evaluate_category.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -895,7 +895,7 @@ alias parameter_vendor_specific_fail_tests
     ]
     [ compile-fail preprocessor_eval_category.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=8
+            <define>BOOST_PARAMETER_MAX_ARITY=8
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -903,7 +903,7 @@ alias parameter_vendor_specific_fail_tests
     ]
     [ compile-fail preprocessor_eval_cat_no_spec.cpp
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=8
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
             preproc_eval_cat_no_spec_fail_msvc14_0
@@ -917,7 +917,7 @@ alias parameter_vendor_specific_fail_tests
     :
     [ compile-fail evaluate_category.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=4
+            <define>BOOST_PARAMETER_MAX_ARITY=4
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -925,7 +925,7 @@ alias parameter_vendor_specific_fail_tests
     ]
     [ compile-fail preprocessor_eval_category.cpp
         :
-            <define>BOOST_PARAMETER_SPECIFICATION_MAX_ARITY=8
+            <define>BOOST_PARAMETER_MAX_ARITY=8
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
@@ -933,7 +933,7 @@ alias parameter_vendor_specific_fail_tests
     ]
     [ compile-fail preprocessor_eval_cat_no_spec.cpp
         :
-            <define>BOOST_PARAMETER_MAX_ARITY=8
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=8
             <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
         :
             preproc_eval_cat_no_spec_fail_msvc14_1

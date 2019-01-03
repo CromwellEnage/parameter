@@ -461,7 +461,7 @@ void test_compose0()
 }
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-    (2 < BOOST_PARAMETER_MAX_ARITY)
+    (2 < BOOST_PARAMETER_COMPOSE_MAX_ARITY)
 #include <boost/parameter/compose.hpp>
 
 void test_compose1()
@@ -572,7 +572,7 @@ int main()
 {
     test_compose0();
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING) || \
-    (2 < BOOST_PARAMETER_MAX_ARITY)
+    (2 < BOOST_PARAMETER_COMPOSE_MAX_ARITY)
     test_compose1();
 #endif
     return boost::report_errors();
