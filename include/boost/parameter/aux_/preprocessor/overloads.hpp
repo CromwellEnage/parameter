@@ -79,7 +79,7 @@ operator()(BOOST_PP_ENUM_BINARY_PARAMS(N, A, & a)) const
     return result_type(
         BOOST_PP_ENUM(N, BOOST_PARAMETER_arg_pack_init, BOOST_PP_DEC(N))
         BOOST_PP_ENUM_TRAILING_PARAMS(
-            BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, N)
+            BOOST_PP_SUB(BOOST_PARAMETER_SPECIFICATION_MAX_ARITY, N)
           , ::boost::parameter::aux::void_reference() BOOST_PP_INTERCEPT
         )
     );

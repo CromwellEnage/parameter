@@ -232,7 +232,7 @@ namespace boost { namespace parameter {
 
 #if ( \
         BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY < \
-        BOOST_PARAMETER_MAX_ARITY \
+        BOOST_PARAMETER_SPECIFICATION_MAX_ARITY \
     )
 #include <boost/parameter/aux_/pack/tag_keyword_arg_ref.hpp>
 #include <boost/mpl/pair.hpp>
@@ -266,13 +266,15 @@ namespace boost { namespace parameter {
     template <
         typename PS0
       , BOOST_PP_ENUM_SHIFTED(
-            BOOST_PARAMETER_MAX_ARITY, BOOST_PARAMETER_template_args, PS
+            BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
+          , BOOST_PARAMETER_template_args
+          , PS
         )
     >
     struct parameters
     {
         typedef typename BOOST_PARAMETER_build_deduced_list(
-            BOOST_PARAMETER_MAX_ARITY
+            BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
           , ::boost::parameter::aux::make_deduced_items
           , PS
         )::type deduced_list;
@@ -295,7 +297,7 @@ namespace boost { namespace parameter {
                 //           ..., ::boost::mpl::true_
                 // ...> >
                 typename BOOST_PP_REPEAT(
-                    BOOST_PARAMETER_MAX_ARITY
+                    BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
                   , BOOST_PARAMETER_satisfies_begin
                   , PS
                 )
@@ -305,13 +307,16 @@ namespace boost { namespace parameter {
                   , ::boost::parameter::void_
                 >
                 BOOST_PP_REPEAT(
-                    BOOST_PARAMETER_MAX_ARITY
+                    BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
                   , BOOST_PARAMETER_satisfies_end
                   , ::boost::mpl::false_
                 )::type
               , ::boost::mpl::identity<
                     ::boost::parameter::parameters<
-                        BOOST_PP_ENUM_PARAMS(BOOST_PARAMETER_MAX_ARITY, PS)
+                        BOOST_PP_ENUM_PARAMS(
+                            BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
+                          , PS
+                        )
                     >
                 >
               , ::boost::parameter::void_
@@ -326,11 +331,15 @@ namespace boost { namespace parameter {
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
             // Borland simply can't handle default arguments in member
             // class templates.  People wishing to write portable code can
-            // explicitly specify BOOST_PARAMETER_MAX_ARITY arguments.
-            BOOST_PP_ENUM_PARAMS(BOOST_PARAMETER_MAX_ARITY, typename A)
+            // explicitly specify BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
+            // arguments.
+            BOOST_PP_ENUM_PARAMS(
+                BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
+              , typename A
+            )
 #else
             BOOST_PP_ENUM_BINARY_PARAMS(
-                BOOST_PARAMETER_MAX_ARITY
+                BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
               , typename A
               , = ::boost::parameter::void_ BOOST_PP_INTERCEPT
             )
@@ -340,11 +349,14 @@ namespace boost { namespace parameter {
 #if !defined(BOOST_NO_SFINAE) && \
     !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x592))
           : ::boost::parameter::parameters<
-                BOOST_PP_ENUM_PARAMS(BOOST_PARAMETER_MAX_ARITY, PS)
+                BOOST_PP_ENUM_PARAMS(
+                    BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
+                  , PS
+                )
             >::BOOST_NESTED_TEMPLATE match_base<
                 typename ::boost::parameter::aux::make_arg_list<
                     typename BOOST_PARAMETER_build_arg_list(
-                        BOOST_PARAMETER_MAX_ARITY
+                        BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
                       , ::boost::parameter::aux::make_items
                       , PS
                       , A
@@ -360,7 +372,10 @@ namespace boost { namespace parameter {
 #else
         {
             typedef ::boost::parameter::parameters<
-                BOOST_PP_ENUM_PARAMS(BOOST_PARAMETER_MAX_ARITY, PS)
+                BOOST_PP_ENUM_PARAMS(
+                    BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
+                  , PS
+                )
             > type;
         };
 #endif  // SFINAE enabled, not Borland.
@@ -374,11 +389,15 @@ namespace boost { namespace parameter {
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
             // Borland simply can't handle default arguments in member
             // class templates.  People wishing to write portable code can
-            // explicitly specify BOOST_PARAMETER_MAX_ARITY arguments
-            BOOST_PP_ENUM_PARAMS(BOOST_PARAMETER_MAX_ARITY, typename A)
+            // explicitly specify BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
+            // arguments
+            BOOST_PP_ENUM_PARAMS(
+                BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
+              , typename A
+            )
 #else
             BOOST_PP_ENUM_BINARY_PARAMS(
-                BOOST_PARAMETER_MAX_ARITY
+                BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
               , typename A
               , = ::boost::parameter::void_ BOOST_PP_INTERCEPT
             )
@@ -388,7 +407,7 @@ namespace boost { namespace parameter {
         {
             typedef typename ::boost::parameter::aux::make_arg_list<
                 typename BOOST_PARAMETER_build_arg_list(
-                    BOOST_PARAMETER_MAX_ARITY
+                    BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
                   , ::boost::parameter::aux::make_items
                   , PS
                   , A
@@ -401,7 +420,7 @@ namespace boost { namespace parameter {
         };
 
         BOOST_PP_REPEAT(
-            BOOST_PARAMETER_MAX_ARITY
+            BOOST_PARAMETER_SPECIFICATION_MAX_ARITY
           , BOOST_PARAMETER_forward_typedef
           , (PS)(parameter_spec)
         )
@@ -422,7 +441,7 @@ namespace boost { namespace parameter {
 #if (0 < BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
         BOOST_PP_REPEAT(
             BOOST_PP_MIN(
-                BOOST_PP_INC(BOOST_PARAMETER_MAX_ARITY)
+                BOOST_PP_INC(BOOST_PARAMETER_SPECIFICATION_MAX_ARITY)
               , BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY
             )
           , BOOST_PARAMETER_AUX_PP_BINARY_SEQ_FOR_EACH_Z
@@ -430,12 +449,12 @@ namespace boost { namespace parameter {
         )
 #if ( \
         BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY < \
-        BOOST_PARAMETER_MAX_ARITY \
+        BOOST_PARAMETER_SPECIFICATION_MAX_ARITY \
     )
 #define BOOST_PP_ITERATION_PARAMS_1 \
     (3,( \
         BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY \
-      , BOOST_PARAMETER_MAX_ARITY \
+      , BOOST_PARAMETER_SPECIFICATION_MAX_ARITY \
       , <boost/parameter/aux_/preprocessor/overloads.hpp> \
     ))
 #include BOOST_PP_ITERATE()
@@ -469,7 +488,7 @@ namespace boost { namespace parameter {
                 a0
                 // , void_(), void_(), void_() ...
                 BOOST_PP_ENUM_TRAILING_PARAMS(
-                    BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, 1)
+                    BOOST_PP_SUB(BOOST_PARAMETER_SPECIFICATION_MAX_ARITY, 1)
                   , ::boost::parameter::aux::void_reference() BOOST_PP_INTERCEPT
                 )
             );
@@ -510,18 +529,18 @@ namespace boost { namespace parameter {
               , a0
                 // , void_(), void_() ...
                 BOOST_PP_ENUM_TRAILING_PARAMS(
-                    BOOST_PP_SUB(BOOST_PARAMETER_MAX_ARITY, 2)
+                    BOOST_PP_SUB(BOOST_PARAMETER_SPECIFICATION_MAX_ARITY, 2)
                   , ::boost::parameter::aux::void_reference() BOOST_PP_INTERCEPT
                 )
             );
         }
 
-#if (2 < BOOST_PARAMETER_MAX_ARITY)
+#if (2 < BOOST_PARAMETER_SPECIFICATION_MAX_ARITY)
         // Higher arities are handled by the preprocessor
 #define BOOST_PP_ITERATION_PARAMS_1 \
     (3,( \
         3 \
-      , BOOST_PARAMETER_MAX_ARITY \
+      , BOOST_PARAMETER_SPECIFICATION_MAX_ARITY \
       , <boost/parameter/aux_/preprocessor/overloads.hpp> \
     ))
 #include BOOST_PP_ITERATE()

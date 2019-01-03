@@ -5,8 +5,8 @@
 
 #include <boost/parameter/config.hpp>
 
-#if (BOOST_PARAMETER_MAX_ARITY < 16)
-#error Define BOOST_PARAMETER_MAX_ARITY as 16 or greater.
+#if (BOOST_PARAMETER_SPECIFICATION_MAX_ARITY < 16)
+#error Define BOOST_PARAMETER_SPECIFICATION_MAX_ARITY as 16 or greater.
 #endif
 
 #include <boost/parameter/name.hpp>

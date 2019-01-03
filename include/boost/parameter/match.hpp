@@ -18,7 +18,7 @@
 #define BOOST_PARAMETER_MATCH_DEFAULTS(ArgTypes)                             \
     BOOST_PP_ENUM_TRAILING_PARAMS(                                           \
         BOOST_PP_SUB(                                                        \
-            BOOST_PARAMETER_MAX_ARITY                                        \
+            BOOST_PARAMETER_SPECIFICATION_MAX_ARITY                          \
           , BOOST_PP_SEQ_SIZE(ArgTypes)                                      \
         )                                                                    \
       , ::boost::parameter::void_ BOOST_PP_INTERCEPT                         \
