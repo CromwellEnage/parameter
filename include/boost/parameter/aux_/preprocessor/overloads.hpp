@@ -6,7 +6,7 @@
 // This file generates overloads in this format:
 //
 //     template <typename A0, typename A1>
-//     constexpr typename ::boost::mpl::apply_wrap1<
+//     typename ::boost::mpl::apply_wrap1<
 //         ::boost::parameter::aux::make_arg_list<
 //             PS0,A0
 //           , ::boost::parameter::aux::make_arg_list<
@@ -18,7 +18,7 @@
 //         >
 //      , unnamed_list
 //     >::type
-//     operator()(A0 const& a0, A1 const& a1) const
+//         operator()(A0 const& a0, A1 const& a1) const
 //     {
 //         typedef typename ::boost::mpl::apply_wrap1<
 //             ::boost::parameter::aux::make_arg_list<
@@ -66,10 +66,10 @@
     BOOST_PP_CAT(a, BOOST_PP_SUB(limit, n))
 
 template <BOOST_PP_ENUM_PARAMS(N, typename A)>
-BOOST_CONSTEXPR typename ::boost::mpl::first<
+typename ::boost::mpl::first<
     typename BOOST_PARAMETER_arg_list(N)::type
 >::type
-operator()(BOOST_PP_ENUM_BINARY_PARAMS(N, A, & a)) const
+    operator()(BOOST_PP_ENUM_BINARY_PARAMS(N, A, & a)) const
 {
     typedef typename BOOST_PARAMETER_arg_list(N)::type result;
     typedef typename ::boost::mpl::first<result>::type result_type;

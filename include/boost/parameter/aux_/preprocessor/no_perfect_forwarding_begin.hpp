@@ -116,7 +116,7 @@
           , typename A                                                       \
         )                                                                    \
     >                                                                        \
-    inline BOOST_CXX14_CONSTEXPR typename ::boost::mpl::first<               \
+    inline typename ::boost::mpl::first<                                     \
         typename BOOST_PARAMETER_function_call_arg_list_R(                   \
             r, BOOST_PP_SEQ_TAIL(seq)                                        \
         )::type                                                              \

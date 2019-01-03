@@ -168,21 +168,16 @@ namespace boost { namespace parameter {
         {
         };
 
-        inline BOOST_CONSTEXPR parameters()
-        {
-        }
-
         // The function call operator is used to build an arg_list that
         // labels the positional parameters and maintains whatever other
         // tags may have been specified by the caller.
-        inline BOOST_CONSTEXPR ::boost::parameter::aux::empty_arg_list
-            operator()() const
+        inline ::boost::parameter::aux::empty_arg_list operator()() const
         {
             return ::boost::parameter::aux::empty_arg_list();
         }
 
         template <typename A0, typename ...Args>
-        inline BOOST_CXX14_CONSTEXPR typename ::boost::mpl::first<
+        inline typename ::boost::mpl::first<
             typename ::boost::parameter::aux::make_arg_list<
                 typename ::boost::parameter::aux::make_parameter_spec_items<
                     parameter_spec
@@ -414,10 +409,6 @@ namespace boost { namespace parameter {
           , (PS)(parameter_spec)
         )
 
-        inline BOOST_CONSTEXPR parameters()
-        {
-        }
-
         // The function call operator is used to build an arg_list that
         // labels the positional parameters and maintains whatever other
         // tags may have been specified by the caller.
@@ -426,8 +417,7 @@ namespace boost { namespace parameter {
         //
         // The make_arg_list<> metafunction produces a reversed arg_list,
         // so pass the arguments to the arg_list constructor reversed in turn.
-        inline BOOST_CONSTEXPR ::boost::parameter::aux::empty_arg_list
-            operator()() const
+        inline ::boost::parameter::aux::empty_arg_list operator()() const
         {
             return ::boost::parameter::aux::empty_arg_list();
         }
@@ -455,7 +445,7 @@ namespace boost { namespace parameter {
 #endif
 #else   // (0 == BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY)
         template <typename A0>
-        inline BOOST_CXX14_CONSTEXPR typename ::boost::mpl::first<
+        inline typename ::boost::mpl::first<
             typename ::boost::parameter::aux::make_arg_list<
                 ::boost::parameter::aux::item<
                     PS0,A0
@@ -489,7 +479,7 @@ namespace boost { namespace parameter {
         }
 
         template <typename A0, typename A1>
-        inline BOOST_CXX14_CONSTEXPR typename ::boost::mpl::first<
+        inline typename ::boost::mpl::first<
             typename ::boost::parameter::aux::make_arg_list<
                 ::boost::parameter::aux::item<
                     PS0,A0
