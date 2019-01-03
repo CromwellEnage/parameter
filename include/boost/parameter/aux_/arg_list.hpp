@@ -325,7 +325,12 @@ namespace boost { namespace parameter { namespace aux {
         inline BOOST_CONSTEXPR reference
             operator[](::boost::parameter::keyword<key_type> const&) const
         {
+#if !( \
+        BOOST_WORKAROUND(BOOST_GCC, >= 40700) && \
+        BOOST_WORKAROUND(BOOST_GCC, < 40900) \
+    ) && !BOOST_WORKAROUND(BOOST_GCC, >= 50000)
             BOOST_MPL_ASSERT_NOT((holds_maybe));
+#endif
             return this->arg.get_value();
         }
 
@@ -353,7 +358,12 @@ namespace boost { namespace parameter { namespace aux {
                 BOOST_PARAMETER_lazy_default_fallback<key_type,Default> const&
             ) const
         {
+#if !( \
+        BOOST_WORKAROUND(BOOST_GCC, >= 40700) && \
+        BOOST_WORKAROUND(BOOST_GCC, < 40900) \
+    ) && !BOOST_WORKAROUND(BOOST_GCC, >= 50000)
             BOOST_MPL_ASSERT_NOT((holds_maybe));
+#endif
             return this->arg.get_value();
         }
 

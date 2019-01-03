@@ -578,6 +578,7 @@ alias parameter_macros_eval_category
         :
         :
         :
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=10
             <define>BOOST_PARAMETER_MAX_ARITY=10
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
         :
@@ -595,6 +596,7 @@ alias parameter_macros_eval_category
         :
         :
         :
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=10
             <define>BOOST_PARAMETER_MAX_ARITY=10
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=0
         :
@@ -612,6 +614,7 @@ alias parameter_macros_eval_category
         :
         :
         :
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=10
             <define>BOOST_PARAMETER_MAX_ARITY=10
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=11
         :
@@ -692,6 +695,7 @@ alias parameter_evaluate_category_10
         :
         :
         :
+            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=10
             <define>BOOST_PARAMETER_MAX_ARITY=10
             <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=11
         :
