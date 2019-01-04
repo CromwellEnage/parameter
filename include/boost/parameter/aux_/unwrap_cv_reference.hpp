@@ -52,6 +52,7 @@ namespace boost { namespace parameter { namespace aux {
 
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mp11/integral.hpp>
+#include <boost/mp11/utility.hpp>
 #include <type_traits>
 #else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mpl/bool.hpp>
