@@ -28,12 +28,13 @@ namespace boost { namespace parameter { namespace aux {
     using get_tag_type = ::boost::mp11::mp_if<
         ::boost::parameter::aux::is_deduced1<T>
       , ::boost::parameter::aux::get_tag_type0<typename T::key_type>
-      , ::boost::parameter::aux::get_tag_type0<T>
+      , ::boost::mp11::mp_identity<typename T::key_type>
     >;
 }}} // namespace boost::parameter::aux
 
 #else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mpl/eval_if.hpp>
+#include <boost/mpl/identity.hpp>
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -42,7 +43,7 @@ namespace boost { namespace parameter { namespace aux {
       : ::boost::mpl::eval_if<
             ::boost::parameter::aux::is_deduced_aux<typename T::key_type>
           , ::boost::parameter::aux::get_tag_type0<typename T::key_type>
-          , ::boost::parameter::aux::get_tag_type0<T>
+          , ::boost::mpl::identity<typename T::key_type>
         >
     {
     };
@@ -73,7 +74,6 @@ namespace boost { namespace parameter { namespace aux {
 #else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
-#include <boost/mpl/identity.hpp>
 
 namespace boost { namespace parameter { namespace aux {
 
