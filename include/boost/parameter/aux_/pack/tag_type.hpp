@@ -26,7 +26,7 @@ namespace boost { namespace parameter { namespace aux {
 
     template <typename T>
     using get_tag_type = ::boost::mp11::mp_if<
-        ::boost::parameter::aux::is_deduced1<T>
+        ::boost::parameter::aux::is_deduced_aux_mp11<typename T::key_type>
       , ::boost::parameter::aux::get_tag_type0<typename T::key_type>
       , ::boost::mp11::mp_identity<typename T::key_type>
     >;
