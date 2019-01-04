@@ -299,7 +299,7 @@ __ ../../../../boost/parameter/keyword.hpp
         typedef Tag tag;
 
         template <typename T>
-        typename boost::`enable_if`_<
+        constexpr typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 boost::`is_scalar`_<T>
               , boost::mpl::`true_`_
@@ -320,11 +320,11 @@ __ ../../../../boost/parameter/keyword.hpp
                 >
             >::type
           , |ArgumentPack|_
-        >::type constexpr
+        >::type
             `operator=`_\(T const& value) const;
 
         template <typename T>
-        typename boost::`enable_if`_<
+        constexpr typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 typename boost::mpl::`eval_if_`_<
                     boost::`is_same`_<
@@ -349,11 +349,11 @@ __ ../../../../boost/parameter/keyword.hpp
               , boost::mpl::`false_`_
             >::type
           , |ArgumentPack|_
-        >::type constexpr
+        >::type
             `operator=`_\(T& value) const;
 
         template <typename T>
-        typename boost::`enable_if`_<
+        constexpr typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 boost::`is_scalar`_<T>
               , boost::mpl::`false_`_
@@ -374,11 +374,11 @@ __ ../../../../boost/parameter/keyword.hpp
                 >
             >::type
           , |ArgumentPack|_
-        >::type constexpr
+        >::type
             `operator=`_\(T const&& value) const;
 
         template <typename T>
-        typename boost::`enable_if`_<
+        constexpr typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 boost::`is_scalar`_<T>
               , boost::mpl::`false_`_
@@ -399,11 +399,11 @@ __ ../../../../boost/parameter/keyword.hpp
                 >
             >::type
           , |ArgumentPack|_
-        >::type constexpr
+        >::type
             `operator=`_\(T&& value) const;
 
         template <typename T>
-        typename boost::`enable_if`_<
+        constexpr typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 boost::`is_scalar`_<T>
               , boost::mpl::`true_`_
@@ -428,7 +428,7 @@ __ ../../../../boost/parameter/keyword.hpp
             `operator|`_\(T const& x) const;
 
         template <typename T>
-        typename boost::`enable_if`_<
+        constexpr typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 typename boost::mpl::`eval_if_`_<
                     boost::`is_same`_<
@@ -457,7 +457,7 @@ __ ../../../../boost/parameter/keyword.hpp
             `operator|`_\(T& x) const;
 
         template <typename T>
-        typename boost::`enable_if`_<
+        constexpr typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 boost::`is_scalar`_<T>
               , boost::mpl::`true_`_
@@ -482,7 +482,7 @@ __ ../../../../boost/parameter/keyword.hpp
             `operator|`_\(T const&& x) const;
 
         template <typename T>
-        typename boost::`enable_if`_<
+        constexpr typename boost::`enable_if`_<
             typename boost::mpl::`eval_if_`_<
                 boost::`is_scalar`_<T>
               , boost::mpl::`false_`_
@@ -507,10 +507,10 @@ __ ../../../../boost/parameter/keyword.hpp
             `operator|`_\(T&& value) const;
 
         template <typename F>
-        *tagged lazy default* `operator||`_\(F const&) const;
+        constexpr *tagged lazy default* `operator||`_\(F const&) const;
 
         template <typename F>
-        *tagged lazy default* `operator||`_\(F&) const;
+        constexpr *tagged lazy default* `operator||`_\(F&) const;
 
         static keyword<Tag> const& instance;
 
@@ -532,10 +532,17 @@ __ ../../../../boost/parameter/keyword.hpp
 ``operator=``
 .. parsed-literal::
 
-    template <typename T> |ArgumentPack|_ operator=(T const& value) const;
-    template <typename T> |ArgumentPack|_ operator=(T& value) const;
-    template <typename T> |ArgumentPack|_ operator=(T const&& value) const;
-    template <typename T> |ArgumentPack|_ operator=(T&& value) const;
+    template <typename T>
+    constexpr |ArgumentPack|_ operator=(T const& value) const;
+
+    template <typename T>
+    constexpr |ArgumentPack|_ operator=(T& value) const;
+
+    template <typename T>
+    constexpr |ArgumentPack|_ operator=(T const&& value) const;
+
+    template <typename T>
+    constexpr |ArgumentPack|_ operator=(T&& value) const;
 
 :Requires: one of the following:
 
@@ -563,10 +570,17 @@ nested ``qualifier`` type of ``Tag`` must be ``consume_reference`` or
 ``operator|``
 .. parsed-literal::
 
-    template <typename T> *tagged default* operator|(T const& x) const;
-    template <typename T> *tagged default* operator|(T& x) const;
-    template <typename T> *tagged default* operator|(T const&& x) const;
-    template <typename T> *tagged default* operator|(T&& x) const;
+    template <typename T>
+    constexpr *tagged default* operator|(T const& x) const;
+
+    template <typename T>
+    constexpr *tagged default* operator|(T& x) const;
+
+    template <typename T>
+    constexpr *tagged default* operator|(T const&& x) const;
+
+    template <typename T>
+    constexpr *tagged default* operator|(T&& x) const;
 
 :Requires: one of the following:
 
@@ -593,8 +607,11 @@ nested ``qualifier`` type of ``Tag`` must be ``consume_reference`` or
 ``operator||``
 .. parsed-literal::
 
-    template <typename F> *tagged lazy default* operator||(F const& g) const;
-    template <typename F> *tagged lazy default* operator||(F& g) const;
+    template <typename F>
+    constexpr *tagged lazy default* operator||(F const& g) const;
+
+    template <typename F>
+    constexpr *tagged lazy default* operator||(F& g) const;
 
 :Requires: ``g()`` must be valid, with type ``boost::``\ |result_of|_\
 ``<F()>::type``.  [#no_result_of]_
@@ -1028,20 +1045,37 @@ Function Templates
 ``compose``
 -----------
 
-:Defined in: `boost/parameter/is_argument_pack.hpp`__
+:Defined in: `boost/parameter/compose.hpp`__
 
-__ ../../../../boost/parameter/is_argument_pack.hpp
+__ ../../../../boost/parameter/compose.hpp
 
 .. parsed-literal::
 
+    constexpr *empty* |ArgumentPack|_ compose();
+
     template <typename T0, typename ...Pack>
-    typename boost::`enable_if`_<
-        boost::`is_convertible`_<U,T>
+    constexpr typename boost::`enable_if`_<
+        |are_tagged_arguments|_<T0,Pack...>
       , |ArgumentPack|_
     >::type
-        compose(T0 const& t0, Pack const&... args)
-    {
-    }
+        compose(T0 const& t0, Pack const&... args);
+
+This function facilitates easier variadic argument composition.  It is used by
+the |BOOST_PARAMETER_NO_SPEC_FUNCTION|,
+|BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION|,
+|BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION|,
+|BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR|,
+|BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR|,
+|BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR|, and
+|BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR| code generation macros.  You can
+use it to write your own code generation macros if the ones provided by this
+library do not suffice.
+
+:Requires: ``t0`` and all elements in ``args`` must be |tagged reference|
+objects, if specified.
+
+:Returns: an |ArgumentPack|_ containing ``t0`` and all elements in ``args``,
+if specified; an empty |ArgumentPack|_ otherwise.
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -5044,7 +5078,7 @@ Approximate expansion:
                   , TaggedArgs...
                 >::type(\*)()
             >(std::nullptr)
-          , (arg0, args...)
+          , |compose|_(arg0, args...)
         );
     }
 
@@ -5240,7 +5274,7 @@ Approximate expansion:
                   , TaggedArgs...
                 >::type(\*)()
             >(std::nullptr)
-          , (arg0, args...)
+          , |compose|_(arg0, args...)
         );
     }
 
@@ -5445,7 +5479,7 @@ Approximate expansion:
                   , TaggedArgs...
                 >::type(\*)()
             >(std::nullptr)
-          , (arg0, args...)
+          , |compose|_(arg0, args...)
         );
     }
 
@@ -5637,7 +5671,7 @@ Approximate expansion:
                   , TaggedArgs...
                 >::type(\*)()
             >(std::nullptr)
-          , (arg0, args...)
+          , |compose|_(arg0, args...)
         );
     }
 
@@ -5844,7 +5878,7 @@ Approximate expansion:
                   , TaggedArgs...
                 >::type(\*)()
             >(std::nullptr)
-          , (arg0, args...)
+          , |compose|_(arg0, args...)
         );
     }
 
@@ -6016,7 +6050,7 @@ Approximate expansion:
     inline explicit **cls**\ (
         TaggedArg0 const& arg0
       , TaggedArgs const&... args
-    ) : **impl**\ ((arg0, args...))
+    ) : **impl**\ (|compose|_(arg0, args...))
     {
     }
 
@@ -6196,7 +6230,7 @@ Approximate expansion:
       , TaggedArgs const&... args
     )
     {
-        **func**\ ((arg0, args...));
+        **func**\ (|compose|_(arg0, args...));
     }
 
 ``BOOST_PARAMETER_NAME(name)``
@@ -6276,7 +6310,7 @@ Expands to:
 
         struct *tag-name*
         {
-            static char const* keyword_name()
+            static constexpr char const* keyword_name()
             {
                 return ## *tag-name*;
             }
@@ -6327,7 +6361,7 @@ Expands to:
 
         struct *tag-name*
         {
-            static char const* keyword_name()
+            static constexpr char const* keyword_name()
             {
                 return ## *tag-name* ## _;
             }
@@ -6722,6 +6756,7 @@ __ ../../../../boost/parameter/config.hpp
 :Default Value: |BOOST_MPL_LIMIT_VECTOR_SIZE|_ (defined by `Boost.MPL`_) if
 perfect forwarding is supported, ``8`` otherwise.
 :Minimum Value: ``2``
+:Maximum Value: |BOOST_PARAMETER_COMPOSE_MAX_ARITY|
 
 .. |BOOST_MPL_LIMIT_VECTOR_SIZE| replace:: ``BOOST_MPL_LIMIT_VECTOR_SIZE``
 .. _BOOST_MPL_LIMIT_VECTOR_SIZE: ../../../mpl/doc/refmanual/limit-vector-size.html
@@ -6730,11 +6765,10 @@ perfect forwarding is supported, ``8`` otherwise.
 ``BOOST_PARAMETER_COMPOSE_MAX_ARITY``
 -------------------------------------
 
-Determines the maximum number of arguments supported by the library.
-
 If |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is **not** ``#defined``, then
-determines the maximum number of arguments supported by the
-|BOOST_PARAMETER_NO_SPEC_FUNCTION|, |BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION|,
+determines the maximum number of arguments supported by the |compose| function
+and by the |BOOST_PARAMETER_NO_SPEC_FUNCTION|,
+|BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION|,
 |BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION|,
 |BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR|,
 |BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR|,
@@ -6745,8 +6779,8 @@ determines the maximum number of arguments supported by the
 
 __ ../../../../boost/parameter/config.hpp
 
-:Default Value: ``64``
-:Minimum Value: ``1``
+:Default Value: ``20`` for a few older compilers, ``64`` otherwise
+:Minimum Value: ``2``
 
 ``BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY``
 --------------------------------------------------------
@@ -6771,26 +6805,54 @@ __ ../../../../boost/parameter/config.hpp
 --------------------------
 
 #. If `Boost.Config`_ defines the macro
-|BOOST_NO_FUNCTION_TEMPLATE_ORDERING|_, then the macro
-|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| will be left undefined;
-otherwise, the code generation macros would not work correctly.
+|BOOST_NO_FUNCTION_TEMPLATE_ORDERING|_, then the macros
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| and |BOOST_PARAMETER_CAN_USE_MP11|
+will be left undefined; otherwise, the code generation macros would not work
+correctly.
 
-#. If `Boost.Config`_ defines the macro |BOOST_NO_SFINAE|_, then the macro
-|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| will be left undefined; otherwise,
-keyword types generated by |BOOST_PARAMETER_NAME| and
-|BOOST_PARAMETER_NESTED_KEYWORD| would not work correctly.
+#. If `Boost.Config`_ defines the macro |BOOST_NO_SFINAE|_, then the macros
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| and |BOOST_PARAMETER_CAN_USE_MP11|
+will be left undefined; otherwise, keyword types generated by
+|BOOST_PARAMETER_NAME| and |BOOST_PARAMETER_NESTED_KEYWORD| would not work
+correctly.
 
 #. If `Boost.Config`_ defines the macro |BOOST_NO_CXX11_RVALUE_REFERENCES|_,
-then the macro |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| will be left
-undefined.
+then the macros |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| and
+|BOOST_PARAMETER_CAN_USE_MP11| will be left undefined.
 
 #. If `Boost.Config`_ defines the macro |BOOST_NO_CXX11_VARIADIC_TEMPLATES|_,
-then the macro |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| will be left
-undefined.
+then the macros |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| and
+|BOOST_PARAMETER_CAN_USE_MP11| will be left undefined.
 
 #. If `Boost.Config`_ defines the macro
-|BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS|_, then the macro
-|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| will be left undefined.
+|BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS|_, then the macros
+|BOOST_PARAMETER_HAS_PERFECT_FORWARDING| and |BOOST_PARAMETER_CAN_USE_MP11|
+will be left undefined.
+
+#. If `Boost.Config`_ defines the macro |BOOST_NO_CXX11_CONSTEXPR|_, then the
+macro |BOOST_PARAMETER_CAN_USE_MP11| will be left undefined.
+
+#. If `Boost.Config`_ defines the macro |BOOST_NO_CXX11_DECLTYPE_N3276|_, then
+the macro |BOOST_PARAMETER_CAN_USE_MP11| will be left undefined.
+
+#. If `Boost.Config`_ defines the macro |BOOST_NO_CXX11_AUTO_DECLARATIONS|_,
+then the macro |BOOST_PARAMETER_CAN_USE_MP11| will be left undefined.
+
+#. If `Boost.Config`_ defines the macro |BOOST_NO_CXX11_TEMPLATE_ALIASES|_,
+then the macro |BOOST_PARAMETER_CAN_USE_MP11| will be left undefined.
+
+#. If `Boost.Config`_ defines the macro |BOOST_NO_CXX11_STATIC_ASSERT|_, then
+the macro |BOOST_PARAMETER_CAN_USE_MP11| will be left undefined.
+
+#. If `Boost.Config`_ defines the macro |BOOST_NO_CXX11_HDR_TYPE_TRAITS|_,
+then the macro |BOOST_PARAMETER_CAN_USE_MP11| will be left undefined.
+
+#. If `Boost.Config`_ defines the macro
+|BOOST_NO_CXX11_HDR_INITIALIZER_LIST|_, then the macro
+|BOOST_PARAMETER_CAN_USE_MP11| will be left undefined.
+
+#. If `Boost.Config`_ defines the macro |BOOST_NO_CXX11_HDR_TUPLE|_, then the
+macro |BOOST_PARAMETER_CAN_USE_MP11| will be left undefined.
 
 #. If `Boost.Fusion`_ defines the macro |BOOST_FUSION_HAS_VARIADIC_LIST|_,
 if this library defines the macro |BOOST_PARAMETER_HAS_PERFECT_FORWARDING|,

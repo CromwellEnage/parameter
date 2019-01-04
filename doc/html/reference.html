@@ -586,8 +586,12 @@ struct keyword
 {
     typedef Tag tag;
 
+    constexpr keyword()
+    
+    }
+
     template &lt;typename T&gt;
-    typename boost::<a class="reference external"
+    constexpr typename boost::<a class="reference external"
 href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html">eval_if</a>&lt;
@@ -623,12 +627,12 @@ href="../../../mpl/doc/refmanual/bool.html">false_</a>
         &gt;::type
       , <a class="reference internal" href="#argumentpack"><span
 class="concept">ArgumentPack</span></a>
-    &gt;::type constexpr
+    &gt;::type
         <a class="reference internal"
 href="#operator">operator=</a>(T const&amp; value) const;
 
     template &lt;typename T&gt;
-    typename boost::<a class="reference external"
+    constexpr typename boost::<a class="reference external"
 href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html">eval_if</a>&lt;
@@ -671,12 +675,12 @@ href="../../../mpl/doc/refmanual/bool.html">false_</a>
         &gt;::type
       , <a class="reference internal" href="#argumentpack"><span
 class="concept">ArgumentPack</span></a>
-    &gt;::type constexpr
+    &gt;::type
         <a class="reference internal"
 href="#operator">operator=</a>(T&amp; value) const;
 
     template &lt;typename T&gt;
-    typename boost::<a class="reference external"
+    constexpr typename boost::<a class="reference external"
 href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html">eval_if</a>&lt;
@@ -712,12 +716,12 @@ href="../../../mpl/doc/refmanual/bool.html">false_</a>
         &gt;::type
       , <a class="reference internal" href="#argumentpack"><span
 class="concept">ArgumentPack</span></a>
-    &gt;::type constexpr
+    &gt;::type
         <a class="reference internal"
 href="#operator">operator=</a>(T const&amp;&amp; value) const;
 
     template &lt;typename T&gt;
-    typename boost::<a class="reference external"
+    constexpr typename boost::<a class="reference external"
 href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html">eval_if</a>&lt;
@@ -753,12 +757,12 @@ href="../../../mpl/doc/refmanual/bool.html">false_</a>
         &gt;::type
       , <a class="reference internal" href="#argumentpack"><span
 class="concept">ArgumentPack</span></a>
-    &gt;::type constexpr
+    &gt;::type
         <a class="reference internal"
 href="#operator">operator=</a>(T&amp;&amp; value) const;
 
     template &lt;typename T&gt;
-    typename boost::<a class="reference external"
+    constexpr typename boost::<a class="reference external"
 href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html">eval_if</a>&lt;
@@ -793,12 +797,12 @@ href="../../../mpl/doc/refmanual/bool.html">false_</a>
             &gt;
         &gt;::type
       , <em>tagged default</em>
-    &gt;::type constexpr
+    &gt;::type
         <a class="reference internal"
 href="#id9">operator|</a>(T const&amp; x) const;
 
     template &lt;typename T&gt;
-    typename boost::<a class="reference external"
+    constexpr typename boost::<a class="reference external"
 href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html">eval_if</a>&lt;
@@ -841,12 +845,12 @@ href="../../../mpl/doc/refmanual/bool.html">true_</a>
 href="../../../mpl/doc/refmanual/bool.html">false_</a>
         &gt;::type
       , <em>tagged default</em>
-    &gt;::type constexpr
+    &gt;::type
         <a class="reference internal"
 href="#id9">operator|</a>(T&amp; x) const;
 
     template &lt;typename T&gt;
-    typename boost::<a class="reference external"
+    constexpr typename boost::<a class="reference external"
 href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html">eval_if</a>&lt;
@@ -881,12 +885,12 @@ href="../../../mpl/doc/refmanual/bool.html">false_</a>
             &gt;
         &gt;::type
       , <em>tagged default</em>
-    &gt;::type constexpr
+    &gt;::type
         <a class="reference internal"
 href="#id9">operator|</a>(T const&amp;&amp; x) const;
 
     template &lt;typename T&gt;
-    typename boost::<a class="reference external"
+    constexpr typename boost::<a class="reference external"
 href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
         typename boost::mpl::<a class="reference external"
 href="../../../mpl/doc/refmanual/eval-if.html">eval_if</a>&lt;
@@ -921,16 +925,16 @@ href="../../../mpl/doc/refmanual/bool.html">false_</a>
             &gt;
         &gt;::type
       , <em>tagged default</em>
-    &gt;::type constexpr
+    &gt;::type
         <a class="reference internal"
 href="#id9">operator|</a>(T&amp;&amp; x) const;
 
     template &lt;typename F&gt;
-    <em>tagged lazy default</em> <a class="reference internal"
+    constexpr <em>tagged lazy default</em> <a class="reference internal"
 href="#id10">operator||</a>(F const&amp;) const;
 
     template &lt;typename F&gt;
-    <em>tagged lazy default</em> <a class="reference internal"
+    constexpr <em>tagged lazy default</em> <a class="reference internal"
 href="#id10">operator||</a>(F&amp;) const;
 
     static keyword&lt;Tag&gt; const&amp; <a class="reference internal"
@@ -944,18 +948,22 @@ href="#get">get</a>();
 <dt><tt class="docutils literal">operator=</tt></dt>
 <dd>
 <pre class="first literal-block">
-template &lt;typename T&gt; <a class="reference internal" href="#argumentpack"
-><span class="concept">ArgumentPack</span></a
-> operator=(T const&amp; value) const;
-template &lt;typename T&gt; <a class="reference internal" href="#argumentpack"
-><span class="concept">ArgumentPack</span></a
-> operator=(T&amp; value) const;
-template &lt;typename T&gt; <a class="reference internal" href="#argumentpack"
-><span class="concept">ArgumentPack</span></a
+template &lt;typename T&gt;
+constexpr <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a> operator=(T const&amp; value) const;
+
+template &lt;typename T&gt;
+constexpr <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a> operator=(T&amp; value) const;
+
+template &lt;typename T&gt;
+constexpr <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a
 > operator=(T const&amp;&amp; value) const;
-template &lt;typename T&gt; <a class="reference internal" href="#argumentpack"
-><span class="concept">ArgumentPack</span></a
-> operator=(T&amp;&amp; value) const;
+
+template &lt;typename T&gt;
+constexpr <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a> operator=(T&amp;&amp; value) const;
 </pre>
 <table class="last docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1010,14 +1018,17 @@ reference</a> to <tt class="docutils literal">value</tt> with
 <dl class="docutils" id="id9">
 <dt><tt class="docutils literal">operator|</tt></dt>
 <dd><pre class="first literal-block">
-template &lt;typename T&gt; <em
->tagged default</em> operator|(T const&amp; x) const;
-template &lt;typename T&gt; <em
->tagged default</em> operator|(T&amp; x) const;
-template &lt;typename T&gt; <em
->tagged default</em> operator|(T const&amp;&amp; x) const;
-template &lt;typename T&gt; <em
->tagged default</em> operator|(T&amp;&amp; x) const;
+template &lt;typename T&gt;
+constexpr <em>tagged default</em> operator|(T const&amp; x) const;
+
+template &lt;typename T&gt;
+constexpr <em>tagged default</em> operator|(T&amp; x) const;
+
+template &lt;typename T&gt;
+constexpr <em>tagged default</em> operator|(T const&amp;&amp; x) const;
+
+template &lt;typename T&gt;
+constexpr <em>tagged default</em> operator|(T&amp;&amp; x) const;
 </pre>
 <table class="last docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1072,10 +1083,11 @@ href="#tagged-default">tagged default</a> with <em>value</em>
 <dt><tt class="docutils literal">operator||</tt></dt>
 <dd>
 <pre class="first literal-block">
-template &lt;typename F&gt; <em
->tagged lazy default</em> operator||(F const&amp; g) const;
-template &lt;typename F&gt; <em
->tagged lazy default</em> operator||(F&amp; g) const;
+template &lt;typename F&gt;
+constexpr <em>tagged lazy default</em> operator||(F const&amp; g) const;
+
+template &lt;typename F&gt;
+constexpr <em>tagged lazy default</em> operator||(F&amp; g) const;
 </pre>
 <table class="last docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1810,7 +1822,83 @@ href="../../../type_traits/doc/html/boost_typetraits/is_convertible.html"
 Templates</a></h1>
 <div class="section" id="compose">
 <h2><a class="toc-backref" href="#id52">6.1&nbsp;&nbsp;&nbsp;<tt
-class="docutils literal">compose(...)</tt></a></h2>
+class="docutils literal">compose</tt></a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name">Defined in:</th>
+<td class="field-body"><a class="reference external"
+href="../../../../boost/parameter/compose.hpp"
+>boost/parameter/compose.hpp</a></td>
+</tr>
+</tbody>
+</table>
+<pre class="literal-block">
+constexpr <em>empty</em> <a class="reference internal" href="#argumentpack"
+><span class="concept">ArgumentPack</span></a> compose();
+
+template &lt;typename T0, typename ...Pack&gt;
+constexpr typename boost::<a class="reference external"
+href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
+    <a class="reference internal" href="#are-tagged-arguments"
+>are_tagged_arguments</a>&lt;T0,Pack...&gt;
+  , <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a>
+&gt;::type
+    compose(T0 const&amp; t0, Pack const&amp;... args);
+</pre>
+<p>This function facilitates easier variadic argument composition.  It is used
+by the <a class="reference internal"
+href="#boost-parameter-no-spec-function-result-name"><tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_FUNCTION</tt></a>, <a
+class="reference internal"
+href="#boost-parameter-no-spec-member-function-result-name"><tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION</tt></a>, <a
+class="reference internal"
+href="#boost-parameter-no-spec-c-mem-function-result-name"><tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION</tt></a
+>, <a class="reference internal"
+href="#boost-parameter-no-spec-function-call-op-result"><tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR</tt
+></a>, <a class="reference internal"
+href="#boost-parameter-no-spec-const-func-call-op-result"><tt
+class="docutils literal"
+>BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR</tt></a>, <a
+class="reference internal"
+href="#boost-parameter-no-spec-constructor-cls-impl"><tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR</tt></a>, and <a
+class="reference internal"
+href="#boost-parameter-no-spec-no-base-ctor-cls-func"><tt
+class="docutils literal">BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR</tt></a>
+code generation macros.  You can use it to write your own code generation
+macros if the ones provided by this library do not suffice.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field">
+<th class="field-name">Requires:</th>
+<td class="field-body">
+<p class="first"><tt class="docutils literal">t0</tt> and all elements in <tt
+class="docutils literal">args</tt> must be <a class="reference internal"
+href="#tagged-reference">tagged reference</a> objects, if specified.</p>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name">Returns:</th>
+<td class="field-body">
+<p class="first">An <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a> containing <tt
+class="docutils literal">t0</tt> and all elements in <tt
+class="docutils literal">args</tt>, if specified; an empty <a
+class="reference internal" href="#argumentpack"><span class="concept"
+>ArgumentPack</span></a> otherwise.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <hr class="docutils" />
@@ -6697,7 +6785,8 @@ href="../../../core/doc/html/core/enable_if.html">lazy_enable_if</a>&lt;
               , TaggedArgs...
             &gt;::type(*)()
         &gt;(std::nullptr)
-      , (arg0, args...)
+      , <a class="reference internal" href="compose"
+>compose</a>(arg0, args...)
     );
 }
 
@@ -6930,7 +7019,8 @@ href="../../../core/doc/html/core/enable_if.html">lazy_enable_if</a>&lt;
               , TaggedArgs...
             &gt;::type(*)()
         &gt;(std::nullptr)
-      , (arg0, args...)
+      , <a class="reference internal" href="compose"
+>compose</a>(arg0, args...)
     );
 }
 
@@ -7174,7 +7264,8 @@ class="docutils literal">lazy_enable_if</tt></a>&lt;
               , TaggedArgs...
             &gt;::type(*)()
         &gt;(std::nullptr)
-      , (arg0, args...)
+      , <a class="reference internal" href="compose"
+>compose</a>(arg0, args...)
     );
 }
 
@@ -7399,7 +7490,8 @@ href="../../../core/doc/html/core/enable_if.html">lazy_enable_if</a>&lt;
               , TaggedArgs...
             &gt;::type(*)()
         &gt;(std::nullptr)
-      , (arg0, args...)
+      , <a class="reference internal" href="compose"
+>compose</a>(arg0, args...)
     );
 }
 
@@ -7640,7 +7732,8 @@ href="../../../core/doc/html/core/enable_if.html">lazy_enable_if</a>&lt;
               , TaggedArgs...
             &gt;::type(*)()
         &gt;(std::nullptr)
-      , (arg0, args...)
+      , <a class="reference internal" href="compose"
+>compose</a>(arg0, args...)
     );
 }
 
@@ -7853,7 +7946,8 @@ href="../../../core/doc/html/core/enable_if.html">enable_if</a>&lt;
 inline explicit <strong>cls</strong>(
     TaggedArg0 const&amp; arg0
   , TaggedArgs const&amp;... args
-) : <strong>impl</strong>((arg0, args...))
+) : <strong>impl</strong>(<a class="reference internal" href="compose"
+>compose</a>(arg0, args...))
 {
 }
 </pre>
@@ -8072,7 +8166,8 @@ inline explicit <strong>cls</strong>(
   , TaggedArgs const&amp;... args
 )
 {
-    <strong>func</strong>((arg0, args...));
+    <strong>func</strong>(<a class="reference internal" href="compose"
+>compose</a>(arg0, args...));
 }
 </pre>
 </dd>
@@ -8174,7 +8269,7 @@ namespace tag {
 
     struct <em>tag-name</em>
     {
-        static char const* keyword_name()
+        static constexpr char const* keyword_name()
         {
             return ##<em>tag-name</em>;
         }
@@ -8240,7 +8335,7 @@ namespace tag {
 
     struct <em>tag-name</em>
     {
-        static char const* keyword_name()
+        static constexpr char const* keyword_name()
         {
             return ##<em>tag-name</em>;
         }
@@ -8684,12 +8779,12 @@ Sequence</a> underlying the nested <tt class="docutils literal"
 manually <tt class="docutils literal">#define</tt> this macro, then the
 library will <tt class="docutils literal">#define</tt> it as
 <a class="reference external" href="../../../mp11/doc/html/mp11.html"
-><tt class="docutils literal">::boost::mp11::mp_list</tt></a> if
+><tt class="docutils literal">boost::mp11::mp_list</tt></a> if
 <a class="reference internal" href="#boost-parameter-can-use-mp11"><tt
 class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> is defined,
 <a class="reference external"
 href="../../../fusion/doc/html/fusion/container/list.html"
-><tt class="docutils literal">::boost::fusion::list</tt></a> if
+><tt class="docutils literal">boost::fusion::list</tt></a> if
 <a class="reference external"
 href="../../../../boost/fusion/container/list/list_fwd.hpp"
 ><tt class="docutils literal">BOOST_FUSION_HAS_VARIADIC_LIST</tt></a> is
@@ -8697,21 +8792,21 @@ defined (by <a class="reference external"
 href="../../../fusion/doc/html/index.html">Boost.Fusion</a>),
 <a class="reference external"
 href="../../../fusion/doc/html/fusion/container/deque.html"
-><tt class="docutils literal">::boost::fusion::deque</tt></a> if
+><tt class="docutils literal">boost::fusion::deque</tt></a> if
 <a class="reference external"
 href="../../../../boost/fusion/container/deque/deque_fwd.hpp"
 ><tt class="docutils literal">BOOST_FUSION_HAS_VARIADIC_DEQUE</tt></a> is
 defined (by <a class="reference external"
 href="../../../fusion/doc/html/index.html">Boost.Fusion</a>), or
 <a class="reference external" href="../../../mpl/doc/refmanual/vector.html"
-><tt class="docutils literal">::boost::mpl::vector</tt></a> otherwise.</p>
+><tt class="docutils literal">boost::mpl::vector</tt></a> otherwise.</p>
 <dl class="docutils">
 <dt>Example:</dt>
 <dd>
 <pre class="first last literal-block">
 #define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE <a class="reference external"
 href="../../../fusion/doc/html/fusion/container/vector.html"
-><tt class="docutils literal">::boost::fusion::vector</tt></a>
+>boost::fusion::vector</a>
 </pre>
 </dd>
 </dl>
@@ -8731,7 +8826,6 @@ href="../../../../boost/parameter/parameters.hpp"
 <div class="section" id="boost-parameter-max-arity">
 <h2><a class="toc-backref" href="#id84">8.6&nbsp;&nbsp;&nbsp;<tt
 class="docutils literal">BOOST_PARAMETER_MAX_ARITY</tt></a></h2>
-<p>Determines the maximum number of arguments supported by the library.</p>
 <p>If <a class="reference internal"
 href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
 >BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is
@@ -8744,15 +8838,15 @@ Sequence</a> underlying the nested <tt class="docutils literal"
 ><tt class="docutils literal">parameters</tt></a> does not have a size
 limit--which is the case with <a class="reference external"
 href="../../../mp11/doc/html/mp11.html"><tt class="docutils literal"
->::boost::mp11::mp_list</tt></a>, <a class="reference external"
+>boost::mp11::mp_list</tt></a>, <a class="reference external"
 href="../../../fusion/doc/html/fusion/container/list.html"
-><tt class="docutils literal">::boost::fusion::list</tt></a>, and
+><tt class="docutils literal">boost::fusion::list</tt></a>, and
 <a class="reference external"
 href="../../../fusion/doc/html/fusion/container/deque.html"
-><tt class="docutils literal">::boost::fusion::deque</tt></a>, but not
+><tt class="docutils literal">boost::fusion::deque</tt></a>, but not
 <a class="reference external"
 href="../../../mpl/doc/refmanual/vector.html"
-><tt class="docutils literal">::boost::mpl::vector</tt></a>--then this macro
+><tt class="docutils literal">boost::mpl::vector</tt></a>--then this macro
 can be safely ignored.  User code that manually defines
 <a class="reference internal" href="#boost-parameter-variadic-mpl-sequence"
 ><tt class="docutils literal">BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE</tt></a>
@@ -8805,6 +8899,12 @@ href="../../../mpl/doc/refmanual/limit-vector-size.html"
 <th class="field-name">Minimum Value:</th>
 <td class="field-body"><tt class="docutils literal">2</tt></td>
 </tr>
+<tr class="field">
+<th class="field-name">Maximum Value:</th>
+<td class="field-body"><a class="reference internal"
+href="#boost-parameter-compose-max-arity"><tt class="docutils literal"
+>BOOST_PARAMETER_COMPOSE_MAX_ARITY</tt></a></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -8815,7 +8915,9 @@ class="docutils literal">BOOST_PARAMETER_COMPOSE_MAX_ARITY</tt></a></h2>
 href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
 >BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> is <strong>not</strong>
 <tt class="docutils literal">#defined</tt>, then determines the maximum number
-of arguments supported by the <a class="reference internal"
+of arguments supported by the <a class="reference internal" href="#compose"
+><tt class="docutils literal">compose</tt></a> function and by the <a
+class="reference internal"
 href="#boost-parameter-no-spec-function-result-name"><tt
 class="docutils literal">BOOST_PARAMETER_NO_SPEC_FUNCTION</tt></a>, <a
 class="reference internal"
@@ -8856,11 +8958,12 @@ href="../../../../boost/parameter/config.hpp"
 <tbody valign="top">
 <tr class="field">
 <th class="field-name">Default Value:</th>
-<td class="field-body"><tt class="docutils literal">20</tt></td>
+<td class="field-body"><tt class="docutils literal">20</tt> for a few older
+compilers, <tt class="docutils literal">64</tt> otherwise</td>
 </tr>
 <tr class="field">
 <th class="field-name">Minimum Value:</th>
-<td class="field-body"><tt class="docutils literal">1</tt></td>
+<td class="field-body"><tt class="docutils literal">2</tt></td>
 </tr>
 </tbody>
 </table>
@@ -8914,50 +9017,126 @@ This Library</a></h2>
 <li>If <a class="reference external"
 href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
 <a class="reference external"
-href="../../../config/doc/html/boost_config/boost_macro_reference.html"
-><tt class="docutils literal">BOOST_NO_FUNCTION_TEMPLATE_ORDERING</tt></a>,
-then the macro <a class="reference internal"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_FUNCTION_TEMPLATE_ORDERING</tt></a>, then
+the macros <a class="reference internal"
 href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
->BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> will be left undefined;
-otherwise, the code generation macros would not work correctly.</li>
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> and <a
+class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined; otherwise, the code generation macros would not work
+correctly.</li>
 <li>If <a class="reference external"
 href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
 <a class="reference external"
-href="../../../config/doc/html/boost_config/boost_macro_reference.html"
-><tt class="docutils literal">BOOST_NO_SFINAE</tt></a>, then the macro
-<a class="reference internal" href="#boost-parameter-has-perfect-forwarding"
-><tt class="docutils literal">BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a>
-will be left undefined; otherwise, keyword types generated by
-<a class="reference internal" href="#boost-parameter-name-name"
-><tt class="docutils literal">BOOST_PARAMETER_NAME</tt></a> and
-<a class="reference internal" href="#boost-parameter-nested-keyword-t-n-a"
-><tt class="docutils literal">BOOST_PARAMETER_NESTED_KEYWORD</tt></a> would
-not work correctly.</li>
-<li>If <a class="reference external"
-href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
-<a class="reference external"
-href="../../../config/doc/html/boost_config/boost_macro_reference.html"
-><tt class="docutils literal">BOOST_NO_CXX11_RVALUE_REFERENCES</tt></a>, then
-the macro <a class="reference internal"
-href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
->BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> will be left undefined.</li>
-<li>If <a class="reference external"
-href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
-<a class="reference external"
-href="../../../config/doc/html/boost_config/boost_macro_reference.html"
-><tt class="docutils literal">BOOST_NO_CXX11_VARIADIC_TEMPLATES</tt></a>, then
-the macro <a class="reference internal"
-href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
->BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> will be left undefined.</li>
-<li>If <a class="reference external"
-href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
-<a class="reference external"
-href="../../../config/doc/html/boost_config/boost_macro_reference.html"
-><tt class="docutils literal"
->BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS</tt></a>, then the macro <a
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_SFINAE</tt></a>, then the macros <a
 class="reference internal" href="#boost-parameter-has-perfect-forwarding"><tt
-class="docutils literal">BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> will
-be left undefined.</li>
+class="docutils literal">BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> and
+<a class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined; otherwise, keyword types generated by <a class="reference internal"
+href="#boost-parameter-name-name"><tt class="docutils literal"
+>BOOST_PARAMETER_NAME</tt></a> and <a class="reference internal"
+href="#boost-parameter-nested-keyword-t-n-a"><tt class="docutils literal"
+>BOOST_PARAMETER_NESTED_KEYWORD</tt></a> would not work correctly.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_CXX11_RVALUE_REFERENCES</tt></a>, then the
+macros <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> and <a
+class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_CXX11_VARIADIC_TEMPLATES</tt></a>, then the
+macros <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> and <a
+class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS</tt></a
+>, then the macros <a class="reference internal"
+href="#boost-parameter-has-perfect-forwarding"><tt class="docutils literal"
+>BOOST_PARAMETER_HAS_PERFECT_FORWARDING</tt></a> and <a
+class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_CXX11_CONSTEXPR</tt></a>, then the macro <a
+class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"
+><tt class="docutils literal">BOOST_NO_CXX11_DECLTYPE_N3276</tt></a>, then the
+macro <a class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"
+><tt class="docutils literal">BOOST_NO_CXX11_AUTO_DECLARATIONS</tt></a>, then
+the macro <a class="reference internal" href="#boost-parameter-can-use-mp11"
+><tt class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be
+left undefined.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_CXX11_TEMPLATE_ALIASES</tt></a>, then the
+macro <a class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_CXX11_STATIC_ASSERT</tt></a>, then the
+macro <a class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_CXX11_HDR_TYPE_TRAITS</tt></a>, then the
+macro <a class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_CXX11_HDR_INITIALIZER_LIST</tt></a>, then
+the macro <a class="reference internal" href="#boost-parameter-can-use-mp11"
+><tt class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be
+left undefined.</li>
+<li>If <a class="reference external"
+href="../../../config/doc/html/index.html">Boost.Config</a> defines the macro
+<a class="reference external"
+href="../../../config/doc/html/boost_config/boost_macro_reference.html"><tt
+class="docutils literal">BOOST_NO_CXX11_HDR_TUPLE</tt></a>, then the macro <a
+class="reference internal" href="#boost-parameter-can-use-mp11"><tt
+class="docutils literal">BOOST_PARAMETER_CAN_USE_MP11</tt></a> will be left
+undefined.</li>
 <li>If <a class="reference external"
 href="../../../fusion/doc/html/index.html">Boost.Fusion</a> defines the macro
 <a class="reference external"
@@ -8975,7 +9154,7 @@ Sequence</a> underlying the nested <tt class="docutils literal"
 ><tt class="docutils literal">parameters</tt></a> will be
 <a class="reference external"
 href="../../../fusion/doc/html/fusion/container/list.html"
-><tt class="docutils literal">::boost::fusion::list</tt></a>.</li>
+><tt class="docutils literal">boost::fusion::list</tt></a>.</li>
 <li>If <a class="reference external"
 href="../../../fusion/doc/html/index.html">Boost.Fusion</a> defines the macro
 <a class="reference external"
@@ -8993,7 +9172,7 @@ Sequence</a> underlying the nested <tt class="docutils literal"
 ><tt class="docutils literal">parameters</tt></a> will be
 <a class="reference external"
 href="../../../fusion/doc/html/fusion/container/deque.html"
-><tt class="docutils literal">::boost::fusion::deque</tt></a>.</li>
+><tt class="docutils literal">boost::fusion::deque</tt></a>.</li>
 <li>The value that <a class="reference external"
 href="../../../mpl/doc/index.html">Boost.MPL</a> defines the macro
 <a class="reference external"

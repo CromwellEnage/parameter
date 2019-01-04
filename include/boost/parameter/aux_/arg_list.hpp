@@ -332,7 +332,7 @@ namespace boost { namespace parameter { namespace aux {
         BOOST_WORKAROUND(BOOST_GCC, >= 40700) && \
         BOOST_WORKAROUND(BOOST_GCC, < 40900) \
     ) && !BOOST_WORKAROUND(BOOST_GCC, >= 50000) && \
-    !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+    !BOOST_WORKAROUND(BOOST_MSVC, < 1910)
             BOOST_MPL_ASSERT_NOT((holds_maybe));
 #endif
             return this->arg.get_value();
@@ -369,7 +369,7 @@ namespace boost { namespace parameter { namespace aux {
         BOOST_WORKAROUND(BOOST_GCC, >= 40700) && \
         BOOST_WORKAROUND(BOOST_GCC, < 40900) \
     ) && !BOOST_WORKAROUND(BOOST_GCC, >= 50000) && \
-    !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
+    !BOOST_WORKAROUND(BOOST_MSVC, < 1910)
             BOOST_MPL_ASSERT_NOT((holds_maybe));
 #endif
             return this->arg.get_value();
