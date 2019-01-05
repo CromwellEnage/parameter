@@ -59,13 +59,19 @@ namespace boost { namespace parameter { namespace aux {
 namespace boost { namespace parameter { namespace aux {
 
     template <typename T>
+    struct tag_type_impl
+      : ::boost::parameter::aux::get_tag_type<T>
+    {
+    };
+
+    template <typename T>
     using tag_type = ::boost::mp11::mp_if<
         ::boost::mp11::mp_if<
             ::boost::parameter::aux::is_optional_mp11<T>
           , ::boost::mp11::mp_true
           , ::boost::parameter::aux::is_required_mp11<T>
         >
-      , ::boost::parameter::aux::get_tag_type<T>
+      , ::boost::parameter::aux::tag_type_impl<T>
       , ::boost::mp11::mp_identity<T>
     >;
 }}} // namespace boost::parameter::aux
