@@ -61,6 +61,11 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/core/enable_if.hpp>
 #include <utility>
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/utility.hpp>
+#include <type_traits>
+#endif
+
 namespace boost { namespace parameter { namespace aux {
 
     // Holds an lvalue reference to an argument of type Arg associated with
@@ -146,6 +151,15 @@ namespace boost { namespace parameter { namespace aux {
                   , ::boost::mpl::identity<Default>
                 >::type type;
             };
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            template <typename KW, typename Default, typename Reference>
+            using fn = ::boost::mp11::mp_if<
+                ::std::is_same<KW,key_type>
+              , ::boost::mp11::mp_if<Reference,reference,value_type>
+              , ::boost::mp11::mp_identity<Default>
+            >;
+#endif
         };
 
         // Comma operator to compose argument list without using parameters<>.
@@ -329,6 +343,15 @@ namespace boost { namespace parameter { namespace aux {
                   , ::boost::mpl::identity<Default>
                 >::type type;
             };
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            template <typename KW, typename Default, typename Reference>
+            using fn = ::boost::mp11::mp_if<
+                ::std::is_same<KW,key_type>
+              , ::boost::mp11::mp_if<Reference,reference,value_type>
+              , ::boost::mp11::mp_identity<Default>
+            >;
+#endif
         };
 
         // Comma operator to compose argument list without using parameters<>.
