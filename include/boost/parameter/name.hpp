@@ -9,13 +9,14 @@
 
 #include <boost/parameter/aux_/name.hpp>
 #include <boost/preprocessor/stringize.hpp>
+#include <boost/config.hpp>
 
 #define BOOST_PARAMETER_NAME_TAG(tag_namespace, tag, q)                      \
     namespace tag_namespace                                                  \
     {                                                                        \
         struct tag                                                           \
         {                                                                    \
-            static char const* keyword_name()                                \
+            static BOOST_CONSTEXPR char const* keyword_name()                \
             {                                                                \
                 return BOOST_PP_STRINGIZE(tag);                              \
             }                                                                \

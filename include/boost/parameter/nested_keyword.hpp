@@ -10,6 +10,7 @@
 #include <boost/parameter/keyword.hpp>
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/stringize.hpp>
+#include <boost/config.hpp>
 
 #define BOOST_PARAMETER_NESTED_KEYWORD_AUX(tag_namespace, q, name, alias)    \
     namespace tag_namespace                                                  \
@@ -17,7 +18,7 @@
         template <int Dummy = 0>                                             \
         struct BOOST_PP_CAT(name, _)                                         \
         {                                                                    \
-            static char const* keyword_name()                                \
+            static BOOST_CONSTEXPR char const* keyword_name()                \
             {                                                                \
                 return BOOST_PP_STRINGIZE(name);                             \
             }                                                                \

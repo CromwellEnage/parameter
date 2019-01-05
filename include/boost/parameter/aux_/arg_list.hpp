@@ -171,6 +171,14 @@ namespace boost { namespace parameter { namespace aux {
     >
     class arg_list : public Next
     {
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        using _holds_maybe = typename ::boost::parameter::aux
+        ::is_maybe_mp11<typename TaggedArg::value_type>::type;
+#else
+        typedef typename ::boost::parameter::aux
+        ::is_maybe<typename TaggedArg::value_type>::type _holds_maybe;
+#endif
+
         TaggedArg arg;      // Stores the argument
 
      public:
@@ -178,21 +186,33 @@ namespace boost { namespace parameter { namespace aux {
         typedef ::boost::parameter::aux::arg_list<TaggedArg,Next> self;
         typedef typename TaggedArg::key_type key_type;
 
-        typedef typename ::boost::parameter::aux
-        ::is_maybe<typename TaggedArg::value_type>::type holds_maybe;
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        using reference = typename ::boost::mp11::mp_if<
+            _holds_maybe
+          , ::boost::parameter::aux
+            ::get_reference<typename TaggedArg::value_type>
+          , ::boost::parameter::aux::get_reference<TaggedArg>
+        >::type;
 
+        using value_type = ::boost::mp11::mp_if<
+            _holds_maybe
+          , reference
+          , typename TaggedArg::value_type
+        >;
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
         typedef typename ::boost::mpl::eval_if<
-            holds_maybe
+            _holds_maybe
           , ::boost::parameter::aux
             ::get_reference<typename TaggedArg::value_type>
           , ::boost::parameter::aux::get_reference<TaggedArg>
         >::type reference;
 
         typedef typename ::boost::mpl::if_<
-            holds_maybe
+            _holds_maybe
           , reference
           , typename TaggedArg::value_type
         >::type value_type;
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
 
         // Create a new list by prepending arg to a copy of tail.  Used when
         // incrementally building this structure with the comma operator.
@@ -212,14 +232,23 @@ namespace boost { namespace parameter { namespace aux {
             ::boost::parameter::aux::value_type_is_not_void
           , A0&& a0
         ) : Next(
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+                ::boost::mp11::mp_if<
+                    ::std::is_same<
+#else
                 typename ::boost::mpl::if_<
                     ::boost::is_same<
+#endif
                         typename Next::tagged_arg::value_type
                       , ::boost::parameter::void_
                     >
                   , ::boost::parameter::aux::value_type_is_void
                   , ::boost::parameter::aux::value_type_is_not_void
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+                >()
+#else
                 >::type()
+#endif
             )
           , arg(::std::forward<A0>(a0))
         {
@@ -230,14 +259,23 @@ namespace boost { namespace parameter { namespace aux {
             ::boost::parameter::aux::value_type_is_void
           , Args&&... args
         ) : Next(
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+                ::boost::mp11::mp_if<
+                    ::std::is_same<
+#else
                 typename ::boost::mpl::if_<
                     ::boost::is_same<
+#endif
                         typename Next::tagged_arg::value_type
                       , ::boost::parameter::void_
                     >
                   , ::boost::parameter::aux::value_type_is_void
                   , ::boost::parameter::aux::value_type_is_not_void
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+                >()
+#else
                 >::type()
+#endif
               , ::std::forward<Args>(args)...
             )
           , arg(::boost::parameter::aux::void_reference())
@@ -251,14 +289,23 @@ namespace boost { namespace parameter { namespace aux {
           , A1&& a1
           , Args&&... args
         ) : Next(
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+                ::boost::mp11::mp_if<
+                    ::std::is_same<
+#else
                 typename ::boost::mpl::if_<
                     ::boost::is_same<
+#endif
                         typename Next::tagged_arg::value_type
                       , ::boost::parameter::void_
                     >
                   , ::boost::parameter::aux::value_type_is_void
                   , ::boost::parameter::aux::value_type_is_not_void
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+                >()
+#else
                 >::type()
+#endif
               , ::std::forward<A1>(a1)
               , ::std::forward<Args>(args)...
             )
@@ -303,21 +350,35 @@ namespace boost { namespace parameter { namespace aux {
         using Next::has_key;
 
      private:
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        using _has_unique_key = ::boost::mp11::mp_bool<
+#else
         typedef ::boost::mpl::bool_<
+#endif
             sizeof(
                 Next::has_key(
                     static_cast<key_type*>(BOOST_TTI_DETAIL_NULLPTR)
                 )
             ) == sizeof(::boost::parameter::aux::no_tag)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        >;
+#else
         > _has_unique_key;
+#endif
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        static_assert(
+            !(EmitErrors::value) || (_has_unique_key::value)
+          , "duplicate keyword"
+        );
+#else
         BOOST_MPL_ASSERT_MSG(
             !(EmitErrors::value) || (_has_unique_key::value)
           , duplicate_keyword
           , (key_type)
         );
+#endif
 
-     public:
         //
         // Begin implementation of indexing operators
         // for looking up specific arguments by name.
@@ -326,14 +387,22 @@ namespace boost { namespace parameter { namespace aux {
         // Helpers that handle the case when TaggedArg is empty<T>.
         template <typename D>
         inline BOOST_CONSTEXPR reference
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            get_default(D const&, ::boost::mp11::mp_false) const
+#else
             get_default(D const&, ::boost::mpl::false_) const
+#endif
         {
             return this->arg.get_value();
         }
 
         template <typename D>
         inline BOOST_CONSTEXPR reference
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            get_default(D const& d, ::boost::mp11::mp_true) const
+#else
             get_default(D const& d, ::boost::mpl::true_) const
+#endif
         {
             return (
                 this->arg.get_value()
@@ -342,18 +411,19 @@ namespace boost { namespace parameter { namespace aux {
             );
         }
 
+     public:
         inline BOOST_CONSTEXPR reference
             operator[](::boost::parameter::keyword<key_type> const&) const
         {
-#if !defined(BOOST_NO_CXX14_CONSTEXPR) && \
-    !defined(BOOST_NO_CXX11_STATIC_ASSERT)
-            static_assert(!holds_maybe::value, "must not hold maybe");
+#if defined(BOOST_PARAMETER_CAN_USE_MP11) && \
+    !defined(BOOST_NO_CXX14_CONSTEXPR)
+            static_assert(!_holds_maybe::value, "must not hold maybe");
 #elif !( \
         BOOST_WORKAROUND(BOOST_GCC, >= 40700) && \
         BOOST_WORKAROUND(BOOST_GCC, < 40900) \
     ) && !BOOST_WORKAROUND(BOOST_GCC, >= 50000) && \
     !BOOST_WORKAROUND(BOOST_MSVC, < 1910)
-            BOOST_MPL_ASSERT_NOT((holds_maybe));
+            BOOST_MPL_ASSERT_NOT((_holds_maybe));
 #endif
             return this->arg.get_value();
         }
@@ -364,7 +434,7 @@ namespace boost { namespace parameter { namespace aux {
                 ::boost::parameter::aux::default_<key_type,Default> const& d
             ) const
         {
-            return this->get_default(d, holds_maybe());
+            return this->get_default(d, _holds_maybe());
         }
 
         template <typename Default>
@@ -373,7 +443,7 @@ namespace boost { namespace parameter { namespace aux {
                 ::boost::parameter::aux::default_r_<key_type,Default> const& d
             ) const
         {
-            return this->get_default(d, holds_maybe());
+            return this->get_default(d, _holds_maybe());
         }
 
         template <typename Default>
@@ -382,15 +452,15 @@ namespace boost { namespace parameter { namespace aux {
                 BOOST_PARAMETER_lazy_default_fallback<key_type,Default> const&
             ) const
         {
-#if !defined(BOOST_NO_CXX14_CONSTEXPR) && \
-    !defined(BOOST_NO_CXX11_STATIC_ASSERT)
-            static_assert(!holds_maybe::value, "must not hold maybe");
+#if defined(BOOST_PARAMETER_CAN_USE_MP11) && \
+    !defined(BOOST_NO_CXX14_CONSTEXPR)
+            static_assert(!_holds_maybe::value, "must not hold maybe");
 #elif !( \
         BOOST_WORKAROUND(BOOST_GCC, >= 40700) && \
         BOOST_WORKAROUND(BOOST_GCC, < 40900) \
     ) && !BOOST_WORKAROUND(BOOST_GCC, >= 50000) && \
     !BOOST_WORKAROUND(BOOST_MSVC, < 1910)
-            BOOST_MPL_ASSERT_NOT((holds_maybe));
+            BOOST_MPL_ASSERT_NOT((_holds_maybe));
 #endif
             return this->arg.get_value();
         }
