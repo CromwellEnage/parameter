@@ -98,18 +98,17 @@ namespace boost { namespace parameter { namespace aux {
 
     template <
         typename Keyword
-      , typename ActualArg
+      , typename Arg
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
       , typename = typename ::boost::parameter::aux
-        ::is_cv_reference_wrapper<ActualArg>::type
+        ::is_cv_reference_wrapper<Arg>::type
 #endif
     >
     struct tag
     {
         typedef ::boost::parameter::aux::tagged_argument<
             Keyword
-          , typename ::boost::parameter::aux
-            ::unwrap_cv_reference<ActualArg>::type
+          , typename ::boost::parameter::aux::unwrap_cv_reference<Arg>::type
         > type;
     };
 }}} // namespace boost::parameter::aux_
@@ -120,12 +119,12 @@ namespace boost { namespace parameter { namespace aux {
 
 namespace boost { namespace parameter { namespace aux { 
 
-    template <typename Keyword, typename ActualArg>
-    struct tag<Keyword,ActualArg,::boost::mpl::false_>
+    template <typename Keyword, typename Arg>
+    struct tag<Keyword,Arg,::boost::mpl::false_>
     {
         typedef ::boost::parameter::aux::tagged_argument<
             Keyword
-          , typename ::boost::remove_reference<ActualArg>::type
+          , typename ::boost::remove_reference<Arg>::type
         > type;
     };
 }}} // namespace boost::parameter::aux_
