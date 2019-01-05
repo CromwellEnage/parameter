@@ -11,10 +11,7 @@
 #include <boost/parameter/aux_/tagged_argument.hpp>
 #include <boost/parameter/config.hpp>
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11) && !( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1920) \
-    )
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mp11/integral.hpp>
 #include <boost/mp11/utility.hpp>
 #include <type_traits>

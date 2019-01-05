@@ -13,15 +13,21 @@
 #include <boost/parameter/config.hpp>
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#include <boost/core/enable_if.hpp>
+#include <utility>
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/integral.hpp>
+#include <boost/mp11/utility.hpp>
+#include <type_traits>
+#else
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/eval_if.hpp>
-#include <boost/core/enable_if.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/is_scalar.hpp>
 #include <boost/type_traits/is_const.hpp>
-#include <utility>
+#endif
 
 namespace boost { namespace parameter {
 
@@ -51,6 +57,23 @@ namespace boost { namespace parameter {
 
         template <typename T>
         inline BOOST_CONSTEXPR typename ::boost::lazy_enable_if<
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            ::boost::mp11::mp_if<
+                ::std::is_scalar<T>
+              , ::boost::mp11::mp_true
+              , ::boost::mp11::mp_if<
+                    ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::in_reference
+                    >
+                  , ::boost::mp11::mp_true
+                  , ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::forward_reference
+                    >
+                >
+            >
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             typename ::boost::mpl::eval_if<
                 ::boost::is_scalar<T>
               , ::boost::mpl::true_
@@ -70,6 +93,7 @@ namespace boost { namespace parameter {
                     >
                 >
             >::type
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
           , ::boost::parameter::aux::tag<Tag,T const&>
         >::type
             operator=(T const& x) const
@@ -81,6 +105,23 @@ namespace boost { namespace parameter {
 
         template <typename Default>
         inline BOOST_CONSTEXPR typename ::boost::enable_if<
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            ::boost::mp11::mp_if<
+                ::std::is_scalar<Default>
+              , ::boost::mp11::mp_true
+              , ::boost::mp11::mp_if<
+                    ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::in_reference
+                    >
+                  , ::boost::mp11::mp_true
+                  , ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::forward_reference
+                    >
+                >
+            >
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             typename ::boost::mpl::eval_if<
                 ::boost::is_scalar<Default>
               , ::boost::mpl::true_
@@ -100,6 +141,7 @@ namespace boost { namespace parameter {
                     >
                 >
             >::type
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
           , ::boost::parameter::aux::default_<Tag,Default const>
         >::type
             operator|(Default const& d) const
@@ -109,6 +151,27 @@ namespace boost { namespace parameter {
 
         template <typename T>
         inline BOOST_CONSTEXPR typename ::boost::lazy_enable_if<
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            ::boost::mp11::mp_if<
+                ::boost::mp11::mp_if<
+                    ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::out_reference
+                    >
+                  , ::boost::mp11::mp_true
+                  , ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::forward_reference
+                    >
+                >
+              , ::boost::mp11::mp_if<
+                    ::std::is_const<T>
+                  , ::boost::mp11::mp_false
+                  , ::boost::mp11::mp_true
+                >
+              , ::boost::mp11::mp_false
+            >
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             typename ::boost::mpl::eval_if<
                 typename ::boost::mpl::if_<
                     ::boost::is_same<
@@ -128,6 +191,7 @@ namespace boost { namespace parameter {
                 >
               , ::boost::mpl::false_
             >::type
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
           , ::boost::parameter::aux::tag<Tag,T&>
         >::type
             operator=(T& x) const
@@ -139,6 +203,27 @@ namespace boost { namespace parameter {
 
         template <typename Default>
         inline BOOST_CONSTEXPR typename ::boost::enable_if<
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            ::boost::mp11::mp_if<
+                ::boost::mp11::mp_if<
+                    ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::out_reference
+                    >
+                  , ::boost::mp11::mp_true
+                  , ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::forward_reference
+                    >
+                >
+              , ::boost::mp11::mp_if<
+                    ::std::is_const<Default>
+                  , ::boost::mp11::mp_false
+                  , ::boost::mp11::mp_true
+                >
+              , ::boost::mp11::mp_false
+            >
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             typename ::boost::mpl::eval_if<
                 typename ::boost::mpl::if_<
                     ::boost::is_same<
@@ -158,6 +243,7 @@ namespace boost { namespace parameter {
                 >
               , ::boost::mpl::false_
             >::type
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
           , ::boost::parameter::aux::default_<Tag,Default>
         >::type
             operator|(Default& d) const
@@ -184,6 +270,23 @@ namespace boost { namespace parameter {
 
         template <typename T>
         inline BOOST_CONSTEXPR typename ::boost::lazy_enable_if<
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            ::boost::mp11::mp_if<
+                ::std::is_scalar<T>
+              , ::boost::mp11::mp_false
+              , ::boost::mp11::mp_if<
+                    ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::in_reference
+                    >
+                  , ::boost::mp11::mp_true
+                  , ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::forward_reference
+                    >
+                >
+            >
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             typename ::boost::mpl::eval_if<
                 ::boost::is_scalar<T>
               , ::boost::mpl::false_
@@ -203,6 +306,7 @@ namespace boost { namespace parameter {
                     >
                 >
             >::type
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
           , ::boost::parameter::aux::tag<Tag,T const>
         >::type
             operator=(T const&& x) const
@@ -214,6 +318,23 @@ namespace boost { namespace parameter {
 
         template <typename T>
         inline BOOST_CONSTEXPR typename ::boost::lazy_enable_if<
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            ::boost::mp11::mp_if<
+                ::std::is_scalar<T>
+              , ::boost::mp11::mp_false
+              , ::boost::mp11::mp_if<
+                    ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::consume_reference
+                    >
+                  , ::boost::mp11::mp_true
+                  , ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::forward_reference
+                    >
+                >
+            >
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             typename ::boost::mpl::eval_if<
                 ::boost::is_scalar<T>
               , ::boost::mpl::false_
@@ -233,6 +354,7 @@ namespace boost { namespace parameter {
                     >
                 >
             >::type
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
           , ::boost::parameter::aux::tag<Tag,T>
         >::type
             operator=(T&& x) const
@@ -243,6 +365,23 @@ namespace boost { namespace parameter {
 
         template <typename Default>
         inline BOOST_CONSTEXPR typename ::boost::enable_if<
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            ::boost::mp11::mp_if<
+                ::std::is_scalar<Default>
+              , ::boost::mp11::mp_false
+              , ::boost::mp11::mp_if<
+                    ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::in_reference
+                    >
+                  , ::boost::mp11::mp_true
+                  , ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::forward_reference
+                    >
+                >
+            >
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             typename ::boost::mpl::eval_if<
                 ::boost::is_scalar<Default>
               , ::boost::mpl::false_
@@ -262,6 +401,7 @@ namespace boost { namespace parameter {
                     >
                 >
             >::type
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
           , ::boost::parameter::aux::default_r_<Tag,Default const>
         >::type
             operator|(Default const&& d) const
@@ -273,6 +413,23 @@ namespace boost { namespace parameter {
 
         template <typename Default>
         inline BOOST_CONSTEXPR typename ::boost::enable_if<
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            ::boost::mp11::mp_if<
+                ::std::is_scalar<Default>
+              , ::boost::mp11::mp_false
+              , ::boost::mp11::mp_if<
+                    ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::consume_reference
+                    >
+                  , ::boost::mp11::mp_true
+                  , ::std::is_same<
+                        typename Tag::qualifier
+                      , ::boost::parameter::forward_reference
+                    >
+                >
+            >
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             typename ::boost::mpl::eval_if<
                 ::boost::is_scalar<Default>
               , ::boost::mpl::false_
@@ -292,6 +449,7 @@ namespace boost { namespace parameter {
                     >
                 >
             >::type
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
           , ::boost::parameter::aux::default_r_<Tag,Default>
         >::type
             operator|(Default&& d) const
