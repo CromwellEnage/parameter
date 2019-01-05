@@ -55,6 +55,13 @@ namespace boost { namespace parameter { namespace aux {
 
 #include <utility>
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/integral.hpp>
+#include <boost/mp11/list.hpp>
+#include <boost/mp11/utility.hpp>
+#include <type_traits>
+#endif
+
 namespace boost { namespace parameter { namespace aux {
 
     // Terminates arg_list<> and represents an empty list.  Since this is just
@@ -83,6 +90,11 @@ namespace boost { namespace parameter { namespace aux {
             {
                 typedef Default type;
             };
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            template <typename KW, typename Default, typename Reference>
+            using fn = Default;
+#endif
         };
 
         // Terminator for has_key, indicating that the keyword is unique.
@@ -267,14 +279,22 @@ namespace boost { namespace parameter { namespace aux {
                 typedef typename ::boost::mpl::eval_if<
                     ::boost::is_same<KW,key_type>
                   , ::boost::mpl::if_<Reference,reference,value_type>
-                  , ::boost::mpl::apply_wrap3<
-                        next_binding
-                      , KW
-                      , Default
-                      , Reference
-                    >
+                  , ::boost::mpl
+                    ::apply_wrap3<next_binding,KW,Default,Reference>
                 >::type type;
             };
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            template <typename KW, typename Default, typename Reference>
+            using fn = ::boost::mp11::mp_if<
+                ::std::is_same<KW,key_type>
+              , ::boost::mp11::mp_if<Reference,reference,value_type>
+              , ::boost::mp11::mp_apply_q<
+                    next_binding
+                  , ::boost::mp11::mp_list<KW,Default,Reference>
+                >
+            >;
+#endif
         };
 
         // Overload for key_type, so the assert below will fire

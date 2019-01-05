@@ -51,8 +51,8 @@
     !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS) && \
     !defined(BOOST_NO_CXX11_HDR_INITIALIZER_LIST) && \
     !defined(BOOST_NO_CXX11_HDR_TUPLE) && !( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1920) \
+        BOOST_WORKAROUND(BOOST_MSVC, >= 1900) && \
+        BOOST_WORKAROUND(BOOST_MSVC, < 1910) \
     )
 // Boost.MP11 requires C++11. -- Cromwell D. Enage
 #define BOOST_PARAMETER_CAN_USE_MP11
