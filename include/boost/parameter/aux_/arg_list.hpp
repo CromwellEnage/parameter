@@ -673,6 +673,9 @@ namespace boost { namespace parameter { namespace aux {
     >
     class arg_list : public Next
     {
+        typedef typename ::boost::parameter::aux
+        ::is_maybe<typename TaggedArg::value_type>::type _holds_maybe;
+
         TaggedArg arg;      // Stores the argument
 
      public:
@@ -680,18 +683,15 @@ namespace boost { namespace parameter { namespace aux {
         typedef ::boost::parameter::aux::arg_list<TaggedArg,Next> self;
         typedef typename TaggedArg::key_type key_type;
 
-        typedef typename ::boost::parameter::aux
-        ::is_maybe<typename TaggedArg::value_type>::type holds_maybe;
-
         typedef typename ::boost::mpl::eval_if<
-            holds_maybe
+            _holds_maybe
           , ::boost::parameter::aux
             ::get_reference<typename TaggedArg::value_type>
           , ::boost::parameter::aux::get_reference<TaggedArg>
         >::type reference;
 
         typedef typename ::boost::mpl::if_<
-            holds_maybe
+            _holds_maybe
           , reference
           , typename TaggedArg::value_type
         >::type value_type;
@@ -761,6 +761,7 @@ namespace boost { namespace parameter { namespace aux {
         static ::boost::parameter::aux::yes_tag has_key(key_type*);
         using Next::has_key;
 
+     private:
 #if defined(BOOST_NO_SFINAE) || BOOST_WORKAROUND(BOOST_MSVC, < 1800)
         BOOST_MPL_ASSERT_MSG(
             sizeof(
@@ -772,7 +773,6 @@ namespace boost { namespace parameter { namespace aux {
           , (key_type)
         );
 #else
-     private:
         typedef ::boost::mpl::bool_<
             sizeof(
                 Next::has_key(
@@ -789,7 +789,7 @@ namespace boost { namespace parameter { namespace aux {
 #endif  // SFINAE/MSVC workarounds needed
 #endif  // Borland workarounds not needed
 
-     public:
+     private:
         //
         // Begin implementation of indexing operators
         // for looking up specific arguments by name.
@@ -814,6 +814,7 @@ namespace boost { namespace parameter { namespace aux {
             );
         }
 
+     public:
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
         // These older compilers don't support the overload set creation
         // idiom well, so we need to do all the return type calculation
@@ -893,7 +894,7 @@ namespace boost { namespace parameter { namespace aux {
         inline BOOST_CONSTEXPR reference
             get(::boost::parameter::keyword<key_type> const&) const
         {
-            BOOST_MPL_ASSERT_NOT((holds_maybe));
+            BOOST_MPL_ASSERT_NOT((_holds_maybe));
             return this->arg.get_value();
         }
 
@@ -903,7 +904,7 @@ namespace boost { namespace parameter { namespace aux {
                 ::boost::parameter::aux::default_<key_type,Default> const& d
             ) const
         {
-            return this->get_default(d, holds_maybe());
+            return this->get_default(d, _holds_maybe());
         }
 
         template <typename Default>
@@ -918,7 +919,7 @@ namespace boost { namespace parameter { namespace aux {
         inline BOOST_CONSTEXPR reference
             operator[](::boost::parameter::keyword<key_type> const&) const
         {
-            BOOST_MPL_ASSERT_NOT((holds_maybe));
+            BOOST_MPL_ASSERT_NOT((_holds_maybe));
             return this->arg.get_value();
         }
 
@@ -928,7 +929,7 @@ namespace boost { namespace parameter { namespace aux {
                 ::boost::parameter::aux::default_<key_type,Default> const& d
             ) const
         {
-            return this->get_default(d, holds_maybe());
+            return this->get_default(d, _holds_maybe());
         }
 
         template <typename Default>
@@ -937,7 +938,7 @@ namespace boost { namespace parameter { namespace aux {
                 BOOST_PARAMETER_lazy_default_fallback<key_type,Default> const&
             ) const
         {
-            BOOST_MPL_ASSERT_NOT((holds_maybe));
+            BOOST_MPL_ASSERT_NOT((_holds_maybe));
             return this->arg.get_value();
         }
 
