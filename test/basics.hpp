@@ -69,6 +69,10 @@ namespace test {
               , Index_ const& i_
             ) const
         {
+#if !defined(BOOST_PARAMETER_CAN_USE_MP11) || !( \
+        BOOST_WORKAROUND(BOOST_MSVC, >= 1910) && \
+        BOOST_WORKAROUND(BOOST_MSVC, < 1920) \
+    )
             BOOST_MPL_ASSERT((
                 typename boost::mpl::if_<
                     boost::is_same<Index,Index_>
@@ -90,6 +94,7 @@ namespace test {
                   , boost::mpl::false_
                 >::type
             ));
+#endif  // !defined(BOOST_PARAMETER_CAN_USE_MP11) || not MSVC-14.0
             BOOST_TEST(test::equal(n, n_));
             BOOST_TEST(test::equal(v, v_));
             BOOST_TEST(test::equal(i, i_));
