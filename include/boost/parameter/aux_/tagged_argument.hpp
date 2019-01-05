@@ -157,7 +157,7 @@ namespace boost { namespace parameter { namespace aux {
             using fn = ::boost::mp11::mp_if<
                 ::std::is_same<KW,key_type>
               , ::boost::mp11::mp_if<Reference,reference,value_type>
-              , ::boost::mp11::mp_identity<Default>
+              , Default
             >;
 #endif
         };
@@ -349,7 +349,7 @@ namespace boost { namespace parameter { namespace aux {
             using fn = ::boost::mp11::mp_if<
                 ::std::is_same<KW,key_type>
               , ::boost::mp11::mp_if<Reference,reference,value_type>
-              , ::boost::mp11::mp_identity<Default>
+              , Default
             >;
 #endif
         };
