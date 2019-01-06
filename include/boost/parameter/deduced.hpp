@@ -108,8 +108,11 @@ namespace boost { namespace parameter { namespace aux {
     };
 
     template <typename T>
-    using is_deduced1 = typename ::boost::parameter::aux
-    ::is_deduced_aux_mp11<typename T::key_type>::type;
+    struct is_deduced1
+      : ::boost::parameter::aux
+        ::is_deduced_aux_mp11<typename T::key_type>::type
+    {
+    };
 
     template <typename T>
     using has_default_mp11 = ::boost::mp11::mp_if<
