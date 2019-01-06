@@ -162,6 +162,7 @@ namespace test {
 #include <boost/tti/detail/dnullptr.hpp>
 #include <boost/core/enable_if.hpp>
 #include <boost/type_traits/is_base_of.hpp>
+#include <boost/type_traits/is_convertible.hpp>
 #endif
 
 namespace test {
