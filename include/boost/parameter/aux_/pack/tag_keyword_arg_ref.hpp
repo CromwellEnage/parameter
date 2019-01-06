@@ -55,6 +55,11 @@ namespace boost { namespace parameter { namespace aux {
         {
             typedef typename ::boost::parameter::aux::tag_ref<K,T>::type type;
         };
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        template <typename K, typename T>
+        using fn = typename ::boost::parameter::aux::tag_ref<K,T>::type;
+#endif
     };
 }}} // namespace boost::parameter::aux
 

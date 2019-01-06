@@ -201,12 +201,12 @@ namespace boost { namespace parameter { namespace aux {
         {
             template <typename KW, typename Default, typename Reference>
             struct apply
-            {
-                typedef typename ::boost::mpl::eval_if<
+              : ::boost::mpl::eval_if<
                     ::boost::is_same<KW,key_type>
                   , ::boost::mpl::if_<Reference,reference,value_type>
                   , ::boost::mpl::identity<Default>
-                >::type type;
+                >
+            {
             };
 
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
