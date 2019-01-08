@@ -85,7 +85,7 @@ namespace boost { namespace parameter {
     >
     struct value_type
 #if !defined(BOOST_PARAMETER_CAN_USE_MP11)
-      : ::boost:mpl::eval_if<
+      : ::boost::mpl::eval_if<
             ::boost::parameter::aux::is_mpl_placeholder<Parameters>
           , ::boost::mpl::identity<int>
           , ::boost::parameter::value_type0<Parameters,Keyword,Default>
