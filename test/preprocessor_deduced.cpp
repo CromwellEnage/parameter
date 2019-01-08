@@ -9,10 +9,15 @@
 #include <boost/tuple/tuple.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
-#include <boost/type_traits/is_convertible.hpp>
 #include <map>
 #include <string>
 #include "basics.hpp"
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <type_traits>
+#else
+#include <boost/type_traits/is_convertible.hpp>
+#endif
 
 #if !defined(BOOST_NO_SFINAE)
 #include <boost/core/enable_if.hpp>
@@ -35,12 +40,16 @@ namespace test {
     struct predicate_int
     {
         template <typename From, typename Args>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        using fn = std::is_convertible<From,int>;
+#else
         struct apply
           : boost::mpl::if_<
                 boost::is_convertible<From,int>
               , boost::mpl::true_
               , boost::mpl::false_
             >
+#endif
         {
         };
     };
@@ -48,6 +57,9 @@ namespace test {
     struct predicate_string
     {
         template <typename From, typename Args>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        using fn = std::is_convertible<From,std::string>;
+#else
         struct apply
           : boost::mpl::if_<
                 boost::is_convertible<From,std::string>
@@ -56,6 +68,7 @@ namespace test {
             >
         {
         };
+#endif
     };
 
     BOOST_PARAMETER_FUNCTION((int), f, test::tag,
@@ -74,6 +87,9 @@ namespace test {
     struct predicate
     {
         template <typename From, typename Args>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        using fn = std::is_convertible<From,To>;
+#else
         struct apply
           : boost::mpl::if_<
                 boost::is_convertible<From,To>
@@ -82,6 +98,7 @@ namespace test {
             >
         {
         };
+#endif
     };
 
     BOOST_PARAMETER_FUNCTION((int), f, test::tag,
@@ -121,6 +138,9 @@ namespace test {
     struct predicate_X
     {
         template <typename From, typename Args>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        using fn = std::is_convertible<From,test::X>;
+#else
         struct apply
           : boost::mpl::if_<
                 boost::is_convertible<From,test::X>
@@ -129,6 +149,7 @@ namespace test {
             >
         {
         };
+#endif
     };
 
     BOOST_PARAMETER_FUNCTION((int), g, tag,
