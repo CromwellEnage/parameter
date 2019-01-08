@@ -10,6 +10,7 @@
 #include <boost/parameter/aux_/pack/tag_type.hpp>
 #include <boost/parameter/aux_/pack/predicate.hpp>
 #include <boost/parameter/deduced.hpp>
+#include <boost/parameter/config.hpp>
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -23,7 +24,11 @@ namespace boost { namespace parameter { namespace aux {
         typedef ::boost::parameter::aux::parameter_requirements<
             typename ::boost::parameter::aux::tag_type<ParameterSpec>::type
           , typename ::boost::parameter::aux::predicate<ParameterSpec>::type
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+          , ::boost::parameter::aux::has_default_mp11<ParameterSpec>
+#else
           , ::boost::parameter::aux::has_default<ParameterSpec>
+#endif
         > type;
     };
 }}} // namespace boost::parameter::aux

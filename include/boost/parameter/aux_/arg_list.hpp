@@ -86,14 +86,13 @@ namespace boost { namespace parameter { namespace aux {
         struct binding
         {
             template <typename KW, typename Default, typename Reference>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            using fn = Default;
+#else
             struct apply
             {
                 typedef Default type;
             };
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-            template <typename KW, typename Default, typename Reference>
-            using fn = Default;
 #endif
         };
 
@@ -167,7 +166,11 @@ namespace boost { namespace parameter { namespace aux {
     template <
         typename TaggedArg
       , typename Next = ::boost::parameter::aux::empty_arg_list
-      , typename EmitErrors = ::boost::mpl::true_
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+      , typename EmitsErrors = ::boost::mp11::mp_true
+#else
+      , typename EmitsErrors = ::boost::mpl::true_
+#endif
     >
     class arg_list : public Next
     {
@@ -321,6 +324,16 @@ namespace boost { namespace parameter { namespace aux {
             typedef typename Next::binding next_binding;
 
             template <typename KW, typename Default, typename Reference>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            using fn = ::boost::mp11::mp_if<
+                ::std::is_same<KW,key_type>
+              , ::boost::mp11::mp_if<Reference,reference,value_type>
+              , ::boost::mp11::mp_apply_q<
+                    next_binding
+                  , ::boost::mp11::mp_list<KW,Default,Reference>
+                >
+            >;
+#else
             struct apply
             {
                 typedef typename ::boost::mpl::eval_if<
@@ -330,17 +343,6 @@ namespace boost { namespace parameter { namespace aux {
                     ::apply_wrap3<next_binding,KW,Default,Reference>
                 >::type type;
             };
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-            template <typename KW, typename Default, typename Reference>
-            using fn = ::boost::mp11::mp_if<
-                ::std::is_same<KW,key_type>
-              , ::boost::mp11::mp_if<Reference,reference,value_type>
-              , ::boost::mp11::mp_apply_q<
-                    next_binding
-                  , ::boost::mp11::mp_list<KW,Default,Reference>
-                >
-            >;
 #endif
         };
 
@@ -368,12 +370,12 @@ namespace boost { namespace parameter { namespace aux {
 
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
         static_assert(
-            !(EmitErrors::value) || (_has_unique_key::value)
+            !(EmitsErrors::value) || (_has_unique_key::value)
           , "duplicate keyword"
         );
 #else
         BOOST_MPL_ASSERT_MSG(
-            !(EmitErrors::value) || (_has_unique_key::value)
+            !(EmitsErrors::value) || (_has_unique_key::value)
           , duplicate_keyword
           , (key_type)
         );
@@ -479,14 +481,24 @@ namespace boost { namespace parameter { namespace aux {
         // and never really called, so a declaration is enough.
         template <typename HasDefault, typename Predicate, typename ArgPack>
         static BOOST_CONSTEXPR typename ::boost::lazy_enable_if<
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            ::boost::mp11::mp_if<
+                EmitsErrors
+              , ::boost::mp11::mp_true
+              , _has_unique_key
+            >
+          , ::boost::parameter::aux::augment_predicate_mp11<
+#else
             typename ::boost::mpl::if_<
-                EmitErrors
+                EmitsErrors
               , ::boost::mpl::true_
               , _has_unique_key
             >::type
-          , ::boost::mpl::apply_wrap2<
-                ::boost::parameter::aux
-                ::augment_predicate<Predicate,reference,key_type>
+          , ::boost::parameter::aux::augment_predicate<
+#endif
+                Predicate
+              , reference
+              , key_type
               , value_type
               , ArgPack
             >
@@ -669,7 +681,7 @@ namespace boost { namespace parameter { namespace aux {
     template <
         typename TaggedArg
       , typename Next = ::boost::parameter::aux::empty_arg_list
-      , typename EmitErrors = ::boost::mpl::true_
+      , typename EmitsErrors = ::boost::mpl::true_
     >
     class arg_list : public Next
     {
@@ -782,7 +794,7 @@ namespace boost { namespace parameter { namespace aux {
         > _has_unique_key;
 
         BOOST_MPL_ASSERT_MSG(
-            !(EmitErrors::value) || (_has_unique_key::value)
+            !(EmitsErrors::value) || (_has_unique_key::value)
           , duplicate_keyword
           , (key_type)
         );
@@ -959,14 +971,15 @@ namespace boost { namespace parameter { namespace aux {
 #if !defined(BOOST_NO_SFINAE) && !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
         ::boost::lazy_enable_if<
             typename ::boost::mpl::if_<
-                EmitErrors
+                EmitsErrors
               , ::boost::mpl::true_
               , _has_unique_key
             >::type,
 #endif
-            ::boost::mpl::apply_wrap2<
-                ::boost::parameter::aux
-                ::augment_predicate<Predicate,reference,key_type>
+            ::boost::parameter::aux::augment_predicate<
+                Predicate
+              , reference
+              , key_type
               , value_type
               , ArgPack
 #if !defined(BOOST_NO_SFINAE) && !BOOST_WORKAROUND(BOOST_MSVC, < 1800)
