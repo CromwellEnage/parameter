@@ -42,6 +42,7 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux
 
+#include <boost/parameter/aux_/has_nested_template_fn.hpp>
 #include <boost/mp11/list.hpp>
 #include <boost/mp11/utility.hpp>
 
@@ -58,16 +59,7 @@ namespace boost { namespace parameter { namespace aux {
 
     template <typename Predicate, typename Argument, typename ArgumentPack>
     using deduce_tag_condition = ::boost::mp11::mp_if<
-#if 0
-        ::boost::mp11::mp_valid<
-            ::boost::mp11::mp_apply_q<
-                Predicate
-              , ::boost::mp11::mp_list<Argument,ArgumentPack>
-            >
-        >
-#else
-::boost::mp11::mp_false
-#endif
+        ::boost::parameter::aux::has_nested_template_fn<Predicate>
       , ::boost::parameter::aux
         ::deduce_tag_condition_mp11<Predicate,Argument,ArgumentPack>
       , ::boost::parameter::aux
@@ -101,7 +93,7 @@ namespace boost { namespace parameter { namespace aux {
     {
         typedef typename DeducedArgs::spec _spec;
 
-#if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
         typedef typename ::boost::parameter::aux::deduce_tag_condition<
             typename _spec::predicate
 #else

@@ -30,6 +30,19 @@ namespace boost { namespace parameter { namespace aux {
 
     template <typename Keyword, typename Arg>
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
+    struct tagged_argument_type
+      : ::boost::mp11::mp_if<
+            ::std::is_same<
+                typename Keyword::qualifier
+              , ::boost::parameter::out_reference
+            >
+          , ::boost::parameter::aux::error_const_lvalue_bound_to_out_parameter
+          , ::std::remove_const<Arg>
+        >
+    {
+    };
+#else
     using tagged_argument_type = ::boost::mp11::mp_if<
         ::boost::mp11::mp_if<
             ::std::is_scalar<Arg>
@@ -54,6 +67,7 @@ namespace boost { namespace parameter { namespace aux {
           , ::boost::mp11::mp_identity<Arg>
         >
     >;
+#endif  // MSVC-14.1+ workarounds needed
 #else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
     struct tagged_argument_type
       : ::boost::mpl::eval_if<
@@ -103,9 +117,28 @@ namespace boost { namespace parameter { namespace aux {
       : public ::boost::parameter::aux::tagged_argument_base
     {
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
+        typedef typename ::boost::mp11::mp_if<
+            ::boost::mpl::mp_if<
+                ::std::is_scalar<Arg>
+              , ::boost::mp11::mp_false
+              , ::std::is_same<
+                    typename Keyword::qualifier
+                  , ::boost::parameter::consume_reference
+                >
+            >
+          , ::boost::parameter::aux::error_lvalue_bound_to_consume_parameter
+          , ::boost::mp11::mp_if<
+                ::std::is_const<Arg>
+              , ::boost::parameter::aux::tagged_argument_type<Keyword,Arg>
+              , ::boost::mp11::mp_identity<Arg>
+            >
+        >::type arg_type;
+#else
         using arg_type = typename ::boost::parameter::aux
         ::tagged_argument_type<Keyword,Arg>::type;
-#else
+#endif  // MSVC-14.1+ workarounds needed
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
         typedef typename ::boost::mpl::eval_if<
             typename ::boost::mpl::eval_if<
                 ::boost::is_scalar<Arg>

@@ -169,6 +169,11 @@ namespace boost { namespace parameter { namespace aux {
           , ::boost::mp11::mp_false
         >;
     };
+}}} // namespace boost::parameter::aux
+
+#include <boost/parameter/aux_/has_nested_template_fn.hpp>
+
+namespace boost { namespace parameter { namespace aux {
 
     template <
         typename Predicate
@@ -178,14 +183,7 @@ namespace boost { namespace parameter { namespace aux {
       , typename Args
     >
     using augment_predicate_mp11 = ::boost::mp11::mp_if<
-#if 0
-        ::boost::mp11::mp_valid<
-            ::boost::mp11
-            ::mp_apply_q<Predicate,::boost::mp11::mp_list<T,Args> >
-        >
-#else
-::boost::mp11::mp_false
-#endif
+        ::boost::parameter::aux::has_nested_template_fn<Predicate>
       , ::boost::parameter::aux
         ::augment_predicate_mp11_impl<Predicate,R,Tag,T,Args>
       , ::boost::parameter::aux
