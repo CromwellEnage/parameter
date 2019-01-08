@@ -119,7 +119,7 @@ namespace boost { namespace parameter { namespace aux {
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
 #if BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
         typedef typename ::boost::mp11::mp_if<
-            ::boost::mpl::mp_if<
+            ::boost::mp11::mp_if<
                 ::std::is_scalar<Arg>
               , ::boost::mp11::mp_false
               , ::std::is_same<
