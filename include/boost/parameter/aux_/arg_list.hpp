@@ -86,13 +86,14 @@ namespace boost { namespace parameter { namespace aux {
         struct binding
         {
             template <typename KW, typename Default, typename Reference>
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-            using fn = Default;
-#else
             struct apply
             {
                 typedef Default type;
             };
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            template <typename KW, typename Default, typename Reference>
+            using fn = Default;
 #endif
         };
 
@@ -324,16 +325,6 @@ namespace boost { namespace parameter { namespace aux {
             typedef typename Next::binding next_binding;
 
             template <typename KW, typename Default, typename Reference>
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-            using fn = ::boost::mp11::mp_if<
-                ::std::is_same<KW,key_type>
-              , ::boost::mp11::mp_if<Reference,reference,value_type>
-              , ::boost::mp11::mp_apply_q<
-                    next_binding
-                  , ::boost::mp11::mp_list<KW,Default,Reference>
-                >
-            >;
-#else
             struct apply
             {
                 typedef typename ::boost::mpl::eval_if<
@@ -343,6 +334,17 @@ namespace boost { namespace parameter { namespace aux {
                     ::apply_wrap3<next_binding,KW,Default,Reference>
                 >::type type;
             };
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            template <typename KW, typename Default, typename Reference>
+            using fn = ::boost::mp11::mp_if<
+                ::std::is_same<KW,key_type>
+              , ::boost::mp11::mp_if<Reference,reference,value_type>
+              , ::boost::mp11::mp_apply_q<
+                    next_binding
+                  , ::boost::mp11::mp_list<KW,Default,Reference>
+                >
+            >;
 #endif
         };
 
