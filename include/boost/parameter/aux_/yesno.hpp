@@ -6,14 +6,17 @@
 #ifndef YESNO_050328_HPP
 #define YESNO_050328_HPP
 
-#include <boost/mpl/bool.hpp>
-
 namespace boost { namespace parameter { namespace aux {
 
     // types used with the "sizeof trick" to capture the results of
     // overload resolution at compile-time.
     typedef char yes_tag;
     typedef char (&no_tag)[2];
+}}} // namespace boost::parameter::aux
+
+#include <boost/mpl/bool.hpp>
+
+namespace boost { namespace parameter { namespace aux {
 
     // mpl::true_ and mpl::false_ are not distinguishable by sizeof(),
     // so we pass them through these functions to get a type that is.
