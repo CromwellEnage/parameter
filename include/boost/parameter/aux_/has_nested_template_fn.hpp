@@ -20,10 +20,17 @@
 
 namespace boost { namespace parameter { namespace aux {
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+    template <template <typename ...> class F>
+    struct has_nested_template_fn_variadic
+    {
+    };
+#else
     template <template <typename P0, typename P1> class F>
     struct has_nested_template_fn_arity_2
     {
     };
+#endif
 
     template <typename T>
     class has_nested_template_fn_impl
@@ -31,18 +38,25 @@ namespace boost { namespace parameter { namespace aux {
         template <typename U>
         static BOOST_CONSTEXPR ::boost::parameter::aux::no_tag _check(...);
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
         template <typename U>
         static BOOST_CONSTEXPR ::boost::parameter::aux::yes_tag
             _check(
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
                 ::boost::mp11::mp_identity<U> const volatile*
+              , ::boost::parameter::aux::has_nested_template_fn_variadic<
+                    U::template fn
+                >* = BOOST_TTI_DETAIL_NULLPTR
+            );
 #else
+        template <typename U>
+        static BOOST_CONSTEXPR ::boost::parameter::aux::yes_tag
+            _check(
                 ::boost::mpl::identity<U> const volatile*
-#endif
               , ::boost::parameter::aux::has_nested_template_fn_arity_2<
                     U::template fn
                 >* = BOOST_TTI_DETAIL_NULLPTR
             );
+#endif
 
      public:
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
