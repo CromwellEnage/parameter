@@ -970,6 +970,60 @@ define the range constructor.
 
 .. _disable_if: ../../../core/doc/html/core/enable_if.html
 
+``are_tagged_arguments_mp11``
+-----------------------------
+
+:Defined in: `boost/parameter/are_tagged_arguments.hpp`__ if
+|BOOST_PARAMETER_CAN_USE_MP11| is defined
+
+__ ../../../../boost/parameter/are_tagged_arguments.hpp
+
+.. parsed-literal::
+
+    template <typename T0, typename ...Pack>
+    struct are_tagged_arguments_mp11  // : mp11::mp_true or mp11::mp_false
+    {
+    };
+
+:Returns:
+``mp11::mp_true`` if ``T0`` and all elements in parameter pack ``Pack`` are
+|tagged reference| types, ``mp11::mp_false`` otherwise.
+
+:Example usage:
+When implementing a Boost.Parameter-enabled constructor for a container that
+conforms to the C++ standard, one needs to remember that the standard requires
+the presence of other constructors that are typically defined as templates,
+such as range constructors.  To avoid overload ambiguities between the two
+constructors, use this metafunction in conjunction with ``disable_if`` to
+define the range constructor.
+
+.. parsed-literal::
+
+    template <typename B>
+    class frontend : public B
+    {
+        struct _enabler
+        {
+        };
+
+     public:
+        |BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR|_(frontend, (B))
+
+        template <typename Iterator>
+        frontend(
+            Iterator itr
+          , Iterator itr_end
+          , typename boost::`disable_if`_<
+                are_tagged_arguments_mp11<Iterator>
+              , _enabler
+            >::type = _enabler()
+        ) : B(itr, itr_end)
+        {
+        }
+    };
+
+.. _disable_if: ../../../core/doc/html/core/enable_if.html
+
 ``is_argument_pack``
 --------------------
 
@@ -1036,6 +1090,74 @@ in conjunction with ``enable_if``.
     };
 
 .. _is_convertible: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
+
+``is_argument_pack_mp11``
+-------------------------
+
+:Defined in: `boost/parameter/is_argument_pack.hpp`__ if
+|BOOST_PARAMETER_CAN_USE_MP11| is defined
+
+__ ../../../../boost/parameter/is_argument_pack.hpp
+
+.. parsed-literal::
+
+    template <typename T>
+    struct is_argument_pack_mp11  // : mp11::mp_true or mp11::mp_false
+    {
+    };
+
+:Returns:
+``mp11::mp_true`` if ``T`` is a model of |ArgumentPack|_, ``mp11::mp_false``
+otherwise.
+
+:Example usage:
+To avoid overload ambiguities between a constructor that takes in an
+|ArgumentPack|_ and a templated conversion constructor, use this metafunction
+in conjunction with ``enable_if``.
+
+.. parsed-literal::
+
+    |BOOST_PARAMETER_NAME|_(a0)
+
+    template <typename T>
+    class backend0
+    {
+        struct _enabler
+        {
+        };
+
+        T a0;
+
+     public:
+        template <typename ArgPack>
+        explicit backend0(
+            ArgPack const& args
+          , typename boost::`enable_if`_<
+                is_argument_pack_mp11<ArgPack>
+              , _enabler
+            >::type = _enabler()
+        ) : a0(args[_a0])
+        {
+        }
+
+        template <typename U>
+        backend0(
+            backend0<U> const& copy
+          , typename boost::`enable_if`_<
+                std::`is_convertible`_<U,T>
+              , _enabler
+            >::type = _enabler()
+        ) : a0(copy.get_a0())
+        {
+        }
+
+        T const& get_a0() const
+        {
+            return this->a0;
+        }
+    };
+
+.. _is_convertible: http\://en.cppreference.com/w/cpp/types/is_convertible
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -6623,8 +6745,10 @@ both |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| and
 --------------------------------
 
 Determines whether or not the library can use `Boost.MP11`_, a C++11
-metaprogramming library.  Users can manually disable this macro by
-``#defining`` the |BOOST_PARAMETER_DISABLE_MP11_USAGE| macro or the
+metaprogramming library, and therefore determines whether or not the library
+defines the |are_tagged_arguments_mp11| and |is_argument_pack_mp11|
+metafunctions.  Users can manually disable this macro by ``#defining`` the
+|BOOST_PARAMETER_DISABLE_MP11_USAGE| macro or the
 |BOOST_PARAMETER_DISABLE_PERFECT_FORWARDING| macro.  Otherwise, the library
 will ``#define`` this macro if and only if it is not already defined, if
 |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| is defined, and if the configuration
@@ -6661,13 +6785,86 @@ are not already defined by `Boost.Config`_.
 
 __ ../../../../boost/parameter/config.hpp
 
+:Example usage:
+Given the following definitions::
+
+    |BOOST_PARAMETER_NAME|_(x)
+
+    template <typename A0>
+    typename boost::`enable_if`_<std::is_same<int,A0>,int>::type
+        sfinae(A0 const& a0)
+    {
+        return 0;
+    }
+
+`Boost.MP11`_ allows deduced parameters to be defined more succinctly::
+
+    template <typename T, typename Args>
+    using predicate = std::is_convertible<T,char const\*>;
+
+    |BOOST_PARAMETER_FUNCTION|_((int), sfinae, tag,
+        (deduced
+            (optional
+                (x
+                  , \*(boost::mp11::mp_quote<predicate>)
+                  , static_cast<char const\*>(std::nullptr)
+                )
+            )
+        )
+    )
+    {
+        return 1;
+    }
+
+Without `Boost.MP11`_, deduced parameter definitions tend to be more verbose::
+
+    struct predicate
+    {
+        template <typename T, typename Args>
+        struct apply
+          : boost::mpl::if_<
+                boost::is_convertible<T,char const\*>
+              , boost::mpl::true_
+              , boost::mpl::false_
+            >
+        {
+        };
+    };
+
+    |BOOST_PARAMETER_FUNCTION|_((int), sfinae, tag,
+        (deduced
+            (optional
+                (x
+                  , \*(predicate)
+                  , static_cast<char const\*>(std::nullptr)
+                )
+            )
+        )
+    )
+    {
+        return 1;
+    }
+
+Either way, the following assertions will succeed::
+
+    assert(1 == sfinae());
+    assert(1 == sfinae("foo"));
+    assert(0 == sfinae(1));
+
+The |optional_deduced_sfinae_cpp|_ test program demonstrates proper usage of
+this macro.
+
+.. |optional_deduced_sfinae_cpp| replace:: optional_deduced_sfinae.cpp
+.. _optional_deduced_sfinae_cpp: ../../test/optional_deduced_sfinae.cpp
+
 ``BOOST_PARAMETER_DISABLE_MP11_USAGE``
 --------------------------------------
 
 It may be necessary to disable usage of `Boost.MP11`_ for compilers that
 cannot support it.  Users can ``#define`` this macro either in their project
 settings or before including any library header files.  Doing so will leave
-|BOOST_PARAMETER_CAN_USE_MP11| undefined.
+|BOOST_PARAMETER_CAN_USE_MP11| undefined and the |are_tagged_arguments_mp11|
+and |is_argument_pack_mp11| metafunctions unavailable.
 
 .. |BOOST_PARAMETER_CAN_USE_MP11| replace:: ``BOOST_PARAMETER_CAN_USE_MP11``
 .. _`Boost.MP11`: ../../../mp11/doc/html/mp11.html
