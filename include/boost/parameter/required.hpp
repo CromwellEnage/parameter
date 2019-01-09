@@ -31,35 +31,36 @@ namespace boost { namespace parameter {
     };
 }}
 
+#include <boost/parameter/config.hpp>
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/integral.hpp>
+#else
 #include <boost/mpl/bool.hpp>
+#endif
 
 namespace boost { namespace parameter { namespace aux {
 
     template <typename T>
-    struct is_required : ::boost::mpl::false_
+    struct is_required
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+      : ::boost::mp11::mp_false
+#else
+      : ::boost::mpl::false_
+#endif
     {
     };
 
     template <typename Tag, typename Predicate>
     struct is_required< ::boost::parameter::required<Tag,Predicate> >
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+      : ::boost::mp11::mp_true
+#else
       : ::boost::mpl::true_
+#endif
     {
     };
 }}} // namespace boost::parameter::aux
 
-#include <boost/parameter/config.hpp>
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#include <boost/mp11/integral.hpp>
-
-namespace boost { namespace parameter { namespace aux {
-
-    template <typename T>
-    using is_required_mp11 = ::boost::mp11::mp_bool<
-        ::boost::parameter::aux::is_required<T>::value
-    >;
-}}} // namespace boost::parameter::aux
-
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
 #endif  // include guard
 

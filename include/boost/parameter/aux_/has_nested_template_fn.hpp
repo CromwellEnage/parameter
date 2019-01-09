@@ -21,7 +21,7 @@
 namespace boost { namespace parameter { namespace aux {
 
     template <template <typename P0, typename P1> class F>
-    struct has_nested_template_fn_substitute_1
+    struct has_nested_template_fn_arity_2
     {
     };
 
@@ -39,7 +39,7 @@ namespace boost { namespace parameter { namespace aux {
 #else
                 ::boost::mpl::identity<U> const volatile*
 #endif
-              , ::boost::parameter::aux::has_nested_template_fn_substitute_1<
+              , ::boost::parameter::aux::has_nested_template_fn_arity_2<
                     U::template fn
                 >* = BOOST_TTI_DETAIL_NULLPTR
             );

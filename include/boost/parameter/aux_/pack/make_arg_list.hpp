@@ -79,7 +79,7 @@ namespace boost { namespace parameter { namespace aux {
             typename ::std::remove_reference<_argument>::type
         >::type;
         using _is_tagged = ::boost::parameter::aux
-        ::is_named_argument_mp11<_argument>;
+        ::is_named_argument<_argument>;
 #else
         typedef typename ::boost::remove_const<
             typename ::boost::remove_reference<_argument>::type
@@ -97,7 +97,7 @@ namespace boost { namespace parameter { namespace aux {
         using _is_positional = ::boost::mp11::mp_if<
             IsPositional
           , ::boost::mp11::mp_if<
-                ::boost::parameter::aux::is_deduced_mp11<_parameter_spec>
+                ::boost::parameter::aux::is_deduced<_parameter_spec>
               , ::boost::mp11::mp_false
               , ::boost::mp11::mp_if<
                     _is_tagged

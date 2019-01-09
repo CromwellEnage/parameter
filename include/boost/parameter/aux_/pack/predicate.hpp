@@ -56,9 +56,9 @@ namespace boost { namespace parameter { namespace aux {
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
     using predicate = ::boost::mp11::mp_if<
         ::boost::mp11::mp_if<
-            ::boost::parameter::aux::is_optional_mp11<T>
+            ::boost::parameter::aux::is_optional<T>
           , ::boost::mp11::mp_true
-          , ::boost::parameter::aux::is_required_mp11<T>
+          , ::boost::parameter::aux::is_required<T>
         >
       , ::boost::parameter::aux::get_predicate<T>
       , ::boost::mp11::mp_identity<

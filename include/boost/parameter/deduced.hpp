@@ -23,18 +23,33 @@ namespace boost { namespace parameter {
     };
 }}
 
+#include <boost/parameter/config.hpp>
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/integral.hpp>
+#else
 #include <boost/mpl/bool.hpp>
+#endif
 
 namespace boost { namespace parameter { namespace aux {
 
     template <typename T>
-    struct is_deduced_aux : ::boost::mpl::false_
+    struct is_deduced_aux
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+      : ::boost::mp11::mp_false
+#else
+      : ::boost::mpl::false_
+#endif
     {
     };
 
     template <typename Tag>
     struct is_deduced_aux< ::boost::parameter::deduced<Tag> >
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+      : ::boost::mp11::mp_true
+#else
       : ::boost::mpl::true_
+#endif
     {
     };
 
@@ -47,7 +62,12 @@ namespace boost { namespace parameter { namespace aux {
 
 #include <boost/parameter/required.hpp>
 #include <boost/parameter/optional.hpp>
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/utility.hpp>
+#else
 #include <boost/mpl/if.hpp>
+#endif
 
 namespace boost { namespace parameter { namespace aux {
 
@@ -64,6 +84,13 @@ namespace boost { namespace parameter { namespace aux {
     //
 
     template <typename T>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+    using has_default = ::boost::mp11::mp_if<
+        ::boost::parameter::aux::is_required<T>
+      , ::boost::mp11::mp_false
+      , ::boost::mp11::mp_true
+    >;
+#else
     struct has_default
       : ::boost::mpl::if_<
             ::boost::parameter::aux::is_required<T>
@@ -72,8 +99,20 @@ namespace boost { namespace parameter { namespace aux {
         >::type
     {
     };
+#endif
 
     template <typename T>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+    using is_deduced = ::boost::mp11::mp_if<
+        ::boost::mp11::mp_if<
+            ::boost::parameter::aux::is_optional<T>
+          , ::boost::mp11::mp_true
+          , ::boost::parameter::aux::is_required<T>
+        >
+      , ::boost::parameter::aux::is_deduced0<T>
+      , ::boost::mp11::mp_false
+    >;
+#else
     struct is_deduced
       : ::boost::mpl::if_<
             typename ::boost::mpl::if_<
@@ -86,53 +125,8 @@ namespace boost { namespace parameter { namespace aux {
         >::type
     {
     };
-}}} // namespace boost::parameter::aux
-
-#include <boost/parameter/config.hpp>
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#include <boost/mp11/integral.hpp>
-#include <boost/mp11/utility.hpp>
-
-namespace boost { namespace parameter { namespace aux {
-
-    template <typename T>
-    struct is_deduced_aux_mp11 : ::boost::mp11::mp_false
-    {
-    };
-
-    template <typename Tag>
-    struct is_deduced_aux_mp11< ::boost::parameter::deduced<Tag> >
-      : ::boost::mp11::mp_true
-    {
-    };
-
-    template <typename T>
-    struct is_deduced1
-      : ::boost::parameter::aux
-        ::is_deduced_aux_mp11<typename T::key_type>::type
-    {
-    };
-
-    template <typename T>
-    using has_default_mp11 = ::boost::mp11::mp_if<
-        ::boost::parameter::aux::is_required_mp11<T>
-      , ::boost::mp11::mp_false
-      , ::boost::mp11::mp_true
-    >;
-
-    template <typename T>
-    using is_deduced_mp11 = ::boost::mp11::mp_if<
-        ::boost::mp11::mp_if<
-            ::boost::parameter::aux::is_optional_mp11<T>
-          , ::boost::mp11::mp_true
-          , ::boost::parameter::aux::is_required_mp11<T>
-        >
-      , ::boost::parameter::aux::is_deduced1<T>
-      , ::boost::mp11::mp_false
-    >;
-}}} // namespace boost::parameter::aux
-
 #endif  // BOOST_PARAMETER_CAN_USE_MP11
+}}} // namespace boost::parameter::aux
+
 #endif  // include guard
 

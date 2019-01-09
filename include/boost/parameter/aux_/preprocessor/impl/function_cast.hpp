@@ -284,8 +284,11 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux
 
-#include <boost/mpl/apply_wrap.hpp>
 #include <boost/parameter/value_type.hpp>
+
+#if !defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mpl/apply_wrap.hpp>
+#endif
 
 // Expands to the target type of the argument as indicated by the predicate.
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)

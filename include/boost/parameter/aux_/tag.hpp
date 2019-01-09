@@ -35,13 +35,16 @@ namespace boost { namespace parameter { namespace aux {
     };
 
     template <typename Keyword, typename Arg>
-    using tag_if_otherwise = ::boost::mp11::mp_if<
-        ::std::is_scalar<typename ::std::remove_const<Arg>::type>
-      , ::boost::parameter::aux::tag_if_scalar<Keyword,Arg>
-      , ::boost::mp11::mp_identity<
-            ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+    struct tag_if_otherwise
+      : ::boost::mp11::mp_if<
+            ::std::is_scalar<typename ::std::remove_const<Arg>::type>
+          , ::boost::parameter::aux::tag_if_scalar<Keyword,Arg>
+          , ::boost::mp11::mp_identity<
+                ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+            >
         >
-    >;
+    {
+    };
 
     template <typename Keyword, typename Arg>
     using tag = ::boost::mp11::mp_if<

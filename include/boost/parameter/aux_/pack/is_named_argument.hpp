@@ -8,12 +8,26 @@
 
 #include <boost/parameter/aux_/template_keyword.hpp>
 #include <boost/parameter/aux_/is_tagged_argument.hpp>
+#include <boost/parameter/config.hpp>
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/integral.hpp>
+#include <boost/mp11/utility.hpp>
+#else
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
+#endif
 
 namespace boost { namespace parameter { namespace aux {
 
     template <typename T>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+    using is_named_argument = ::boost::mp11::mp_if<
+        ::boost::parameter::aux::is_template_keyword<T>
+      , ::boost::mp11::mp_true
+      , ::boost::parameter::aux::is_tagged_argument_mp11<T>
+    >;
+#else
     struct is_named_argument
       : ::boost::mpl::if_<
             ::boost::parameter::aux::is_template_keyword<T>
@@ -22,24 +36,8 @@ namespace boost { namespace parameter { namespace aux {
         >::type
     {
     };
+#endif
 }}} // namespace boost::parameter::aux
 
-#include <boost/parameter/config.hpp>
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#include <boost/mp11/integral.hpp>
-#include <boost/mp11/utility.hpp>
-
-namespace boost { namespace parameter { namespace aux {
-
-    template <typename T>
-    using is_named_argument_mp11 = ::boost::mp11::mp_if<
-        ::boost::parameter::aux::is_template_keyword_mp11<T>
-      , ::boost::mp11::mp_true
-      , ::boost::parameter::aux::is_tagged_argument_mp11<T>
-    >;
-}}} // namespace boost::parameter::aux
-
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
 #endif  // include guard
 

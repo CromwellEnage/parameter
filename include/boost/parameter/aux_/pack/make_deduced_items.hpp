@@ -28,7 +28,7 @@ namespace boost { namespace parameter { namespace aux {
         ::std::is_same<Spec,::boost::parameter::void_>
       , ::boost::mp11::mp_identity< ::boost::parameter::void_>
       , ::boost::mp11::mp_if<
-            ::boost::parameter::aux::is_deduced_mp11<Spec>
+            ::boost::parameter::aux::is_deduced<Spec>
           , ::boost::parameter::aux::make_deduced_item<Spec,Tail>
           , Tail
         >

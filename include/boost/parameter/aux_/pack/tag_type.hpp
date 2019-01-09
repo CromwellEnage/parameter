@@ -31,11 +31,10 @@ namespace boost { namespace parameter { namespace aux {
     struct get_tag_type
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
       : ::boost::mp11::mp_if<
-            ::boost::parameter::aux::is_deduced1<T>
 #else
       : ::boost::mpl::eval_if<
-            ::boost::parameter::aux::is_deduced0<T>
 #endif
+            ::boost::parameter::aux::is_deduced0<T>
           , ::boost::parameter::aux::get_tag_type0<typename T::key_type>
           , ::boost::parameter::aux::get_tag_type0<T>
         >
@@ -54,9 +53,9 @@ namespace boost { namespace parameter { namespace aux {
     template <typename T>
     using tag_type = ::boost::mp11::mp_if<
         ::boost::mp11::mp_if<
-            ::boost::parameter::aux::is_optional_mp11<T>
+            ::boost::parameter::aux::is_optional<T>
           , ::boost::mp11::mp_true
-          , ::boost::parameter::aux::is_required_mp11<T>
+          , ::boost::parameter::aux::is_required<T>
         >
       , ::boost::parameter::aux::get_tag_type<T>
       , ::boost::mp11::mp_identity<T>

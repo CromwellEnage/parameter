@@ -177,7 +177,7 @@ namespace boost { namespace parameter { namespace aux {
     {
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
         using _holds_maybe = typename ::boost::parameter::aux
-        ::is_maybe_mp11<typename TaggedArg::value_type>::type;
+        ::is_maybe<typename TaggedArg::value_type>::type;
 #else
         typedef typename ::boost::parameter::aux
         ::is_maybe<typename TaggedArg::value_type>::type _holds_maybe;
