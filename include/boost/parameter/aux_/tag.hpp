@@ -11,7 +11,10 @@
 #include <boost/parameter/aux_/tagged_argument.hpp>
 #include <boost/parameter/config.hpp>
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11) && \
+    !BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
+// MSVC-14.1+ assigns rvalue references to tagged_argument instances
+// instead of tagged_argument_rref instances with this code.
 #include <boost/mp11/integral.hpp>
 #include <boost/mp11/utility.hpp>
 #include <type_traits>
@@ -35,16 +38,13 @@ namespace boost { namespace parameter { namespace aux {
     };
 
     template <typename Keyword, typename Arg>
-    struct tag_if_otherwise
-      : ::boost::mp11::mp_if<
-            ::std::is_scalar<typename ::std::remove_const<Arg>::type>
-          , ::boost::parameter::aux::tag_if_scalar<Keyword,Arg>
-          , ::boost::mp11::mp_identity<
-                ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
-            >
+    using tag_if_otherwise = ::boost::mp11::mp_if<
+        ::std::is_scalar<typename ::std::remove_const<Arg>::type>
+      , ::boost::parameter::aux::tag_if_scalar<Keyword,Arg>
+      , ::boost::mp11::mp_identity<
+            ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
         >
-    {
-    };
+    >;
 
     template <typename Keyword, typename Arg>
     using tag = ::boost::mp11::mp_if<
