@@ -97,7 +97,7 @@ namespace boost { namespace parameter { namespace aux {
 
 #if !defined(BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE)
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#include <boost/mp11/mpl.hpp>
+//#include <boost/mp11/mpl.hpp>
 #define BOOST_PARAMETER_VARIADIC_MPL_SEQUENCE ::boost::mp11::mp_list
 #else
 #include <boost/fusion/container/list/list_fwd.hpp>

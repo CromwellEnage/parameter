@@ -3,14 +3,21 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
+#include <boost/parameter/config.hpp>
+#include "basics.hpp"
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/list.hpp>
+#include <boost/mp11/algorithm.hpp>
+#else
 #include <boost/mpl/list.hpp>
+#include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/size.hpp>
 #include <boost/mpl/contains.hpp>
 #include <boost/mpl/assert.hpp>
 #include <boost/type_traits/add_pointer.hpp>
-#include <boost/parameter/config.hpp>
-#include "basics.hpp"
+#endif
 
 namespace test {
 
@@ -18,15 +25,35 @@ namespace test {
     struct assert_in_set
     {
         template <typename T>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        void operator()(T&&)
+        {
+            static_assert(
+                boost::mp11::mp_contains<Set,T>::value
+              , "T must be in Set"
+            );
+        }
+#else
         void operator()(T*)
         {
             BOOST_MPL_ASSERT((boost::mpl::contains<Set,T>));
         }
+#endif
     };
 
     template <typename Expected, typename Params>
     void f_impl(Params const& p BOOST_APPEND_EXPLICIT_TEMPLATE_TYPE(Expected))
     {
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        static_assert(
+            boost::mp11::mp_size<Expected>::value == boost::mp11::mp_size<
+                Params
+            >::value
+          , "mp_size<Expected>::value == mp_size<Params>::value"
+        );
+
+        boost::mp11::mp_for_each<Expected>(test::assert_in_set<Params>());
+#else
         BOOST_MPL_ASSERT_RELATION(
             boost::mpl::size<Expected>::value
           , ==
@@ -36,9 +63,8 @@ namespace test {
         boost::mpl::for_each<
             Params
           , boost::add_pointer<boost::mpl::_1>
-        >(
-            test::assert_in_set<Expected>()
-        );
+        >(test::assert_in_set<Expected>());
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
     }
 
     template <
@@ -94,17 +120,33 @@ namespace test {
         typedef test::tag::value value_;
         typedef test::tag::index index_;
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        test::f<
+            boost::mp11::mp_list<tester_,name_,value_,index_>
+        >(1, 2, 3, 4);
+        test::f<
+            boost::mp11::mp_list<tester_,name_,index_>
+        >(1, 2, test::_index = 3);
+        test::f<
+            boost::mp11::mp_list<tester_,name_,index_>
+        >(1, test::_index = 2, test::_name = 3);
+        test::f<
+            boost::mp11::mp_list<name_,value_>
+        >(test::_name = 3, test::_value = 4);
+        test::f_impl<boost::mp11::mp_list<value_> >(test::_value = 4);
+#else
         test::f<boost::mpl::list4<tester_,name_,value_,index_> >(1, 2, 3, 4);
-        test::f<boost::mpl::list3<tester_,name_,index_> >(
-            1, 2, test::_index = 3
-        );
-        test::f<boost::mpl::list3<tester_,name_,index_> >(
-            1, test::_index = 2, test::_name = 3
-        );
-        test::f<boost::mpl::list2<name_,value_> >(
-            test::_name = 3, test::_value = 4
-        );
+        test::f<
+            boost::mpl::list3<tester_,name_,index_>
+        >(1, 2, test::_index = 3);
+        test::f<
+            boost::mpl::list3<tester_,name_,index_>
+        >(1, test::_index = 2, test::_name = 3);
+        test::f<
+            boost::mpl::list2<name_,value_>
+        >(test::_name = 3, test::_value = 4);
         test::f_impl<boost::mpl::list1<value_> >(test::_value = 4);
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
     }
 }
 

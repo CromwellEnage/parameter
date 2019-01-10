@@ -24,6 +24,11 @@ namespace param {
 }
 
 #include <boost/parameter/is_argument_pack.hpp>
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/list.hpp>
+#include <boost/mp11/algorithm.hpp>
+#else
 #include <boost/mpl/void.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/int.hpp>
@@ -35,6 +40,7 @@ namespace param {
 #include <boost/mpl/equal_to.hpp>
 #include <boost/mpl/assert.hpp>
 #include <boost/type_traits/is_same.hpp>
+#endif
 
 #if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
 #include <boost/function.hpp>
@@ -52,6 +58,82 @@ namespace test {
         template <typename ArgPack>
         A(ArgPack const& args) : i(args[param::a0]), j(args[param::a1])
         {
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            static_assert(
+                boost::parameter::is_argument_pack_mp11<ArgPack>::value
+              , "args must model the ArgumentPack concept"
+            );
+            static_assert(
+                boost::mp11::mp_contains<ArgPack,param::tag::a0>::value
+              , "param::tag::a0 must be in ArgPack"
+            );
+            static_assert(
+                boost::mp11::mp_contains<ArgPack,param::tag::a1>::value
+              , "param::tag::a1 must be in ArgPack"
+            );
+            static_assert(
+                !boost::mp11::mp_contains<ArgPack,param::tag::lrc>::value
+              , "param::tag::lrc must not be in ArgPack"
+            );
+            static_assert(
+                !boost::mp11::mp_contains<ArgPack,param::tag::lr>::value
+              , "param::tag::lr must not be in ArgPack"
+            );
+            static_assert(
+                !boost::mp11::mp_contains<ArgPack,param::tag::rr>::value
+              , "param::tag::rr must not be in ArgPack"
+            );
+            static_assert(
+                1 == boost::mp11::mp_count<ArgPack,param::tag::a0>::value
+              , "param::tag::a0 must be in ArgPack exactly once"
+            );
+            static_assert(
+                1 == boost::mp11::mp_count<ArgPack,param::tag::a1>::value
+              , "param::tag::a1 must be in ArgPack exactly once"
+            );
+            static_assert(
+                0 == boost::mp11::mp_count<ArgPack,param::tag::lrc>::value
+              , "param::tag::lrc must be in ArgPack exactly zero times"
+            );
+            static_assert(
+                0 == boost::mp11::mp_count<ArgPack,param::tag::lr>::value
+              , "param::tag::lr must be in ArgPack exactly zero times"
+            );
+            static_assert(
+                0 == boost::mp11::mp_count<ArgPack,param::tag::rr>::value
+              , "param::tag::rr must be in ArgPack exactly zero times"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::a0>::value) < (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::a0 must be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::a1>::value) < (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::a1 must be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::lrc>::value) == (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::lrc must not be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::lr>::value) == (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::lr must not be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::rr>::value) == (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::rr must not be found in ArgPack"
+            );
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgPack>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::a0>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::a1>));
@@ -120,6 +202,7 @@ namespace test {
                   , boost::mpl::true_
                 >::type
             ));
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
         }
     };
 
@@ -185,6 +268,110 @@ namespace test {
           , j(args[param::_lr])
           , k(args[param::_lrc])
         {
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            static_assert(
+                boost::parameter::is_argument_pack_mp11<ArgPack>::value
+              , "args must model the ArgumentPack concept"
+            );
+            static_assert(
+                boost::mp11::mp_contains<ArgPack,param::tag::lrc>::value
+              , "param::tag::lrc must be in ArgPack"
+            );
+            static_assert(
+                boost::mp11::mp_contains<ArgPack,param::tag::lr>::value
+              , "param::tag::lr must be in ArgPack"
+            );
+            static_assert(
+                boost::mp11::mp_contains<ArgPack,param::tag::rr>::value
+              , "param::tag::rr must be in ArgPack"
+            );
+            static_assert(
+                !boost::mp11::mp_contains<ArgPack,param::tag::a0>::value
+              , "param::tag::a0 must not be in ArgPack"
+            );
+            static_assert(
+                !boost::mp11::mp_contains<ArgPack,param::tag::a1>::value
+              , "param::tag::a1 must not be in ArgPack"
+            );
+            static_assert(
+                !boost::mp11::mp_contains<ArgPack,param::tag::a2>::value
+              , "param::tag::a2 must not be in ArgPack"
+            );
+            static_assert(
+                !boost::mp11::mp_contains<ArgPack,param::tag::a3>::value
+              , "param::tag::a3 must not be in ArgPack"
+            );
+            static_assert(
+                1 == boost::mp11::mp_count<ArgPack,param::tag::rr>::value
+              , "param::tag::rr must be in ArgPack exactly once"
+            );
+            static_assert(
+                1 == boost::mp11::mp_count<ArgPack,param::tag::lr>::value
+              , "param::tag::lr must be in ArgPack exactly once"
+            );
+            static_assert(
+                1 == boost::mp11::mp_count<ArgPack,param::tag::lrc>::value
+              , "param::tag::lrc must be in ArgPack exactly once"
+            );
+            static_assert(
+                0 == boost::mp11::mp_count<ArgPack,param::tag::a0>::value
+              , "param::tag::a0 must be in ArgPack exactly zero times"
+            );
+            static_assert(
+                0 == boost::mp11::mp_count<ArgPack,param::tag::a1>::value
+              , "param::tag::a1 must be in ArgPack exactly zero times"
+            );
+            static_assert(
+                0 == boost::mp11::mp_count<ArgPack,param::tag::a2>::value
+              , "param::tag::a2 must be in ArgPack exactly zero times"
+            );
+            static_assert(
+                0 == boost::mp11::mp_count<ArgPack,param::tag::a3>::value
+              , "param::tag::a3 must be in ArgPack exactly zero times"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::lrc>::value) < (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::lrc must be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::lr>::value) < (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::lr must be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::rr>::value) < (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::rr must be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::a0>::value) == (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::a0 must not be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::a1>::value) == (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::a1 must not be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::a2>::value) == (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::a2 must not be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::a3>::value) == (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::a3 must not be found in ArgPack"
+            );
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgPack>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::rr>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::lr>));
@@ -285,6 +472,7 @@ namespace test {
                   , boost::mpl::true_
                 >::type
             ));
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
         }
     };
 } // namespace test
@@ -311,6 +499,40 @@ namespace test {
           , j(args[param::_lr])
           , k(args[param::_lrc])
         {
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            static_assert(
+                boost::parameter::is_argument_pack_mp11<ArgPack>::value
+              , "args must model the ArgumentPack concept"
+            );
+            static_assert(
+                boost::mp11::mp_contains<ArgPack,param::tag::lrc>::value
+              , "param::tag::lrc must be in ArgPack"
+            );
+            static_assert(
+                boost::mp11::mp_contains<ArgPack,param::tag::lr>::value
+              , "param::tag::lr must be in ArgPack"
+            );
+            static_assert(
+                1 == boost::mp11::mp_count<ArgPack,param::tag::lr>::value
+              , "param::tag::lr must be in ArgPack exactly once"
+            );
+            static_assert(
+                1 == boost::mp11::mp_count<ArgPack,param::tag::lrc>::value
+              , "param::tag::lrc must be in ArgPack exactly once"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::lrc>::value) < (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::lrc must be found in ArgPack"
+            );
+            static_assert(
+                (boost::mp11::mp_find<ArgPack,param::tag::lr>::value) < (
+                    boost::mp11::mp_size<ArgPack>::value
+                )
+              , "param::tag::lr must be found in ArgPack"
+            );
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
             BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgPack>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::lr>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::lrc>));
@@ -370,6 +592,7 @@ namespace test {
                   , boost::mpl::true_
                 >::type
             ));
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
         }
     };
 } // namespace test
