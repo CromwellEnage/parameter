@@ -52,9 +52,7 @@ namespace test {
           , "mp_size<Expected>::value == mp_size<Args>::value"
         );
 
-        boost::mp11::mp_for_each<
-            typename boost::parameter::to_mp_list_of_keyword_tags<Args>::type
-        >(test::assert_in_set<Expected>());
+        boost::mp11::mp_for_each<Args>(test::assert_in_set<Expected>());
         boost::mp11::mp_for_each<Expected>(test::assert_in_set<Args>());
 #else
         BOOST_MPL_ASSERT_RELATION(

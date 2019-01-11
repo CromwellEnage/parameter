@@ -1126,48 +1126,48 @@ namespace boost { namespace mp11 { namespace detail {
     {
         using type = ::boost::parameter::aux::empty_arg_list;
     };
-}}} // namespace boost::mp11::detail
 
-namespace boost { namespace parameter {
-
-    template <typename ArgList>
-    struct to_mp_list_of_keyword_tags;
-
-    template <>
-    struct to_mp_list_of_keyword_tags<
-        ::boost::parameter::aux::empty_arg_list
-    >
+    template <template <typename ...> class B>
+    struct mp_rename_impl< ::boost::parameter::aux::empty_arg_list,B>
     {
-        using type = ::boost::mp11::mp_list<>;
+        using type = B<>;
     };
 
-    template <typename TaggedArg, typename Next, typename EmitsErrors>
-    struct to_mp_list_of_keyword_tags<
+    template <
+        typename TaggedArg
+      , typename Next
+      , typename EmitsErrors
+      , template <typename ...> class B
+    >
+    struct mp_rename_impl<
         ::boost::parameter::aux::arg_list<TaggedArg,Next,EmitsErrors>
+      , B
     >
     {
         using type = ::boost::mp11::mp_push_back<
-            typename ::boost::parameter::to_mp_list_of_keyword_tags<Next>::type
+            typename ::boost::mp11::detail::mp_rename_impl<Next,B>::type
           , typename TaggedArg::key_type
         >;
     };
 
-    template <typename Keyword, typename Arg>
-    struct to_mp_list_of_keyword_tags<
+    template <typename Keyword, typename Arg, template <typename ...> class B>
+    struct mp_rename_impl<
         ::boost::parameter::aux::tagged_argument<Keyword,Arg>
+      , B
     >
     {
-        using type = ::boost::mp11::mp_list<Keyword>;
+        using type = B<Keyword>;
     };
 
-    template <typename Keyword, typename Arg>
-    struct to_mp_list_of_keyword_tags<
+    template <typename Keyword, typename Arg, template <typename ...> class B>
+    struct mp_rename_impl<
         ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+      , B
     >
     {
-        using type = ::boost::mp11::mp_list<Keyword>;
+        using type = B<Keyword>;
     };
-}} // namespace boost::parameter
+}}} // namespace boost::mp11::detail
 
 #include <boost/mp11/algorithm.hpp>
 

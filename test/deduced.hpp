@@ -84,15 +84,13 @@ namespace test {
         ArgPack const& args;
     };
 
-    template <typename E, typename Args>
-    void check0(E const& e, Args const& args)
+    template <typename E, typename A>
+    void check0(E const& e, A const& args)
     {
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
-        boost::mp11::mp_for_each<
-            typename boost::parameter::to_mp_list_of_keyword_tags<Args>::type
-        >(test::assert_expected<E,Args>(e, args));
+        boost::mp11::mp_for_each<A>(test::assert_expected<E,A>(e, args));
 #else
-        boost::mpl::for_each<E>(test::assert_expected<E,Args>(e, args));
+        boost::mpl::for_each<E>(test::assert_expected<E,A>(e, args));
 #endif
     }
 
