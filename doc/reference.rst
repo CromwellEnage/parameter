@@ -6896,21 +6896,131 @@ Either way, the following assertions will succeed::
     assert(1 == sfinae("foo"));
     assert(0 == sfinae(1));
 
-As another example, given the following definitions::
+As another example, given the following declarations and definitions::
 
     |BOOST_PARAMETER_NAME|_(x)
     |BOOST_PARAMETER_NAME|_(y)
 
+    template <typename E, typename Args>
+    void check0(E const& e, Args const& args);
+
     template <typename P, typename E, typename ...Args>
     void check(E const& e, Args const&... args)
     {
-        test::check0(e, P()(args...));
+        check0(e, P()(args...));
     }
 
-With `Boost.MP11`_, it's possible to access the reference and value result
-types of indexing an argument pack more directly::
+Argument packs qualify as `Boost.MP11`_-style lists containing
+|keyword tag type|\ s::
 
+    template <typename Args>
+    struct some_functor
+    {
+        template <typename K>
+        void operator()(K&&) const
+        {
+            // K is one of tag::x, tag::y, etc.
+        }
+    };
 
+    template <typename E, typename Args>
+    void check0(E const& e, Args const& args)
+    {
+        boost::mp11::mp_for_each<E>(some_functor<Args>());
+    }
+
+The first check determines whether or not the argument type of ``_y`` is the
+same as the reference type of ``_x``, while the second check determines
+whether or not the argument type of ``_y`` is convertible to the value type of
+``_x``.  Here, it's possible to access the reference and value result types of
+indexing an argument pack a little more directly::
+
+    // Use mp_bind on tag::x::binding_fn to access the reference type of _x.
+    check<
+        |parameters|_<
+            tag::x
+          , |optional|_<
+                |deduced|_<tag::y>
+              , boost::mp11::mp_bind<
+                    std::is_same
+                  , boost::mp11::_1
+                  , boost::mp11::mp_bind<
+                        tag::x::binding_fn
+                      , boost::mp11::_2
+                    >
+                >
+            >
+        >
+    >((_x = 0, _y = 1), 0, 1);
+
+    // Use mp_bind_q on tag::x to access the value type of _x.
+    check<
+        |parameters|_<
+            tag::x
+          , |optional|_<
+                |deduced|_<tag::y>
+              , boost::mp11::mp_bind<
+                    std::is_convertible
+                  , boost::mp11::_1
+                  , boost::mp11::mp_bind_q<tag::x,boost::mp11::_2>
+                >
+            >
+        >
+    >((_x = 0U, _y = 1U), 0U, 1U);
+
+Argument packs still qualify as `Boost.MPL`_-style lists containing
+|keyword tag type|\ s::
+
+    template <typename Args>
+    struct some_functor
+    {
+        template <typename K>
+        void operator()(K) const
+        {
+            // K is one of tag::x, tag::y, etc.
+        }
+    };
+
+    template <typename E, typename Args>
+    void check0(E const& e, Args const& args)
+    {
+        boost::mpl::for_each<E>(some_functor<Args>());
+    }
+
+However, without `Boost.MP11`_, the corresponding checks become a little more
+verbose::
+
+    check<
+        |parameters|_<
+            tag::x
+          , |optional|_<
+                |deduced|_<tag::y>
+              , boost::mpl::if_<
+                    boost::is_same<
+                        boost::add_lvalue_reference<boost::mpl::_1>
+                      , |binding|_<boost::mpl::_2,tag::x>
+                    >
+                  , boost::mpl::true_
+                  , boost::mpl::false_
+                >
+            >
+        >
+    >((_x = 0, _y = 1), 0, 1);
+
+    // Use tag::x::_ or tag::x::_1 to access the value type of _x.
+    check<
+        |parameters|_<
+            tag::x
+          , |optional|_<
+                |deduced|_<tag::y>
+              , boost::mpl::if_<
+                    boost::is_convertible<boost::mpl::_1,tag::x::_1>
+                  , boost::mpl::true_
+                  , boost::mpl::false_
+                >
+            >
+        >
+    >((_x = 0U, _y = 1U), 0U, 1U);
 
 The |optional_deduced_sfinae_cpp|_ and |deduced_dep_pred_cpp|_ test programs
 demonstrate proper usage of this macro.

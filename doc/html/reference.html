@@ -9071,10 +9071,153 @@ href="#boost-parameter-function-result-name-tag-namespace-arguments"
 )
 </pre>
 <p>Either way, the following assertions will succeed:</p>
-<pre class="last literal-block">
+<pre class="first literal-block">
 assert(1 == sfinae());
 assert(1 == sfinae(&quot;foo&quot;));
 assert(0 == sfinae(1));
+</pre>
+<p>As another example, given the following declarations and definitions:</p>
+<pre class="first literal-block">
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(x)
+<a class="reference internal" href="#boost-parameter-name-name"
+>BOOST_PARAMETER_NAME</a>(y)
+
+template &lt;typename E, typename Args&gt;
+void check0(E const&amp; e, Args const&amp; args);
+
+template &lt;typename P, typename E, typename Args&gt;
+void check(E const&amp; e, Args const&amp;... args)
+{
+    check0(e, P()(args...));
+}
+</pre>
+<p>Argument packs qualify as <a class="reference external"
+href="../../../mp11/doc/html/mp11.html">Boost.MP11</a>-style lists containing
+<a class="reference internal" href="#keyword-tag-type">keyword tag
+type</a>s:</p>
+<pre class="first literal-block">
+template &lt;typename Args&gt;
+struct some_functor
+{
+    template &lt;typename K&gt;
+    void operator()(K&amp;&amp;) const
+    {
+        // K is one of tag::x, tag::y, etc.
+    }
+};
+
+template &lt;typename E, typename Args&gt;
+void check0(E const&amp; e, Args const&amp; args)
+{
+    boost::mp11::mp_for_each&lt;E&gt;(some_functor&lt;Args&gt;());
+}
+</pre>
+<p>The first check determines whether or not the argument type of <tt
+class="docutils literal">_y</tt> is the same as the reference type of <tt
+class="docutils literal">_x</tt>, while the second check determines whether
+or not the argument type of <tt class="docutils literal">_y</tt> is
+convertible to the value type of <tt class="docutils literal">_x</tt>.  Here,
+it's possible to access the reference and value result types of indexing an
+argument pack a little more directly:</p>
+<pre class="first literal-block">
+// Use mp_bind on tag::x::binding_fn to access the reference type of _x.
+check&lt;
+    <a class="reference internal" href="#parameters">parameters</a>&lt;
+        tag::x
+      , <a class="reference internal" href="#optional-required"
+>optional</a>&lt;
+            <a class="reference internal" href="#deduced"
+>deduced</a>&lt;tag::y&gt;
+          , boost::mp11::mp_bind&lt;
+                std::is_same
+              , boost::mp11::_1
+              , boost::mp11::mp_bind&lt;
+                    tag::x::binding_fn
+                  , boost::mp11::_2
+                &gt;
+            &gt;
+        &gt;
+    &gt;
+&gt;((_x = 0, _y = 1), 0, 1);
+
+// Use mp_bind_q on tag::x to access the value type of _x.
+check&lt;
+    <a class="reference internal" href="#parameters">parameters</a>&lt;
+        tag::x
+      , <a class="reference internal" href="#optional-required"
+>optional</a>&lt;
+            <a class="reference internal" href="#deduced"
+>deduced</a>&lt;tag::y&gt;
+          , boost::mp11::mp_bind&lt;
+                std::is_convertible
+              , boost::mp11::_1
+              , boost::mp11::mp_bind_q&lt;tag::x,boost::mp11::_2&gt;
+            &gt;
+        &gt;
+    &gt;
+&gt;((_x = 0U, _y = 1U), 0U, 1U);
+</pre>
+<p>Argument packs still qualify as <a class="reference external"
+href="../../../mpl/doc/index.html">Boost.MPL</a>-style lists containing <a
+class="reference internal" href="#keyword-tag-type">keyword tag type</a>s:</p>
+<pre class="first literal-block">
+template &lt;typename Args&gt;
+struct some_functor
+{
+    template &lt;typename K&gt;
+    void operator()(K) const
+    {
+        // K is one of tag::x, tag::y, etc.
+    }
+};
+
+template &lt;typename E, typename Args&gt;
+void check0(E const&amp; e, Args const&amp; args)
+{
+    boost::mpl::for_each&lt;E&gt;(some_functor&lt;Args&gt;());
+}
+</pre>
+<p>However, without <a class="reference external"
+href="../../../mp11/doc/html/mp11.html">Boost.MP11</a>, the corresponding
+checks become a little more verbose:</p>
+<pre class="last literal-block">
+check&lt;
+    <a class="reference internal" href="#parameters">parameters</a>&lt;
+        tag::x
+      , <a class="reference internal" href="#optional-required"
+>optional</a>&lt;
+            <a class="reference internal" href="#deduced"
+>deduced</a>&lt;tag::y&gt;
+          , boost::mpl::if_&lt;
+                boost::is_same&lt;
+                    boost::add_lvalue_reference&lt;boost::mpl::_1&gt;
+                  , <a class="reference internal" href="#binding"
+>binding</a>&lt;boost::mpl::_2,tag::x&gt;
+                &gt;
+              , boost::mpl::true_
+              , boost::mpl::false_
+            &gt;
+        &gt;
+    &gt;
+&gt;((_x = 0, _y = 1), 0, 1);
+
+// Use tag::x::_ or tag::x::_1 to access the value type of _x.
+check&lt;
+    <a class="reference internal" href="#parameters">parameters</a>&lt;
+        tag::x
+      , <a class="reference internal" href="#optional-required"
+>optional</a>&lt;
+            <a class="reference internal" href="#deduced"
+>deduced</a>&lt;tag::y&gt;
+          , boost::mpl::if_&lt;
+                boost::is_convertible&lt;boost::mpl::_1,tag::x::_1&gt;
+              , boost::mpl::true_
+              , boost::mpl::false_
+            &gt;
+        &gt;
+    &gt;
+&gt;((_x = 0U, _y = 1U), 0U, 1U);
 </pre>
 <p>The <a class="reference external"
 href="../../test/optional_deduced_sfinae.cpp"
