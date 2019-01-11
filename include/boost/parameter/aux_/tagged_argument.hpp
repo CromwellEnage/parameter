@@ -98,7 +98,12 @@ namespace boost { namespace parameter { namespace aux {
 
     // Holds an lvalue reference to an argument of type Arg associated with
     // keyword Keyword
+#if defined(BOOST_PARAMETER_CAN_USE_MP11) && \
+    BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
+    template <typename Keyword, typename Arg, typename Dummy>
+#else
     template <typename Keyword, typename Arg>
+#endif
     class tagged_argument
       : public ::boost::parameter::aux::tagged_argument_base
     {
@@ -368,7 +373,12 @@ namespace boost { namespace parameter { namespace aux {
 
     // Holds an rvalue reference to an argument of type Arg associated with
     // keyword Keyword
+#if defined(BOOST_PARAMETER_CAN_USE_MP11) && \
+    BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
+    template <typename Keyword, typename Arg, typename Dummy>
+#else
     template <typename Keyword, typename Arg>
+#endif
     struct tagged_argument_rref
       : ::boost::parameter::aux::tagged_argument_base
     {

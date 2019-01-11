@@ -688,11 +688,13 @@ namespace boost { namespace parameter {
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
 
 #include <boost/parameter/aux_/name.hpp>
+#include <boost/preprocessor/stringize.hpp>
 
 // Reduces boilerplate required to declare and initialize keywords without
 // violating ODR.  Declares a keyword tag type with the given name in
 // namespace tag_namespace, and declares and initializes a reference in an
 // anonymous namespace to a singleton instance of that type.
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
 #define BOOST_PARAMETER_KEYWORD(tag_namespace, name)                         \
     namespace tag_namespace                                                  \
     {                                                                        \
@@ -700,7 +702,33 @@ namespace boost { namespace parameter {
         {                                                                    \
             static BOOST_CONSTEXPR char const* keyword_name()                \
             {                                                                \
-                return #name;                                                \
+                return BOOST_PP_STRINGIZE(name);                             \
+            }                                                                \
+            using _ = BOOST_PARAMETER_TAG_PLACEHOLDER_TYPE(name);            \
+            using _1 = _;                                                    \
+            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_BINDING(                    \
+                _mp_binding_fn                                               \
+              , name                                                         \
+            );                                                               \
+            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_VALUE(_mp_value_fn, name);  \
+            using qualifier = ::boost::parameter::q;                         \
+        };                                                                   \
+    }                                                                        \
+    namespace                                                                \
+    {                                                                        \
+        ::boost::parameter::keyword<tag_namespace::name> const& name         \
+            = ::boost::parameter::keyword<tag_namespace::name>::instance;    \
+    }
+/**/
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
+#define BOOST_PARAMETER_KEYWORD(tag_namespace, name)                         \
+    namespace tag_namespace                                                  \
+    {                                                                        \
+        struct name                                                          \
+        {                                                                    \
+            static BOOST_CONSTEXPR char const* keyword_name()                \
+            {                                                                \
+                return BOOST_PP_STRINGIZE(name);                             \
             }                                                                \
             typedef BOOST_PARAMETER_TAG_PLACEHOLDER_TYPE(name) _;            \
             typedef BOOST_PARAMETER_TAG_PLACEHOLDER_TYPE(name) _1;           \
@@ -713,6 +741,7 @@ namespace boost { namespace parameter {
             = ::boost::parameter::keyword<tag_namespace::name>::instance;    \
     }
 /**/
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
 
 #endif  // include guard
 

@@ -11,6 +11,28 @@
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/config.hpp>
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#define BOOST_PARAMETER_NAME_TAG(tag_namespace, tag, q)                      \
+    namespace tag_namespace                                                  \
+    {                                                                        \
+        struct tag                                                           \
+        {                                                                    \
+            static BOOST_CONSTEXPR char const* keyword_name()                \
+            {                                                                \
+                return BOOST_PP_STRINGIZE(tag);                              \
+            }                                                                \
+            using _ = BOOST_PARAMETER_TAG_PLACEHOLDER_TYPE(tag);             \
+            using _1 = _;                                                    \
+            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_BINDING(                    \
+                _mp_binding_fn                                               \
+              , tag                                                          \
+            );                                                               \
+            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_VALUE(_mp_value_fn, tag);   \
+            using qualifier = ::boost::parameter::q;                         \
+        };                                                                   \
+    }
+/**/
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
 #define BOOST_PARAMETER_NAME_TAG(tag_namespace, tag, q)                      \
     namespace tag_namespace                                                  \
     {                                                                        \
@@ -26,6 +48,7 @@
         };                                                                   \
     }
 /**/
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
 
 #include <boost/parameter/keyword.hpp>
 

@@ -29,6 +29,12 @@ namespace test {
         template <typename T>
         bool check_not_present(T const&) const
         {
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+            static_assert(
+                std::is_same<T,test::not_present_tag>::value
+              , "T == test::not_present_tag"
+            );
+#else
             BOOST_MPL_ASSERT((
                 typename boost::mpl::if_<
                     boost::is_same<T,test::not_present_tag>
@@ -36,6 +42,7 @@ namespace test {
                   , boost::mpl::false_
                 >::type
             ));
+#endif
             return true;
         }
 

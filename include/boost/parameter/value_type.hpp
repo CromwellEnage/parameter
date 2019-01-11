@@ -72,9 +72,33 @@ namespace boost { namespace parameter {
         ));
 #endif  // BOOST_PARAMETER_CAN_USE_MP11
     };
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+    template <typename Placeholder, typename Keyword, typename Default>
+    struct value_type1
+    {
+        using type = ::boost::mp11::mp_apply_q<
+            Placeholder
+          , ::boost::mp11::mp_list<Keyword,Default,::boost::mp11::mp_false>
+        >;
+
+        static_assert(
+            ::boost::mp11::mp_if<
+                ::std::is_same<Default,::boost::parameter::void_>
+              , ::boost::mp11::mp_if<
+                    ::std::is_same<type,::boost::parameter::void_>
+                  , ::boost::mp11::mp_false
+                  , ::boost::mp11::mp_true
+                >
+              , ::boost::mp11::mp_true
+            >::value
+          , "required parameters must not result in void_ type"
+        );
+    };
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
 }} // namespace boost::parameter
 
-#include <boost/parameter/aux_/is_mpl_placeholder.hpp>
+#include <boost/parameter/aux_/is_placeholder.hpp>
 
 namespace boost { namespace parameter { 
 
@@ -96,7 +120,11 @@ namespace boost { namespace parameter {
         using type = typename ::boost::mp11::mp_if<
             ::boost::parameter::aux::is_mpl_placeholder<Parameters>
           , ::boost::mp11::mp_identity<int>
-          , ::boost::parameter::value_type0<Parameters,Keyword,Default>
+          , ::boost::mp11::mp_if<
+                ::boost::parameter::aux::is_mp11_placeholder<Parameters>
+              , ::boost::parameter::value_type1<Parameters,Keyword,Default>
+              , ::boost::parameter::value_type0<Parameters,Keyword,Default>
+            >
         >::type;
 #endif
     };

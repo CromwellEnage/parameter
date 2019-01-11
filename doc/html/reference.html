@@ -593,7 +593,7 @@ struct keyword
     typedef Tag tag;
 
     constexpr keyword()
-    
+    {
     }
 
     template &lt;typename T&gt;
@@ -1150,7 +1150,7 @@ static keyword&lt;Tag&gt;&amp; get();
 </pre>
 <div class="admonition-deprecated admonition">
 <p class="first admonition-title">Deprecated</p>
-<p class="last">This macro has been deprecated in favor of
+<p class="last">This function has been deprecated in favor of
 <tt class="docutils literal">instance</tt>.</p>
 </div>
 <table class="last docutils field-list" frame="void" rules="none">
@@ -8412,6 +8412,22 @@ namespace <em>namespace-name</em> {
         typedef <em>unspecified</em> _;
         typedef <em>unspecified</em> _1;
         typedef boost::parameter::<em>qualifier</em> ## _reference qualifier;
+
+        // The following definitions are available only when
+        // <a class="reference internal" href="#boost-parameter-can-use-mp11"
+>BOOST_PARAMETER_CAN_USE_MP11</a> is defined.
+
+        template &lt;typename ArgumentPack&gt;
+        using _mp_binding_fn = typename boost::parameter::binding&lt;
+            ArgumentPack
+          , <em>tag-name</em>
+        &gt;::type;
+
+        template &lt;typename ArgumentPack&gt;
+        using _mp_value_fn = typename boost::parameter::value_type&lt;
+            ArgumentPack
+          , <em>tag-name</em>
+        &gt;::type;
     };
 }
 
@@ -8465,6 +8481,22 @@ namespace tag {
         typedef <em>unspecified</em> _;
         typedef <em>unspecified</em> _1;
         typedef boost::parameter::<em>qualifier</em> ## _reference qualifier;
+
+        // The following definitions are available only when
+        // <a class="reference internal" href="#boost-parameter-can-use-mp11"
+>BOOST_PARAMETER_CAN_USE_MP11</a> is defined.
+
+        template &lt;typename ArgumentPack&gt;
+        using _mp_binding_fn = typename boost::parameter::binding&lt;
+            ArgumentPack
+          , <em>tag-name</em>
+        &gt;::type;
+
+        template &lt;typename ArgumentPack&gt;
+        using _mp_value_fn = typename boost::parameter::value_type&lt;
+            ArgumentPack
+          , <em>tag-name</em>
+        &gt;::type;
     };
 }
 
@@ -8533,6 +8565,22 @@ namespace tag {
         typedef boost::parameter::<em>qualifier</em> ## _reference qualifier;
         static ::boost::parameter::keyword&lt;<em>tag-name</em>&gt; const& <em
 >alias</em>;
+
+        // The following definitions are available only when
+        // <a class="reference internal" href="#boost-parameter-can-use-mp11"
+>BOOST_PARAMETER_CAN_USE_MP11</a> is defined.
+
+        template &lt;typename ArgumentPack&gt;
+        using _mp_binding_fn = typename boost::parameter::binding&lt;
+            ArgumentPack
+          , <em>tag-name</em>
+        &gt;::type;
+
+        template &lt;typename ArgumentPack&gt;
+        using _mp_value_fn = typename boost::parameter::value_type&lt;
+            ArgumentPack
+          , <em>tag-name</em>
+        &gt;::type;
     };
 
     ::boost::parameter::keyword&lt;<em>tag-name</em>&gt; const& <em
@@ -9030,8 +9078,10 @@ assert(0 == sfinae(1));
 </pre>
 <p>The <a class="reference external"
 href="../../test/optional_deduced_sfinae.cpp"
->test/optional_deduced_sfinae.cpp</a> test program demonstrates proper usage
-of this macro.</p>
+>test/optional_deduced_sfinae.cpp</a> and <a class="reference external"
+href="../../test/deduced_dependent_predicate.cpp"
+>test/deduced_dependent_predicate.cpp</a> test programs demonstrate proper
+usage of this macro.</p>
 </td>
 </tr>
 </tbody>

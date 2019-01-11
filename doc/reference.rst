@@ -1551,7 +1551,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -1569,7 +1569,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -1584,7 +1584,7 @@ Approximate expansion:
             static_cast<
                 typename boost_param_result\_ ## __LINE__ ## **name**\ <
                     Args
-                >::type(\ *)()
+                >::type(\*)()
             >(std::nullptr)
           , args
           , std::`forward`_<
@@ -1612,7 +1612,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -1620,7 +1620,7 @@ Approximate expansion:
         )
     {
         return boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            static_cast<ResultType(\ *)()>(std::nullptr)
+            static_cast<ResultType(\*)()>(std::nullptr)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
@@ -1651,7 +1651,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -2002,7 +2002,7 @@ Approximate expansion:
             static_cast<
                 typename boost_param_result\_ ## __LINE__ ## **name**\ <
                     Args
-                >::type(\ *)()
+                >::type(\*)()
             >(std::nullptr)
           , args
           , std::`forward`_<
@@ -2030,7 +2030,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -2038,7 +2038,7 @@ Approximate expansion:
         )
     {
         return this->boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            static_cast<ResultType(\ *)()>(std::nullptr)
+            static_cast<ResultType(\*)()>(std::nullptr)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
@@ -2069,7 +2069,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -2421,7 +2421,7 @@ Approximate expansion:
             static_cast<
                 typename boost_param_result_const\_ ## __LINE__ ## **name**\ <
                     Args
-                >::type(\ *)()
+                >::type(\*)()
             >(std::nullptr)
           , args
           , std::`forward`_<
@@ -2449,7 +2449,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_const_0boost\_ ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -2458,7 +2458,7 @@ Approximate expansion:
     {
         return this->
         boost_param_dispatch_const_0boost\_ ## __LINE__ ## **name**\ (
-            static_cast<ResultType(\ *)()>(std::nullptr)
+            static_cast<ResultType(\*)()>(std::nullptr)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
@@ -2489,7 +2489,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_const_0boost\_ ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -2533,7 +2533,7 @@ Boost.Parameter-enabled function call operator overloads.
         char const* key;
 
      public:
-        explicit char_reader(char const* k) : index(0), key(k)
+        explicit char_reader(char const\* k) : index(0), key(k)
         {
         }
 
@@ -2541,7 +2541,7 @@ Boost.Parameter-enabled function call operator overloads.
             (deduced
                 (required
                     (y, (int))
-                    (z, (char const*))
+                    (z, (char const\*))
                 )
             )
         )
@@ -2554,7 +2554,7 @@ Boost.Parameter-enabled function call operator overloads.
             (deduced
                 (required
                     (y, (bool))
-                    (z, (std::`map`_<char const*,std::`string`_>))
+                    (z, (std::`map`_<char const\*,std::`string`_>))
                 )
             )
         )
@@ -2570,8 +2570,8 @@ passed in determine which function call operator overload gets invoked.
 
 .. parsed-literal::
 
-    char const* keys[] = {"foo", "bar", "baz"};
-    std::`map`_<char const*,std::`string`_> k2s;
+    char const\* keys[] = {"foo", "bar", "baz"};
+    std::`map`_<char const\*,std::`string`_> k2s;
     k2s[keys[0]] = std::`string`_("qux");
     k2s[keys[1]] = std::`string`_("wmb");
     k2s[keys[2]] = std::`string`_("zxc");
@@ -2736,7 +2736,7 @@ Approximate expansion:
             static_cast<
                 typename boost_param_result\_ ## __LINE__ ## operator<
                     Args
-                >::type(\ *)()
+                >::type(\*)()
             >(std::nullptr)
           , args
           , std::`forward`_<
@@ -2764,7 +2764,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_0boost\_ ## __LINE__ ## operator(
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -2772,7 +2772,7 @@ Approximate expansion:
         )
     {
         return this->boost_param_dispatch_0boost\_ ## __LINE__ ## operator(
-            static_cast<ResultType(\ *)()>(std::nullptr)
+            static_cast<ResultType(\*)()>(std::nullptr)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
@@ -2803,7 +2803,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_0boost\_ ## __LINE__ ## operator(
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -3159,7 +3159,7 @@ Approximate expansion:
             static_cast<
                 typename boost_param_result_const\_ ## __LINE__ ## operator<
                     Args
-                >::type(\ *)()
+                >::type(\*)()
             >(std::nullptr)
           , args
           , std::`forward`_<
@@ -3187,7 +3187,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_const_0boost\_ ## __LINE__ ## operator(
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -3196,7 +3196,7 @@ Approximate expansion:
     {
         return this->
         boost_param_dispatch_const_0boost\_ ## __LINE__ ## operator(
-            static_cast<ResultType(\ *)()>(std::nullptr)
+            static_cast<ResultType(\*)()>(std::nullptr)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
@@ -3227,7 +3227,7 @@ Approximate expansion:
     >
     ResultType
         boost_param_dispatch_const_0boost\_ ## __LINE__ ## operator(
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
           , *argument name* ## **0** ## _type&& *argument name* ## **0**
           , …
@@ -3265,7 +3265,7 @@ In the base class, implement a delegate constructor template that takes in an
     class char_read_base
     {
         int index;
-        char const* key;
+        char const\* key;
 
      public:
         template <typename Args>
@@ -3278,7 +3278,7 @@ In the base class, implement a delegate constructor template that takes in an
             (deduced
                 (required
                     (y, (bool))
-                    (z, (std::`map`_<char const*,std::`string`_>))
+                    (z, (std::`map`_<char const\*,std::`string`_>))
                 )
             )
         )
@@ -3303,7 +3303,7 @@ value types are mutually exclusive, you can wrap the parameters in a
             (deduced
                 (required
                     (y, (int))
-                    (z, (char const*))
+                    (z, (char const\*))
                 )
             )
         )
@@ -3313,8 +3313,8 @@ The following ``char_reader`` constructor calls are legal.
 
 .. parsed-literal::
 
-    char const* keys[] = {"foo", "bar", "baz"};
-    std::`map`_<char const*,std::`string`_> k2s;
+    char const\* keys[] = {"foo", "bar", "baz"};
+    std::`map`_<char const\*,std::`string`_> k2s;
     k2s[keys[0]] = std::`string`_("qux");
     k2s[keys[1]] = std::`string`_("wmb");
     k2s[keys[2]] = std::`string`_("zxc");
@@ -5178,7 +5178,7 @@ Approximate expansion:
     template <typename ResultType, typename Args>
     ResultType
         boost_param_no_spec_impl ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
         );
 
@@ -5207,7 +5207,7 @@ Approximate expansion:
     template <typename ResultType, typename Args>
     ResultType
         boost_param_no_spec_impl ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
         )
 
@@ -5338,12 +5338,12 @@ the other back-ends can be chained together in different orders.
 
 .. parsed-literal::
 
-    char const* p = "foo";
+    char const\* p = "foo";
     frontend<
-        backend2<backend1<backend0<char const*>, char>, int>
+        backend2<backend1<backend0<char const\*>, char>, int>
     > composed_obj0;
     frontend<
-        backend1<backend2<backend0<char const*>, int>, char>
+        backend1<backend2<backend0<char const\*>, int>, char>
     > composed_obj1;
     composed_obj0.initialize(_a2 = 4, _a1 = ' ', _a0 = p);
     composed_obj1.initialize(_a0 = p, _a1 = ' ', _a2 = 4);
@@ -5403,7 +5403,7 @@ Approximate expansion:
     template <typename ResultType, typename Args>
     ResultType
         boost_param_no_spec_impl ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
         )
 
@@ -5608,7 +5608,7 @@ Approximate expansion:
     template <typename ResultType, typename Args>
     ResultType
         boost_param_no_spec_impl_const ## __LINE__ ## **name**\ (
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
         ) const
 
@@ -5739,12 +5739,12 @@ the other back-ends can be chained together in different orders.
 
 .. parsed-literal::
 
-    char const* p = "foo";
+    char const\* p = "foo";
     frontend<
-        backend2<backend1<backend0<char const*>, char>, int>
+        backend2<backend1<backend0<char const\*>, char>, int>
     > composed_obj0;
     frontend<
-        backend1<backend2<backend0<char const*>, int>, char>
+        backend1<backend2<backend0<char const\*>, int>, char>
     > composed_obj1;
     composed_obj0(_a2 = 4, _a1 = ' ', _a0 = p);
     composed_obj1(_a0 = p, _a1 = ' ', _a2 = 4);
@@ -5800,7 +5800,7 @@ Approximate expansion:
     template <typename ResultType, typename Args>
     ResultType
         boost_param_no_spec_impl ## __LINE__ ## operator(
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
         )
 
@@ -6007,7 +6007,7 @@ Approximate expansion:
     template <typename ResultType, typename Args>
     ResultType
         boost_param_no_spec_impl_const ## __LINE__ ## operator(
-            (ResultType(\ *)())
+            (ResultType(\*)())
           , Args const& args
         ) const
 
@@ -6133,12 +6133,12 @@ the other back-ends can be chained together in different orders.
 
 .. parsed-literal::
 
-    char const* p = "foo";
+    char const\* p = "foo";
     frontend<
-        backend2<backend1<backend0<char const*>, char>, int>
+        backend2<backend1<backend0<char const\*>, char>, int>
     > composed_obj0(_a2 = 4, _a1 = ' ', _a0 = p);
     frontend<
-        backend1<backend2<backend0<char const*>, int>, char>
+        backend1<backend2<backend0<char const\*>, int>, char>
     > composed_obj1(_a0 = p, _a1 = ' ', _a2 = 4);
     BOOST_TEST_EQ(composed_obj0.get_a0(), composed_obj1.get_a0());
     BOOST_TEST_EQ(composed_obj0.get_a1(), composed_obj1.get_a1());
@@ -6391,6 +6391,21 @@ Expands to:
             typedef *unspecified* _;
             typedef *unspecified* _1;
             typedef boost::parameter::*qualifier* ## _reference qualifier;
+
+            // The following definitions are available only when
+            // |BOOST_PARAMETER_CAN_USE_MP11|_ is defined.
+
+            template <typename ArgumentPack>
+            using _mp_binding_fn = typename boost::parameter::binding<
+                ArgumentPack
+              , *tag-name*
+            >::type;
+
+            template <typename ArgumentPack>
+            using _mp_value_fn = typename boost::parameter::value_type<
+                ArgumentPack
+              , *tag-name*
+            >::type;
         };
     }
 
@@ -6440,6 +6455,21 @@ Expands to:
             typedef *unspecified* _;
             typedef *unspecified* _1;
             typedef boost::parameter::*qualifier* ## _reference qualifier;
+
+            // The following definitions are available only when
+            // |BOOST_PARAMETER_CAN_USE_MP11|_ is defined.
+
+            template <typename ArgumentPack>
+            using _mp_binding_fn = typename boost::parameter::binding<
+                ArgumentPack
+              , *tag-name*
+            >::type;
+
+            template <typename ArgumentPack>
+            using _mp_value_fn = typename boost::parameter::value_type<
+                ArgumentPack
+              , *tag-name*
+            >::type;
         };
     }
 
@@ -6492,6 +6522,21 @@ Expands to:
             typedef *unspecified* _1;
             typedef boost::parameter::*qualifier* ## _reference qualifier;
             static ::boost::parameter::keyword<*tag-name*> const& *alias*;
+
+            // The following definitions are available only when
+            // |BOOST_PARAMETER_CAN_USE_MP11|_ is defined.
+
+            template <typename ArgumentPack>
+            using _mp_binding_fn = typename boost::parameter::binding<
+                ArgumentPack
+              , *tag-name*
+            >::type;
+
+            template <typename ArgumentPack>
+            using _mp_value_fn = typename boost::parameter::value_type<
+                ArgumentPack
+              , *tag-name*
+            >::type;
         };
     }
 
@@ -6851,11 +6896,13 @@ Either way, the following assertions will succeed::
     assert(1 == sfinae("foo"));
     assert(0 == sfinae(1));
 
-The |optional_deduced_sfinae_cpp|_ test program demonstrates proper usage of
-this macro.
+The |optional_deduced_sfinae_cpp|_ and |deduced_dep_pred_cpp|_ test programs
+demonstrate proper usage of this macro.
 
 .. |optional_deduced_sfinae_cpp| replace:: optional_deduced_sfinae.cpp
 .. _optional_deduced_sfinae_cpp: ../../test/optional_deduced_sfinae.cpp
+.. |deduced_dep_pred_cpp| replace:: deduced_dependent_predicate.cpp
+.. _deduced_dep_pred_cpp: ../../test/deduced_dependent_predicate.cpp
 
 ``BOOST_PARAMETER_DISABLE_MP11_USAGE``
 --------------------------------------
