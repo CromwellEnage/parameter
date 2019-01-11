@@ -41,29 +41,34 @@ namespace test {
 #endif
     };
 
-    template <typename Expected, typename Params>
-    void f_impl(Params const& p BOOST_APPEND_EXPLICIT_TEMPLATE_TYPE(Expected))
+    template <typename Expected, typename Args>
+    void f_impl(Args const& p BOOST_APPEND_EXPLICIT_TEMPLATE_TYPE(Expected))
     {
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
         static_assert(
             boost::mp11::mp_size<Expected>::value == boost::mp11::mp_size<
-                Params
+                Args
             >::value
-          , "mp_size<Expected>::value == mp_size<Params>::value"
+          , "mp_size<Expected>::value == mp_size<Args>::value"
         );
 
-        boost::mp11::mp_for_each<Expected>(test::assert_in_set<Params>());
+        boost::mp11::mp_for_each<
+            typename boost::parameter::to_mp_list_of_keyword_tags<Args>::type
+        >(test::assert_in_set<Expected>());
+        boost::mp11::mp_for_each<Expected>(test::assert_in_set<Args>());
 #else
         BOOST_MPL_ASSERT_RELATION(
             boost::mpl::size<Expected>::value
           , ==
-          , boost::mpl::size<Params>::value
+          , boost::mpl::size<Args>::value
         );
 
-        boost::mpl::for_each<
-            Params
-          , boost::add_pointer<boost::mpl::_1>
-        >(test::assert_in_set<Expected>());
+        boost::mpl::for_each<Args,boost::add_pointer<boost::mpl::_1> >(
+            test::assert_in_set<Expected>()
+        );
+        boost::mpl::for_each<Expected,boost::add_pointer<boost::mpl::_1> >(
+            test::assert_in_set<Args>()
+        );
 #endif  // BOOST_PARAMETER_CAN_USE_MP11
     }
 

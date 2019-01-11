@@ -7,8 +7,18 @@
 #ifndef BOOST_DEDUCED_060920_HPP
 #define BOOST_DEDUCED_060920_HPP
 
-#include <boost/mpl/for_each.hpp>
+#include <boost/parameter/config.hpp>
 #include "basics.hpp"
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/algorithm.hpp>
+#else
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/if.hpp>
+#include <boost/mpl/for_each.hpp>
+#include <boost/mpl/assert.hpp>
+#include <boost/type_traits/is_same.hpp>
+#endif
 
 namespace test {
 
@@ -59,7 +69,11 @@ namespace test {
         }
 
         template <typename K>
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        void operator()(K&&) const
+#else
         void operator()(K) const
+#endif
         {
             boost::parameter::keyword<K> const&
                 k = boost::parameter::keyword<K>::instance;
@@ -70,10 +84,16 @@ namespace test {
         ArgPack const& args;
     };
 
-    template <typename E, typename ArgPack>
-    void check0(E const& e, ArgPack const& args)
+    template <typename E, typename Args>
+    void check0(E const& e, Args const& args)
     {
-        boost::mpl::for_each<E>(test::assert_expected<E,ArgPack>(e, args));
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+        boost::mp11::mp_for_each<
+            typename boost::parameter::to_mp_list_of_keyword_tags<Args>::type
+        >(test::assert_expected<E,Args>(e, args));
+#else
+        boost::mpl::for_each<E>(test::assert_expected<E,Args>(e, args));
+#endif
     }
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)

@@ -47,7 +47,7 @@ int main()
                     std::is_same
                   , boost::mp11::_1
                   , boost::mp11::mp_bind<
-                        test::tag::x::_mp_binding_fn
+                        test::tag::x::binding_fn
                       , boost::mp11::_2
                     >
                 >
@@ -85,7 +85,7 @@ int main()
                     std::is_same
                   , boost::mp11::_1
                   , boost::mp11::mp_bind<
-                        test::tag::x::_mp_binding_fn
+                        test::tag::x::binding_fn
                       , boost::mp11::_2
                     >
                 >
@@ -122,10 +122,7 @@ int main()
               , boost::mp11::mp_bind<
                     std::is_convertible
                   , boost::mp11::_1
-                  , boost::mp11::mp_bind<
-                        test::tag::x::_mp_value_fn
-                      , boost::mp11::_2
-                    >
+                  , boost::mp11::mp_bind_q<test::tag::x,boost::mp11::_2>
                 >
 #else
               , boost::mpl::if_<
@@ -147,10 +144,7 @@ int main()
               , boost::mp11::mp_bind<
                     std::is_convertible
                   , boost::mp11::_1
-                  , boost::mp11::mp_bind<
-                        test::tag::x::_mp_value_fn
-                      , boost::mp11::_2
-                    >
+                  , boost::mp11::mp_bind_q<test::tag::x,boost::mp11::_2>
                 >
 #else
               , boost::mpl::if_<

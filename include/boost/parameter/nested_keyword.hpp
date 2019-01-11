@@ -30,14 +30,14 @@
                 BOOST_PP_CAT(name, _)<Dummy>                                 \
             );                                                               \
             BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_BINDING(                    \
-                _mp_binding_fn                                               \
+                binding_fn                                                   \
               , BOOST_PP_CAT(name, _)<Dummy>                                 \
             );                                                               \
             BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_VALUE(                      \
-                _mp_value_fn                                                 \
+                fn                                                           \
               , BOOST_PP_CAT(name, _)<Dummy>                                 \
             );                                                               \
-            using qualifier = ::boost::parameter::q qualifier;               \
+            using qualifier = ::boost::parameter::q;                         \
             static ::boost::parameter::keyword<                              \
                 BOOST_PP_CAT(name, _)<Dummy>                                 \
             > const& alias;                                                  \

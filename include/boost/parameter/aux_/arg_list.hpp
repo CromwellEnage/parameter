@@ -1128,6 +1128,47 @@ namespace boost { namespace mp11 { namespace detail {
     };
 }}} // namespace boost::mp11::detail
 
+namespace boost { namespace parameter {
+
+    template <typename ArgList>
+    struct to_mp_list_of_keyword_tags;
+
+    template <>
+    struct to_mp_list_of_keyword_tags<
+        ::boost::parameter::aux::empty_arg_list
+    >
+    {
+        using type = ::boost::mp11::mp_list<>;
+    };
+
+    template <typename TaggedArg, typename Next, typename EmitsErrors>
+    struct to_mp_list_of_keyword_tags<
+        ::boost::parameter::aux::arg_list<TaggedArg,Next,EmitsErrors>
+    >
+    {
+        using type = ::boost::mp11::mp_push_back<
+            typename ::boost::parameter::to_mp_list_of_keyword_tags<Next>::type
+          , typename TaggedArg::key_type
+        >;
+    };
+
+    template <typename Keyword, typename Arg>
+    struct to_mp_list_of_keyword_tags<
+        ::boost::parameter::aux::tagged_argument<Keyword,Arg>
+    >
+    {
+        using type = ::boost::mp11::mp_list<Keyword>;
+    };
+
+    template <typename Keyword, typename Arg>
+    struct to_mp_list_of_keyword_tags<
+        ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+    >
+    {
+        using type = ::boost::mp11::mp_list<Keyword>;
+    };
+}} // namespace boost::parameter
+
 #include <boost/mp11/algorithm.hpp>
 
 namespace boost { namespace parameter { namespace aux {

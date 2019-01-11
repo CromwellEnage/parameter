@@ -43,7 +43,7 @@ namespace boost { namespace parameter { namespace aux {
 
     template <typename T>
     struct is_required
-#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
       : ::boost::mp11::mp_false
 #else
       : ::boost::mpl::false_

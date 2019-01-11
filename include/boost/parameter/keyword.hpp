@@ -706,11 +706,8 @@ namespace boost { namespace parameter {
             }                                                                \
             using _ = BOOST_PARAMETER_TAG_PLACEHOLDER_TYPE(name);            \
             using _1 = _;                                                    \
-            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_BINDING(                    \
-                _mp_binding_fn                                               \
-              , name                                                         \
-            );                                                               \
-            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_VALUE(_mp_value_fn, name);  \
+            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_BINDING(binding_fn, name);  \
+            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_VALUE(fn, name);            \
             using qualifier = ::boost::parameter::q;                         \
         };                                                                   \
     }                                                                        \

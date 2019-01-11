@@ -23,11 +23,8 @@
             }                                                                \
             using _ = BOOST_PARAMETER_TAG_PLACEHOLDER_TYPE(tag);             \
             using _1 = _;                                                    \
-            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_BINDING(                    \
-                _mp_binding_fn                                               \
-              , tag                                                          \
-            );                                                               \
-            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_VALUE(_mp_value_fn, tag);   \
+            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_BINDING(binding_fn, tag);   \
+            BOOST_PARAMETER_TAG_MP11_PLACEHOLDER_VALUE(fn, tag);             \
             using qualifier = ::boost::parameter::q;                         \
         };                                                                   \
     }

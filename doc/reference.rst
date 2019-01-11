@@ -6396,13 +6396,13 @@ Expands to:
             // |BOOST_PARAMETER_CAN_USE_MP11|_ is defined.
 
             template <typename ArgumentPack>
-            using _mp_binding_fn = typename boost::parameter::binding<
+            using binding_fn = typename boost::parameter::binding<
                 ArgumentPack
               , *tag-name*
             >::type;
 
             template <typename ArgumentPack>
-            using _mp_value_fn = typename boost::parameter::value_type<
+            using fn = typename boost::parameter::value_type<
                 ArgumentPack
               , *tag-name*
             >::type;
@@ -6460,13 +6460,13 @@ Expands to:
             // |BOOST_PARAMETER_CAN_USE_MP11|_ is defined.
 
             template <typename ArgumentPack>
-            using _mp_binding_fn = typename boost::parameter::binding<
+            using binding_fn = typename boost::parameter::binding<
                 ArgumentPack
               , *tag-name*
             >::type;
 
             template <typename ArgumentPack>
-            using _mp_value_fn = typename boost::parameter::value_type<
+            using fn = typename boost::parameter::value_type<
                 ArgumentPack
               , *tag-name*
             >::type;
@@ -6527,13 +6527,13 @@ Expands to:
             // |BOOST_PARAMETER_CAN_USE_MP11|_ is defined.
 
             template <typename ArgumentPack>
-            using _mp_binding_fn = typename boost::parameter::binding<
+            using binding_fn = typename boost::parameter::binding<
                 ArgumentPack
               , *tag-name*
             >::type;
 
             template <typename ArgumentPack>
-            using _mp_value_fn = typename boost::parameter::value_type<
+            using fn = typename boost::parameter::value_type<
                 ArgumentPack
               , *tag-name*
             >::type;
@@ -6895,6 +6895,22 @@ Either way, the following assertions will succeed::
     assert(1 == sfinae());
     assert(1 == sfinae("foo"));
     assert(0 == sfinae(1));
+
+As another example, given the following definitions::
+
+    |BOOST_PARAMETER_NAME|_(x)
+    |BOOST_PARAMETER_NAME|_(y)
+
+    template <typename P, typename E, typename ...Args>
+    void check(E const& e, Args const&... args)
+    {
+        test::check0(e, P()(args...));
+    }
+
+With `Boost.MP11`_, it's possible to access the reference and value result
+types of indexing an argument pack more directly::
+
+
 
 The |optional_deduced_sfinae_cpp|_ and |deduced_dep_pred_cpp|_ test programs
 demonstrate proper usage of this macro.

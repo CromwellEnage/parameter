@@ -22,10 +22,10 @@ as 5 or greater.
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/assert.hpp>
+#include <boost/type_traits/is_same.hpp>
 #endif
 
 #include <boost/core/lightweight_test.hpp>
-#include <boost/type_traits/is_same.hpp>
 
 namespace test {
 
