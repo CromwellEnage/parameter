@@ -29,15 +29,19 @@ namespace test {
     not_present_tag not_present;
 
     template <typename E, typename ArgPack>
-    struct assert_expected
+    class assert_expected
     {
+        E const& _expected;
+        ArgPack const& _args;
+
+     public:
         assert_expected(E const& e, ArgPack const& args_)
-          : expected(e), args(args_)
+          : _expected(e), _args(args_)
         {
         }
 
         template <typename T>
-        bool check_not_present(T const&) const
+        static bool check_not_present(T const&)
         {
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
             static_assert(
@@ -59,13 +63,15 @@ namespace test {
         template <typename K>
         bool check1(K const& k, test::not_present_tag const& t, long) const
         {
-            return check_not_present(args[k | t]);
+            return assert_expected<E,ArgPack>::check_not_present(
+                this->_args[k | t]
+            );
         }
 
         template <typename K, typename Expected>
-        bool check1(K const& k, Expected const& expected, int) const
+        bool check1(K const& k, Expected const& e, int) const
         {
-            return test::equal(args[k], expected);
+            return test::equal(this->_args[k], e);
         }
 
         template <typename K>
@@ -77,11 +83,8 @@ namespace test {
         {
             boost::parameter::keyword<K> const&
                 k = boost::parameter::keyword<K>::instance;
-            BOOST_TEST(check1(k, expected[k], 0L));
+            BOOST_TEST(this->check1(k, this->_expected[k], 0L));
         }
-
-        E const& expected;
-        ArgPack const& args;
     };
 
     template <typename E, typename A>
