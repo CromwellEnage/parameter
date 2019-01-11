@@ -91,7 +91,7 @@ namespace test {
     void check0(E const& e, A const& args)
     {
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
-        boost::mp11::mp_for_each<A>(test::assert_expected<E,A>(e, args));
+        boost::mp11::mp_for_each<E>(test::assert_expected<E,A>(e, args));
 #else
         boost::mpl::for_each<E>(test::assert_expected<E,A>(e, args));
 #endif
