@@ -11,14 +11,7 @@
 
 namespace boost { namespace parameter { namespace aux {
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11) && \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
-// For MSVC-14.1+, more than one partial template specialization matches the
-// template argument list of boost::mp11::detail::mp_find_impl.
-    template <typename Keyword, typename Arg, typename Dummy = void>
-#else
     template <typename Keyword, typename Arg>
-#endif
     class tagged_argument;
 }}} // namespace boost::parameter::aux
 
@@ -26,14 +19,7 @@ namespace boost { namespace parameter { namespace aux {
 
 namespace boost { namespace parameter { namespace aux {
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11) && \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
-// For MSVC-14.1+, more than one partial template specialization matches the
-// template argument list of boost::mp11::detail::mp_find_impl.
-    template <typename Keyword, typename Arg, typename Dummy = void>
-#else
     template <typename Keyword, typename Arg>
-#endif
     struct tagged_argument_rref;
 }}} // namespace boost::parameter::aux
 

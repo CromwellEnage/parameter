@@ -98,12 +98,7 @@ namespace boost { namespace parameter { namespace aux {
 
     // Holds an lvalue reference to an argument of type Arg associated with
     // keyword Keyword
-#if defined(BOOST_PARAMETER_CAN_USE_MP11) && \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
-    template <typename Keyword, typename Arg, typename Dummy>
-#else
     template <typename Keyword, typename Arg>
-#endif
     class tagged_argument
       : public ::boost::parameter::aux::tagged_argument_base
     {
@@ -373,12 +368,7 @@ namespace boost { namespace parameter { namespace aux {
 
     // Holds an rvalue reference to an argument of type Arg associated with
     // keyword Keyword
-#if defined(BOOST_PARAMETER_CAN_USE_MP11) && \
-    BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
-    template <typename Keyword, typename Arg, typename Dummy>
-#else
     template <typename Keyword, typename Arg>
-#endif
     struct tagged_argument_rref
       : ::boost::parameter::aux::tagged_argument_base
     {
@@ -843,5 +833,146 @@ namespace boost { namespace parameter { namespace aux {
 }}} // namespace boost::parameter::aux
 
 #endif  // BOOST_PARAMETER_HAS_PERFECT_FORWARDING
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/list.hpp>
+
+namespace boost { namespace mp11 { namespace detail {
+
+    template <typename Keyword, typename Arg>
+    struct mp_size_impl<
+        ::boost::parameter::aux::tagged_argument<Keyword,Arg>
+    >
+    {
+        using type = ::boost::mp11::mp_size_t<1>;
+    };
+
+    template <typename Keyword, typename Arg>
+    struct mp_size_impl<
+        ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+    >
+    {
+        using type = ::boost::mp11::mp_size_t<1>;
+    };
+
+    template <typename Keyword, typename Arg>
+    struct mp_front_impl<
+        ::boost::parameter::aux::tagged_argument<Keyword,Arg>
+    >
+    {
+        using type = Keyword;
+    };
+
+    template <typename Keyword, typename Arg>
+    struct mp_front_impl<
+        ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+    >
+    {
+        using type = Keyword;
+    };
+
+    template <typename Keyword, typename Arg>
+    struct mp_pop_front_impl<
+        ::boost::parameter::aux::tagged_argument<Keyword,Arg>
+    >
+    {
+        using type = ::boost::parameter::aux::empty_arg_list;
+    };
+
+    template <typename Keyword, typename Arg>
+    struct mp_pop_front_impl<
+        ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+    >
+    {
+        using type = ::boost::parameter::aux::empty_arg_list;
+    };
+
+    template <typename Keyword, typename Arg, template <typename ...> class B>
+    struct mp_rename_impl<
+        ::boost::parameter::aux::tagged_argument<Keyword,Arg>
+      , B
+    >
+    {
+        using type = B<Keyword>;
+    };
+
+    template <typename Keyword, typename Arg, template <typename ...> class B>
+    struct mp_rename_impl<
+        ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+      , B
+    >
+    {
+        using type = B<Keyword>;
+    };
+}}} // namespace boost::mp11::detail
+
+#include <boost/mp11/algorithm.hpp>
+
+namespace boost { namespace mp11 { namespace detail {
+
+    template <typename Keyword, typename Arg, typename Tag>
+    struct mp_count_impl<
+        ::boost::parameter::aux::tagged_argument<Keyword,Arg>
+      , Tag
+    >
+    {
+        using type = ::boost::mp11::mp_size_t<
+            ::std::is_same<Keyword,Tag>::value ? 1 : 0
+        >;
+    };
+
+    template <typename Keyword, typename Arg, typename Tag>
+    struct mp_count_impl<
+        ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+      , Tag
+    >
+    {
+        using type = ::boost::mp11::mp_size_t<
+            ::std::is_same<Keyword,Tag>::value ? 1 : 0
+        >;
+    };
+
+    template <typename Keyword, typename Arg, typename Tag>
+    struct mp_find_impl<
+        ::boost::parameter::aux::tagged_argument<Keyword,Arg>
+      , Tag
+    >
+    {
+        using type = ::boost::mp11::mp_size_t<
+            ::std::is_same<Keyword,Tag>::value ? 0 : 1
+        >;
+    };
+
+    template <typename Keyword, typename Arg, typename Tag>
+    struct mp_find_impl<
+        ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+      , Tag
+    >
+    {
+        using type = ::boost::mp11::mp_size_t<
+            ::std::is_same<Keyword,Tag>::value ? 0 : 1
+        >;
+    };
+
+    template <typename Keyword, typename Arg>
+    struct mp_at_c_impl<
+        ::boost::parameter::aux::tagged_argument<Keyword,Arg>
+      , 0
+    >
+    {
+        using type = Keyword;
+    };
+
+    template <typename Keyword, typename Arg>
+    struct mp_at_c_impl<
+        ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+      , 0
+    >
+    {
+        using type = Keyword;
+    };
+}}} // namespace boost::mp11::detail
+
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
 #endif  // include guard
 
