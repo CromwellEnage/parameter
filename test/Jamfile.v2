@@ -912,6 +912,22 @@ alias parameter_vendor_specific_fail_tests
         :
             preproc_eval_cat_no_spec_fail_msvc14_0
     ]
+    [ compile-fail basics.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
+        :
+            basics_fail_msvc14_0
+    ]
+    [ compile-fail macros.cpp
+        :
+            <define>BOOST_PARAMETER_MAX_ARITY=4
+            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=5
+            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
+        :
+            macros_fail_msvc14_0
+    ]
     :
         <toolset>msvc
         <toolset-msvc:version>14.0
