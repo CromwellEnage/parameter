@@ -7,6 +7,7 @@
 #include <boost/parameter/parameters.hpp>
 #include <boost/parameter/name.hpp>
 #include <boost/parameter/binding.hpp>
+#include "deduced.hpp"
 
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mp11/bind.hpp>
@@ -24,7 +25,6 @@
 #include <boost/type_traits/add_lvalue_reference.hpp>
 #endif  // Borland workarounds needed
 #endif  // BOOST_PARAMETER_CAN_USE_MP11
-#include "deduced.hpp"
 
 namespace test {
 

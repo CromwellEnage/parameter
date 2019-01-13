@@ -50,12 +50,20 @@ namespace test {
             !boost::mp11::mp_contains<ArgumentPack,test::tag::z>::value
           , "test::tag::z must not be in ArgumentPack"
         );
+        static_assert(
+            0 == boost::mp11::mp_count<ArgumentPack,test::tag::z>::value
+          , "typename K::tag must not be found in ArgumentPack"
+        );
+        static_assert(
+            1 == boost::mp11::mp_find<ArgumentPack,test::tag::z>::value
+          , "typename K::tag must not be found in ArgumentPack"
+        );
 #else
         BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgumentPack>));
         BOOST_MPL_ASSERT_NOT((
             boost::mpl::has_key<ArgumentPack,test::tag::z>
         ));
-#endif
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
         BOOST_TEST_EQ(p[kw], value);
     }
 } // namespace test
