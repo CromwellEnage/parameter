@@ -2134,28 +2134,48 @@ arguments, named arguments, and deduced arguments.</p>
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -2177,25 +2197,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -2235,12 +2263,20 @@ class="docutils literal">std::forward</tt> to preserve value categories.</p>
 BOOST_PARAMETER_FUNCTION((bool), evaluate, kw,
     (deduced
         (required
-            (lrc, (std::bitset&lt;1&gt;))
-            (lr, (std::bitset&lt;2&gt;))
+            (lrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;1&gt;))
+            (lr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;2&gt;))
         )
         (optional
-            (rrc, (std::bitset&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
-            (rr, (std::bitset&lt;4&gt;), rvalue_bitset&lt;3&gt;())
+            (rrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
+            (rr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;4&gt;), rvalue_bitset&lt;3&gt;())
         )
     )
 )
@@ -2687,28 +2723,48 @@ arguments, named arguments, and deduced arguments.</p>
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -2730,25 +2786,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -2791,12 +2855,20 @@ struct B
     BOOST_PARAMETER_MEMBER_FUNCTION((bool), static evaluate, kw,
         (deduced
             (required
-                (lrc, (std::bitset&lt;1&gt;))
-                (lr, (std::bitset&lt;2&gt;))
+                (lrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;1&gt;))
+                (lr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;2&gt;))
             )
             (optional
-                (rrc, (std::bitset&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
-                (rr, (std::bitset&lt;4&gt;), rvalue_bitset&lt;3&gt;())
+                (rrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
+                (rr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;4&gt;), rvalue_bitset&lt;3&gt;())
             )
         )
     )
@@ -3201,28 +3273,48 @@ arguments, named arguments, and deduced arguments.</p>
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -3244,25 +3336,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -3309,12 +3409,20 @@ struct B
     BOOST_PARAMETER_CONST_MEMBER_FUNCTION((bool), evaluate, kw,
         (deduced
             (required
-                (lrc, (std::bitset&lt;1&gt;))
-                (lr, (std::bitset&lt;2&gt;))
+                (lrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;1&gt;))
+                (lr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;2&gt;))
             )
             (optional
-                (rrc, (std::bitset&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
-                (rr, (std::bitset&lt;4&gt;), rvalue_bitset&lt;3&gt;())
+                (rrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
+                (rr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;4&gt;), rvalue_bitset&lt;3&gt;())
             )
         )
     )
@@ -4132,28 +4240,48 @@ composed arguments, named arguments, and deduced arguments.</p>
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -4175,25 +4303,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -4240,12 +4376,20 @@ struct B
     BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
         (deduced
             (required
-                (lrc, (std::bitset&lt;1&gt;))
-                (lr, (std::bitset&lt;2&gt;))
+                (lrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;1&gt;))
+                (lr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;2&gt;))
             )
             (optional
-                (rrc, (std::bitset&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
-                (rr, (std::bitset&lt;4&gt;), rvalue_bitset&lt;3&gt;())
+                (rrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;3&gt;), rvalue_const_bitset&lt;2&gt;())
+                (rr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;4&gt;), rvalue_bitset&lt;3&gt;())
             )
         )
     )
@@ -4939,28 +5083,48 @@ arguments, named arguments, and deduced arguments.</p>
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -4982,25 +5146,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -5039,12 +5211,20 @@ class="docutils literal">std::forward</tt> to preserve value categories.</p>
 BOOST_PARAMETER_BASIC_FUNCTION((bool), evaluate, kw,
     (deduced
         (required
-            (lrc, (std::bitset&lt;1&gt;))
-            (lr, (std::bitset&lt;2&gt;))
+            (lrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;1&gt;))
+            (lr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;2&gt;))
         )
         (optional
-            (rrc, (std::bitset&lt;3&gt;))
-            (rr, (std::bitset&lt;4&gt;))
+            (rrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;3&gt;))
+            (rr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;4&gt;))
         )
     )
 )
@@ -5334,28 +5514,48 @@ arguments, named arguments, and deduced arguments.</p>
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -5377,25 +5577,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -5437,12 +5645,20 @@ struct B
     BOOST_PARAMETER_BASIC_MEMBER_FUNCTION((bool), static evaluate, kw,
         (deduced
             (required
-                (lrc, (std::bitset&lt;1&gt;))
-                (lr, (std::bitset&lt;2&gt;))
+                (lrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;1&gt;))
+                (lr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;2&gt;))
             )
             (optional
-                (rrc, (std::bitset&lt;3&gt;))
-                (rr, (std::bitset&lt;4&gt;))
+                (rrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;3&gt;))
+                (rr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;4&gt;))
             )
         )
     )
@@ -5733,28 +5949,48 @@ arguments, named arguments, and deduced arguments.</p>
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -5776,25 +6012,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -5840,12 +6084,20 @@ struct B
     BOOST_PARAMETER_BASIC_CONST_MEMBER_FUNCTION((bool), evaluate, kw,
         (deduced
             (required
-                (lrc, (std::bitset&lt;1&gt;))
-                (lr, (std::bitset&lt;2&gt;))
+                (lrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;1&gt;))
+                (lr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;2&gt;))
             )
             (optional
-                (rrc, (std::bitset&lt;3&gt;))
-                (rr, (std::bitset&lt;4&gt;))
+                (rrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;3&gt;))
+                (rr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;4&gt;))
             )
         )
     )
@@ -6430,28 +6682,48 @@ composed arguments, named arguments, and deduced arguments.</p>
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -6473,25 +6745,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -6537,12 +6817,20 @@ struct B
     BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
         (deduced
             (required
-                (lrc, (std::bitset&lt;1&gt;))
-                (lr, (std::bitset&lt;2&gt;))
+                (lrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;1&gt;))
+                (lr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;2&gt;))
             )
             (optional
-                (rrc, (std::bitset&lt;3&gt;))
-                (rr, (std::bitset&lt;4&gt;))
+                (rrc, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;3&gt;))
+                (rr, (std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;4&gt;))
             )
         )
     )
@@ -6817,28 +7105,48 @@ href="../../../../boost/parameter/preprocessor_no_spec.hpp"
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -6860,25 +7168,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -7290,28 +7606,48 @@ href="../../../../boost/parameter/preprocessor_no_spec.hpp"
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -7333,25 +7669,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -7763,28 +8107,48 @@ href="../../../../boost/parameter/preprocessor_no_spec.hpp"
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -7806,25 +8170,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -8209,28 +8581,48 @@ href="../../../../boost/parameter/preprocessor_no_spec.hpp"
 different value category.</p>
 <pre class="first literal-block">
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; rvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; rvalue_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const rvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const rvalue_const_bitset()
 {
-    return std::bitset&lt;N + 1&gt;();
+    return std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt;&amp; lvalue_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp; lvalue_bitset()
 {
-    static std::bitset&lt;N + 1&gt; lset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; lset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return lset;
 }
 
 template &lt;std::size_t N&gt;
-std::bitset&lt;N + 1&gt; const&amp; lvalue_const_bitset()
+std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp; lvalue_const_bitset()
 {
-    static std::bitset&lt;N + 1&gt; const clset = std::bitset&lt;N + 1&gt;();
+    static std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const clset = std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;();
     return clset;
 }
 </pre>
@@ -8252,25 +8644,33 @@ enum invoked
 struct U
 {
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;)
     {
         return passed_by_lvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;)
     {
         return passed_by_lvalue_reference;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt; const&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt; const&amp;&amp;)
     {
         return passed_by_rvalue_reference_to_const;
     }
 
     template &lt;std::size_t N&gt;
-    static invoked evaluate_category(std::bitset&lt;N + 1&gt;&amp;&amp;)
+    static invoked evaluate_category(std::<a class="reference external"
+href="http://en.cppreference.com/w/cpp/utility/bitset"
+>bitset</a>&lt;N + 1&gt;&amp;&amp;)
     {
         return passed_by_rvalue_reference;
     }
@@ -8440,7 +8840,7 @@ namespace <em>namespace-name</em> {
 
     struct <em>tag-name</em>
     {
-        static char const* keyword_name()
+        static constexpr char const* keyword_name()
         {
             return ##<em>tag-name</em>;
         }
@@ -8623,7 +9023,7 @@ href="#binding">binding</a>&lt;
 }
 
 <a class="reference internal" href="#keyword">keyword</a>&lt;tag::<em
->tag-name</em>&gt; const&amp; _ ## <em>tag-name</em>
+>tag-name</em>&gt; const&amp; <em>name</em>
     = <a class="reference internal" href="#keyword">keyword</a>&lt;tag::<em
 >tag-name</em>&gt;::instance;
 </pre>
@@ -8855,16 +9255,38 @@ namespace <strong>n</strong> {
 
     struct <strong>k</strong>
     {
+        static constexpr char const* keyword_name()
+        {
+            return ##<em>k</em>;
+        }
+
+        typedef <em>unspecified</em> _;
+        typedef <em>unspecified</em> _1;
         typedef boost::parameter::forward_reference qualifier;
+
+        // The following definitions are available only when
+        // <a class="reference internal" href="#boost-parameter-can-use-mp11"
+>BOOST_PARAMETER_CAN_USE_MP11</a> is defined.
+
+        template &lt;typename ArgumentPack&gt;
+        using binding_fn = typename <a class="reference internal"
+href="#binding">binding</a>&lt;
+            ArgumentPack
+          , <em>k</em>
+        &gt;::type;
+
+        template &lt;typename ArgumentPack&gt;
+        using fn = typename <a class="reference internal" href="#value-type"
+>value_type</a>&lt;ArgumentPack, <em>k</em>&gt;::type;
     };
 }
 
 namespace {
 
     <a class="reference internal" href="#keyword">keyword</a>&lt;<em
->tag-namespace</em>::<strong>k</strong>&gt;&amp; <strong>k</strong>
+>n</em>::<strong>k</strong>&gt; const&amp; <strong>k</strong>
         = <a class="reference internal" href="#keyword">keyword</a>&lt;<em
->tag-namespace</em>::<strong>k</strong>&gt;::instance;
+>n</em>::<strong>k</strong>&gt;::instance;
 }
 </pre>
 </dd>
@@ -9167,6 +9589,8 @@ it's possible to access the reference and value result types of indexing an
 argument pack a little more directly:</p>
 <pre class="first literal-block">
 // Use mp_bind on tag::x::binding_fn to access the reference type of _x.
+// Here, boost::mp11::_1 will be bound to the argument type of _y.
+// Regardless, boost::mp11::_2 will be bound to the argument pack type.
 check&lt;
     <a class="reference internal" href="#parameters">parameters</a>&lt;
         tag::x

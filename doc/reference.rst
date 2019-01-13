@@ -517,14 +517,14 @@ __ ../../../../boost/parameter/keyword.hpp
         static keyword<Tag>& get_\();
     };
 
-.. _enable_if: ../../../core/doc/html/core/enable_if.html
-.. _eval_if_: ../../../mpl/doc/refmanual/eval-if.html
-.. _false_: ../../../mpl/doc/refmanual/bool.html
-.. _if_: ../../../mpl/doc/refmanual/if.html
-.. _is_const: ../../../type_traits/doc/html/boost_typetraits/is_const.html
-.. _is_same: ../../../type_traits/doc/html/boost_typetraits/is_same.html
-.. _is_scalar: ../../../type_traits/doc/html/boost_typetraits/is_scalar.html
-.. _true_: ../../../mpl/doc/refmanual/bool.html
+.. _`enable_if`: ../../../core/doc/html/core/enable_if.html
+.. _`eval_if`: ../../../mpl/doc/refmanual/eval-if.html
+.. _`false_`: ../../../mpl/doc/refmanual/bool.html
+.. _`if_`: ../../../mpl/doc/refmanual/if.html
+.. _`is_const`: ../../../type_traits/doc/html/boost_typetraits/is_const.html
+.. _`is_same`: ../../../type_traits/doc/html/boost_typetraits/is_same.html
+.. _`is_scalar`: ../../../type_traits/doc/html/boost_typetraits/is_scalar.html
+.. _`true_`: ../../../mpl/doc/refmanual/bool.html
 
 .. |operator=| replace:: ``operator=``
 .. _operator=:
@@ -972,7 +972,7 @@ define the range constructor.
         }
     };
 
-.. _disable_if: ../../../core/doc/html/core/enable_if.html
+.. _`disable_if`: ../../../core/doc/html/core/enable_if.html
 
 ``are_tagged_arguments_mp11``
 -----------------------------
@@ -1026,7 +1026,7 @@ define the range constructor.
         }
     };
 
-.. _disable_if: ../../../core/doc/html/core/enable_if.html
+.. _`disable_if`: ../../../core/doc/html/core/enable_if.html
 
 ``is_argument_pack``
 --------------------
@@ -1093,7 +1093,7 @@ in conjunction with ``enable_if``.
         }
     };
 
-.. _is_convertible: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
+.. _`is_convertible`: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
 
 ``is_argument_pack_mp11``
 -------------------------
@@ -1161,7 +1161,7 @@ in conjunction with ``enable_if``.
         }
     };
 
-.. _is_convertible: http\://en.cppreference.com/w/cpp/types/is_convertible
+.. _`is_convertible`: http\://en.cppreference.com/w/cpp/types/is_convertible
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -1228,28 +1228,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -1271,25 +1271,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -1326,12 +1326,12 @@ second method doesn't require ``std::forward`` to preserve value categories.
     BOOST_PARAMETER_FUNCTION((bool), evaluate, kw,
         (deduced
             (required
-                (lrc, (std::bitset<1>))
-                (lr, (std::bitset<2>))
+                (lrc, (std::`bitset`_<1>))
+                (lr, (std::`bitset`_<2>))
             )
             (optional
-                (rrc, (std::bitset<3>), rvalue_const_bitset<2>())
-                (rr, (std::bitset<4>), rvalue_bitset<3>())
+                (rrc, (std::`bitset`_<3>), rvalue_const_bitset<2>())
+                (rr, (std::`bitset`_<4>), rvalue_bitset<3>())
             )
         )
     )
@@ -1406,6 +1406,7 @@ function calls are also legal.
 The |preprocessor|_, |preprocessor_deduced|_, and |preprocessor_eval_cat|_
 test programs demonstrate proper usage of this macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
 .. |preprocessor_deduced| replace:: preprocessor_deduced.cpp
@@ -1589,17 +1590,17 @@ Approximate expansion:
                 typename boost_param_result\_ ## __LINE__ ## **name**\ <
                     Args
                 >::type(\*)()
-            >(std::nullptr)
+            >(std::`nullptr`_)
           , args
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of required parameter* ## **0**
                 >::type
             >(args[ *keyword object of required parameter* ## **0**])
           , …
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of required parameter* ## **n**
                 >::type
@@ -1624,7 +1625,7 @@ Approximate expansion:
         )
     {
         return boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            static_cast<ResultType(\*)()>(std::nullptr)
+            static_cast<ResultType(\*)()>(std::`nullptr`_)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
@@ -1636,7 +1637,7 @@ Approximate expansion:
                 *argument name* ## **n**
             )
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of optional parameter* ## **n + 1**
                 >::type
@@ -1663,6 +1664,7 @@ Approximate expansion:
         )
 
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
 
 ``BOOST_PARAMETER_MEMBER_FUNCTION(result, name, tag_namespace, arguments)``
 ---------------------------------------------------------------------------
@@ -1681,28 +1683,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -1724,25 +1726,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -1781,12 +1783,12 @@ second method doesn't require ``std::forward`` to preserve value categories.
         BOOST_PARAMETER_MEMBER_FUNCTION((bool), static evaluate, kw,
             (deduced
                 (required
-                    (lrc, (std::bitset<1>))
-                    (lr, (std::bitset<2>))
+                    (lrc, (std::`bitset`_<1>))
+                    (lr, (std::`bitset`_<2>))
                 )
                 (optional
-                    (rrc, (std::bitset<3>), rvalue_const_bitset<2>())
-                    (rr, (std::bitset<4>), rvalue_bitset<3>())
+                    (rrc, (std::`bitset`_<3>), rvalue_const_bitset<2>())
+                    (rr, (std::`bitset`_<4>), rvalue_bitset<3>())
                 )
             )
         )
@@ -1862,6 +1864,7 @@ function calls are also legal.
 The |preprocessor|_ and |preprocessor_eval_cat|_ test programs demonstrate
 proper usage of this macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
 .. |preprocessor_eval_cat| replace:: preprocessor_eval_category.cpp
@@ -2007,17 +2010,17 @@ Approximate expansion:
                 typename boost_param_result\_ ## __LINE__ ## **name**\ <
                     Args
                 >::type(\*)()
-            >(std::nullptr)
+            >(std::`nullptr`_)
           , args
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of required parameter* ## **0**
                 >::type
             >(args[ *keyword object of required parameter* ## **0**])
           , …
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of required parameter* ## **n**
                 >::type
@@ -2042,7 +2045,7 @@ Approximate expansion:
         )
     {
         return this->boost_param_dispatch_0boost\_ ## __LINE__ ## **name**\ (
-            static_cast<ResultType(\*)()>(std::nullptr)
+            static_cast<ResultType(\*)()>(std::`nullptr`_)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
@@ -2054,7 +2057,7 @@ Approximate expansion:
                 *argument name* ## **n**
             )
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of optional parameter* ## **n + 1**
                 >::type
@@ -2081,6 +2084,7 @@ Approximate expansion:
         )
 
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
 
 ``BOOST_PARAMETER_CONST_MEMBER_FUNCTION(result, name, tag_ns, arguments)``
 --------------------------------------------------------------------------
@@ -2099,28 +2103,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -2142,25 +2146,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -2203,12 +2207,12 @@ second method doesn't require ``std::forward`` to preserve value categories.
         BOOST_PARAMETER_CONST_MEMBER_FUNCTION((bool), evaluate, kw,
             (deduced
                 (required
-                    (lrc, (std::bitset<1>))
-                    (lr, (std::bitset<2>))
+                    (lrc, (std::`bitset`_<1>))
+                    (lr, (std::`bitset`_<2>))
                 )
                 (optional
-                    (rrc, (std::bitset<3>), rvalue_const_bitset<2>())
-                    (rr, (std::bitset<4>), rvalue_bitset<3>())
+                    (rrc, (std::`bitset`_<3>), rvalue_const_bitset<2>())
+                    (rr, (std::`bitset`_<4>), rvalue_bitset<3>())
                 )
             )
         )
@@ -2284,6 +2288,7 @@ function calls are also legal.
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
 
@@ -2426,17 +2431,17 @@ Approximate expansion:
                 typename boost_param_result_const\_ ## __LINE__ ## **name**\ <
                     Args
                 >::type(\*)()
-            >(std::nullptr)
+            >(std::`nullptr`_)
           , args
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of required parameter* ## **0**
                 >::type
             >(args[ *keyword object of required parameter* ## **0**])
           , …
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of required parameter* ## **n**
                 >::type
@@ -2462,7 +2467,7 @@ Approximate expansion:
     {
         return this->
         boost_param_dispatch_const_0boost\_ ## __LINE__ ## **name**\ (
-            static_cast<ResultType(\*)()>(std::nullptr)
+            static_cast<ResultType(\*)()>(std::`nullptr`_)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
@@ -2474,7 +2479,7 @@ Approximate expansion:
                 *argument name* ## **n**
             )
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of optional parameter* ## **n + 1**
                 >::type
@@ -2501,6 +2506,7 @@ Approximate expansion:
         ) const
 
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
 
 ``BOOST_PARAMETER_FUNCTION_CALL_OPERATOR(result, tag_namespace, arguments)``
 ----------------------------------------------------------------------------
@@ -2534,7 +2540,7 @@ Boost.Parameter-enabled function call operator overloads.
     class char_reader
     {
         int index;
-        char const* key;
+        char const\* key;
 
      public:
         explicit char_reader(char const\* k) : index(0), key(k)
@@ -2741,17 +2747,17 @@ Approximate expansion:
                 typename boost_param_result\_ ## __LINE__ ## operator<
                     Args
                 >::type(\*)()
-            >(std::nullptr)
+            >(std::`nullptr`_)
           , args
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of required parameter* ## **0**
                 >::type
             >(args[ *keyword object of required parameter* ## **0**])
           , …
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of required parameter* ## **n**
                 >::type
@@ -2776,7 +2782,7 @@ Approximate expansion:
         )
     {
         return this->boost_param_dispatch_0boost\_ ## __LINE__ ## operator(
-            static_cast<ResultType(\*)()>(std::nullptr)
+            static_cast<ResultType(\*)()>(std::`nullptr`_)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
@@ -2788,7 +2794,7 @@ Approximate expansion:
                 *argument name* ## **n**
             )
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of optional parameter* ## **n + 1**
                 >::type
@@ -2815,6 +2821,7 @@ Approximate expansion:
         )
 
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
 
 ``BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR(result, tag_ns, arguments)``
 ---------------------------------------------------------------------------
@@ -2833,28 +2840,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -2876,25 +2883,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -2937,12 +2944,12 @@ second method doesn't require ``std::forward`` to preserve value categories.
         BOOST_PARAMETER_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
             (deduced
                 (required
-                    (lrc, (std::bitset<1>))
-                    (lr, (std::bitset<2>))
+                    (lrc, (std::`bitset`_<1>))
+                    (lr, (std::`bitset`_<2>))
                 )
                 (optional
-                    (rrc, (std::bitset<3>), rvalue_const_bitset<2>())
-                    (rr, (std::bitset<4>), rvalue_bitset<3>())
+                    (rrc, (std::`bitset`_<3>), rvalue_const_bitset<2>())
+                    (rr, (std::`bitset`_<4>), rvalue_bitset<3>())
                 )
             )
         )
@@ -3019,6 +3026,7 @@ function calls are also legal.
 The |preprocessor|_, |preprocessor_deduced|_, and |preprocessor_eval_cat_8|_
 test programs demonstrate proper usage of this macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
@@ -3164,17 +3172,17 @@ Approximate expansion:
                 typename boost_param_result_const\_ ## __LINE__ ## operator<
                     Args
                 >::type(\*)()
-            >(std::nullptr)
+            >(std::`nullptr`_)
           , args
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of required parameter* ## **0**
                 >::type
             >(args[ *keyword object of required parameter* ## **0**])
           , …
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of required parameter* ## **n**
                 >::type
@@ -3200,7 +3208,7 @@ Approximate expansion:
     {
         return this->
         boost_param_dispatch_const_0boost\_ ## __LINE__ ## operator(
-            static_cast<ResultType(\*)()>(std::nullptr)
+            static_cast<ResultType(\*)()>(std::`nullptr`_)
           , (args, *keyword object of optional parameter* ## **n + 1** =
                 *default value of optional parameter* ## **n + 1**
             )
@@ -3212,7 +3220,7 @@ Approximate expansion:
                 *argument name* ## **n**
             )
           , std::`forward`_<
-                typename boost::parameter::value_type<
+                typename |value_type|_<
                     Args
                   , *keyword tag type of optional parameter* ## **n + 1**
                 >::type
@@ -3239,6 +3247,7 @@ Approximate expansion:
         ) const
 
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
 
 ``BOOST_PARAMETER_CONSTRUCTOR(cls, impl, tag_namespace, arguments)``
 --------------------------------------------------------------------
@@ -3471,28 +3480,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -3514,25 +3523,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -3569,12 +3578,12 @@ preserve value categories.
     BOOST_PARAMETER_BASIC_FUNCTION((bool), evaluate, kw,
         (deduced
             (required
-                (lrc, (std::bitset<1>))
-                (lr, (std::bitset<2>))
+                (lrc, (std::`bitset`_<1>))
+                (lr, (std::`bitset`_<2>))
             )
             (optional
-                (rrc, (std::bitset<3>))
-                (rr, (std::bitset<4>))
+                (rrc, (std::`bitset`_<3>))
+                (rr, (std::`bitset`_<4>))
             )
         )
     )
@@ -3650,6 +3659,7 @@ function calls are also legal.
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
 
@@ -3802,28 +3812,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -3845,25 +3855,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -3902,12 +3912,12 @@ preserve value categories.
         BOOST_PARAMETER_BASIC_MEMBER_FUNCTION((bool), static evaluate, kw,
             (deduced
                 (required
-                    (lrc, (std::bitset<1>))
-                    (lr, (std::bitset<2>))
+                    (lrc, (std::`bitset`_<1>))
+                    (lr, (std::`bitset`_<2>))
                 )
                 (optional
-                    (rrc, (std::bitset<3>))
-                    (rr, (std::bitset<4>))
+                    (rrc, (std::`bitset`_<3>))
+                    (rr, (std::`bitset`_<4>))
                 )
             )
         )
@@ -3986,6 +3996,7 @@ function calls are also legal.
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
@@ -4137,28 +4148,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -4180,25 +4191,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -4241,12 +4252,12 @@ preserve value categories.
         BOOST_PARAMETER_BASIC_CONST_MEMBER_FUNCTION((bool), evaluate, kw,
             (deduced
                 (required
-                    (lrc, (std::bitset<1>))
-                    (lr, (std::bitset<2>))
+                    (lrc, (std::`bitset`_<1>))
+                    (lr, (std::`bitset`_<2>))
                 )
                 (optional
-                    (rrc, (std::bitset<3>))
-                    (rr, (std::bitset<4>))
+                    (rrc, (std::`bitset`_<3>))
+                    (rr, (std::`bitset`_<4>))
                 )
             )
         )
@@ -4326,6 +4337,7 @@ function calls are also legal.
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. _`forward`: http\://en.cppreference.com/w/cpp/utility/forward
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
@@ -4490,10 +4502,10 @@ Boost.Parameter-enabled function call operator overloads.
     class char_reader
     {
         int index;
-        char const* key;
+        char const\* key;
 
      public:
-        explicit char_reader(char const* k) : index(0), key(k)
+        explicit char_reader(char const\* k) : index(0), key(k)
         {
         }
 
@@ -4501,7 +4513,7 @@ Boost.Parameter-enabled function call operator overloads.
             (deduced
                 (required
                     (y, (int))
-                    (z, (char const*))
+                    (z, (char const\*))
                 )
             )
         )
@@ -4701,28 +4713,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -4744,25 +4756,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -4805,12 +4817,12 @@ preserve value categories.
         BOOST_PARAMETER_BASIC_CONST_FUNCTION_CALL_OPERATOR((bool), kw,
             (deduced
                 (required
-                    (lrc, (std::bitset<1>))
-                    (lr, (std::bitset<2>))
+                    (lrc, (std::`bitset`_<1>))
+                    (lr, (std::`bitset`_<2>))
                 )
                 (optional
-                    (rrc, (std::bitset<3>))
-                    (rr, (std::bitset<4>))
+                    (rrc, (std::`bitset`_<3>))
+                    (rr, (std::`bitset`_<4>))
                 )
             )
         )
@@ -4890,6 +4902,7 @@ function calls are also legal.
 
 The |preprocessor|_ test program demonstrates proper usage of this macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. |preprocessor| replace:: preprocessor.cpp
 .. _preprocessor: ../../test/preprocessor.cpp
 
@@ -5035,28 +5048,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -5078,25 +5091,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -5159,6 +5172,7 @@ To invoke the function, bind all its arguments to named parameters.
 The |preproc_eval_cat_no_spec|_ test program demonstrates proper usage of
 this macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
 .. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
 
@@ -5203,7 +5217,7 @@ Approximate expansion:
                     TaggedArg0
                   , TaggedArgs...
                 >::type(\*)()
-            >(std::nullptr)
+            >(std::`nullptr`_)
           , |compose|_(arg0, args...)
         );
     }
@@ -5218,7 +5232,8 @@ Approximate expansion:
 Only the |ArgumentPack|_ type ``Args`` and its object instance ``args`` are
 available for use within the function body.
 
-.. _lazy_enable_if: ../../../core/doc/html/core/enable_if.html
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
+.. _`lazy_enable_if`: ../../../core/doc/html/core/enable_if.html
 
 ``BOOST_PARAMETER_NO_SPEC_MEMBER_FUNCTION(result, name)``
 ---------------------------------------------------------
@@ -5399,7 +5414,7 @@ Approximate expansion:
                     TaggedArg0
                   , TaggedArgs...
                 >::type(\*)()
-            >(std::nullptr)
+            >(std::`nullptr`_)
           , |compose|_(arg0, args...)
         );
     }
@@ -5414,7 +5429,8 @@ Approximate expansion:
 Only the |ArgumentPack|_ type ``Args`` and its object instance ``args`` are
 available for use within the function body.
 
-.. _lazy_enable_if: ../../../core/doc/html/core/enable_if.html
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
+.. _`lazy_enable_if`: ../../../core/doc/html/core/enable_if.html
 
 ``BOOST_PARAMETER_NO_SPEC_CONST_MEMBER_FUNCTION(result, name)``
 ---------------------------------------------------------------
@@ -5432,28 +5448,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -5475,25 +5491,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -5567,6 +5583,7 @@ To invoke the member function, bind all its arguments to named parameters.
 The |preproc_eval_cat_no_spec|_ test program demonstrates proper usage of this
 macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
 .. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
 
@@ -5604,7 +5621,7 @@ Approximate expansion:
                     TaggedArg0
                   , TaggedArgs...
                 >::type(\*)()
-            >(std::nullptr)
+            >(std::`nullptr`_)
           , |compose|_(arg0, args...)
         );
     }
@@ -5619,7 +5636,8 @@ Approximate expansion:
 Only the |ArgumentPack|_ type ``Args`` and its object instance ``args`` are
 available for use within the function body.
 
-.. _lazy_enable_if: ../../../core/doc/html/core/enable_if.html
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
+.. _`lazy_enable_if`: ../../../core/doc/html/core/enable_if.html
 
 ``BOOST_PARAMETER_NO_SPEC_FUNCTION_CALL_OPERATOR(result)``
 ----------------------------------------------------------
@@ -5796,7 +5814,7 @@ Approximate expansion:
                     TaggedArg0
                   , TaggedArgs...
                 >::type(\*)()
-            >(std::nullptr)
+            >(std::`nullptr`_)
           , |compose|_(arg0, args...)
         );
     }
@@ -5811,7 +5829,8 @@ Approximate expansion:
 Only the |ArgumentPack|_ type ``Args`` and its object instance ``args`` are
 available for use within the function body.
 
-.. _lazy_enable_if: ../../../core/doc/html/core/enable_if.html
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
+.. _`lazy_enable_if`: ../../../core/doc/html/core/enable_if.html
 
 ``BOOST_PARAMETER_NO_SPEC_CONST_FUNCTION_CALL_OPERATOR(result)``
 ----------------------------------------------------------------
@@ -5829,28 +5848,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -5872,25 +5891,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -5965,6 +5984,7 @@ parameters.
 The |preproc_eval_cat_no_spec|_ test program demonstrates proper usage of this
 macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
 .. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
 
@@ -6003,7 +6023,7 @@ Approximate expansion:
                     TaggedArg0
                   , TaggedArgs...
                 >::type(\*)()
-            >(std::nullptr)
+            >(std::`nullptr`_)
           , |compose|_(arg0, args...)
         );
     }
@@ -6018,7 +6038,8 @@ Approximate expansion:
 Only the |ArgumentPack|_ type ``Args`` and its object instance ``args`` are
 available for use within the function body.
 
-.. _lazy_enable_if: ../../../core/doc/html/core/enable_if.html
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
+.. _`lazy_enable_if`: ../../../core/doc/html/core/enable_if.html
 
 ``BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(cls, impl)``
 --------------------------------------------------
@@ -6196,28 +6217,28 @@ different value category.
 .. parsed-literal::
 
     template <std::size_t N>
-    std::bitset<N + 1> rvalue_bitset()
+    std::`bitset`_<N + 1> rvalue_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const rvalue_const_bitset()
+    std::`bitset`_<N + 1> const rvalue_const_bitset()
     {
-        return std::bitset<N + 1>();
+        return std::`bitset`_<N + 1>();
     }
 
     template <std::size_t N>
-    std::bitset<N + 1>& lvalue_bitset()
+    std::`bitset`_<N + 1>& lvalue_bitset()
     {
-        static std::bitset<N + 1> lset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> lset = std::`bitset`_<N + 1>();
         return lset;
     }
 
     template <std::size_t N>
-    std::bitset<N + 1> const& lvalue_const_bitset()
+    std::`bitset`_<N + 1> const& lvalue_const_bitset()
     {
-        static std::bitset<N + 1> const clset = std::bitset<N + 1>();
+        static std::`bitset`_<N + 1> const clset = std::`bitset`_<N + 1>();
         return clset;
     }
 
@@ -6239,25 +6260,25 @@ of the functions defined above.  Assume that
     struct U
     {
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&)
         {
             return passed_by_lvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&)
         {
             return passed_by_lvalue_reference;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1> const&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1> const&&)
         {
             return passed_by_rvalue_reference_to_const;
         }
 
         template <std::size_t N>
-        static invoked evaluate_category(std::bitset<N + 1>&&)
+        static invoked evaluate_category(std::`bitset`_<N + 1>&&)
         {
             return passed_by_rvalue_reference;
         }
@@ -6330,6 +6351,7 @@ To invoke the constructor, bind all its arguments to named parameters.
 The |preproc_eval_cat_no_spec|_ test program demonstrates proper usage of this
 macro.
 
+.. _`bitset`: http\://en.cppreference.com/w/cpp/utility/bitset
 .. |preproc_eval_cat_no_spec| replace:: preprocessor_eval_cat_no_spec.cpp
 .. _preproc_eval_cat_no_spec: ../../test/preprocessor_eval_cat_no_spec.cpp
 
@@ -6387,7 +6409,7 @@ Expands to:
 
         struct *tag-name*
         {
-            static char const* keyword_name()
+            static constexpr char const\* keyword_name()
             {
                 return ## *tag-name*;
             }
@@ -6410,8 +6432,8 @@ Expands to:
         };
     }
 
-    |keyword|_<*tag-namespace* :: *tag-name* > const& *object-name*
-        = |keyword|_<*tag-namespace* :: *tag-name*>::instance;
+    |keyword|_<*tag-namespace*::*tag-name*> const& *object-name*
+        = |keyword|_<*tag-namespace*::*tag-name*>::instance;
 
 **Else If** *name* is of the form:
 
@@ -6446,7 +6468,7 @@ Expands to:
 
         struct *tag-name*
         {
-            static constexpr char const* keyword_name()
+            static constexpr char const\* keyword_name()
             {
                 return ## *tag-name*;
             }
@@ -6469,8 +6491,8 @@ Expands to:
         };
     }
 
-    |keyword|_<tag:: *tag-name* > const& _ ## *tag-name*
-        = |keyword|_<tag:: *tag-name* >::instance;
+    |keyword|_<tag::*tag-name*> const& _ ## *tag-name*
+        = |keyword|_<tag::*tag-name*>::instance;
 
 **Else**
 
@@ -6509,7 +6531,7 @@ Expands to:
 
         struct *tag-name*
         {
-            static constexpr char const* keyword_name()
+            static constexpr char const\* keyword_name()
             {
                 return ## *tag-name* ## _;
             }
@@ -6531,10 +6553,13 @@ Expands to:
             template <typename ArgumentPack>
             using fn = typename |value_type|_<ArgumentPack, *tag-name*>::type;
         };
+
+        |keyword|_<*tag-name*> const& tag::*tag-name*::*alias*
+            = |keyword|_<*tag-name*>::instance;
     }
 
-    |keyword|_<*tag-name*> const& *tag-name*::*alias*
-        = |keyword|_<*tag-name*>::instance;
+    |keyword|_<tag::*tag-name*> const& tag::*tag-name*::*name*
+        = |keyword|_<tag::*tag-name*>::instance;
 
 **Else**
 
@@ -6698,14 +6723,33 @@ Expands to:
 
         struct **k**
         {
+            static constexpr char const\* keyword_name()
+            {
+                return ## *k*;
+            }
+
+            typedef *unspecified* _;
+            typedef *unspecified* _1;
             typedef boost::parameter::forward_reference qualifier;
+
+            // The following definitions are available only when
+            // |BOOST_PARAMETER_CAN_USE_MP11|_ is defined.
+
+            template <typename ArgumentPack>
+            using binding_fn = typename |binding|_<
+                ArgumentPack
+              , *k*
+            >::type;
+
+            template <typename ArgumentPack>
+            using fn = typename |value_type|_<ArgumentPack, *k*>::type;
         };
     }
 
     namespace { 
 
-        |keyword|_<*tag-namespace*::**k**>& **k**
-            = |keyword|_<*tag-namespace*::**k**>::instance;
+        |keyword|_<*n*::**k**> const& **k**
+            = |keyword|_<*n*::**k**>::instance;
     }
 
 ``BOOST_PARAMETER_MATCH(p, a, x)``
@@ -6834,7 +6878,7 @@ Given the following definitions::
         return 0;
     }
 
-.. _is_same: http\://en.cppreference.com/w/cpp/types/is_same
+.. _`is_same`: http\://en.cppreference.com/w/cpp/types/is_same
 
 `Boost.MP11`_ allows deduced parameters to be defined more succinctly::
 
@@ -6855,8 +6899,7 @@ Given the following definitions::
         return 1;
     }
 
-.. _is_convertible: http\://en.cppreference.com/w/cpp/types/is_convertible
-.. _nullptr: http\://en.cppreference.com/w/cpp/language/nullptr
+.. _`is_convertible`: http\://en.cppreference.com/w/cpp/types/is_convertible
 
 Without `Boost.MP11`_, deduced parameter definitions tend to be more verbose::
 
@@ -6887,7 +6930,8 @@ Without `Boost.MP11`_, deduced parameter definitions tend to be more verbose::
         return 1;
     }
 
-.. _is_convertible: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
+.. _`is_convertible`: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
+.. _`nullptr`: http\://en.cppreference.com/w/cpp/language/nullptr
 
 Either way, the following assertions will succeed::
 
@@ -6935,6 +6979,8 @@ whether or not the argument type of ``_y`` is convertible to the value type of
 indexing an argument pack a little more directly::
 
     // Use mp_bind on tag::x::binding_fn to access the reference type of _x.
+    // Here, boost::mp11::_1 will be bound to the argument type of _y.
+    // Regardless, boost::mp11::_2 will be bound to the argument pack type.
     check<
         |parameters|_<
             tag::x
@@ -6967,8 +7013,8 @@ indexing an argument pack a little more directly::
         >
     >((_x = 0U, _y = 1U), 0U, 1U);
 
-.. _is_convertible: http\://en.cppreference.com/w/cpp/types/is_convertible
-.. _is_same: http\://en.cppreference.com/w/cpp/types/is_same
+.. _`is_convertible`: http\://en.cppreference.com/w/cpp/types/is_convertible
+.. _`is_same`: http\://en.cppreference.com/w/cpp/types/is_same
 
 Argument packs still qualify as `Boost.MPL`_-style lists containing
 |keyword tag type|\ s::
@@ -7024,9 +7070,9 @@ verbose::
         >
     >((_x = 0U, _y = 1U), 0U, 1U);
 
-.. _add_lvalue_reference: ../../../type_traits/doc/html/boost_typetraits/add_lvalue_reference.html
-.. _is_convertible: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
-.. _is_same: ../../../type_traits/doc/html/boost_typetraits/is_same.html
+.. _`add_lvalue_reference`: ../../../type_traits/doc/html/boost_typetraits/add_lvalue_reference.html
+.. _`is_convertible`: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
+.. _`is_same`: ../../../type_traits/doc/html/boost_typetraits/is_same.html
 
 The |optional_deduced_sfinae_cpp|_ and |deduced_dep_pred_cpp|_ test programs
 demonstrate proper usage of this macro.
