@@ -932,6 +932,15 @@ namespace boost { namespace mp11 { namespace detail {
         >;
     };
 
+    template <typename Keyword, typename Arg>
+    struct mp_find_impl<
+        ::boost::parameter::aux::tagged_argument<Keyword,Arg>
+      , Keyword
+    >
+    {
+        using type = ::boost::mp11::mp_size_t<0>;
+    };
+
     template <typename Keyword, typename Arg, typename Tag>
     struct mp_find_impl<
         ::boost::parameter::aux::tagged_argument<Keyword,Arg>
@@ -941,6 +950,15 @@ namespace boost { namespace mp11 { namespace detail {
         using type = ::boost::mp11::mp_size_t<
             ::std::is_same<Keyword,Tag>::value ? 0 : 1
         >;
+    };
+
+    template <typename Keyword, typename Arg>
+    struct mp_find_impl<
+        ::boost::parameter::aux::tagged_argument_rref<Keyword,Arg>
+      , Keyword
+    >
+    {
+        using type = ::boost::mp11::mp_size_t<0>;
     };
 
     template <typename Keyword, typename Arg, typename Tag>

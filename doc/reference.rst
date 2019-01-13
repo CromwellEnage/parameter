@@ -673,7 +673,7 @@ __ ../../../../boost/parameter/template_keyword.hpp
 
 The |ntp_cpp|_ test program demonstrates proper usage of this class template.
 
-.. |ntp_cpp| replace:: ntp.cpp
+.. |ntp_cpp| replace:: test/ntp.cpp
 .. _ntp_cpp: ../../test/ntp.cpp
 
 ``parameters``
@@ -804,9 +804,13 @@ Both headers are included by: |preprocessor_header|_
     struct required;
 
 The default value of ``Predicate`` is an unspecified `MPL Binary Metafunction
-Class`_ that returns ``mpl::true_`` for any argument.
+Class`_ that returns ``mpl::true_`` for any argument.  If
+|BOOST_PARAMETER_CAN_USE_MP11| is defined, then the default value of
+``Predicate`` is also a `Boost.MP11`-style quoted metafunction that returns
+``mp11::mp_true`` for any argument.
 
 .. _`MPL Binary Metafunction Class`: ../../../mpl/doc/refmanual/metafunction-class.html
+.. _`Boost.MP11`: ../../../mp11/doc/html/mp11.html
 
 ``deduced``
 -----------
@@ -6396,23 +6400,18 @@ Expands to:
             // |BOOST_PARAMETER_CAN_USE_MP11|_ is defined.
 
             template <typename ArgumentPack>
-            using binding_fn = typename boost::parameter::binding<
+            using binding_fn = typename |binding|_<
                 ArgumentPack
               , *tag-name*
             >::type;
 
             template <typename ArgumentPack>
-            using fn = typename boost::parameter::value_type<
-                ArgumentPack
-              , *tag-name*
-            >::type;
+            using fn = typename |value_type|_<ArgumentPack, *tag-name*>::type;
         };
     }
 
-    ::boost::parameter::keyword<*tag-namespace* :: *tag-name* > const&
-        *object-name* = ::boost::parameter::keyword<
-            *tag-namespace* :: *tag-name*
-        >::instance;
+    |keyword|_<*tag-namespace* :: *tag-name* > const& *object-name*
+        = |keyword|_<*tag-namespace* :: *tag-name*>::instance;
 
 **Else If** *name* is of the form:
 
@@ -6460,21 +6459,18 @@ Expands to:
             // |BOOST_PARAMETER_CAN_USE_MP11|_ is defined.
 
             template <typename ArgumentPack>
-            using binding_fn = typename boost::parameter::binding<
+            using binding_fn = typename |binding|_<
                 ArgumentPack
               , *tag-name*
             >::type;
 
             template <typename ArgumentPack>
-            using fn = typename boost::parameter::value_type<
-                ArgumentPack
-              , *tag-name*
-            >::type;
+            using fn = typename |value_type|_<ArgumentPack, *tag-name*>::type;
         };
     }
 
-    ::boost::parameter::keyword<tag:: *tag-name* > const& _ ## *tag-name*
-        = ::boost::parameter::keyword<tag:: *tag-name* >::instance;
+    |keyword|_<tag:: *tag-name* > const& _ ## *tag-name*
+        = |keyword|_<tag:: *tag-name* >::instance;
 
 **Else**
 
@@ -6521,27 +6517,24 @@ Expands to:
             typedef *unspecified* _;
             typedef *unspecified* _1;
             typedef boost::parameter::*qualifier* ## _reference qualifier;
-            static ::boost::parameter::keyword<*tag-name*> const& *alias*;
+            static |keyword|_<*tag-name*> const& *alias*;
 
             // The following definitions are available only when
             // |BOOST_PARAMETER_CAN_USE_MP11|_ is defined.
 
             template <typename ArgumentPack>
-            using binding_fn = typename boost::parameter::binding<
+            using binding_fn = typename |binding|_<
                 ArgumentPack
               , *tag-name*
             >::type;
 
             template <typename ArgumentPack>
-            using fn = typename boost::parameter::value_type<
-                ArgumentPack
-              , *tag-name*
-            >::type;
+            using fn = typename |value_type|_<ArgumentPack, *tag-name*>::type;
         };
     }
 
-    ::boost::parameter::keyword<*tag-name*> const& *tag-name*::*alias*
-        = ::boost::parameter::keyword<*tag-name*>::instance;
+    |keyword|_<*tag-name*> const& *tag-name*::*alias*
+        = |keyword|_<*tag-name*>::instance;
 
 **Else**
 
@@ -6572,8 +6565,7 @@ Expands to:
     }
 
     template <typename T>
-    struct *name* 
-      : ::boost::parameter::template_keyword<tag:: *name*, T>
+    struct *name* : |template_keyword|_<tag:: *name*, T>
     {
     };
 
@@ -6712,8 +6704,8 @@ Expands to:
 
     namespace { 
 
-        boost::parameter::keyword<*tag-namespace*::**k**>& **k**
-            = boost::parameter::keyword<*tag-namespace*::**k**>::instance;
+        |keyword|_<*tag-namespace*::**k**>& **k**
+            = |keyword|_<*tag-namespace*::**k**>::instance;
     }
 
 ``BOOST_PARAMETER_MATCH(p, a, x)``
@@ -6836,23 +6828,25 @@ Given the following definitions::
     |BOOST_PARAMETER_NAME|_(x)
 
     template <typename A0>
-    typename boost::`enable_if`_<std::is_same<int,A0>,int>::type
+    typename boost::`enable_if`_<std::`is_same`_<int,A0>,int>::type
         sfinae(A0 const& a0)
     {
         return 0;
     }
 
+.. _is_same: http\://en.cppreference.com/w/cpp/types/is_same
+
 `Boost.MP11`_ allows deduced parameters to be defined more succinctly::
 
     template <typename T, typename Args>
-    using predicate = std::is_convertible<T,char const\*>;
+    using predicate = std::`is_convertible`_<T,char const\*>;
 
     |BOOST_PARAMETER_FUNCTION|_((int), sfinae, tag,
         (deduced
             (optional
                 (x
                   , \*(boost::mp11::mp_quote<predicate>)
-                  , static_cast<char const\*>(std::nullptr)
+                  , static_cast<char const\*>(std::`nullptr`_)
                 )
             )
         )
@@ -6861,6 +6855,9 @@ Given the following definitions::
         return 1;
     }
 
+.. _is_convertible: http\://en.cppreference.com/w/cpp/types/is_convertible
+.. _nullptr: http\://en.cppreference.com/w/cpp/language/nullptr
+
 Without `Boost.MP11`_, deduced parameter definitions tend to be more verbose::
 
     struct predicate
@@ -6868,7 +6865,7 @@ Without `Boost.MP11`_, deduced parameter definitions tend to be more verbose::
         template <typename T, typename Args>
         struct apply
           : boost::mpl::if_<
-                boost::is_convertible<T,char const\*>
+                boost::`is_convertible`_<T,char const\*>
               , boost::mpl::true_
               , boost::mpl::false_
             >
@@ -6881,7 +6878,7 @@ Without `Boost.MP11`_, deduced parameter definitions tend to be more verbose::
             (optional
                 (x
                   , \*(predicate)
-                  , static_cast<char const\*>(std::nullptr)
+                  , static_cast<char const\*>(std::`nullptr`_)
                 )
             )
         )
@@ -6889,6 +6886,8 @@ Without `Boost.MP11`_, deduced parameter definitions tend to be more verbose::
     {
         return 1;
     }
+
+.. _is_convertible: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
 
 Either way, the following assertions will succeed::
 
@@ -6942,7 +6941,7 @@ indexing an argument pack a little more directly::
           , |optional|_<
                 |deduced|_<tag::y>
               , boost::mp11::mp_bind<
-                    std::is_same
+                    std::`is_same`_
                   , boost::mp11::_1
                   , boost::mp11::mp_bind<
                         tag::x::binding_fn
@@ -6960,13 +6959,16 @@ indexing an argument pack a little more directly::
           , |optional|_<
                 |deduced|_<tag::y>
               , boost::mp11::mp_bind<
-                    std::is_convertible
+                    std::`is_convertible`_
                   , boost::mp11::_1
                   , boost::mp11::mp_bind_q<tag::x,boost::mp11::_2>
                 >
             >
         >
     >((_x = 0U, _y = 1U), 0U, 1U);
+
+.. _is_convertible: http\://en.cppreference.com/w/cpp/types/is_convertible
+.. _is_same: http\://en.cppreference.com/w/cpp/types/is_same
 
 Argument packs still qualify as `Boost.MPL`_-style lists containing
 |keyword tag type|\ s::
@@ -6996,8 +6998,8 @@ verbose::
           , |optional|_<
                 |deduced|_<tag::y>
               , boost::mpl::if_<
-                    boost::is_same<
-                        boost::add_lvalue_reference<boost::mpl::_1>
+                    boost::`is_same`_<
+                        boost::`add_lvalue_reference`_<boost::mpl::_1>
                       , |binding|_<boost::mpl::_2,tag::x>
                     >
                   , boost::mpl::true_
@@ -7014,7 +7016,7 @@ verbose::
           , |optional|_<
                 |deduced|_<tag::y>
               , boost::mpl::if_<
-                    boost::is_convertible<boost::mpl::_1,tag::x::_1>
+                    boost::`is_convertible`_<boost::mpl::_1,tag::x::_1>
                   , boost::mpl::true_
                   , boost::mpl::false_
                 >
@@ -7022,9 +7024,14 @@ verbose::
         >
     >((_x = 0U, _y = 1U), 0U, 1U);
 
+.. _add_lvalue_reference: ../../../type_traits/doc/html/boost_typetraits/add_lvalue_reference.html
+.. _is_convertible: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
+.. _is_same: ../../../type_traits/doc/html/boost_typetraits/is_same.html
+
 The |optional_deduced_sfinae_cpp|_ and |deduced_dep_pred_cpp|_ test programs
 demonstrate proper usage of this macro.
 
+.. _`Boost.MP11`: ../../../mp11/doc/html/mp11.html
 .. |optional_deduced_sfinae_cpp| replace:: optional_deduced_sfinae.cpp
 .. _optional_deduced_sfinae_cpp: ../../test/optional_deduced_sfinae.cpp
 .. |deduced_dep_pred_cpp| replace:: deduced_dependent_predicate.cpp
