@@ -177,7 +177,7 @@ arguments passed to a function.  Every |ArgumentPack| is also a valid `MPL
 Forward Sequence`_ and `MPL Associative Sequence`_ consisting of the |keyword
 tag type|\ s in its |tagged reference|\ s.  If |BOOST_PARAMETER_CAN_USE_MP11|
 is defined, then every |ArgumentPack| is also a valid `Boost.MP11`_ list.  The
-|singular_cpp|_ and |compose_cpp|_ test programs demonstrate this
+|singular_cpp|_, |compose_cpp|_, and |mpl_cpp|_ test programs demonstrate this
 interoperability.
 
 .. _`MPL Forward Sequence`: ../../../mpl/doc/refmanual/forward-sequence.html
@@ -187,6 +187,8 @@ interoperability.
 .. _singular_cpp: ../../test/singular.cpp
 .. |compose_cpp| replace:: compose.cpp
 .. _compose_cpp: ../../test/compose.cpp
+.. |mpl_cpp| replace:: mpl.cpp
+.. _mpl_cpp: ../../test/mpl.cpp
 
 Requirements
 ............
@@ -1210,6 +1212,28 @@ objects, if specified.
 
 :Returns: an |ArgumentPack|_ containing ``t0`` and all elements in ``args``,
 if specified; an empty |ArgumentPack|_ otherwise.
+
+:Example usage:
+.. parsed-literal::
+
+    BOOST_PARAMETER_NAME(index)
+    BOOST_PARAMETER_NAME(name)
+
+    template <typename ArgumentPack>
+    int print_name_and_index(ArgumentPack const& args)
+    {
+        std::cout << "index = " << args[_index];
+        std::cout << "name = " << args[_name];
+        std::cout << "; " << std::endl;
+        return 0;
+    }
+
+    int y = print_name_and_index(compose(_index = 3, _name = "jones"));
+
+The |compose_cpp|_ test program shows more examples using this function.
+
+.. |compose_cpp| replace:: compose.cpp
+.. _compose_cpp: ../../test/compose.cpp
 
 //////////////////////////////////////////////////////////////////////////////
 

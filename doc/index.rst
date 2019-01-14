@@ -2098,7 +2098,8 @@ The simplest |ArgumentPack| is the result of assigning into a keyword object::
     template <typename ArgumentPack>
     int print_index(ArgumentPack const& args)
     {
-        std::cout << "index = " << args[_index] << std::endl;
+        std::cout << "index = " << args[_index];
+        std::cout << std::endl;
         return 0;
     }
 
@@ -2118,7 +2119,8 @@ arguments to ``print_name_and_index``::
     template <typename ArgumentPack>
     int print_name_and_index(ArgumentPack const& args)
     {
-        std::cout << "name = " << args[_name] << "; ";
+        std::cout << "name = " << args[_name];
+        std::cout << "; ";
         return print_index(args);
     }
 

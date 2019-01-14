@@ -412,9 +412,11 @@ href="#boost-parameter-can-use-mp11"><tt class="docutils literal"
 class="concept">ArgumentPack</span> is also a valid <a
 class="reference external" href="../../../mp11/doc/html/mp11.html"
 >Boost.MP11</a> list.  The <a class="reference external"
-href="../../test/singular.cpp">test/singular.cpp</a> and <a
-class="reference external" href="../../test/compose.cpp">test/compose.cpp</a>
-test programs demonstrate this interoperability.</p>
+href="../../test/singular.cpp">test/singular.cpp</a>, <a
+class="reference external" href="../../test/compose.cpp"
+>test/compose.cpp</a>, and <a class="reference external"
+href="../../test/mpl.cpp">test/mpl.cpp</a> test programs demonstrate this
+interoperability.</p>
 <div class="section" id="requirements">
 <h3>Requirements</h3>
 <p>In the table below,</p>
@@ -2097,6 +2099,31 @@ class="docutils literal">t0</tt> and all elements in <tt
 class="docutils literal">args</tt>, if specified; an empty <a
 class="reference internal" href="#argumentpack"><span class="concept"
 >ArgumentPack</span></a> otherwise.</p>
+</td>
+</tr>
+<tr class="field">
+<th class="field-name" colspan="2">Example usage:</th>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="field-body">
+<pre class="literal-block">
+BOOST_PARAMETER_NAME(name)
+
+template &lt;typename ArgumentPack&gt;
+int print_name_and_index(ArgumentPack const&amp; args)
+{
+    std::cout &lt;&lt; &quot;index = &quot; &lt;&lt; args[_index];
+    std::cout &lt;&lt; &quot;name = &quot; &lt;&lt; args[_name];
+    std::cout &lt;&lt; &quot;; &quot; &lt;&lt; std::endl;
+    return 0;
+}
+
+int y = print_name_and_index((_index = 3, _name = &quot;jones&quot;));
+</pre>
+<p>The <a class="reference external" href="../../test/compose.cpp"
+>test/compose.cpp</a> test program shows more examples using this
+function.</p>
 </td>
 </tr>
 </tbody>

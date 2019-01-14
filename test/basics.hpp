@@ -49,16 +49,8 @@ namespace test {
         return 666.222;
     }
 
-#if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) || !( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1900) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1910) \
-    )
     template <typename T>
     inline bool equal(T const& x, T const& y)
-#else
-    template <typename T0, typename T1>
-    inline bool equal(T0 const& x, T1 const& y)
-#endif
     {
         return x == y;
     }
@@ -79,10 +71,6 @@ namespace test {
               , Index_ const& i_
             ) const
         {
-#if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) || !( \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1900) && \
-        BOOST_WORKAROUND(BOOST_MSVC, < 1910) \
-    )
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
             static_assert(
                 std::is_same<Index,Index_>::value
@@ -119,7 +107,6 @@ namespace test {
                 >::type
             ));
 #endif  // BOOST_PARAMETER_CAN_USE_MP11
-#endif  // not MSVC-14.0
             BOOST_TEST(test::equal(n, n_));
             BOOST_TEST(test::equal(v, v_));
             BOOST_TEST(test::equal(i, i_));
