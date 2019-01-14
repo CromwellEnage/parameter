@@ -9,15 +9,17 @@
 #include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#include <boost/mp11/integral.hpp>
-#else
+#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
 #include <boost/mpl/always.hpp>
+#elif defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/integral.hpp>
 #endif
 
 namespace boost { namespace parameter { namespace aux {
 
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
+    typedef ::boost::mpl::always< ::boost::mpl::true_> always_true_predicate;
+#else
     struct always_true_predicate
     {
         template <typename ...>
@@ -26,12 +28,12 @@ namespace boost { namespace parameter { namespace aux {
             using type = ::boost::mpl::true_;
         };
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
         template <typename ...>
         using fn = ::boost::mp11::mp_true;
-    };
-#else
-    typedef ::boost::mpl::always< ::boost::mpl::true_> always_true_predicate;
 #endif
+    };
+#endif  // BOOST_NO_CXX11_VARIADIC_TEMPLATES
 }}} // namespace boost::parameter::aux
 
 #endif  // include guard
