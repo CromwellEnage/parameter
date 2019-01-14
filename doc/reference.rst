@@ -178,7 +178,7 @@ Forward Sequence`_ and `MPL Associative Sequence`_ consisting of the |keyword
 tag type|\ s in its |tagged reference|\ s.  If |BOOST_PARAMETER_CAN_USE_MP11|
 is defined, then every |ArgumentPack| is also a valid `Boost.MP11`_ list.  The
 |singular_cpp|_, |compose_cpp|_, and |mpl_cpp|_ test programs demonstrate this
-interoperability.
+functionality.
 
 .. _`MPL Forward Sequence`: ../../../mpl/doc/refmanual/forward-sequence.html
 .. _`MPL Associative Sequence`: ../../../mpl/doc/refmanual/associative-sequence.html
