@@ -1207,6 +1207,13 @@ the |BOOST_PARAMETER_NO_SPEC_FUNCTION|,
 use it to write your own code generation macros if the ones provided by this
 library do not suffice.
 
+Unlike the |tagged reference| comma operator, the ``compose()`` function is
+variadic, as mentioned before.  However, the |tagged reference| comma operator
+can be invoked indefinitely and therefore does not limit the size of the
+resulting |ArgumentPack|, while the ``compose()`` function cannot take in more
+than |BOOST_PARAMETER_COMPOSE_MAX_ARITY| arguments for compilers that do not
+support perfect forwarding.
+
 :Requires: ``t0`` and all elements in ``args`` must be |tagged reference|
 objects, if specified.
 

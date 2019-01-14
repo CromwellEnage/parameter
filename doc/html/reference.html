@@ -2078,6 +2078,17 @@ href="#boost-parameter-no-spec-no-base-ctor-cls-func"><tt
 class="docutils literal">BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR</tt></a>
 code generation macros.  You can use it to write your own code generation
 macros if the ones provided by this library do not suffice.</p>
+<p>Unlike the <a class="reference internal" href="#tagged-reference">tagged
+reference</a> comma operator, the <tt class="docutils literal">compose()</tt>
+function is variadic, as mentioned before.  However, the <a
+class="reference internal" href="#tagged-reference">tagged reference</a> comma
+operator can be invoked indefinitely and therefore does not limit the size of
+the resulting <a class="reference internal" href="#argumentpack"><span
+class="concept">ArgumentPack</span></a>, while the <tt
+class="docutils literal">compose()</tt> function cannot take in more than <a
+class="reference internal" href="#boost-parameter-compose-max-arity"><tt
+class="docutils literal">BOOST_PARAMETER_COMPOSE_MAX_ARITY</tt></a> arguments
+for compilers that do not support perfect forwarding.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2105,8 +2116,7 @@ class="reference internal" href="#argumentpack"><span class="concept"
 <th class="field-name" colspan="2">Example usage:</th>
 </tr>
 <tr>
-<td>&nbsp;</td>
-<td class="field-body">
+<td class="field-body" colspan="2">
 <pre class="literal-block">
 BOOST_PARAMETER_NAME(name)
 
@@ -2119,7 +2129,7 @@ int print_name_and_index(ArgumentPack const&amp; args)
     return 0;
 }
 
-int y = print_name_and_index((_index = 3, _name = &quot;jones&quot;));
+int y = print_name_and_index(compose(_index = 3, _name = &quot;jones&quot;));
 </pre>
 <p>The <a class="reference external" href="../../test/compose.cpp"
 >test/compose.cpp</a> test program shows more examples using this
