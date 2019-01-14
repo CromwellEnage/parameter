@@ -175,10 +175,18 @@ library.
 An |ArgumentPack| is a collection of |tagged reference|\ s to the actual
 arguments passed to a function.  Every |ArgumentPack| is also a valid `MPL
 Forward Sequence`_ and `MPL Associative Sequence`_ consisting of the |keyword
-tag type|\ s in its |tagged reference|\ s.
+tag type|\ s in its |tagged reference|\ s.  If |BOOST_PARAMETER_CAN_USE_MP11|
+is defined, then every |ArgumentPack| is also a valid `Boost.MP11`_ list.  The
+|singular_cpp|_ and |compose_cpp|_ test programs demonstrate this
+interoperability.
 
 .. _`MPL Forward Sequence`: ../../../mpl/doc/refmanual/forward-sequence.html
 .. _`MPL Associative Sequence`: ../../../mpl/doc/refmanual/associative-sequence.html
+.. _`Boost.MP11`: ../../../mp11/doc/html/mp11.html
+.. |singular_cpp| replace:: singular.cpp
+.. _singular_cpp: ../../test/singular.cpp
+.. |compose_cpp| replace:: compose.cpp
+.. _compose_cpp: ../../test/compose.cpp
 
 Requirements
 ............

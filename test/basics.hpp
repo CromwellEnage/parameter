@@ -49,7 +49,7 @@ namespace test {
         return 666.222;
     }
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) && !( \
+#if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) || !( \
         BOOST_WORKAROUND(BOOST_MSVC, >= 1900) && \
         BOOST_WORKAROUND(BOOST_MSVC, < 1910) \
     )
@@ -79,7 +79,7 @@ namespace test {
               , Index_ const& i_
             ) const
         {
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) && !( \
+#if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) || !( \
         BOOST_WORKAROUND(BOOST_MSVC, >= 1900) && \
         BOOST_WORKAROUND(BOOST_MSVC, < 1910) \
     )
