@@ -77,12 +77,14 @@ namespace boost { namespace parameter { namespace aux {
       , typename T
       , typename Args
     >
-    struct augment_predicate
+    class augment_predicate
     {
         typedef typename ::boost::mpl::lambda<
             Predicate
           , ::boost::parameter::aux::lambda_tag
-        >::type actual_predicate;
+        >::type _actual_predicate;
+
+     public:
         typedef typename ::boost::mpl::eval_if<
             typename ::boost::mpl::if_<
                 ::boost::parameter::aux
@@ -91,7 +93,7 @@ namespace boost { namespace parameter { namespace aux {
                 ::augment_predicate_check_out_ref<T,R,Tag>
               , ::boost::mpl::false_
             >::type
-          , ::boost::mpl::apply_wrap2<actual_predicate,T,Args>
+          , ::boost::mpl::apply_wrap2<_actual_predicate,T,Args>
           , ::boost::mpl::false_
         >::type type;
     };

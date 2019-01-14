@@ -9,17 +9,17 @@
 #include <boost/parameter/config.hpp>
 #include <boost/mpl/bool.hpp>
 
-#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
-#include <boost/mpl/always.hpp>
-#elif defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mp11/integral.hpp>
+#endif
+#else
+#include <boost/mpl/always.hpp>
 #endif
 
 namespace boost { namespace parameter { namespace aux {
 
-#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
-    typedef ::boost::mpl::always< ::boost::mpl::true_> always_true_predicate;
-#else
+#if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
     struct always_true_predicate
     {
         template <typename ...>
@@ -33,6 +33,8 @@ namespace boost { namespace parameter { namespace aux {
         using fn = ::boost::mp11::mp_true;
 #endif
     };
+#else
+    typedef ::boost::mpl::always< ::boost::mpl::true_> always_true_predicate;
 #endif  // BOOST_NO_CXX11_VARIADIC_TEMPLATES
 }}} // namespace boost::parameter::aux
 
