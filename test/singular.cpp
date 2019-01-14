@@ -27,13 +27,12 @@ namespace test {
 
 #include <boost/parameter/is_argument_pack.hpp>
 #include <boost/parameter/config.hpp>
+#include <boost/mpl/has_key.hpp>
+#include <boost/mpl/assert.hpp>
 #include <boost/core/lightweight_test.hpp>
 
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mp11/algorithm.hpp>
-#else
-#include <boost/mpl/has_key.hpp>
-#include <boost/mpl/assert.hpp>
 #endif
 
 namespace test {
@@ -58,17 +57,15 @@ namespace test {
             1 == boost::mp11::mp_find<ArgumentPack,test::tag::z>::value
           , "typename K::tag must not be found in ArgumentPack"
         );
-#else
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
         BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgumentPack>));
         BOOST_MPL_ASSERT_NOT((
             boost::mpl::has_key<ArgumentPack,test::tag::z>
         ));
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
         BOOST_TEST_EQ(p[kw], value);
     }
 } // namespace test
 
-#if !defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mpl/void.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/int.hpp>
@@ -78,7 +75,6 @@ namespace test {
 #include <boost/mpl/count.hpp>
 #include <boost/mpl/equal_to.hpp>
 #include <boost/type_traits/is_same.hpp>
-#endif
 
 namespace test {
 
@@ -106,7 +102,7 @@ namespace test {
             0 == boost::mp11::mp_find<ArgumentPack,typename K::tag>::value
           , "typename K::tag must be in ArgumentPack at index 0"
         );
-#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
         BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgumentPack>));
         BOOST_MPL_ASSERT((boost::mpl::has_key<ArgumentPack,typename K::tag>));
         BOOST_MPL_ASSERT_NOT((
@@ -140,7 +136,6 @@ namespace test {
               , boost::mpl::true_
             >::type
         ));
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
         BOOST_TEST_EQ(p[kw], value);
     }
 } // namespace test

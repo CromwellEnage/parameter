@@ -9484,6 +9484,16 @@ href="../../../config/doc/html/boost_config/boost_macro_reference.html"
 ><tt class="docutils literal">BOOST_NO_CXX11_HDR_TUPLE</tt></a> are not
 already defined by <a class="reference external"
 href="../../../config/doc/html/index.html">Boost.Config</a>.</p>
+<div class="admonition-syntax-note admonition">
+<p class="first admonition-title">Usage Note</p>
+<p class="last"><a class="reference external"
+href="../../../mp11/doc/html/mp11.html">Boost.MP11</a> and <a
+class="reference external" href="../../../mpl/doc/index.html">Boost.MPL</a>
+are <strong>not</strong> mutually exclusive.  It's perfectly acceptable to
+specify deduced parameters using both quoted metafunctions and metafunction
+classes, for example.  See <a class="reference external"
+href="../../test/evaluate_category.cpp">test/evaluate_category.cpp</a>.</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -9743,9 +9753,11 @@ href="../../../type_traits/doc/html/boost_typetraits/is_convertible.html"
     &gt;
 &gt;((_x = 0U, _y = 1U), 0U, 1U);
 </pre>
-<p>The <a class="reference external"
-href="../../test/optional_deduced_sfinae.cpp"
->test/optional_deduced_sfinae.cpp</a> and <a class="reference external"
+<p>The <a class="reference external" href="../../test/singular.cpp"
+>test/singular.cpp</a>, <a class="reference external"
+href="../../test/compose.cpp" >test/compose.cpp</a>, <a
+class="reference external" href="../../test/optional_deduced_sfinae.cpp"
+>test/optional_deduced_sfinae.cpp</a>, and <a class="reference external"
 href="../../test/deduced_dependent_predicate.cpp"
 >test/deduced_dependent_predicate.cpp</a> test programs demonstrate proper
 usage of this macro.</p>

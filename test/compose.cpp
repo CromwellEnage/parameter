@@ -24,11 +24,6 @@ namespace param {
 }
 
 #include <boost/parameter/is_argument_pack.hpp>
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#include <boost/mp11/list.hpp>
-#include <boost/mp11/algorithm.hpp>
-#else
 #include <boost/mpl/void.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/int.hpp>
@@ -40,6 +35,10 @@ namespace param {
 #include <boost/mpl/equal_to.hpp>
 #include <boost/mpl/assert.hpp>
 #include <boost/type_traits/is_same.hpp>
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/list.hpp>
+#include <boost/mp11/algorithm.hpp>
 #endif
 
 #if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
@@ -133,7 +132,7 @@ namespace test {
                 )
               , "param::tag::rr must not be found in ArgPack"
             );
-#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
             BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgPack>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::a0>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::a1>));
@@ -202,7 +201,6 @@ namespace test {
                   , boost::mpl::true_
                 >::type
             ));
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
         }
     };
 
@@ -371,7 +369,7 @@ namespace test {
                 )
               , "param::tag::a3 must not be found in ArgPack"
             );
-#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
             BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgPack>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::rr>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::lr>));
@@ -472,7 +470,6 @@ namespace test {
                   , boost::mpl::true_
                 >::type
             ));
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
         }
     };
 } // namespace test
@@ -532,7 +529,7 @@ namespace test {
                 )
               , "param::tag::lr must be found in ArgPack"
             );
-#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
             BOOST_MPL_ASSERT((boost::parameter::is_argument_pack<ArgPack>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::lr>));
             BOOST_MPL_ASSERT((boost::mpl::has_key<ArgPack,param::tag::lrc>));
@@ -592,7 +589,6 @@ namespace test {
                   , boost::mpl::true_
                 >::type
             ));
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
         }
     };
 } // namespace test

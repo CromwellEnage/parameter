@@ -6878,6 +6878,12 @@ macros |BOOST_NO_CXX11_CONSTEXPR|_, |BOOST_NO_CXX11_DECLTYPE_N3276|_,
 |BOOST_NO_CXX11_HDR_INITIALIZER_LIST|_, and |BOOST_NO_CXX11_HDR_TUPLE|_
 are not already defined by `Boost.Config`_.
 
+.. Admonition:: Usage Note
+
+`Boost.MP11`_ and `Boost.MPL`_ are **not** mutually exclusive.  It's perfectly
+acceptable to specify deduced parameters using both quoted metafunctions and
+metafunction classes, for example.  See |evaluate_category_cpp|_.
+
 .. |BOOST_PARAMETER_CAN_USE_MP11| replace:: ``BOOST_PARAMETER_CAN_USE_MP11``
 .. |BOOST_PARAMETER_DISABLE_MP11_USAGE| replace:: ``BOOST_PARAMETER_DISABLE_MP11_USAGE``
 .. |BOOST_PARAMETER_HAS_PERFECT_FORWARDING| replace:: ``BOOST_PARAMETER_HAS_PERFECT_FORWARDING``
@@ -6900,6 +6906,8 @@ are not already defined by `Boost.Config`_.
 .. _BOOST_NO_CXX11_HDR_TUPLE: ../../../config/doc/html/boost_config/boost_macro_reference.html
 .. _`Boost.MP11`: ../../../mp11/doc/html/mp11.html
 .. _`Boost.Config`: ../../../config/doc/html/index.html
+.. |evaluate_category_cpp| replace:: evaluate_category.cpp
+.. _evaluate_category_cpp: ../../test/evaluate_category.cpp
 
 :Defined in: `boost/parameter/config.hpp`__
 
@@ -7113,10 +7121,16 @@ verbose::
 .. _`is_convertible`: ../../../type_traits/doc/html/boost_typetraits/is_convertible.html
 .. _`is_same`: ../../../type_traits/doc/html/boost_typetraits/is_same.html
 
-The |optional_deduced_sfinae_cpp|_ and |deduced_dep_pred_cpp|_ test programs
-demonstrate proper usage of this macro.
+The |singular_cpp|_, |compose_cpp|_, |optional_deduced_sfinae_cpp|_, and
+|deduced_dep_pred_cpp|_ test programs demonstrate proper usage of this
+macro.
 
 .. _`Boost.MP11`: ../../../mp11/doc/html/mp11.html
+.. _`Boost.MPL`: ../../../mpl/doc/index.html
+.. |singular_cpp| replace:: singular.cpp
+.. _singular_cpp: ../../test/singular.cpp
+.. |compose_cpp| replace:: compose.cpp
+.. _compose_cpp: ../../test/compose.cpp
 .. |optional_deduced_sfinae_cpp| replace:: optional_deduced_sfinae.cpp
 .. _optional_deduced_sfinae_cpp: ../../test/optional_deduced_sfinae.cpp
 .. |deduced_dep_pred_cpp| replace:: deduced_dependent_predicate.cpp

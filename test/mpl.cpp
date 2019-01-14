@@ -4,12 +4,6 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/parameter/config.hpp>
-#include "basics.hpp"
-
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#include <boost/mp11/list.hpp>
-#include <boost/mp11/algorithm.hpp>
-#else
 #include <boost/mpl/list.hpp>
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/for_each.hpp>
@@ -17,15 +11,21 @@
 #include <boost/mpl/contains.hpp>
 #include <boost/mpl/assert.hpp>
 #include <boost/type_traits/add_pointer.hpp>
+#include "basics.hpp"
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#include <boost/mp11/list.hpp>
+#include <boost/mp11/algorithm.hpp>
+#include <boost/mp11/mpl.hpp>
 #endif
 
 namespace test {
 
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
     template <typename Set>
-    struct assert_in_set
+    struct assert_in_set_0
     {
         template <typename T>
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
         void operator()(T&&)
         {
             static_assert(
@@ -33,12 +33,17 @@ namespace test {
               , "T must be in Set"
             );
         }
-#else
+    };
+#endif
+
+    template <typename Set>
+    struct assert_in_set_1
+    {
+        template <typename T>
         void operator()(T*)
         {
             BOOST_MPL_ASSERT((boost::mpl::contains<Set,T>));
         }
-#endif
     };
 
     template <typename Expected, typename Args>
@@ -52,9 +57,10 @@ namespace test {
           , "mp_size<Expected>::value == mp_size<Args>::value"
         );
 
-        boost::mp11::mp_for_each<Args>(test::assert_in_set<Expected>());
-        boost::mp11::mp_for_each<Expected>(test::assert_in_set<Args>());
-#else
+        boost::mp11::mp_for_each<Args>(test::assert_in_set_0<Expected>());
+        boost::mp11::mp_for_each<Expected>(test::assert_in_set_0<Args>());
+#endif
+
         BOOST_MPL_ASSERT_RELATION(
             boost::mpl::size<Expected>::value
           , ==
@@ -62,12 +68,11 @@ namespace test {
         );
 
         boost::mpl::for_each<Args,boost::add_pointer<boost::mpl::_1> >(
-            test::assert_in_set<Expected>()
+            test::assert_in_set_1<Expected>()
         );
         boost::mpl::for_each<Expected,boost::add_pointer<boost::mpl::_1> >(
-            test::assert_in_set<Args>()
+            test::assert_in_set_1<Args>()
         );
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
     }
 
     template <
@@ -137,7 +142,8 @@ namespace test {
             boost::mp11::mp_list<name_,value_>
         >(test::_name = 3, test::_value = 4);
         test::f_impl<boost::mp11::mp_list<value_> >(test::_value = 4);
-#else
+#endif
+
         test::f<boost::mpl::list4<tester_,name_,value_,index_> >(1, 2, 3, 4);
         test::f<
             boost::mpl::list3<tester_,name_,index_>
@@ -149,7 +155,6 @@ namespace test {
             boost::mpl::list2<name_,value_>
         >(test::_name = 3, test::_value = 4);
         test::f_impl<boost::mpl::list1<value_> >(test::_value = 4);
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
     }
 }
 
