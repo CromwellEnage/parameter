@@ -4,6 +4,8 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/parameter/parameters.hpp>
+#include <boost/parameter/optional.hpp>
+#include <boost/parameter/deduced.hpp>
 #include <boost/parameter/name.hpp>
 #include <boost/mpl/placeholders.hpp>
 #include <boost/type_traits/is_convertible.hpp>
