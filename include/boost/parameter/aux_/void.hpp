@@ -14,9 +14,7 @@ namespace boost { namespace parameter {
     // MAINTAINER NOTE: Do not make this into a metafunction
     struct void_
     {
-        inline BOOST_CONSTEXPR void_()
-        {
-        }
+        inline BOOST_CONSTEXPR BOOST_DEFAULTED_FUNCTION(void_(), {})
     };
 }} // namespace boost::parameter
 
