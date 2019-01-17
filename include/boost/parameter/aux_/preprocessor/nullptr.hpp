@@ -8,8 +8,6 @@
 
 #include <boost/config.hpp>
 
-// Something like this named BOOST_NULLPTR should be part of
-// Boost.Config. -- Cromwell D. Enage
 #if defined(BOOST_NO_CXX11_NULLPTR)
 #define BOOST_PARAMETER_AUX_PP_NULLPTR 0
 #else
