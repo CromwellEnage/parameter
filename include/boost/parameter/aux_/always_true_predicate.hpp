@@ -25,7 +25,7 @@ namespace boost { namespace parameter { namespace aux {
         template <typename ...>
         struct apply
         {
-            using type = ::boost::mpl::true_;
+            typedef ::boost::mpl::true_ type;
         };
 
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)

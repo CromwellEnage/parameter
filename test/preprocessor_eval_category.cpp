@@ -491,13 +491,9 @@ int main()
     char baz_arr[4] = "qux";
     typedef char char_arr[4];
 
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) && ( \
-        BOOST_WORKAROUND(BOOST_GCC, < 40000) || \
-        BOOST_WORKAROUND(BOOST_MSVC, >= 1800) \
-    )
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC) && \
+    BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
     // MSVC-12+ treats static_cast<char_arr&&>(baz_arr) as an lvalue.
-    // GCC 3- tries to bind string literals
-    // to non-const references to char const*.
 #else
     test::evaluate(
         "q2x"

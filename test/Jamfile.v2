@@ -770,28 +770,6 @@ alias parameter_vendor_specific_fail_tests ;
 
 alias parameter_vendor_specific_fail_tests
     :
-    [ compile-fail preprocessor_eval_category.cpp
-        :
-            <define>BOOST_PARAMETER_MAX_ARITY=8
-            <define>BOOST_PARAMETER_EXPONENTIAL_OVERLOAD_THRESHOLD_ARITY=9
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
-        :
-            preproc_eval_cat_fail_gcc3_4
-    ]
-    [ compile-fail preprocessor_eval_cat_no_spec.cpp
-        :
-            <define>BOOST_PARAMETER_COMPOSE_MAX_ARITY=8
-            <define>LIBS_PARAMETER_TEST_COMPILE_FAILURE_VENDOR_SPECIFIC
-        :
-            preproc_eval_cat_no_spec_fail_gcc3_4
-    ]
-    :
-        <toolset>gcc
-        <toolset-gcc:version>3.4
-    ;
-
-alias parameter_vendor_specific_fail_tests
-    :
     [ compile-fail preprocessor_deduced.cpp
         :
             <define>BOOST_PARAMETER_MAX_ARITY=4
