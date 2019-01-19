@@ -40,24 +40,6 @@
 // arguments are tagged arguments.  The enclosing class must inherit from the
 // specified base class, which in turn must implement a constructor that takes
 // in the argument pack that this one passes on.
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#define BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(class_, base)                    \
-    template <                                                               \
-        typename TaggedArg0                                                  \
-      , typename ...TaggedArgs                                               \
-      , typename = typename ::boost::enable_if<                              \
-            ::boost::parameter                                               \
-            ::are_tagged_arguments_mp11<TaggedArg0,TaggedArgs...>            \
-        >::type                                                              \
-    > inline explicit                                                        \
-    class_(TaggedArg0 const& arg0, TaggedArgs const&... args)                \
-      : BOOST_PARAMETER_PARENTHESIZED_TYPE(base)(                            \
-            ::boost::parameter::compose(arg0, args...)                       \
-        )                                                                    \
-    {                                                                        \
-    }
-/**/
-#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
 #define BOOST_PARAMETER_NO_SPEC_CONSTRUCTOR(class_, base)                    \
     template <                                                               \
         typename TaggedArg0                                                  \
@@ -74,27 +56,10 @@
     {                                                                        \
     }
 /**/
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
 
 // Exapnds to a variadic constructor that is enabled if and only if all its
 // arguments are tagged arguments.  The specified function must be able to
 // take in the argument pack that this constructor passes on.
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#define BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(class_, func)            \
-    template <                                                               \
-        typename TaggedArg0                                                  \
-      , typename ...TaggedArgs                                               \
-      , typename = typename ::boost::enable_if<                              \
-            ::boost::parameter                                               \
-            ::are_tagged_arguments_mp11<TaggedArg0,TaggedArgs...>            \
-        >::type                                                              \
-    > inline explicit                                                        \
-    class_(TaggedArg0 const& arg0, TaggedArgs const&... args)                \
-    {                                                                        \
-        func(::boost::parameter::compose(arg0, args...));                    \
-    }
-/**/
-#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
 #define BOOST_PARAMETER_NO_SPEC_NO_BASE_CONSTRUCTOR(class_, func)            \
     template <                                                               \
         typename TaggedArg0                                                  \
@@ -109,39 +74,12 @@
         func(::boost::parameter::compose(arg0, args...));                    \
     }
 /**/
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
 
 #include <boost/parameter/aux_/preprocessor/nullptr.hpp>
 #include <boost/preprocessor/control/expr_if.hpp>
 
 // Exapnds to a variadic function that is enabled if and only if
 // all its arguments are tagged arguments.
-#if defined(BOOST_PARAMETER_CAN_USE_MP11)
-#define BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD(name, impl, is_m, c)       \
-    template <typename TaggedArg0, typename ...TaggedArgs>                   \
-    BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(impl)                             \
-    inline typename ::boost::lazy_enable_if<                                 \
-        ::boost::parameter                                                   \
-        ::are_tagged_arguments_mp11<TaggedArg0,TaggedArgs...>                \
-      , BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(                        \
-            impl, c                                                          \
-        )<TaggedArg0,TaggedArgs...>                                          \
-    >::type BOOST_PARAMETER_MEMBER_FUNCTION_NAME(name)                       \
-    (TaggedArg0 const& arg0, TaggedArgs const&... args)                      \
-    BOOST_PP_EXPR_IF(c, const)                                               \
-    {                                                                        \
-        return BOOST_PP_EXPR_IF(is_m, this->)                                \
-        BOOST_PARAMETER_NO_SPEC_FUNCTION_IMPL_NAME(impl, c)(                 \
-            static_cast<                                                     \
-                typename BOOST_PARAMETER_NO_SPEC_FUNCTION_RESULT_NAME(       \
-                    impl, c                                                  \
-                )<TaggedArg0,TaggedArgs...>::type(*)()                       \
-            >(BOOST_PARAMETER_AUX_PP_NULLPTR)                                \
-          , ::boost::parameter::compose(arg0, args...)                       \
-        );                                                                   \
-    }
-/**/
-#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
 #define BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD(name, impl, is_m, c)       \
     template <typename TaggedArg0, typename ...TaggedArgs>                   \
     BOOST_PARAMETER_MEMBER_FUNCTION_STATIC(impl)                             \
@@ -166,7 +104,6 @@
         );                                                                   \
     }
 /**/
-#endif  // BOOST_PARAMETER_CAN_USE_MP11
 
 #else   // !defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
 

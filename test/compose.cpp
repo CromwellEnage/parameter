@@ -60,10 +60,6 @@ namespace test {
         {
 #if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
             static_assert(
-                boost::parameter::is_argument_pack_mp11<ArgPack>::value
-              , "args must model the ArgumentPack concept"
-            );
-            static_assert(
                 boost::mp11::mp_map_contains<ArgPack,param::tag::a0>::value
               , "param::tag::a0 must be in ArgPack"
             );
@@ -253,10 +249,6 @@ namespace test {
           , k(args[param::_lrc])
         {
 #if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
-            static_assert(
-                boost::parameter::is_argument_pack_mp11<ArgPack>::value
-              , "args must model the ArgumentPack concept"
-            );
             static_assert(
                 boost::mp11::mp_map_contains<ArgPack,param::tag::lrc>::value
               , "param::tag::lrc must be in ArgPack"
@@ -462,10 +454,6 @@ namespace test {
           , k(args[param::_lrc])
         {
 #if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
-            static_assert(
-                boost::parameter::is_argument_pack_mp11<ArgPack>::value
-              , "args must model the ArgumentPack concept"
-            );
             static_assert(
                 boost::mp11::mp_map_contains<ArgPack,param::tag::lrc>::value
               , "param::tag::lrc must be in ArgPack"

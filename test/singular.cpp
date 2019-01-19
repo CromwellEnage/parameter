@@ -43,10 +43,6 @@ namespace test {
     {
 #if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
         static_assert(
-            boost::parameter::is_argument_pack_mp11<ArgumentPack>::value
-          , "p must model the ArgumentPack concept"
-        );
-        static_assert(
             !boost::mp11::mp_map_contains<ArgumentPack,test::tag::z>::value
           , "test::tag::z must not be in ArgumentPack"
         );
@@ -82,10 +78,6 @@ namespace test {
     void check1(ArgumentPack const& p, K const& kw, T const& value)
     {
 #if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
-        static_assert(
-            boost::parameter::is_argument_pack_mp11<ArgumentPack>::value
-          , "p must model the ArgumentPack concept"
-        );
         static_assert(
             boost::mp11::mp_map_contains<ArgumentPack,typename K::tag>::value
           , "typename K::tag must be in ArgumentPack"
