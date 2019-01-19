@@ -52,7 +52,6 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/parameter/aux_/default.hpp>
 
 #if defined(BOOST_PARAMETER_HAS_PERFECT_FORWARDING)
-
 #include <utility>
 
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
@@ -144,6 +143,7 @@ namespace boost { namespace parameter { namespace aux {
     };
 }}} // namespace boost::parameter::aux
 
+#include <boost/parameter/aux_/preprocessor/nullptr.hpp>
 #include <boost/parameter/aux_/yesno.hpp>
 #include <boost/parameter/aux_/is_maybe.hpp>
 #include <boost/parameter/aux_/tagged_argument_fwd.hpp>
@@ -156,7 +156,6 @@ namespace boost { namespace parameter { namespace aux {
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/assert.hpp>
 #include <boost/type_traits/is_same.hpp>
-#include <boost/tti/detail/dnullptr.hpp>
 #include <boost/core/enable_if.hpp>
 
 namespace boost { namespace parameter { namespace aux {
@@ -361,7 +360,7 @@ namespace boost { namespace parameter { namespace aux {
 #endif
             sizeof(
                 Next::has_key(
-                    static_cast<key_type*>(BOOST_TTI_DETAIL_NULLPTR)
+                    static_cast<key_type*>(BOOST_PARAMETER_AUX_PP_NULLPTR)
                 )
             ) == sizeof(::boost::parameter::aux::no_tag)
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)

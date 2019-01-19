@@ -227,7 +227,7 @@
     }
 /**/
 
-#include <boost/tti/detail/dnullptr.hpp>
+#include <boost/parameter/aux_/preprocessor/nullptr.hpp>
 
 // Exapnds to a tagged-argument function overload.
 #define BOOST_PARAMETER_NO_SPEC_FUNCTION_OVERLOAD_Z(z, n, data)              \
@@ -252,7 +252,7 @@
                     BOOST_PP_TUPLE_ELEM(4, 1, data)                          \
                   , BOOST_PP_TUPLE_ELEM(4, 3, data)                          \
                 )<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>::type(*)()        \
-            >(BOOST_TTI_DETAIL_NULLPTR)                                      \
+            >(BOOST_PARAMETER_AUX_PP_NULLPTR)                                \
           , ::boost::parameter::compose(BOOST_PP_ENUM_PARAMS_Z(z, n, arg))   \
         );                                                                   \
     }
@@ -261,7 +261,7 @@
 #else   // !defined(BOOST_NO_SFINAE)
 
 #include <boost/parameter/are_tagged_arguments.hpp>
-#include <boost/tti/detail/dnullptr.hpp>
+#include <boost/parameter/aux_/preprocessor/nullptr.hpp>
 #include <boost/core/enable_if.hpp>
 
 // Exapnds to a tagged-argument constructor overload that passes the argument
@@ -276,7 +276,7 @@
             ::boost::parameter::are_tagged_arguments<                        \
                 BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)                      \
             >                                                                \
-        >::type* = BOOST_TTI_DETAIL_NULLPTR                                  \
+        >::type* = BOOST_PARAMETER_AUX_PP_NULLPTR                            \
     ) : BOOST_PARAMETER_PARENTHESIZED_TYPE(BOOST_PP_TUPLE_ELEM(2, 1, data))( \
             ::boost::parameter::compose(BOOST_PP_ENUM_PARAMS_Z(z, n, arg))   \
         )                                                                    \
@@ -296,7 +296,7 @@
             ::boost::parameter::are_tagged_arguments<                        \
                 BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)                      \
             >                                                                \
-        >::type* = BOOST_TTI_DETAIL_NULLPTR                                  \
+        >::type* = BOOST_PARAMETER_AUX_PP_NULLPTR                            \
     )                                                                        \
     {                                                                        \
         BOOST_PP_TUPLE_ELEM(2, 1, data)(                                     \
@@ -332,7 +332,7 @@
                     BOOST_PP_TUPLE_ELEM(4, 1, data)                          \
                   , BOOST_PP_TUPLE_ELEM(4, 3, data)                          \
                 )<BOOST_PP_ENUM_PARAMS_Z(z, n, TaggedArg)>::type(*)()        \
-            >(BOOST_TTI_DETAIL_NULLPTR)                                      \
+            >(BOOST_PARAMETER_AUX_PP_NULLPTR)                                \
           , ::boost::parameter::compose(BOOST_PP_ENUM_PARAMS_Z(z, n, arg))   \
         );                                                                   \
     }
