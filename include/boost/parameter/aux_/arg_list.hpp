@@ -1109,6 +1109,45 @@ namespace boost { namespace parameter { namespace aux {
             );
         }
     };
+
+    template <>
+    class flat_like_arg_list<>
+      : public ::boost::parameter::aux::empty_arg_list
+    {
+        using _base_type = ::boost::parameter::aux::empty_arg_list;
+
+     public:
+        template <typename ...Args>
+        inline BOOST_CONSTEXPR flat_like_arg_list(Args&&... args)
+          : _base_type(::std::forward<Args>(args)...)
+        {
+        }
+
+        using _base_type::operator[];
+        using _base_type::satisfies;
+
+        // Comma operator to compose argument list without using parameters<>.
+        // Useful for argument lists with undetermined length.
+        template <typename TaggedArg>
+        inline BOOST_CONSTEXPR ::boost::parameter::aux::flat_like_arg_list<
+            ::boost::parameter::aux::flat_like_arg_tuple<
+                typename TaggedArg::base_type::key_type
+              , typename TaggedArg::base_type
+            >
+        >
+            operator,(TaggedArg const& x) const
+        {
+            return ::boost::parameter::aux::flat_like_arg_list<
+                ::boost::parameter::aux::flat_like_arg_tuple<
+                    typename TaggedArg::base_type::key_type
+                  , typename TaggedArg::base_type
+                >
+            >(
+                static_cast<typename TaggedArg::base_type const&>(x)
+              , static_cast<_base_type const&>(*this)
+            );
+        }
+    };
 }}} // namespace boost::parameter::aux
 
 #endif  // BOOST_PARAMETER_CAN_USE_MP11
