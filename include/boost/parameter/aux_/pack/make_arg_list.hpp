@@ -241,8 +241,14 @@ namespace boost { namespace parameter { namespace aux {
         using _argument_pack = ::boost::mp11::mp_if<
             ::std::is_same<_tagged,::boost::parameter::void_>
           , ArgumentPack
-          , ::boost::parameter::aux
-            ::arg_list<_tagged,ArgumentPack,EmitsErrors>
+          , ::boost::mp11::mp_push_front<
+                ArgumentPack
+              , ::boost::parameter::aux::flat_like_arg_tuple<
+                    typename _tagged::key_type
+                  , _tagged
+                  , EmitsErrors
+                >
+            >
         >;
 #else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
         typedef typename ::boost::mpl::if_<
@@ -402,7 +408,11 @@ namespace boost { namespace parameter { namespace aux {
           , ::boost::mpl::true_
 #endif
           , ::boost::parameter::aux::set0
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+          , ::boost::parameter::aux::flat_like_arg_list<>
+#else
           , ::boost::parameter::aux::empty_arg_list
+#endif
           , ::boost::parameter::void_
           , EmitsErrors
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)

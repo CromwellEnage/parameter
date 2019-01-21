@@ -31,7 +31,7 @@ namespace test {
 #include <boost/mpl/assert.hpp>
 #include <boost/core/lightweight_test.hpp>
 
-#if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
 #include <boost/mp11/map.hpp>
 #include <type_traits>
 #endif
@@ -41,7 +41,7 @@ namespace test {
     template <typename ArgumentPack, typename K, typename T>
     void check0(ArgumentPack const& p, K const& kw, T const& value)
     {
-#if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
         static_assert(
             !boost::mp11::mp_map_contains<ArgumentPack,test::tag::z>::value
           , "test::tag::z must not be in ArgumentPack"
@@ -77,7 +77,7 @@ namespace test {
     template <typename ArgumentPack, typename K, typename T>
     void check1(ArgumentPack const& p, K const& kw, T const& value)
     {
-#if 0//defined(BOOST_PARAMETER_CAN_USE_MP11)
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
         static_assert(
             boost::mp11::mp_map_contains<ArgumentPack,typename K::tag>::value
           , "typename K::tag must be in ArgumentPack"
