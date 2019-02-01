@@ -269,7 +269,7 @@ namespace test {
 
     // Test Boost.Parameter-enabled functions
     // with parameter-dependent return types.
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE) && BOOST_PP_VARIADICS
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
     BOOST_PARAMETER_FUNCTION(
         (
@@ -308,14 +308,13 @@ namespace test {
     {
         return y;
     }
-#endif  // LIBS_PARAMETER_TEST_COMPILE_FAILURE
+#endif  // !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE) && BOOST_PP_VARIADICS
 #endif  // BOOST_NO_SFINAE
 
 #if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
     BOOST_PARAMETER_FUNCTION(
-        (
-            typename boost::parameter::value_type<Args,test::tag::y>::type
-        ), return_y, test::tag,
+        (typename boost::parameter::value_type<Args,test::tag::y>::type),
+        return_y, test::tag,
         (deduced
             (required
                 (x, (std::map<char const*,std::string>))
@@ -329,7 +328,7 @@ namespace test {
     {
         return y;
     }
-#endif  // LIBS_PARAMETER_TEST_COMPILE_FAILURE
+#endif  // defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
 } // namespace test
 
 #include <boost/core/lightweight_test.hpp>
@@ -435,7 +434,11 @@ int main()
 #endif  // BOOST_NO_SFINAE
 
 #if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
+#if BOOST_PP_VARIADICS
     BOOST_TEST_EQ(keys[1], test::return_y(2, k2s, keys[1]));
+#else
+    BOOST_TEST_EQ(keys[1], test::return_y(2, k2s, test::y = keys[1]));
+#endif
 #endif
 
     return boost::report_errors();

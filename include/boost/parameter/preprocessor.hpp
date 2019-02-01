@@ -49,7 +49,9 @@
 /**/
 #endif
 
-#if !defined(BOOST_NO_SFINAE)
+#include <boost/preprocessor/config/config.hpp>
+
+#if !defined(BOOST_NO_SFINAE) && BOOST_PP_VARIADICS
 #include <boost/parameter/aux_/preprocessor/enable_if.hpp>
 #include <boost/core/enable_if.hpp>
 #include <boost/preprocessor/tuple/elem.hpp>
@@ -91,21 +93,23 @@
     };
 /**/
 #endif  // BOOST_PARAMETER_CAN_USE_MP11
-#endif  // BOOST_NO_SFINAE
+#endif  // !defined(BOOST_NO_SFINAE) && BOOST_PP_VARIADICS
 
 #include <boost/preprocessor/control/if.hpp>
 
 // Expands to the result metafunction and the parameters specialization.
-#if defined(BOOST_NO_SFINAE)
+#if defined(BOOST_NO_SFINAE) || !BOOST_PP_VARIADICS
 #define BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_ns, args, is_const)  \
     BOOST_PARAMETER_FUNCTION_HEAD_0(result, name, is_const)                  \
     BOOST_PARAMETER_SPECIFICATION(tag_ns, name, args, is_const)              \
         BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(name, is_const);
 /**/
 #else
-#define BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE_AUX(r_t)                        \
+#define BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE_YES(r_t)                        \
     BOOST_PARAMETER_AUX_PP_IS_ENABLE_IF_FILTER(BOOST_PP_TUPLE_ELEM(0, r_t))
 /**/
+
+#define BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE_NOT(result) 0
 
 #include <boost/preprocessor/comparison/equal.hpp>
 #include <boost/preprocessor/tuple/size.hpp>
@@ -113,9 +117,9 @@
 #define BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE(result)                         \
     BOOST_PP_IF(                                                             \
         BOOST_PP_EQUAL(2, BOOST_PP_TUPLE_SIZE(result))                       \
-      , BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE_AUX(result)                     \
-      , 0                                                                    \
-    )
+      , BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE_YES                             \
+      , BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE_NOT                             \
+    )(result)
 /**/
 
 #define BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_ns, args, is_const)  \
@@ -127,7 +131,7 @@
     BOOST_PARAMETER_SPECIFICATION(tag_ns, name, args, is_const)              \
         BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(name, is_const);
 /**/
-#endif  // BOOST_NO_SFINAE
+#endif  // BOOST_NO_SFINAE && !BOOST_PP_VARIADICS
 
 // Helper macro for BOOST_PARAMETER_BASIC_FUNCTION.
 #define BOOST_PARAMETER_BASIC_FUNCTION_AUX(result, name, tag_ns, args)       \
