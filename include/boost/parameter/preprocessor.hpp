@@ -31,17 +31,103 @@
 /**/
 
 #include <boost/parameter/aux_/preprocessor/impl/parenthesized_type.hpp>
+#include <boost/parameter/config.hpp>
 
-// Expands to the result metafunction and the parameters specialization.
-#define BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_ns, args, is_const)  \
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#define BOOST_PARAMETER_FUNCTION_HEAD_0(result, name, is_const)              \
+    template <typename Args>                                                 \
+    using BOOST_PARAMETER_FUNCTION_RESULT_NAME(name, is_const)               \
+    = BOOST_PARAMETER_PARENTHESIZED(result);
+/**/
+#else
+#define BOOST_PARAMETER_FUNCTION_HEAD_0(result, name, is_const)              \
     template <typename Args>                                                 \
     struct BOOST_PARAMETER_FUNCTION_RESULT_NAME(name, is_const)              \
     {                                                                        \
         typedef typename BOOST_PARAMETER_PARENTHESIZED_TYPE(result) type;    \
-    };                                                                       \
+    };
+/**/
+#endif
+
+#if !defined(BOOST_NO_SFINAE)
+#include <boost/parameter/aux_/preprocessor/enable_if.hpp>
+#include <boost/core/enable_if.hpp>
+#include <boost/preprocessor/tuple/elem.hpp>
+
+#if defined(BOOST_PARAMETER_CAN_USE_MP11)
+#define BOOST_PARAMETER_FUNCTION_HEAD_1(result_tuple, name, is_const)        \
+    template <typename Args>                                                 \
+    using BOOST_PARAMETER_FUNCTION_RESULT_NAME(name, is_const)               \
+    = ::boost::BOOST_PARAMETER_AUX_PP_GET_ENABLE_IF_FILTER(                  \
+        BOOST_PP_TUPLE_ELEM(0, result_tuple)                                 \
+    )<                                                                       \
+        typename BOOST_PARAMETER_PARENTHESIZED_TYPE(                         \
+            BOOST_PARAMETER_AUX_PP_ENABLE_IF_CLAUSE(                         \
+                BOOST_PP_TUPLE_ELEM(0, result_tuple)                         \
+            )                                                                \
+        )                                                                    \
+      , typename BOOST_PARAMETER_PARENTHESIZED_TYPE(                         \
+            BOOST_PP_TUPLE_ELEM(1, result_tuple)                             \
+        )                                                                    \
+    >;
+/**/
+#else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
+#define BOOST_PARAMETER_FUNCTION_HEAD_1(result_tuple, name, is_const)        \
+    template <typename Args>                                                 \
+    struct BOOST_PARAMETER_FUNCTION_RESULT_NAME(name, is_const)              \
+      : ::boost::BOOST_PARAMETER_AUX_PP_GET_ENABLE_IF_FILTER(                \
+            BOOST_PP_TUPLE_ELEM(0, result_tuple)                             \
+        )<                                                                   \
+            typename BOOST_PARAMETER_PARENTHESIZED_TYPE(                     \
+                BOOST_PARAMETER_AUX_PP_ENABLE_IF_CLAUSE(                     \
+                    BOOST_PP_TUPLE_ELEM(0, result_tuple)                     \
+                )                                                            \
+            )                                                                \
+          , typename BOOST_PARAMETER_PARENTHESIZED_TYPE(                     \
+                BOOST_PP_TUPLE_ELEM(1, result_tuple)                         \
+            )                                                                \
+        >                                                                    \
+    {                                                                        \
+    };
+/**/
+#endif  // BOOST_PARAMETER_CAN_USE_MP11
+#endif  // BOOST_NO_SFINAE
+
+#include <boost/preprocessor/control/if.hpp>
+
+// Expands to the result metafunction and the parameters specialization.
+#if defined(BOOST_NO_SFINAE)
+#define BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_ns, args, is_const)  \
+    BOOST_PARAMETER_FUNCTION_HEAD_0(result, name, is_const)                  \
     BOOST_PARAMETER_SPECIFICATION(tag_ns, name, args, is_const)              \
         BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(name, is_const);
 /**/
+#else
+#define BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE_AUX(r_t)                        \
+    BOOST_PARAMETER_AUX_PP_IS_ENABLE_IF_FILTER(BOOST_PP_TUPLE_ELEM(0, r_t))
+/**/
+
+#include <boost/preprocessor/comparison/equal.hpp>
+#include <boost/preprocessor/tuple/size.hpp>
+
+#define BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE(result)                         \
+    BOOST_PP_IF(                                                             \
+        BOOST_PP_EQUAL(2, BOOST_PP_TUPLE_SIZE(result))                       \
+      , BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE_AUX(result)                     \
+      , 0                                                                    \
+    )
+/**/
+
+#define BOOST_PARAMETER_FUNCTION_HEAD(result, name, tag_ns, args, is_const)  \
+    BOOST_PP_IF(                                                             \
+        BOOST_PARAMETER_FUNCTION_HEAD_CHOOSE(result)                         \
+      , BOOST_PARAMETER_FUNCTION_HEAD_1                                      \
+      , BOOST_PARAMETER_FUNCTION_HEAD_0                                      \
+    )(result, name, is_const)                                                \
+    BOOST_PARAMETER_SPECIFICATION(tag_ns, name, args, is_const)              \
+        BOOST_PARAMETER_FUNCTION_SPECIFICATION_NAME(name, is_const);
+/**/
+#endif  // BOOST_NO_SFINAE
 
 // Helper macro for BOOST_PARAMETER_BASIC_FUNCTION.
 #define BOOST_PARAMETER_BASIC_FUNCTION_AUX(result, name, tag_ns, args)       \
@@ -139,8 +225,6 @@
       , BOOST_PARAMETER_AUX_PP_FLATTEN(3, 2, 3, args)                        \
     )
 /**/
-
-#include <boost/preprocessor/control/if.hpp>
 
 // Helper macro for BOOST_PARAMETER_MEMBER_FUNCTION
 // BOOST_PARAMETER_CONST_MEMBER_FUNCTION,
