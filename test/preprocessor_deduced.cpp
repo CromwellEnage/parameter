@@ -24,7 +24,6 @@
 #include <boost/parameter/value_type.hpp>
 #include <boost/mpl/has_key.hpp>
 #include <boost/core/enable_if.hpp>
-#include <boost/type_traits/is_function.hpp>
 #include <boost/type_traits/is_same.hpp>
 #endif
 #endif
@@ -428,7 +427,7 @@ int main()
     BOOST_TEST_EQ('c', (r(k2s, true)));
     BOOST_TEST_EQ('z', (r(k2s, false)));
 #endif  // MSVC-11.0-
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE) && BOOST_PP_VARIADICS
     BOOST_TEST_EQ(keys[1], test::return_y(2, k2s, keys[1]));
 #endif
 #endif  // BOOST_NO_SFINAE
