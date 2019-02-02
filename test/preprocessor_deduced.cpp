@@ -322,7 +322,7 @@ namespace test {
                 (y, (char const*))
             )
             (optional
-                (z, (int), 0)
+                (z, (int), 4)
             )
         )
     )
