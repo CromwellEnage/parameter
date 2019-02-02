@@ -30,8 +30,5 @@ namespace boost { namespace parameter { namespace aux {
 #define BOOST_PARAMETER_PARENTHESIZED_TYPE(x)                                \
     ::boost::parameter::aux::unaryfunptr_arg_type< void(*)x >::type
 
-#define BOOST_PARAMETER_PARENTHESIZED(x)                                     \
-    ::boost::parameter::aux::unaryfunptr_arg_type< void(*)x >
-
 #endif  // include guard
 

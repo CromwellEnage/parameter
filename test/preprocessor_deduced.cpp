@@ -268,12 +268,14 @@ namespace test {
 
     // Test Boost.Parameter-enabled functions
     // with parameter-dependent return types.
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE) && BOOST_PP_VARIADICS
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
     BOOST_PARAMETER_FUNCTION(
         (
-            lazy_enable_if((boost::mp11::mp_map_contains<Args,test::tag::y>))
-          , (boost::parameter::value_type<Args,test::tag::y>)
+            boost::lazy_enable_if<
+                boost::mp11::mp_map_contains<Args,test::tag::y>
+              , boost::parameter::value_type<Args,test::tag::y>
+            >
         ), return_y, test::tag,
         (deduced
             (required
@@ -288,10 +290,10 @@ namespace test {
 #else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
     BOOST_PARAMETER_FUNCTION(
         (
-            lazy_enable_if((
+            boost::lazy_enable_if<
                 typename boost::mpl::has_key<Args,test::tag::y>::type
-            ))
-          , (boost::parameter::value_type<Args,test::tag::y>)
+              , boost::parameter::value_type<Args,test::tag::y>
+            >
         ), return_y, test::tag,
         (deduced
             (required
@@ -307,7 +309,7 @@ namespace test {
     {
         return y;
     }
-#endif  // !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE) && BOOST_PP_VARIADICS
+#endif  // LIBS_PARAMETER_TEST_COMPILE_FAILURE
 #endif  // BOOST_NO_SFINAE
 
 #if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
@@ -427,17 +429,13 @@ int main()
     BOOST_TEST_EQ('c', (r(k2s, true)));
     BOOST_TEST_EQ('z', (r(k2s, false)));
 #endif  // MSVC-11.0-
-#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE) && BOOST_PP_VARIADICS
+#if !defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
     BOOST_TEST_EQ(keys[1], test::return_y(2, k2s, keys[1]));
 #endif
 #endif  // BOOST_NO_SFINAE
 
 #if defined(LIBS_PARAMETER_TEST_COMPILE_FAILURE)
-#if BOOST_PP_VARIADICS
     BOOST_TEST_EQ(keys[1], test::return_y(2, k2s, keys[1]));
-#else
-    BOOST_TEST_EQ(keys[1], test::return_y(2, k2s, test::y = keys[1]));
-#endif
 #endif
 
     return boost::report_errors();
