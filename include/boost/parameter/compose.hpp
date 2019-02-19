@@ -163,7 +163,7 @@ namespace boost { namespace parameter { namespace result_of {
 #define BOOST_PARAMETER_compose_arg_list_function_overload(z, n, prefix)     \
 namespace boost { namespace parameter { namespace result_of {                \
     template <BOOST_PP_ENUM_PARAMS_Z(z, n, typename prefix)>                 \
-    struct compose                                                           \
+    struct compose<BOOST_PP_ENUM_PARAMS_Z(z, n, prefix)>                     \
       : ::boost::enable_if<                                                  \
             ::boost::parameter                                               \
             ::are_tagged_arguments<BOOST_PP_ENUM_PARAMS_Z(z, n, prefix)>     \
