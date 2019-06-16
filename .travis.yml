@@ -200,7 +200,7 @@ matrix:
             - clang-5.0
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-xenial-5.0
 
     - os: linux
       compiler: clang++-6.0
@@ -211,7 +211,7 @@ matrix:
             - clang-6.0
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-xenial-6.0
 
     - os: linux
       compiler: clang++
