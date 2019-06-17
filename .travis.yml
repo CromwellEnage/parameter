@@ -214,6 +214,17 @@ matrix:
             - llvm-toolchain-xenial-6.0
 
     - os: linux
+      compiler: clang++-7.0
+      env: TOOLSET=clang COMPILER=clang++-7.0 CXXSTD=03,11,14,1z
+      addons:
+        apt:
+          packages:
+            - clang-7.0
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-xenial-7.0
+
+    - os: linux
       compiler: clang++
       env: TOOLSET=clang COMPILER=clang++ CXXSTD=03,11,14,1z
       addons:
