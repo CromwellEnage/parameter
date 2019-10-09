@@ -589,8 +589,8 @@ The type of every |keyword object| is a specialization of |keyword|.
 
 :Returns: a |tagged default| with *value* ``x`` and |kw|_ ``Tag``.
 
-.. _logical or operator:
 .. |logical or operator| replace:: ``operator||``
+.. _logical or operator:
 
 ``operator||``
 
@@ -899,10 +899,12 @@ Returns the result type of indexing an argument pack with a
 
 :Returns: the (possibly const-qualified) type of the |tagged reference| in
     ``A`` having |keyword tag type| ``K``, if any.  If no such
-    |tagged reference| exists, returns ``D``.  Equivalent to::
+    |tagged reference| exists, returns ``D``.  Equivalent to:
 
-        typename |boost_remove_reference|_<
-            typename |binding|_<A, K, D>::type
+    .. parsed-literal::
+
+        typename |boost_remove_reference|_\<
+            typename |binding|_\<A, K, D>::type
         >::type
 
     … when ``D`` is not a reference type.
@@ -1358,7 +1360,7 @@ The |preprocessor_cpp|_, |preprocessor_deduced_cpp|_, and
 |preprocessor_eval_cat_cpp|_ test programs demonstrate proper usage of this
 macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function.
 *   ``name`` is the base name of the function; it determines the name of the
@@ -1368,7 +1370,7 @@ macro.
 *   ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
     *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -1424,9 +1426,9 @@ macro.
     type**, and the generated reference ``argument-name`` (but not its
     corresponding entry in ``args``) will be cast to that type.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -1814,7 +1816,7 @@ function calls are also legal.
 The |preprocessor_cpp|_ and |preprocessor_eval_cat_cpp|_ test programs
 demonstrate proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function.
 *   ``name`` is the base name of the function; it determines the name of the
@@ -1826,7 +1828,7 @@ demonstrate proper usage of this macro.
 *   ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
     *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -1882,9 +1884,9 @@ demonstrate proper usage of this macro.
     type**, and the generated reference ``argument-name`` (but not its
     corresponding entry in ``args``) will be cast to that type.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -2238,7 +2240,7 @@ function calls are also legal.
 
 The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function.
 *   ``name`` is the base name of the function; it determines the name of the
@@ -2248,7 +2250,7 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 *   ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
     *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -2304,9 +2306,9 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
     type**, and the generated reference ``argument-name`` (but not its
     corresponding entry in ``args``) will be cast to that type.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -2556,7 +2558,7 @@ passed in determine which function call operator overload gets invoked.
 The |preprocessor_cpp|_ and |preprocessor_deduced_cpp|_ test programs
 demonstrate proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function call operator.
 *   ``tag_namespace`` is the namespace in which the keywords used by the
@@ -2564,7 +2566,7 @@ demonstrate proper usage of this macro.
 *   ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
     *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -2620,9 +2622,9 @@ demonstrate proper usage of this macro.
     type**, and the generated reference ``argument-name`` (but not its
     corresponding entry in ``args``) will be cast to that type.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -2978,7 +2980,7 @@ The |preprocessor_cpp|_, |preprocessor_deduced_cpp|_, and
 |preprocessor_eval_cat_8_cpp|_ test programs demonstrate proper usage of this
 macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function call operator.
 *   ``tag_namespace`` is the namespace in which the keywords used by the
@@ -2986,7 +2988,7 @@ macro.
 *   ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
     *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -3042,9 +3044,9 @@ macro.
     type**, and the generated reference ``argument-name`` (but not its
     corresponding entry in ``args``) will be cast to that type.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -3299,7 +3301,7 @@ The following ``char_reader`` constructor calls are legal.
 The |preprocessor_cpp|_ and |preprocessor_deduced_cpp|_ test programs
 demonstrate proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``cls`` is the name of the enclosing class.
 *   ``impl`` is the parenthesized implementation base class for ``cls``.
@@ -3307,7 +3309,7 @@ demonstrate proper usage of this macro.
     constructor resides.
 *   ``arguments`` is a list of *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -3354,9 +3356,9 @@ Note that *specifier* does not include *default-value*.  It is up to the
 delegate constructor in ``impl`` to determine the default value of all
 optional arguments.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -3597,7 +3599,7 @@ function calls are also legal.
 
 The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function.
 *   ``name`` is the base name of the function; it determines the name of the
@@ -3607,7 +3609,7 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 *   ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
     *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -3653,9 +3655,9 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 Note that *specifier* does not include *default-value*.  It is up to the
 function body to determine the default value of all optional arguments.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -3937,7 +3939,7 @@ function calls are also legal.
 
 The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function.
 *   ``name`` is the base name of the function; it determines the name of the
@@ -3949,7 +3951,7 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 *   ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
     *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -3995,9 +3997,9 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 Note that *specifier* does not include *default-value*.  It is up to the
 function body to determine the default value of all optional arguments.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -4280,7 +4282,7 @@ function calls are also legal.
 
 The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function.
 *   ``name`` is the base name of the function; it determines the name of the
@@ -4290,7 +4292,7 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 *   ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
     *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -4336,9 +4338,9 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 Note that *specifier* does not include *default-value*.  It is up to the
 function body to determine the default value of all optional arguments.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -4510,15 +4512,15 @@ passed in determine which function call operator overload gets invoked.
 
 The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
-*  ``result`` is the parenthesized return type of the function call operator.
-*  ``tag_namespace`` is the namespace in which the keywords used by the
+*   ``result`` is the parenthesized return type of the function call operator.
+*   ``tag_namespace`` is the namespace in which the keywords used by the
     function call operator resides.
-*  ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
+*   ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
     *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -4564,9 +4566,9 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 Note that *specifier* does not include *default-value*.  It is up to the
 function body to determine the default value of all optional arguments.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -4849,7 +4851,7 @@ function calls are also legal.
 
 The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function call operator.
 *   ``tag_namespace`` is the namespace in which the keywords used by the
@@ -4857,7 +4859,7 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 *   ``arguments`` is a |Boost_Preprocessor|_ `sequence`_ of
     *argument-specifiers*, as defined below.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 .. parsed-literal::
 
@@ -4903,9 +4905,9 @@ The |preprocessor_cpp|_ test program demonstrates proper usage of this macro.
 Note that *specifier* does not include *default-value*.  It is up to the
 function body to determine the default value of all optional arguments.
 
-:Approximate expansion:
+**Approximate expansion:**
 
-**Where**:
+Where:
 
 * ``n`` denotes the *minimum* arity, as determined from ``arguments``.
 * ``m`` denotes the *maximum* arity, as determined from ``arguments``.
@@ -5122,17 +5124,17 @@ To invoke the function, bind all its arguments to named parameters.
 The |preproc_eval_cat_no_spec_cpp|_ test program demonstrates proper usage of
 this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function.
 *   ``name`` is the base name of the function; it determines the name of the
     generated implementation function.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 None.
 
-:Approximate expansion:
+**Approximate expansion:**
 
 .. parsed-literal::
 
@@ -5330,7 +5332,7 @@ the other back-ends can be chained together in different orders.
 The |parameterized_inheritance_cpp|_ and |preproc_eval_cat_no_spec_cpp|_ test
 programs demonstrate proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function.
 *   ``name`` is the base name of the function; it determines the name of the
@@ -5338,11 +5340,11 @@ programs demonstrate proper usage of this macro.
     ``static`` keyword to declare the member function and its helpers as not
     associated with any object of the enclosing type.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 None.
 
-:Approximate expansion:
+**Approximate expansion:**
 
 .. parsed-literal::
 
@@ -5546,17 +5548,17 @@ To invoke the member function, bind all its arguments to named parameters.
 The |preproc_eval_cat_no_spec_cpp|_ test program demonstrates proper usage of
 this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function.
 *   ``name`` is the base name of the function; it determines the name of the
     generated implementation function.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 None.
 
-:Approximate expansion:
+**Approximate expansion:**
 
 .. parsed-literal::
 
@@ -5747,15 +5749,15 @@ the other back-ends can be chained together in different orders.
 The |parameterized_inheritance_cpp|_ and |preproc_eval_cat_no_spec_cpp|_ test
 programs demonstrate proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function call operator.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 None.
 
-:Approximate expansion:
+**Approximate expansion:**
 
 .. parsed-literal::
 
@@ -5960,15 +5962,15 @@ parameters.
 The |preproc_eval_cat_no_spec_cpp|_ test program demonstrates proper usage of this
 macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``result`` is the parenthesized return type of the function call operator.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 None.
 
-:Approximate expansion:
+**Approximate expansion:**
 
 .. parsed-literal::
 
@@ -6155,16 +6157,16 @@ the other back-ends can be chained together in different orders.
 The |parameterized_inheritance_cpp|_ and |preproc_eval_cat_no_spec_cpp|_ test
 programs demonstrate proper usage of this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``cls`` is the name of the enclosing class.
 *   ``impl`` is the parenthesized implementation base class for ``cls``.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 None.
 
-:Approximate expansion:
+**Approximate expansion:**
 
 .. parsed-literal::
 
@@ -6334,17 +6336,17 @@ To invoke the constructor, bind all its arguments to named parameters.
 The |preproc_eval_cat_no_spec_cpp|_ test program demonstrates proper usage of
 this macro.
 
-:Macro parameters:
+**Macro parameters:**
 
 *   ``cls`` is the name of the enclosing class.
 *   ``func`` is a function that takes in the |ArgumentPack|_ that the
     generated constructor passes on.
 
-:Argument specifiers syntax:
+**Argument specifiers syntax:**
 
 None.
 
-:Approximate expansion:
+**Approximate expansion:**
 
 .. parsed-literal::
 
@@ -6826,7 +6828,7 @@ Given the following definitions:
         (deduced
             (optional
                 (x
-                  , *(|mp11_quote|_\<predicate>)
+                  , \*(|mp11_quote|_\<predicate>)
                   , static_cast<char const*>(|std_nullptr|_\)
                 )
             )
@@ -6857,7 +6859,7 @@ Without |Boost_MP11|_, deduced parameter definitions tend to be more verbose:
         (deduced
             (optional
                 (x
-                  , *(predicate)
+                  , \*(predicate)
                   , static_cast<char const*>(|std_nullptr|_\)
                 )
             )
@@ -7277,6 +7279,8 @@ __ index.html#tutorial
 .. _boost_is_scalar: ../../../type_traits/doc/html/boost_typetraits/is_scalar.html
 .. |boost_add_lvalue_reference| replace:: boost::add_lvalue_reference
 .. _boost_add_lvalue_reference: ../../../type_traits/doc/html/boost_typetraits/add_lvalue_reference.html
+.. |boost_remove_reference| replace:: boost::remove_reference
+.. _boost_remove_reference: ../../../type_traits/doc/html/boost_typetraits/remove_reference.html
 .. |Boost_MPL| replace:: Boost.MPL
 .. _Boost_MPL: ../../../mpl/doc/index.html
 .. _`Metafunction`: ../../../mpl/doc/refmanual/metafunction.html

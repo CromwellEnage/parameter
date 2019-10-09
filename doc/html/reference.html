@@ -683,7 +683,7 @@ nested <tt class="docutils literal">qualifier</tt> type of <tt class="docutils l
 </tr>
 </tbody>
 </table>
-<span class="target" id="logical-or-operator"></span><p><tt class="docutils literal">operator||</tt></p>
+<p id="logical-or-operator"><tt class="docutils literal">operator||</tt></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1091,8 +1091,8 @@ struct value_type
 <tt class="docutils literal">A</tt> having <a class="reference internal" href="#keyword-tag-type">keyword tag type</a> <tt class="docutils literal">K</tt>, if any.  If no such
 <a class="reference internal" href="#tagged-reference">tagged reference</a> exists, returns <tt class="docutils literal">D</tt>.  Equivalent to:</p>
 <pre class="literal-block">
-typename |boost_remove_reference|_&lt;
-    typename |binding|_&lt;A, K, D&gt;::type
+typename <a class="reference external" href="../../../type_traits/doc/html/boost_typetraits/remove_reference.html">boost::remove_reference</a>&lt;
+    typename <a class="reference internal" href="#binding"><tt class="docutils literal">binding</tt></a>&lt;A, K, D&gt;::type
 &gt;::type
 </pre>
 <p class="last">… when <tt class="docutils literal">D</tt> is not a reference type.</p>
@@ -1571,15 +1571,7 @@ evaluate(  // deduced arguments
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a>, <a class="reference external" href="../../test/preprocessor_deduced.cpp">preprocessor_deduced.cpp</a>, and
 <a class="reference external" href="../../test/preprocessor_eval_category.cpp">preprocessor_eval_category.cpp</a> test programs demonstrate proper usage of this
 macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function.</li>
 <li><tt class="docutils literal">name</tt> is the base name of the function; it determines the name of the
@@ -1589,15 +1581,7 @@ function resides.</li>
 <li><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of
 <em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -1652,16 +1636,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 type</strong>, and the generated reference <tt class="docutils literal"><span class="pre">argument-name</span></tt> (but not its
 corresponding entry in <tt class="docutils literal">args</tt>) will be cast to that type.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -2043,15 +2019,7 @@ B::evaluate(  // deduced arguments
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a> and <a class="reference external" href="../../test/preprocessor_eval_category.cpp">preprocessor_eval_category.cpp</a> test programs
 demonstrate proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function.</li>
 <li><tt class="docutils literal">name</tt> is the base name of the function; it determines the name of the
@@ -2063,15 +2031,7 @@ function resides.</li>
 <li><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of
 <em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -2126,16 +2086,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 type</strong>, and the generated reference <tt class="docutils literal"><span class="pre">argument-name</span></tt> (but not its
 corresponding entry in <tt class="docutils literal">args</tt>) will be cast to that type.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -2483,15 +2435,7 @@ b.evaluate(  // deduced arguments
 );
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a> test program demonstrates proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function.</li>
 <li><tt class="docutils literal">name</tt> is the base name of the function; it determines the name of the
@@ -2501,15 +2445,7 @@ function resides.</li>
 <li><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of
 <em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -2564,16 +2500,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 type</strong>, and the generated reference <tt class="docutils literal"><span class="pre">argument-name</span></tt> (but not its
 corresponding entry in <tt class="docutils literal">args</tt>) will be cast to that type.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -2823,15 +2751,7 @@ BOOST_TEST_EQ('z', (r(k2s, false)));
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a> and <a class="reference external" href="../../test/preprocessor_deduced.cpp">preprocessor_deduced.cpp</a> test programs
 demonstrate proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function call operator.</li>
 <li><tt class="docutils literal">tag_namespace</tt> is the namespace in which the keywords used by the
@@ -2839,15 +2759,7 @@ function call operator resides.</li>
 <li><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of
 <em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -2902,16 +2814,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 type</strong>, and the generated reference <tt class="docutils literal"><span class="pre">argument-name</span></tt> (but not its
 corresponding entry in <tt class="docutils literal">args</tt>) will be cast to that type.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -3261,15 +3165,7 @@ b(  // deduced arguments
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a>, <a class="reference external" href="../../test/preprocessor_deduced.cpp">preprocessor_deduced.cpp</a>, and
 <a class="reference external" href="../../test/preprocessor_eval_cat_8.cpp">preprocessor_eval_cat_8.cpp</a> test programs demonstrate proper usage of this
 macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function call operator.</li>
 <li><tt class="docutils literal">tag_namespace</tt> is the namespace in which the keywords used by the
@@ -3277,15 +3173,7 @@ function call operator resides.</li>
 <li><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of
 <em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -3340,16 +3228,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 type</strong>, and the generated reference <tt class="docutils literal"><span class="pre">argument-name</span></tt> (but not its
 corresponding entry in <tt class="docutils literal">args</tt>) will be cast to that type.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -3602,15 +3482,7 @@ BOOST_TEST_EQ('z', (r2(k2s, false)));
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a> and <a class="reference external" href="../../test/preprocessor_deduced.cpp">preprocessor_deduced.cpp</a> test programs
 demonstrate proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">cls</tt> is the name of the enclosing class.</li>
 <li><tt class="docutils literal">impl</tt> is the parenthesized implementation base class for <tt class="docutils literal">cls</tt>.</li>
@@ -3618,15 +3490,7 @@ demonstrate proper usage of this macro.</p>
 constructor resides.</li>
 <li><tt class="docutils literal">arguments</tt> is a list of <em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -3671,16 +3535,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 <p>Note that <em>specifier</em> does not include <em>default-value</em>.  It is up to the
 delegate constructor in <tt class="docutils literal">impl</tt> to determine the default value of all
 optional arguments.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -3915,15 +3771,7 @@ evaluate(  // deduced arguments
 );
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a> test program demonstrates proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function.</li>
 <li><tt class="docutils literal">name</tt> is the base name of the function; it determines the name of the
@@ -3933,15 +3781,7 @@ function resides.</li>
 <li><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of
 <em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -3985,16 +3825,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 </ul>
 <p>Note that <em>specifier</em> does not include <em>default-value</em>.  It is up to the
 function body to determine the default value of all optional arguments.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -4269,15 +4101,7 @@ B::evaluate(  // deduced arguments
 );
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a> test program demonstrates proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function.</li>
 <li><tt class="docutils literal">name</tt> is the base name of the function; it determines the name of the
@@ -4289,15 +4113,7 @@ function resides.</li>
 <li><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of
 <em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -4341,16 +4157,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 </ul>
 <p>Note that <em>specifier</em> does not include <em>default-value</em>.  It is up to the
 function body to determine the default value of all optional arguments.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -4626,15 +4434,7 @@ b.evaluate(  // deduced arguments
 );
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a> test program demonstrates proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function.</li>
 <li><tt class="docutils literal">name</tt> is the base name of the function; it determines the name of the
@@ -4644,15 +4444,7 @@ function resides.</li>
 <li><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of
 <em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -4696,16 +4488,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 </ul>
 <p>Note that <em>specifier</em> does not include <em>default-value</em>.  It is up to the
 function body to determine the default value of all optional arguments.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -4876,40 +4660,15 @@ BOOST_TEST_EQ('c', (r(k2s, true)));
 BOOST_TEST_EQ('z', (r(k2s, false)));
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a> test program demonstrates proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><p class="first"><tt class="docutils literal">result</tt> is the parenthesized return type of the function call operator.</p>
-</li>
-<li><dl class="first docutils">
-<dt><tt class="docutils literal">tag_namespace</tt> is the namespace in which the keywords used by the</dt>
-<dd><p class="first last">function call operator resides.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of</dt>
-<dd><p class="first last"><em>argument-specifiers</em>, as defined below.</p>
-</dd>
-</dl>
-</li>
+<p><strong>Macro parameters:</strong></p>
+<ul class="simple">
+<li><tt class="docutils literal">result</tt> is the parenthesized return type of the function call operator.</li>
+<li><tt class="docutils literal">tag_namespace</tt> is the namespace in which the keywords used by the
+function call operator resides.</li>
+<li><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of
+<em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -4953,16 +4712,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 </ul>
 <p>Note that <em>specifier</em> does not include <em>default-value</em>.  It is up to the
 function body to determine the default value of all optional arguments.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -5238,15 +4989,7 @@ b(  // deduced arguments
 );
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor.cpp">preprocessor.cpp</a> test program demonstrates proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function call operator.</li>
 <li><tt class="docutils literal">tag_namespace</tt> is the namespace in which the keywords used by the
@@ -5254,15 +4997,7 @@ function call operator resides.</li>
 <li><tt class="docutils literal">arguments</tt> is a <a class="reference external" href="../../../preprocessor/doc/index.html">Boost.Preprocessor</a> <a class="reference external" href="../../../preprocessor/doc/data/sequences.html">sequence</a> of
 <em>argument-specifiers</em>, as defined below.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <pre class="literal-block">
 argument-specifiers ::= <em>specifier-group0</em> {<em>specifier-group0</em>}
 
@@ -5306,16 +5041,8 @@ corresponding <tt class="docutils literal"><span class="pre">argument-name</span
 </ul>
 <p>Note that <em>specifier</em> does not include <em>default-value</em>.  It is up to the
 function body to determine the default value of all optional arguments.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Where</strong>:</p>
+<p><strong>Approximate expansion:</strong></p>
+<p>Where:</p>
 <ul class="simple">
 <li><tt class="docutils literal">n</tt> denotes the <em>minimum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
 <li><tt class="docutils literal">m</tt> denotes the <em>maximum</em> arity, as determined from <tt class="docutils literal">arguments</tt>.</li>
@@ -5527,39 +5254,15 @@ evaluate(
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor_eval_cat_no_spec.cpp">preprocessor_eval_cat_no_spec.cpp</a> test program demonstrates proper usage of
 this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function.</li>
 <li><tt class="docutils literal">name</tt> is the base name of the function; it determines the name of the
 generated implementation function.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <p>None.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Approximate expansion:</strong></p>
 <pre class="literal-block">
 // If <strong>result</strong> is a template instantiation of <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::enable_if</a>,
 // <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::enable_if_c</a>, <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::lazy_enable_if</a>,
@@ -5753,15 +5456,7 @@ BOOST_TEST_EQ(composed_obj0.get_a2(), composed_obj1.get_a2());
 </pre>
 <p>The <a class="reference external" href="../../test/parameterized_inheritance.cpp">parameterized_inheritance.cpp</a> and <a class="reference external" href="../../test/preprocessor_eval_cat_no_spec.cpp">preprocessor_eval_cat_no_spec.cpp</a> test
 programs demonstrate proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function.</li>
 <li><tt class="docutils literal">name</tt> is the base name of the function; it determines the name of the
@@ -5769,25 +5464,9 @@ generated implementation function.  <tt class="docutils literal">name</tt> may b
 <tt class="docutils literal">static</tt> keyword to declare the member function and its helpers as not
 associated with any object of the enclosing type.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <p>None.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Approximate expansion:</strong></p>
 <pre class="literal-block">
 // If <strong>result</strong> is a template instantiation of <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::enable_if</a>,
 // <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::enable_if_c</a>, <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::lazy_enable_if</a>,
@@ -5985,39 +5664,15 @@ d.evaluate_m(
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor_eval_cat_no_spec.cpp">preprocessor_eval_cat_no_spec.cpp</a> test program demonstrates proper usage of
 this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function.</li>
 <li><tt class="docutils literal">name</tt> is the base name of the function; it determines the name of the
 generated implementation function.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <p>None.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Approximate expansion:</strong></p>
 <pre class="literal-block">
 // If <strong>result</strong> is a template instantiation of <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::enable_if</a>,
 // <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::enable_if_c</a>, <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::lazy_enable_if</a>,
@@ -6204,37 +5859,13 @@ BOOST_TEST_EQ(composed_obj0.get_a2(), composed_obj1.get_a2());
 </pre>
 <p>The <a class="reference external" href="../../test/parameterized_inheritance.cpp">parameterized_inheritance.cpp</a> and <a class="reference external" href="../../test/preprocessor_eval_cat_no_spec.cpp">preprocessor_eval_cat_no_spec.cpp</a> test
 programs demonstrate proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function call operator.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <p>None.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Approximate expansion:</strong></p>
 <pre class="literal-block">
 // If <strong>result</strong> is a template instantiation of <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::enable_if</a>,
 // <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::enable_if_c</a>, <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::lazy_enable_if</a>,
@@ -6433,37 +6064,13 @@ d(
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor_eval_cat_no_spec.cpp">preprocessor_eval_cat_no_spec.cpp</a> test program demonstrates proper usage of this
 macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">result</tt> is the parenthesized return type of the function call operator.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <p>None.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Approximate expansion:</strong></p>
 <pre class="literal-block">
 // If <strong>result</strong> is a template instantiation of <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::enable_if</a>,
 // <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::enable_if_c</a>, <a class="reference external" href="../../../core/doc/html/core/enable_if.html">boost::lazy_enable_if</a>,
@@ -6646,38 +6253,14 @@ BOOST_TEST_EQ(composed_obj0.get_a2(), composed_obj1.get_a2());
 </pre>
 <p>The <a class="reference external" href="../../test/parameterized_inheritance.cpp">parameterized_inheritance.cpp</a> and <a class="reference external" href="../../test/preprocessor_eval_cat_no_spec.cpp">preprocessor_eval_cat_no_spec.cpp</a> test
 programs demonstrate proper usage of this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">cls</tt> is the name of the enclosing class.</li>
 <li><tt class="docutils literal">impl</tt> is the parenthesized implementation base class for <tt class="docutils literal">cls</tt>.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <p>None.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Approximate expansion:</strong></p>
 <pre class="literal-block">
 template &lt;
     typename TaggedArg0
@@ -6842,39 +6425,15 @@ D dp1(
 </pre>
 <p>The <a class="reference external" href="../../test/preprocessor_eval_cat_no_spec.cpp">preprocessor_eval_cat_no_spec.cpp</a> test program demonstrates proper usage of
 this macro.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Macro parameters:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Macro parameters:</strong></p>
 <ul class="simple">
 <li><tt class="docutils literal">cls</tt> is the name of the enclosing class.</li>
 <li><tt class="docutils literal">func</tt> is a function that takes in the <a class="reference internal" href="#argumentpack"><span class="concept">ArgumentPack</span></a> that the
 generated constructor passes on.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Argument specifiers syntax:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Argument specifiers syntax:</strong></p>
 <p>None.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2">Approximate expansion:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Approximate expansion:</strong></p>
 <pre class="literal-block">
 template &lt;
     typename TaggedArg0
@@ -7367,8 +6926,8 @@ using predicate = <a class="reference external" href="http://en.cppreference.com
     (deduced
         (optional
             (x
-              , <em>(|mp11_quote|_&lt;predicate&gt;)
-              , static_cast&lt;char const</em>&gt;(<a class="reference external" href="http://en.cppreference.com/w/cpp/language/nullptr">std::nullptr</a>)
+              , *(<a class="reference external" href="../../../mp11/doc/html/mp11.html#mp_quotef">boost::mp11::mp_quote</a>&lt;predicate&gt;)
+              , static_cast&lt;char const*&gt;(<a class="reference external" href="http://en.cppreference.com/w/cpp/language/nullptr">std::nullptr</a>)
             )
         )
     )
@@ -7396,8 +6955,8 @@ struct predicate
     (deduced
         (optional
             (x
-              , <em>(predicate)
-              , static_cast&lt;char const</em>&gt;(<a class="reference external" href="http://en.cppreference.com/w/cpp/language/nullptr">std::nullptr</a>)
+              , *(predicate)
+              , static_cast&lt;char const*&gt;(<a class="reference external" href="http://en.cppreference.com/w/cpp/language/nullptr">std::nullptr</a>)
             )
         )
     )
@@ -7747,7 +7306,7 @@ where it could make a difference.</td></tr>
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2019-09-02 21:10 UTC.
+Generated on: 2019-09-04 02:34 UTC.
 Generated by <a class="reference external" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
 
 </div>

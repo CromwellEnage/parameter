@@ -18,6 +18,18 @@ namespace test {
     struct Y : X
     {
     };
+
+    class A
+    {
+    };
+
+    class B
+    {
+    };
+
+    class C
+    {
+    };
 } // namespace test
 
 #if defined(BOOST_PARAMETER_CAN_USE_MP11)
@@ -83,6 +95,9 @@ namespace test {
     struct a3_is : boost::parameter::template_keyword<test::a3_is<>,T>
     {
     };
+
+    BOOST_PARAMETER_TEMPLATE_KEYWORD(some_type_param)
+    BOOST_PARAMETER_TEMPLATE_KEYWORD(another_type_param)
 } // namespace test
 
 #include <boost/parameter/parameters.hpp>
@@ -214,6 +229,22 @@ MPL_TEST_CASE()
         >::value
       , "type must be void(*)(int&, void*, char, test::Y)"
     );
+    static_assert(
+        std::is_same<
+            boost::parameter::value_type<
+                boost::parameter::parameters<
+                    boost::parameter::optional<test::tag::some_type_param>
+                >::bind<
+                    test::another_type_param<test::C>
+                  , test::some_type_param<test::A>
+                >::type
+              , test::tag::some_type_param
+              , test::B
+            >::type
+          , test::A
+        >::value
+      , "type must be test::A"
+    );
 #else   // !defined(BOOST_PARAMETER_CAN_USE_MP11)
     BOOST_MPL_ASSERT((
         boost::mpl::if_<
@@ -303,6 +334,26 @@ MPL_TEST_CASE()
             boost::is_same<
                 test::with_ntp<int&,test::a2_is<char>,test::Y>::type
               , void(*)(int&, void*, char, test::Y)
+            >
+          , boost::mpl::true_
+          , boost::mpl::false_
+        >::type
+    ));
+    BOOST_MPL_ASSERT((
+        boost::mpl::if_<
+            boost::is_same<
+                boost::parameter::value_type<
+                    boost::parameter::parameters<
+                        boost::parameter::optional<test::tag::some_type_param>
+//                      , boost::parameter::optional<test::tag::another_type_param>
+                    >::bind<
+                        test::another_type_param<test::C>
+                      , test::some_type_param<test::A>
+                    >::type
+                  , test::tag::some_type_param
+                  , test::B
+                >::type
+              , test::A
             >
           , boost::mpl::true_
           , boost::mpl::false_
